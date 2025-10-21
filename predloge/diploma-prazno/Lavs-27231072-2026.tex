@@ -36,7 +36,7 @@
 % - povzetek v slovenščini
 %   V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga
 %   organizacije dela, torej v katerem razdelku je kaj, pač pa le opis vsebine.
-\povzetek{...}
+\povzetek{prostor za povzetek}
 
 % - povzetek v angleščini
 \abstract{...}
@@ -65,13 +65,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % naložite dodatne pakete, ki jih potrebujete
-% \usepackage{...}
+% \usepackage{sagetex,xcolor,tikz,tkz-graph,tkz-berge}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+
 
 % deklarirajte vse matematične operatorje, da jih bo LaTeX pravilno stavil
 % \DeclareMathOperator{\...}{...}
 
 % vstavite svoje definicije ...
-% \newcommand{\...}{...}
+\newcommand{\red}{\operatorname{red}}
+\newcommand{\srg}{\operatorname{srg}}
+\newcommand{\diam}{diam}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\reach}{\operatorname{Reach}}
+\newcommand{\gr}{\mathscr{G}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
@@ -79,11 +88,355 @@
 
 \begin{document}
 
-% \section{Uvod}
-% ...
+\section{Uvod}
 
-% \section{...}
-% ...
+\section{Uvodne definicije}
+\begin{definicija}
+Naj bo $G = (V, E)$ graf, kjer je $V$ množica njegovih
+vozlišč, ter $E$ množica njegovih povezav. Red grafa $G$ je 
+število njegovih vozlišč, torej $\red(G) = |V|$.
+\end{definicija}
+
+\begin{definicija}
+Naj bo $G = (V, E)$ graf, ter $v \in V$ njegovo vozlišče. 
+Stopnja vozlišča $v$ je enaka številu njegovih sosedov, torej
+$\deg(v) := \#\{u; \quad u \sim v \land u \in E\}$. Stopnjo 
+grafa $G$ pa označimo z maksimalno stopnjo njegovih vozlišč:
+$\Delta(G) := \max_{v \in V(G)} \deg(v)$
+\end{definicija}
+
+\begin{definicija}
+Premer grafa $G$ je največja razdalja med katerima koli 
+vozliščema v grafu. Torej, $\diam(G) = \max_{u, v \in V(G)} d(u, v)$, 
+kjer je $d : V(G) \times V(G) \rightarrow \N$ metrika, ki meri  
+razdaljo med danima vozliščema. 
+\end{definicija}
+
+\begin{definicija}
+Graf je $\Delta$ regularen, takrat ko je vsako njegovo vozlišče 
+stopnje $\Delta$, torej $\forall v \in V(G): \quad \deg(v) = \Delta$.
+\end{definicija}
+
+\begin{definicija}
+Graf $G = (V, E)$, reda $n$ je krepko regularen natanko tedaj ko je $k$ regularen 
+in obstajata 
+konstanti $\lambda$ in $\mu$, da imata vsaki sosednji vozlišči 
+natanko $\lambda$ skupnih sosedov, vsaki  ne sosedni pa natanko 
+$\mu$ skupnih sosedov. Krepko regularen graf z danimi prametri 
+označimo s $\srg(n, k, \lambda, \mu)$.
+\end{definicija}
+
+\begin{definicija}
+Ožina grafa $G$ je enaka dolžini najkrajšega cikla v $G$. Če je graf 
+$G$ brez ciklov, označimo ožino grafa z neskončnostjo.
+\end{definicija}
+
+\begin{definicija}
+Naj bo $G$ povezan acikličen graf na $n$ vozliščih ter $n - 1$ povezavah,
+ki tvorijo zaporedje $v_1 \sim v_2 \sim \ldots \sim v_n$. Tedaj graf tvori 
+pot od $v_1$ do $v_n$, označimo ga z $P_n$.
+\end{definicija}
+
+\begin{definicija}
+Naj bo graf $G$ cikel na $n$ vozliščih. Natančneje naj bo $G$ graf $P_n$
+s dodano povezavo $v_1 \sim v_n$. Tedaj tak graf označimo z $C_n$.
+\end{definicija}
+
+\begin{definicija}
+Naj bo $G$ graf reda $n$ z množico vozlišč $V$ ter množico povezav $E$. Tedaj je 
+njegova matrika sosednosti $A \in \ZZ ^ {n \times n}$ zadostuje:
+\begin{equation}
+A_{u, v} := \left(\# \textit{povezav dolžine 1 med vozliščema $u$ in $v$}\right)_{u, v}.
+\end{equation}
+\end{definicija}
+
+\begin{definicija}
+Naj bosta $u$ in $v$ vozliči v danem grafu. Pravimo, da je vozlišče 
+$v$ v dosegu vozlišča $u$, če v grafu obstaja pot od $u$ do $v$, takrat 
+označimo $v \in \reach(u)$.
+\end{definicija}
+
+\begin{definicija}
+Naj bo $G$ graf in $H \subset G$ njegov podgraf. $N_k(H)$ označuje 
+množico vozlišč, kjer je vsaka od $H$ oddaljena za $k$ in v $H$ ni 
+vsebovana.
+\end{definicija}
+
+\begin{izrek}\label{iz:polinom_v_matriki}
+Naj bo $A$ kvadratna matrika dimenzije $n$, $v$ njen lastni 
+vektor za lastno vrednost $\lambda$, $p$ polinomska funkcija,
+potem velja $p(A)v = p(\lambda)v$.
+\end{izrek}
+
+\begin{dokaz}
+Velja namreč:
+\begin{equation}
+p(A)v = \left(\sum_{k} c_k A^k\right)v = 
+\sum_{k} c_k \lambda^k v = p(\lambda)v
+\end{equation}
+\end{dokaz}
+
+\begin{izrek} [Poincaré separation theorem]
+...
+\end{izrek}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Moorejev graf}
+Naj bo $G = (V, E)$ graf s premerom $D$ ter maksimalno stopnjo $\Delta$.
+Izberimo poljubno vozlišče $v \in V$. Z $n_i$ označimo število vozlišč 
+v grafu $G$, katera so od vozlišča $v$ oddaljena za $i$. Ker ima graf 
+maksimalno stopnjo $\Delta$, ima lahko vsako vozlišče poleg predhodnika 
+še največ $\Delta - 1$ sosedov, torej velja 
+$\forall {i \leq D}: \quad n_i \leq n_{i - 1} (\Delta - 1)$. S tem pridobimo
+zgornjo mejo za red grafa $G$, to je $\red(G) = 1 + \sum_{i=1}^{D} <=
+1 + \Delta + \Delta (\Delta - 1) + \ldots + \Delta (\Delta - 1)^{D - 1}$.
+Graf, ki tako doseže mejo imenujemo Moorejev graf, mejo pa označimo z 
+$M_{\Delta, D}$.
+
+\begin{trditev}\label{tr:regularnost_in_omejitve_dolzine}
+Naj bo $G$ graf, kateri doseže Moorejevo mejo $M_{\Delta, D}$. Tedaj je
+$G$ regularen stopnje $D$, ter za poljubni dve vozlišči $u$ in $v$ za 
+kateri $u \neq v$ velja, da med njima obstaja natanko ena pot 
+dolžine največ $D$.
+\end{trditev}
+
+\begin{dokaz}
+Vzemimo poljubno vozlišče $u$ grafa $G$, $\deg(u)$ stopnja vozlišča $u$,
+$\Delta$ pa maksimalna stopnja v grafu $G$. Potem analogno konstrukciji 
+Moorejeve spodnje meje velja $|V(G)| \leq 1 + \deg(u)(\Delta - 1) + 
+\ldots + \deg(u) (\Delta - 1)^{D - 1}$. Ker pa je Moorejeva meja v grafu
+$G$ že dosežena, ter $\deg(u) \leq \Delta$, sledi, da je $\deg(u) = \Delta$.
+Podobno se o enoličnosti poti dolžin $D$ prepičamo tako, da opazimo, da 
+konstrukcija Moorejeve meje predpostavi, da ima vsako vozlišče $z$ v $i$-tem 
+nivoju natanko $\Delta - 1$ sosedov, ki niso povezani z nobenim drugim 
+vozliščem iz $i$-tega nivoja.
+\end{dokaz}
+
+%%%%%%%%%%%%%%%%%
+
+\subsection{Omejitve za Moorejeve grafe}
+
+Primer v katerem je premer $D = 1$ je trivialen, saj iz tega sledi,
+da je tudi $\Delta = 1$ ter edini Moorejev graf s takimi parametri enak 
+$P_2$. V nadaljnem torej predpostavimo $D, \Delta > 1$.
+
+Tu bi omenil splošen problem in splošno enačbo ... 
+
+\begin{trditev}
+Za $A^k = (A^k_{u, v})_{u, v}$ velja:
+\begin{equation}
+A^k_{u, v} = \# \text{povezav dolžine $k$ med vozliščema $u$ in $v$}
+\label{eq:potence_matrike_sosednosti}
+\end{equation}
+\end{trditev}
+
+\begin{dokaz}
+Vzemimo poljubni vozlišči $u$ in $v$ v grafu $G$. Ker velja 
+\begin{align}
+A^k_{u, v} &= \sum_{z \in V(G) \setminus \{u, v\}} A_{u, z} A^{k - 1}_{z, v} \\
+           &= \sum_{z:~ z \sim u \land v \in \reach(u)} A_{u, z} A^{k - 1}_{z, v}
+\end{align}
+po definiciji matrike sosednosti $A$ ter indukcijski predpostavki res 
+štejemo vse povezave dolžine $k$, ki preko vozlišča $z$ vodijo iz $u$ v $v$.
+\end{dokaz}
+
+Omejimo se sedaj na problem premera $D=2$ ter stopnje $\Delta > 1$. Predpostavimo,
+da dosega Moorejevo mejo, torej je njegov red enak $\Delta^2 + 1$.
+(Kar je tudi dimenzija njegove matrike sosednosti).
+Ker je $G$ regularen stopnje $\Delta$ in ker med vsakima disjunktnima 
+vozliščema obstaja ena sama pot dolžine največ $D$, za njegovo matriko sosednosti 
+$A$ velja naslednja enačba: 
+\begin{equation}
+A^2 + A - (\Delta - 1) I = J
+\end{equation}
+, kjer je $I$ identiteta in $J$ matrika samih enic.
+Matrika $A^2 + A$ namreč meri število poti dolžin največ $D$
+\eqref{eq:potence_matrike_sosednosti}. Ker pa je graf 
+regularen za vsako vozlišče obstaja natanko $\Delta$ poti dolžine $D$, ki se 
+vrnejo nazaj, zato v enačbi odštejemo ustrezen faktor identične matrike.
+
+Preko dane matrične enačbe lahko izračunamo spektralno polje incidenčne 
+matrike $A$. Ker je karakteristični polinom za matriko $J$ enak 
+$x^{\Delta^2}(x - (\Delta^2 + 1))$, sledijo naslednje enačbe:
+\begin{align}
+x^2 + x - (\Delta - 1) = \Delta^2 + 1 \label{eq:karakteristicna_1}\\ 
+x^2 + 1 - (\Delta - 1) = 0 \label{eq:karakteristicna_2}
+\end{align} 
+Od koder dobimo lastne vrednosti $\Delta$ (po \eqref{eq:karakteristicna_1})
+večkratnosti 1, ter lastni vrednosti $r$ in $s$ enaki 
+$(-1 \pm \sqrt{4\Delta - 3})/2$. Več o večkratnosti lastnih vrednosti 
+$r$ in $s$ pa nam podata enačbi $a + b = \Delta^2$ ter sled matrike, ki 
+je enaka seštevku vseh lastnih vrednosti, po drugi strani pa 
+je sled matrike sosednosti očitno enaka 0, torej: 
+$\Delta + a r + b s = 0$. 
+
+Če sta $r$ in $s$ iracionalni števili je $a = b$ ter $\Delta = 2$, 
+sicer pa sta $r$ in $s$ celi števili, torej $4\Delta - 3 = m^2$ za nek 
+$m \in \ZZ_+$. Ob substitucijah $a = \Delta^2 - b$ in 
+$\Delta = \frac{m^2 + 3}{4}$ sledi:
+\begin{align}
+\Delta + a r + b s &= 0 \\
+\Leftrightarrow \\
+\frac{m^2 + 3}{4} + \left(\left(\frac{m^2 + 3}{4}\right)^2 - b\right) 
+\frac{-1 + m}{2} + b \frac{-1 - m}{2} &= 0 \\
+\Leftrightarrow \\
+\frac{m^5}{32} + \ldots + \left(\frac{3}{4} - \frac{9}{32}\right)  &= 0\\
+\Leftrightarrow \\
+m^5 + \ldots + 15 &= 0
+\end{align}
+
+Preden nadaljujemo si oglejmo pomemben rezultat linearne algebre.
+
+\begin{izrek}[Izrek o celoštevilskih ničlah]
+Naj bo $p = a_n x^n + \ldots + a_0$ polinom z celimi koeficienti, kjer 
+je vodilni koeficient neničelen. Če ima polinom celoštevilsko ničlo $q$,
+potem $q$ deli $a_0$.
+\end{izrek}
+
+\begin{dokaz}
+Ker je $q$ ničla polinoma $p$ velja $p(q) = a_n q^n + \ldots + 
+a_0 = 0$. Po preureditvi dobimo $a_0 = -(a_n q^n + \ldots + a_1 q)$.
+Ker je desna stran deljiva z $q$ je z $q$ deljiv tudi $a_0$.
+\end{dokaz}
+
+Ker ima enačba $x^2 + 1 - (\Delta - 1) = 0$ cele koeficiente so njene 
+racionalne rešitve nujno cele (po izreku).
+S tem rezultatom, ter z upoštevanjem, da je $m$ pozitivno celo število, 
+lahko sedaj razberemo, da so možne rešitve za $m$ enake 
+$\{1, 3, 5, 15\}$ kar so tudi deljitelji števila 15. Posledično 
+so kandidati za $\Delta$ enaki $\{1, 3, 7, 57\}$. (Utemelji še, da
+so koeficienti naračunane enačbe v $m$ res celi, in smo smeli 
+uporabiti izrek.)
+
+\begin{izrek}
+Naj bo graf $G$ tak, ki doseže Moorejevo mejo, potem ima ožino ----
+\end{izrek}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Konstrukcija znanih Moorejevih grafov}
+
+\subsection{Konstrukcija Petersonovega grafa}
+
+Naj bo $P$ Moorejev graf s parametri $(D=2, \Delta=3)$. Trdimo,
+da je $P$ izomorfen Petersonovemu grafu. Za graf $P$ velja, da je ožine
+$g=5$ ter reda 
+$M_{D, \Delta}=1 + \Delta + \Delta (1 - \Delta)=\Delta^2 + 1=10$.
+Definirajmo drevo s korenskim vozliščem $a$. Naj bo $N(a) = \{b, c, d\}$.
+Naj bo še $N(b) \setminus \{a\} = \{e, f\}$, $N(c) \setminus \{a\} = \{g, h\}$ in 
+$N(d) \setminus \{a\} = \{i, j\}$. Te množice imenujmo gruče.
+Tako drevo je podgraf grafa $P$. Vsakemu vozlišču iz gruč manjkata še dve povezavi.
+Opazimo, da vozlišče $e$ ne sme biti povezano z vozliščem $f$, zato ga brez škode za splošno
+povežemo z $g$. ... Izpeljava z greedy approachem deluje in je "trivialna" ...
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Konstrukcija Hoffman-Singeltonovega grafa}
+
+Naj bo $H$ regularen graf stopnje $\Delta=7$ s premerom $D=2$.
+Naj ta graf doseže Moorejevo mejo, torej naj bo reda 
+$M_{D, \Delta}=1 + \Delta + \Delta(1-\Delta)=\Delta^2 + 1$.
+Posledično vemo tudi, da je njegova ožina enaka $g=2D + 1=5$.
+
+Trdimo, da tak graf obstaja, preko njegove konstrukcije bomo 
+pokazali, da je enoličen, ter spregovorili tudi o njegovih 
+automorfizmih.
+
+Ker je ožina grafa $H$ enaka $g=5$, ta vsebuje cikel dolžine 5,
+torej velja $C_5 \subset H$.
+Izberimo en tak $C_5$ ter ga označimo s $Q=v_1 v_2 v_3 v_4 v_5 v_1$. 
+Poljubno vozlišče $v \in Q$ ima natanko $\Delta-2=5$ sosedov, 
+nevsebovanih v $Q$. Če to ne bi veljalo, bi med vozlišči grafa 
+$Q$ našli $C_4$.
+
+Pravimo, da vozlišča grafa $H$, katera niso del podgrafa $Q$, pripadajo
+gruči $\gr_i$, če so sosedna vozlišču $v_i \in Q$, kateremu 
+pravimo center gruče. Z drugimi besedami, po naši klasifikaciji velja \\
+$\forall i \in \{1, 2, 3, 4, 5\},\; v_i \in Q: \; \gr_i = \{\, u \in H \setminus Q \mid u \sim v_i\,\}$.
+
+\begin{trditev}
+Dane gruče iz grafa $H$ imajo naslednje lastnosti:
+\begin{enumerate}[label=(\Roman*)]
+\item \(\gr_i \cap \gr_j = \varnothing\) za vse \(i \neq j\).  
+Gruče so paroma disjunktne. \label{itm:g1}
+\item \(u \not\sim v\) za vse \(u,v \in \gr_i\).  
+Vozlišča znotraj posamezne gruče so nepovezana. \label{itm:g2}
+\item Če \(v_i \sim v_j\) v \(Q\), potem \(\gr_i \not\sim \gr_j\); sicer
+\(\forall u \in \gr_i: \ |N(u) \cap \gr_j| \leq 1\).
+Če sta centra \(v_i\) in \(v_j\) sosedna v \(Q\), med gručama ni povezave; 
+sicer je vsako vozlišče gruče \(\gr_i\) sosedno največ enemu vozlišču 
+gruče \(\gr_j\). \label{itm:g3}
+\end{enumerate}
+\end{trditev}
+
+\begin{dokaz}
+Vzemimo vozlišči $u, w \in \gr_i$, ter vozlišče $z \in \gr_j$, kjer $i \neq j$.
+Pri dokazih uporabimo metodo protislovja, kjer se dokaz zaključi ko najdemo 
+vsaj en cikel dolžine manj kot 5. To bi namreč bilo v nasprotju z dejstvom, 
+da ima graf $H$ ožino $g=5$.
+\begin{enumerate}[label=(\Roman*)]
+\item Predpostavimo, da obstajata dve gruči, katerih presek ni prazen.
+Brez škode za splošnost predpostavimo $u = z = \gr_i \cap \gr_j$.
+Tedaj v grafu $H$ obstajata natanko dva cikla, katera preseka s $Q$ sta 
+neprazna. Natanko eden izmed njiju je dolžine manjše od 5.
+\item Naj obstaja gruča $\gr_i$ ter znotraj nje vozlišči $u$ ter $w$, ki sta povezani.
+Tedaj v grafu obstaja cikel $C_3 = u v_i w u$.
+\item Naj bosta najprej centra gruč $v_i$ ter $v_j$ sosedna, ter $u$ in $z$
+povezana. Tedaj v grafu $H$ obstaja cikel $C_4 = u v_i v_j z u$.
+Predpostavimo sedaj, da $v_i \not \sim v_j$, ter da je vozlišče $z$ povezano 
+tako z $u$ kot z $w$. Tedaj obstaja cikel $C_4 = z u v_i w z$.
+\end{enumerate}
+\end{dokaz}
+
+\begin{posledica}
+Naj bo 
+\[
+H[N(Q)] = \left(\{\,v \in V(N(Q))\,\}, 
+\{\,uv \in E(H) \mid u, v \in N(Q)\,\}\right)
+\]
+podgraf induciran z vozlišči iz $N(Q)$. Potem je maksimalna stopnja podgrafa \\$H[N(Q)]$
+enaka največ 2. Po trditvi~\ref{itm:g3} namreč velja, da je vsako vozlišče dane 
+gruče $\gr_i$ lahko povezano zgolj z gručami katerih centri si niso sosedni z $v_i$.
+Taki gruči sta dve, ter do vsake izmed njiju lahko vodi največ ena povezava.
+
+Velja celo to, da je $H[N(Q)]$ 2-regularen, kar bomo dokazali kasneje.
+\end{posledica}
+
+Ker je graf $H$ reda 50 ter s premerom $D=2$, 
+moč množice $V(Q) \cup N(Q)$ pa enaka 30, velja $|N_2(Q)| = 20$.
+
+\begin{trditev}
+Velja:
+\[
+\forall i:\ \forall u \neq w \in \gr_i:\ |N(u) \cap N_2(Q)| = 4 \land N(u) \cap N(w) \cap N_2(Q) = \emptyset
+\]
+Vsako vozlišče $u$ poljubne grupe $\gr_i$ je povezano z natanko $4$-mi vozlišči 
+iz $N_2(Q)$. Sosedi vozlišč gruče $\gr_i$ znotraj podgrafa $H[N_2(Q)]$,
+induciranega z vozlišči $N_2(Q)$, pa so nepovezani.
+\end{trditev}
+
+\begin{dokaz}
+
+\end{dokaz}
+
+\subsection{dd}
+dd
+
+
+
+\section{TODO:}
+Dokončaj izpeljavo pogojev. Prikaži izpeljavo za Hoffman-Singeltonov graf.
+Pokaži še kaj o problemu degree/girth, in kako vsak Moorejov graf dosega 
+tudi tisto spodnjo mejo, ni pa vsak graf ki dosega mejo za girth/degree Moorejov.
+Pokaži da greedy approach za generiranje takih grafov spodleti (Že pri hoffman-singeltonu), 
+pri petersonu pa se da.
+
+Dokaži da je Hoffmanov graf (50,7,0,1) krepko regularen.
+
+Na kratko še o "blizu" moorejevih grafih. Nato pa skok na generalizirane večkotnike 
+za nekaj časa.
 
 % \section{Zaključek}
 % ...
