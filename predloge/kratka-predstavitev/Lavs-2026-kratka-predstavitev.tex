@@ -1,0 +1,176 @@
+% THIS DOCUMENT WAS COMPUTER GENERATED FROM  diploma-prazno
+% IT REQUIRES TO BE RUN FROM TERMINAL SINCE GLOBAL .vsc SETTINGS
+
+\documentclass{beamer}
+
+\usetheme{Warsaw}
+
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{amsfonts, amsmath, amsthm}
+\usepackage{enumitem}
+
+% --- Teorematična okolja ---
+\newtheorem{izrek}{Izrek}
+\newtheorem{trditev}[izrek]{Trditev}
+\newtheorem{posledica}[izrek]{Posledica}
+\newtheorem{definicija}[izrek]{Definicija}
+
+% --- Ukazi ---
+\newcommand{\red}{\operatorname{red}}
+\newcommand{\srg}{\operatorname{srg}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\reach}{\operatorname{Reach}}
+\newcommand{\gr}{\mathscr{G}}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\II}{\mathbf{I}}
+\newcommand{\IIw}[2]{#1 \;\II\; #2}
+\newcommand{\IIwd}[2]{#1 \;\II^D\; #2}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+
+% --- Naslov ---
+\title{Moorejevi grafi in posplošeni večkotniki}
+\author{Luka Lavš}
+\date{\today}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% ------------------------------
+\section{Moorejevi grafi}
+
+\begin{frame}
+\frametitle{Definicija Moorejevega grafa}
+\begin{definicija}
+Naj bo $G=(V,E)$ graf s premerom $D$ in maksimalno stopnjo $\Delta$.  
+Če velja
+\[
+|V| = 1 + \Delta + \Delta(\Delta-1) + \dots + \Delta(\Delta-1)^{D-1},
+\]
+pravimo, da je $G$ \emph{Moorejev graf}.
+\end{definicija}
+\end{frame}
+
+\begin{frame}
+\frametitle{Lastnosti}
+\begin{trditev}
+Moorejev graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena najkrajša pot dolžine največ $D$.
+\end{trditev}
+
+\begin{posledica}
+Ožina Moorejevega grafa je $g = 2D + 1$.
+\end{posledica}
+\end{frame}
+
+\begin{frame}
+\frametitle{Primeri Moorejevih grafov}
+\begin{itemize}
+    \item $D=2, \Delta=2$: pentagon
+    \item $D=2, \Delta=3$: Petersonov graf
+    \item $D=2, \Delta=7$: Hoffman-Singletonov graf
+    \item $D=2, \Delta=57$: odprto vprašanje
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Matrična lastnost}
+Za regularen Moorejev graf $G$ stopnje $\Delta$ z matriko sosednosti $A$ velja
+\[
+A^2 + A - (\Delta-1)I = J,
+\]
+kjer je $I$ identiteta in $J$ matrika samih enic.
+\end{frame}
+
+\begin{frame}
+\frametitle{Spodnja meja za graf z ožino $g$}
+\begin{trditev}
+Naj bo $G$ $\Delta$-regularen z ožino $g$. Tedaj velja
+\[
+|V(G)| \ge
+\begin{cases}
+\frac{\Delta(\Delta-1)^{(g-1)/2}-1}{\Delta-2}, & g \text{ liho},\\[1em]
+2\frac{(\Delta-1)^{g/2}-1}{\Delta-2}, & g \text{ sodo}.
+\end{cases}
+\]
+\end{trditev}
+\end{frame}
+
+% ------------------------------
+\section{Geometrije ranga 2}
+
+\begin{frame}
+\frametitle{Definicija geometrije}
+Geometrija \(\Gamma=(\A_1, \dots, \A_n, \II)\) je nabor nepraznih, paroma disjunktnih množic \(\A_i\) in incidenčne relacije
+\[
+\II \subseteq \bigcup_{i\neq j} \A_i \times \A_j.
+\]
+\end{frame}
+
+\begin{frame}
+\frametitle{Geometrija ranga 2}
+\begin{definicija}
+Geometrija ranga 2 je \(\Gamma=(\PP, \LL, \II)\), kjer
+\begin{itemize}
+    \item \(\PP\) množica točk
+    \item \(\LL\) množica črt
+    \item $l \in \LL$ je v relaciji z $p \in \PP$ natanko tedaj, ko $l$ in $p$ incidirata
+\end{itemize}
+\end{definicija}
+\end{frame}
+
+\begin{frame}
+\frametitle{Incidenčni graf}
+\begin{definicija}
+Naj bo \(\Gamma=(\PP,\LL,\II)\).  
+Incidenčni graf \(G\) geometrije \(\Gamma\) ima
+\[
+V(G) = \PP \cup \LL, \quad E(G) = \{ uv \mid u \text{ in } v \text{ incidirata} \}.
+\]
+\end{definicija}
+\end{frame}
+
+% ------------------------------
+\section{Posplošeni večkotniki}
+
+\begin{frame}
+\frametitle{Večkotnik dolžine $n$}
+\begin{definicija}
+Naj bo \(\Gamma=(\PP,\LL,\II)\). Večkotnik dolžine $n$ je zaporedje \(x_1, \dots, x_{2n} \in \PP \cup \LL\) z lastnostmi:
+\begin{enumerate}[label=(\roman*)]
+\item elementi se izmenjujejo po vrstah (\(x_{2i-1} \in \PP\), \(x_{2i} \in \LL\))
+\item vsak element incidirata s sosednjim elementom (\(x_i\) incidirata z \(x_{i+1}\)), pri čemer \(x_{2n+1}=x_1\)
+\end{enumerate}
+\end{definicija}
+\end{frame}
+
+\begin{frame}
+\frametitle{Posplošeni večkotniki in Moorejevi grafi}
+\begin{definicija}
+Posplošeni večkotnik je struktura, ki generalizira koncept večkotnika in je ključna za povezavo Moorejevih grafov lihe ožine z incidenčnimi grafi.
+\end{definicija}
+
+\begin{itemize}
+\item Primer: incidenčni graf PG(2,2) ustreza Petersonovemu grafu
+\item Hoffman-Singletonov graf izhaja iz posplošenega petkotnika
+\item Moorejevi grafi z liho ožino ustrezajo incidenčnim grafom posplošenih večkotnikov
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Odprta vprašanja}
+Obstoj Moorejevega grafa valence \(\Delta=57\) še ni dokazan.  
+Pogoste metode konstrukcije (greedy approach) pri \(\Delta \ge 7\) ne uspejo.
+\end{frame}
+
+\end{document}

@@ -82,6 +82,13 @@
 \newcommand{\reach}{\operatorname{Reach}}
 \newcommand{\gr}{\mathscr{G}}
 
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\II}{\mathbf{I}}
+\newcommand{\IIw}[2]{#1 \;\II\; #2}
+\newcommand{\IIwd}[2]{#1 \;\II^D\; #2}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -182,22 +189,32 @@ p(A)v = \left(\sum_{k} c_k A^k\right)v =
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Moorejev graf}
+\section{Moorejev graf}\label{sec:moorejev_graf}
+
+\begin{definicija}
 Naj bo $G = (V, E)$ graf s premerom $D$ ter maksimalno stopnjo $\Delta$.
-Izberimo poljubno vozlišče $v \in V$. Z $n_i$ označimo število vozlišč 
-v grafu $G$, katera so od vozlišča $v$ oddaljena za $i$. Ker ima graf 
-maksimalno stopnjo $\Delta$, ima lahko vsako vozlišče poleg predhodnika 
-še največ $\Delta - 1$ sosedov, torej velja 
-$\forall {i \leq D}: \quad n_i \leq n_{i - 1} (\Delta - 1)$. S tem pridobimo
-zgornjo mejo za red grafa $G$, to je $\red(G) = 1 + \sum_{i=1}^{D} <=
-1 + \Delta + \Delta (\Delta - 1) + \ldots + \Delta (\Delta - 1)^{D - 1}$.
-Graf, ki tako doseže mejo imenujemo Moorejev graf, mejo pa označimo z 
-$M_{\Delta, D}$.
+Izberimo poljubno vozlišče $v \in V$. Če za njegov red velja
+\begin{equation}
+    |V| = 1 + \Delta + \Delta (\Delta - 1) + \ldots + \Delta (\Delta - 1)^{D - 1},
+\end{equation}
+potem pravimo, da je $G$ Moorejev graf.
+\end{definicija}
+
+\begin{opomba}
+Red Moorejevega grafa parametrov $(\Delta, D)$ je večji ali enak redu 
+poljubnega grafa $P$, ki zadostuje maksimalni stopnji $\Delta$ ter premeru $D$.
+Za poljubno vozlišče $v$ grafa $P$ namreč velja, da je število vozlišč od $v$ 
+oddaljenih za $i$ največ toliko kot, če bi bilo vsako vozlišče razdalje $i-1$ 
+od $v$ povezano z nadaljnimi $\Delta - 1$ vozlišči, oziroma
+$\forall\; 0 \leq i \leq D:\;|N_{i}(v)| \leq |N_{i-1}(v)|(\Delta - 1)$. Induktivno
+tako dobimo zgornjo mejo za red grafa $P$, ki je natanko enaka redu Moorejevega 
+grafa.
+\end{opomba}
 
 \begin{trditev}\label{tr:regularnost_in_omejitve_dolzine}
-Naj bo $G$ graf, kateri doseže Moorejevo mejo $M_{\Delta, D}$. Tedaj je
+Naj bo $G$ Moorejev graf s parametroma $(\Delta, D)$. Tedaj je
 $G$ regularen stopnje $D$, ter za poljubni dve vozlišči $u$ in $v$ za 
-kateri $u \neq v$ velja, da med njima obstaja natanko ena pot 
+kateri $u \neq v$ velja, da med njima obstaja natanko ena najkrajša pot 
 dolžine največ $D$.
 \end{trditev}
 
@@ -209,9 +226,21 @@ Moorejeve spodnje meje velja $|V(G)| \leq 1 + \deg(u)(\Delta - 1) +
 $G$ že dosežena, ter $\deg(u) \leq \Delta$, sledi, da je $\deg(u) = \Delta$.
 Podobno se o enoličnosti poti dolžin $D$ prepičamo tako, da opazimo, da 
 konstrukcija Moorejeve meje predpostavi, da ima vsako vozlišče $z$ v $i$-tem 
-nivoju natanko $\Delta - 1$ sosedov, ki niso povezani z nobenim drugim 
-vozliščem iz $i$-tega nivoja.
+nivoju $N_i(z)$ natanko $\Delta - 1$ sosedov, ki niso povezani z nobenim drugim 
+vozliščem iz $i$-tega nivoja, razen ko $i=D$. Ob zanemaritvi notranjih povezav 
+zadnjega nivoja $N_D(z)$ skupek nivojev inducira drevesni podgraf za $G$, na katerem 
+je vsaka pot med dvema vozliščema dolžine $D$ enolična.
 \end{dokaz}
+
+\begin{posledica}\label{po:ozina}
+Po trditvi~\ref{tr:regularnost_in_omejitve_dolzine} v grafu s parametroma $(\Delta, D)$ 
+med poljubnima vozliščema
+$v$ ter $u$ obstaja največ ena najkrajša pot dolžine $D$. Posledično 
+obstaja tudi pot od $u$ do $v$ dolžine $D + 1$. Najkrajši cikel 
+v grafu je tako lahko napet na najmanj $D + (D + 1)$ vozlišč.
+Ožina Moorejevega grafa je torej enaka $g=2D + 1$.
+
+\end{posledica}
 
 %%%%%%%%%%%%%%%%%
 
@@ -310,7 +339,7 @@ so koeficienti naračunane enačbe v $m$ res celi, in smo smeli
 uporabiti izrek.)
 
 \begin{izrek}
-Naj bo graf $G$ tak, ki doseže Moorejevo mejo, potem ima ožino ----
+Naj bo $G$ Moorejev graf, tedaj je njegova ožina enaka $g=$
 \end{izrek}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -320,17 +349,19 @@ Naj bo graf $G$ tak, ki doseže Moorejevo mejo, potem ima ožino ----
 \subsection{Konstrukcija Petersonovega grafa}
 
 Naj bo $P$ Moorejev graf s parametri $(D=2, \Delta=3)$. Trdimo,
-da je $P$ izomorfen Petersonovemu grafu. Za graf $P$ velja, da je ožine
-$g=5$ ter reda 
-$M_{D, \Delta}=1 + \Delta + \Delta (1 - \Delta)=\Delta^2 + 1=10$.
-Definirajmo drevo s korenskim vozliščem $a$. Naj bo $N(a) = \{b, c, d\}$.
-Naj bo še $N(b) \setminus \{a\} = \{e, f\}$, $N(c) \setminus \{a\} = \{g, h\}$ in 
-$N(d) \setminus \{a\} = \{i, j\}$. Te množice imenujmo gruče.
-Tako drevo je podgraf grafa $P$. Vsakemu vozlišču iz gruč manjkata še dve povezavi.
-Opazimo, da vozlišče $e$ ne sme biti povezano z vozliščem $f$, zato ga brez škode za splošno
-povežemo z $g$. ... Izpeljava z greedy approachem deluje in je "trivialna" ...
+da je $P$ izomorfen Petersonovemu grafu. Po posledici~\ref{po:ozina} 
+za graf $P$ velja, da je ožine $g=5$ ter reda 
+$1 + \Delta + \Delta (1 - \Delta)=\Delta^2 + 1=10$.
 
+Skladno izpeljavi Moorejeve meje, konstruirajmo drevesni podgraf $T \subset P$
+z vozlišči $a, N(a)=\{b, c, d\}, N_2(a)=\{e, f, g, h, i, j\}$. Sedaj za vsako 
+vozlišče iz množice $N_2(a)$ potrebujemo še natanko dve povezavi. Vzemimo vozlišče 
+$v \in N_2(a)$ ter mu dodelimo prvi dve povezavi, ki grafu $T$ ne ustvarita cikla 
+dolžine manj kot $g=5$. Postopek ponavljamo dokler ne preidemo v 2-regularen graf.
 
+Z enako strategijo spoznamo tudi, da je Moorejev graf s parametroma $(\Delta=2, D=2)$
+enak pentagonu. Žal pa se taki pohlepni algoritmi ne generalizirajo v primerih Moorejevih 
+grafov z $\Delta \geq 7$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Konstrukcija Hoffman-Singeltonovega grafa}
@@ -420,9 +451,123 @@ induciranega z vozlišči $N_2(Q)$, pa so nepovezani.
 \begin{dokaz}
 
 \end{dokaz}
+ 
+\subsection{Poiskusi dokaza o obstoju oziroma neobstoju Moorejevega grafa valence 57}
+%%%%%%%%%%%%%%%%
 
-\subsection{dd}
-dd
+\section{Posplošitev Moorejeve meje}
+Podobno kot smo v sekciji~\ref{sec:moorejev_graf} izpeljali 
+zgornjo mejo za red povezanih grafov s premerom $D$ ter 
+maksimalno stopnjo $\Delta$, lahko izpeljemo tudi spodnjo mejo 
+za soroden problem.
+
+\begin{trditev}
+Naj bo $G$ regularen graf stopnje $\Delta$, ter z dolžino 
+najkrajšega cikla, oziroma ožino, $g$. Tedaj obstaja spodnja meja 
+za red grafa $G$ ter je enaka:
+\begin{equation}
+    |V(G)| \geq \begin{cases}
+    \frac{\Delta(\Delta - 1)^{(g-1)/2}}{\Delta - 2}, & g \equiv 1 \pmod 2\\
+    2\frac{(\Delta - 1)^{g/2} - 2}{\Delta - 1}, & sicer
+    \end{cases}
+\end{equation}
+\end{trditev}
+
+\begin{dokaz}
+    
+\end{dokaz}
+
+\begin{opomba}
+Izkaže se, da so $\Delta$-regularni grafi
+z ožino $g$, kateri izpolnijo spodnjo mejo za število vozlišč,
+natanko Moorejevi grafi za lihe $g$. Za sode $g$ pa so ravno 
+enaki incidenčnim grafom posplošenih večkotnikov reda $\Delta -1$,
+o katerih bomo razglabljali v naslednjih poglavjih.
+\end{opomba}
+
+\begin{dokaz}
+    
+\end{dokaz}
+
+%%%%%%%%%%%%%%%%%%%%%
+
+\section{Geometrije}
+\begin{definicija}
+Geometrija (ranga n) je nabor
+$\Gamma = \left(
+    \A_1, \A_2, \ldots, \A_n, \II
+\right)$, kjer so $\A_1, \A_2, \ldots, \A_n$ neprazne paroma disjunktne 
+množice, in $\II$ relacija incidenčnosti za katero velja 
+\[\II \subseteq \bigcup_{i\neq j} \A_i \times \A_j.\] Če za poljubna
+$a, b \in \bigcup_{i} \A_i$ velja $(a, b) \in \II$, potem pišemo tudi
+$\IIw{a}{b}$. 
+
+Če za neko pozitivno celo število $m$ velja še 
+\[\forall i \; \forall a \in \A_i\; \forall j \neq i : \ 
+m = \#\{b \in \A_j\mid \IIw{a}{b} \},\]
+potem pravimo, da je geometrija reda $m$.
+\end{definicija}
+
+\begin{definicija}
+Naj bo $\Gamma = \left(
+    \A_1, \A_2, \ldots, \A_n, \II
+\right)$ geometrija. Pravimo, da je $\Gamma^D$ njena dualna geometrija 
+če je $\Gamma^D = \left(
+    \A_1, \A_2, \ldots, \A_n, \II^D
+\right)$, kjer je $\IIwd{a}{b} \Leftrightarrow \IIw{b}{a}$.
+\newline 
+Podobno pravimo, da je $\Gamma'$ podgeometrija natanko 
+tedaj ko $\Gamma' = \left(\A_1', \A_2', \ldots, \A_n', \II'\right)$,
+kjer za vsak $1 \leq i \leq n$ velja $\A_i' \subseteq \A_i$ ter kjer 
+je $\II'$ ustrezna zožitev relacije $\II$.
+\end{definicija}
+
+
+
+Navkljub splošnejšim definicijam si podrobneje poglejmo geometrije ranga 2
+in strukture, ki le tam nastanejo.
+
+\begin{definicija}
+Geometrija (ranga 2) je nabor 
+$\Gamma = \left(\PP, \LL, \II\right)$. Množici $\PP$ pravimo \textsl{točke}, 
+množico $\LL$ pa poimenujmo \textsl{črte}. Pravimo, da je $p \in \PP$ 
+\textsl{točka} ter $l \in \LL$ \textsl{črta}. \newline 
+\textsl{Črta} je v relaciji z \textsl{točko}, če velja $\IIw{l}{p}$.
+\end{definicija}
+
+\begin{definicija}[Incidenčni graf]
+Naj bo $\Gamma = \left(
+    \A_1, \A_2, \ldots, \A_n, \II
+\right)$ geometrija. Incidenčni graf geometrije $\Gamma$ je graf $G$
+za katerega velja $V(G) = \bigcup_i \A_i$ ter 
+$E(G) = \{uv \mid \IIw{u}{v} \lor \IIw{v}{u}\}$. Tak graf je očitno $n$-delen.
+\end{definicija}
+
+\subsection{Posplošeni večkotniki}
+
+\begin{definicija}[Večkotnik]
+Naj bo $\Gamma = (P, \mathcal{L}, I)$ geometrija ranga $2$. 
+Pravimo, da v geometriji $\Gamma$ \emph{obstaja večkotnik dolžine $n$} 
+natanko tedaj, ko obstajajo različni elementi 
+\[
+x_1, x_2, \ldots, x_{2n} \in P \cup \mathcal{L}
+\]
+za katere velja:
+\begin{enumerate}
+  \item elementi se izmenjujejo po vrstah, torej $x_{2i-1} \in P$ in $x_{2i} \in \mathcal{L}$ za vsak $i$;
+  \item za vsak $i = 1, 2, \ldots, 2n$ velja $x_i \, I \, x_{i+1}$, pri čemer privzamemo $x_{2n+1} = x_1$.
+\end{enumerate}
+Zaporedju $(x_1, x_2, \ldots, x_{2n})$ pravimo \emph{večkotnik dolžine $n$} 
+v geometriji $\Gamma$.
+%
+Opozarjamo, da obstoj večkotnika v geometriji ni nujno
+ekvivalenten obstoju podgeometrije $\Gamma'$, katere incidenčni
+graf je izomorfen ciklu $C_n$.
+\end{definicija}
+
+\begin{definicija}[Posplošeni večkotnik]
+    
+\end{definicija}
 
 
 
@@ -433,10 +578,16 @@ tudi tisto spodnjo mejo, ni pa vsak graf ki dosega mejo za girth/degree Moorejov
 Pokaži da greedy approach za generiranje takih grafov spodleti (Že pri hoffman-singeltonu), 
 pri petersonu pa se da.
 
-Dokaži da je Hoffmanov graf (50,7,0,1) krepko regularen.
+Dokaži da je Hoffmanov graf (50,7,0,1) krepko regularen. Definicija 
+krepke regularnosti. Opis razdaljno regularnih grafov in lastnosti.
 
 Na kratko še o "blizu" moorejevih grafih. Nato pa skok na generalizirane večkotnike 
 za nekaj časa.
+
+Povezava med problemom ožine ter problemom premera. Teoretični uvod 
+v geometrije. Nekaj o Fanojevi geometriji PG(2, 2) in konstrukciji 
+hoffman-ovega grafa s tem. Opis povezav med problemom ožine ter 
+posplošenih večkotnikov
 
 % \section{Zaključek}
 % ...
