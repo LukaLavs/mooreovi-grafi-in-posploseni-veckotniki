@@ -1,0 +1,139 @@
+\documentclass{fmfkpb}
+
+\avtor{Luka Lavš}
+\naslov{Mooreovi grafi in posplošeni večkotniki}
+\letnica{2026}
+\mentor{doc. dr. Janoš Vidali}
+
+\newcommand{\red}{\operatorname{red}}
+\newcommand{\srg}{\operatorname{srg}}
+\newcommand{\diam}{diam}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\reach}{\operatorname{Reach}}
+\newcommand{\gr}{\mathscr{G}}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\II}{\mathbf{I}}
+\newcommand{\IIw}[2]{#1 \;\II\; #2}
+\newcommand{\IIwd}[2]{#1 \;\II^D\; #2}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+
+\begin{document}
+
+\makefrontpage
+\cleardoublepage
+
+\section{Mooreovi grafi in posplošeni večkotniki}
+
+\subsection{Uvodne definicije}
+
+    \begin{itemize}
+        \item[\textbullet] Graf $G$ ima \textbf{premer} $D$, če je največja razdalja med  
+        katerima koli dvema vozliščema enaka $D$.
+        \item[\textbullet] Graf $G$ ima \textbf{maksimalno stopnjo} $\Delta$, če je
+        $\Delta = \max_{v \in V(G)} \deg(v)$.
+        \item[\textbullet] Graf $G$ ima \textbf{ožino} $g$, če je dolžina 
+        najkrajšega cikla v $G$ enaka $g$.
+        \item[\textbullet] Graf $G$ je \textbf{$\Delta$-regularen}, če ima vsako 
+        vozlišče stopnjo $\Delta$. 
+    \end{itemize}
+
+Sedaj pa vzemimo graf danega premera $D$ 
+ter maksimalne stopnje $\Delta$, ter skonstruirajmo zgornjo mejo za število 
+njegovih vozlišč. 
+
+Vzemimo neko vozlišče in ga povežimo z največ $\Delta$ drugimi, te 
+vozlišča pa nato povežimo z največ $\Delta - 1$ novimi vozlišči, to 
+nadaljujemo dokler naš drevesni podgraf ne doseže premera $D$. 
+
+Tako za zgornjo mejo števila vozlišč dobimo
+$1 + \Delta + \Delta(\Delta - 1) + \ldots + \Delta(\Delta - 1)^{D - 1}$.
+Kar je seveda enako $\frac{\Delta(\Delta - 1)^D - 2}{\Delta - 2}$. Označimo 
+ta rezultat z $M_{D, \Delta}$. 
+
+\subsection{Mooreov graf}
+Grafu, ki tako zgornjo mejo doseže pravimo Mooreov graf.  
+
+\subsection{Lastnosti Mooreovih grafov}
+Po konstrukciji zgornje meje se s krajšim dokazom prepričamo, da 
+so taki grafi $\Delta$-regularni. Namreč zgornjo mejo za 
+število vozlišč lahko izpeljemo iz poljubnega vozlišča, če pa 
+bi konstrukcijo začeli iz vozlišča stopnje manj kot $\Delta$, 
+prave zgornje meje ne bi dosegli. $
+    1 + \deg(u) + \deg(u) (\Delta -1) + \ldots \deg(u) (\Delta -1)^{D - 1}
+    < M_{D, \Delta}$ vodi v protislovje. 
+\newline 
+Prav tako se iz konstrukcije izpelje dejstvo, da 
+med poljubnima vozliščema obstaja \emph{natanko ena pot
+ dolžine največ $D$}.
+To je res, ker konstrukcija predpostavi, da je vsako 
+vozlišče koren nekega drevesnega podgrafa, kjer so poti enolične 
+in dolžine največ $D$.
+\newline 
+Podobno se izkaže tudi, da je ožina Mooreovega grafa enaka 
+$g=2D + 1$.
+
+\subsection{Matrična enačba Mooreovih grafov}
+Dejstvo o tem, da med poljubnima vozliščema obstaja natanko ena pot 
+dolžine največ $D$, nam omogoča zapis matrične enačbe, kateri 
+morajo Mooreovi grafi zadoščati. 
+
+Matrika izpeljana rekurzivno s predpisom 
+$G_{\Delta, D} = A G_{\Delta, D - 1} - (\Delta - 1) G_{\Delta, D - 2}$,
+$G_{\Delta, 1} = A + I$, $G_{\Delta, 0} = I$, kjer je $A$ matrika sosednosti
+grafa, namreč meri število poti dolžin največ $D$ med poljubnima 
+vozliščema. 
+
+Z njeno pomočjo pa pridemo do enačbe $G_{\Delta, D} = J$, 
+kjer je $J$ matrika samih enic.
+\newline 
+Za primer ko je premer grafa enak $D=2$ dobimo enačbo 
+$A^2 + A - (\Delta - 1) I = J$. Prek nje pa omejitve za 
+lastne vrednosti in posledično tudi 
+omejitve za možne maksimalne stopnje Moorejevih grafov. 
+Tako se izkaže, da so možne stopnje za premer $D=2$ enake 
+$\{2, 3, 7, 57\}$. 
+\newline 
+Moorevi grafi s stopnjami $2, 3$ in $7$ so pentagon, Petersonov graf
+ter Hoffman-Singeltonov graf. Obstoj grafa stopnje $57$ 
+pa je še vedno odprto vprašanje.
+
+\subsection{Redkost ter razširitve}
+Zahtevke o omejenem premeru, maksimalni stopnji, regularnosti, 
+ožini\\ so kar "močne". Zato so Mooreovi grafi zelo redki. Preprosti 
+poizkusi konstrukcij s pohlepnimi algoritmi seveda običajno spodletijo. 
+Tako je na primer mogoče Petersonov graf zgraditi s takšnim
+algoritmom, medtem ko Hoffman-Singeltonov graf zahteva bolj
+sofisticirano konstrukcijo. 
+
+Nekateri avtorji so zato predlagali analize "blizu" ~Mooreovih grafov, 
+kjer so zahteve nekoliko omiljene. Tej iščejo grafe, ki dosegajo 
+Mooreovo mejo z majhnim defektom $\left(M_{\Delta, D} - \delta\right)$.
+
+Nekateri pa so se lotili tudi problema z dano ožino $g$ ter 
+maksimalno stopnjo $D$. Tu je zanimivo, da se spodnja meja števila 
+vozlišč za tak problem ujema z zgornjo mejo Mooreovih grafov (
+    v primeru ožine oblike $g = 2D + 1$
+). Zato bomo rekli, da tak problem razširja Mooreove grafe. 
+
+Če pa se v razširitvenem problemu omejimo na sode ožine, lahko 
+opazimo, da so taki grafi natanko incidenčni grafi 
+posplošenih večkotnikov.
+
+\subsection{Geometrija in posplošeni večkotniki}
+Na kratko, geometrija ranga 2 je trojica$\left(\PP, \LL, \II\right)$,
+kjer sta $\PP$ in $\LL$ neprazni disjunktni množici, ki predstavljata 
+točke in premice, medtem ko je $\II$ relacija incidenčnosti nad njima.
+
+Posplošeni n-kotnik pa je geometrija ranga 2, ki kot podgeometrijo 
+ne vsebuje nobenega večkotnika dolžine manjše od $n$; ki poljubna 
+dva elementa unije točk in premic povezuje z nekim običajnem $n$-kotnikom 
+(kot podgeometrijo); ter ki ima vsaj en $(n+1)$-kotnik kot podgeometrijo.
+
+Incidenčni graf posplošenega večkotnika pa je nato le graf, z unijo 
+točk in premic kot množico vozlišč, ter povezavami določenimi prek 
+incidenčne relacije.
+
+\end{document}

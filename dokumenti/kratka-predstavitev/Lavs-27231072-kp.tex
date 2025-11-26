@@ -1,0 +1,171 @@
+% THIS DOCUMENT WAS COMPUTER GENERATED FROM  diploma-prazno
+% IT REQUIRES TO BE RUN FROM TERMINAL SINCE GLOBAL .vsc SETTINGS
+
+\documentclass{beamer}
+
+\usetheme{Warsaw}
+
+\setbeamertemplate{itemize items}[circle]
+
+
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{amsfonts, amsmath, amsthm}
+\usepackage{enumitem}
+
+% --- Teorematična okolja ---
+\newtheorem{izrek}{Izrek}
+\newtheorem{trditev}[izrek]{Trditev}
+\newtheorem{posledica}[izrek]{Posledica}
+\newtheorem{definicija}[izrek]{Definicija}
+
+% --- Ukazi ---
+\newcommand{\red}{\operatorname{red}}
+\newcommand{\srg}{\operatorname{srg}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\reach}{\operatorname{Reach}}
+\newcommand{\gr}{\mathscr{G}}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\II}{\mathbf{I}}
+\newcommand{\IIw}[2]{#1 \;\II\; #2}
+\newcommand{\IIwd}[2]{#1 \;\II^D\; #2}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+
+% --- Naslov ---
+\title{Mooreovi grafi in posplošeni večkotniki}
+\author{Luka Lavš}
+\date{\today}
+
+\begin{document}
+
+% --- Title ---
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% ------------------------------
+\section{Mooreovi grafi}
+
+\begin{frame}
+    \frametitle{Uvodne definicije}
+    \begin{itemize}
+        \item[\textbullet] Graf $G$ ima \textbf{premer} $D$, če je največja razdalja med  
+        katerima koli dvema vozliščema enaka $D$.
+        \item[\textbullet] Graf $G$ ima \textbf{maksimalno stopnjo} $\Delta$, če je
+        $\Delta = \max_{v \in V(G)} \deg(v)$.
+        \item[\textbullet] Graf $G$ ima \textbf{ožino} $g$, če je dolžina 
+        najkrajšega cikla v $G$ enaka $g$.
+        \item[\textbullet] Graf $G$ je \textbf{$\Delta$-regularen}, če ima vsako 
+        vozlišče stopnjo $\Delta$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Definicija Mooreovega grafa}
+\begin{definicija}
+Naj bo $G=(V,E)$ graf s premerom $D$ in maksimalno stopnjo $\Delta$.  
+Če velja
+\[
+|V| = 1 + \Delta + \Delta(\Delta-1) + \dots + \Delta(\Delta-1)^{D-1},
+\]
+pravimo, da je $G$ \emph{Mooreov graf}.
+\end{definicija}
+\end{frame}
+
+\begin{frame}
+\frametitle{Lastnosti Mooreovih grafov}
+\begin{trditev}
+Moorejev graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena najkrajša pot dolžine največ $D$.
+\end{trditev}
+
+\begin{posledica}
+Ožina Moorejevega grafa je $g = 2D + 1$.
+\end{posledica}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Matrična enačba Mooreovih grafov}
+    \begin{trditev}
+    Za regularen Moorejev graf $G$ stopnje $\Delta$ z matriko s
+sosednosti $A$ velja:
+\[G_{\Delta, D} = J,\]    
+kjer je $J$ matrika samih enic in 
+$G_{\Delta, D} = A G_{\Delta, D-1} - 
+(\Delta - 1) G_{\Delta, D-2}$, 
+$G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
+    \end{trditev}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Redkost in razširitve Mooreovih grafov}
+    \begin{itemize}
+        \item[\textbullet] Iskanje grafov, ki dosežejo  
+        red $M_{\Delta, D} - \delta$ za "majhen"~$\delta$. 
+        \item[\textbullet] Spodnja meja za red grafov ožine $g=2D+1$
+        ter maksimalne stopnje $\Delta$, razširja zgornjo mejo 
+        za Mooreove grafe. 
+
+    \end{itemize}
+            \begin{trditev}
+            \begin{equation*}
+        |V(G)| \ge
+        \begin{cases}
+        \frac{\Delta(\Delta-1)^{(g-1)/2}-1}{\Delta-2}, & g \text{ liho},\\[1em]
+        2\frac{(\Delta-1)^{g/2}-1}{\Delta-2}, & g \text{ sodo}.
+        \end{cases}
+    \end{equation*}
+        \end{trditev}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Geometrija in posplošeni večkotniki}
+\begin{definicija}
+Geometrija ranga 2 \(\Gamma=(\PP, \LL, \II)\) je trojica 
+nepraznih disjunktnih množic točk $\PP$, premic $\LL$, ter 
+incidenčne relacije \(\II \subseteq \PP \times \LL\).
+\end{definicija}
+\begin{definicija}
+$\Gamma=(\PP', \LL', \II')$ je podgeometrija goemetrije $\Gamma=(\PP, \LL, \II)$, če velja
+\(\PP' \subseteq \PP\), \(\LL' \subseteq \LL\) in
+ \(\II' = \II \cap (\PP' \times \LL)\).
+\end{definicija}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Geometrija in posplošeni večkotniki}
+    \begin{definicija}
+    Običajni $n$-kotnik je geometrija ranga 2, sestavljena iz 
+    $n$ točk in $n$ premic, kjer se z incidenčno relacijo povežejo 
+    v cikel dolzine $2n$.
+    \end{definicija}
+    \begin{definicija}
+    Posplošeni $n$-kotnik je geometrija ranga 2 za katero velja,
+    \begin{itemize}
+        \item[\textbullet] da ne vsebuje $k$-kotnika z $2 \leq k < n$ (kot podgeometrijo),
+        \item[\textbullet] poljubna $x, y \in \PP \cup \LL$ sta vsebovana v nekem 
+        $n$-kotniku (kot podgeometrijo).
+        \item[\textbullet] v geometriji obstaja vsaj en $(n+1)$-kotnik (kot podgeometrija).
+    \end{itemize}
+    \end{definicija}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Geometrija in posplošeni večkotniki}
+    \begin{definicija}
+    Incidenčni graf geometrije ranga 2 \(\Gamma=(\PP,\LL,\II)\) je graf 
+    \(G\) z množico vozlišč \(V(G) = \PP \cup \LL\) in množico 
+    povezav \(E(G) = \{ uv \mid u \II v \}\).
+    \end{definicija}
+\end{frame}
+
+\end{document}

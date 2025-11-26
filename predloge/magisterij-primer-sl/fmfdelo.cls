@@ -1,1 +1,0 @@
-../../fmfdelo.cls

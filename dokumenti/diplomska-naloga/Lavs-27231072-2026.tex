@@ -572,6 +572,7 @@ graf je izomorfen ciklu $C_n$.
 
 
 \section{TODO:}
+Moorejev -> Mooreov.
 Dokončaj izpeljavo pogojev. Prikaži izpeljavo za Hoffman-Singeltonov graf.
 Pokaži še kaj o problemu degree/girth, in kako vsak Moorejov graf dosega 
 tudi tisto spodnjo mejo, ni pa vsak graf ki dosega mejo za girth/degree Moorejov.
@@ -589,7 +590,29 @@ v geometrije. Nekaj o Fanojevi geometriji PG(2, 2) in konstrukciji
 hoffman-ovega grafa s tem. Opis povezav med problemom ožine ter 
 posplošenih večkotnikov
 
-% \section{Zaključek}
-% ...
+\begin{definicija}
+Naj bo $G$ usmerjen multigraf. Naj bo $\Gamma$ abelova grupa.
+Označimo z $D(G)$ množico usmerjenih polrobov (darts) grafa $G$.
+Naj bo $\alpha : D(G) \to \Gamma$ funkcija, ki vsakemu polrobu priredi element iz $\Gamma$,
+in naj velja
+\[
+\forall e \in D(G)\colon\quad \alpha(e^{-1}) = \alpha(e)^{-1}.
+\]
+Preslikavi $\alpha$ pravimo \emph{napetostna preslikava} (voltage assignment).
+
+Dvig grafa $G$ z napetostno preslikavo $\alpha$ je graf $G^\alpha$, definiran kot:
+\begin{enumerate}
+    \item $V(G^\alpha) = V(G) \times \Gamma$,
+    \item $E(G^\alpha) = \{\, \bigl( (u,g), (v,\, g \cdot \alpha(e)) \bigr) \;\mid\; 
+           e = uv \in D(G),\ g \in \Gamma \,\}$.
+\end{enumerate}
+\end{definicija}
+
+
+
+
+%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% 
 
 \end{document}
