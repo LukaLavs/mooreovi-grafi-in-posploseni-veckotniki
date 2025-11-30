@@ -85,6 +85,14 @@ $G_{\Delta, D} = A G_{\Delta, D - 1} - (\Delta - 1) G_{\Delta, D - 2}$,
 $G_{\Delta, 1} = A + I$, $G_{\Delta, 0} = I$, kjer je $A$ matrika sosednosti
 grafa, namreč meri število poti dolžin največ $D$ med poljubnima 
 vozliščema. 
+O tem se prepričamo tako, da opazimo, da matrika $A^k$ meri število sprehodov dolžine 
+$k$ med poljubnima vozliščema. Za razliko od poti, pa sprehodi lahko 
+obsegajo tudi ponavljanje vozlišč in robov. Zato izpeljemo $G_{\Delta, i}$ z odštevanjem 
+števila sprehodov, ki vključujejo ponavljanje vozlišč. Matrika $A G_{\Delta, i - 1}$ namreč
+pridobi vse poti dolžine največ $i$ vključno s tistimi sprehodi, kjer se  
+zadnje vozlišče ponovi. Takšnih sprehodov pa je ravno toliko, kolikor je poti, 
+ki dosegajo dolžino $i$, pomnoženih s številom možnosti ponovitve zadnjega vozlišča. Odštejemo 
+torej ravno $(\Delta - 1) G_{\Delta, i - 2}$.
 
 Z njeno pomočjo pa pridemo do enačbe $G_{\Delta, D} = J$, 
 kjer je $J$ matrika samih enic.
@@ -123,17 +131,36 @@ opazimo, da so taki grafi natanko incidenčni grafi
 posplošenih večkotnikov.
 
 \subsection{Geometrija in posplošeni večkotniki}
-Na kratko, geometrija ranga 2 je trojica$\left(\PP, \LL, \II\right)$,
+Preden pa se zaletimo v posplošene večkotnike, si oglejmo 
+definicijo geometrije ranga 2. Na kratko, geometrija ranga 2 je trojica $\left(\PP, \LL, \II\right)$,
 kjer sta $\PP$ in $\LL$ neprazni disjunktni množici, ki predstavljata 
-točke in premice, medtem ko je $\II$ relacija incidenčnosti nad njima.
+točke in premice, medtem ko je $\II$ relacija incidenčnosti nad njima. 
+Dodatno definirajmo še podgeometrijo kot podmnožico točk in premic, katerih 
+incidenčna relacija je podmnožica izvorne relacije. 
 
-Posplošeni n-kotnik pa je geometrija ranga 2, ki kot podgeometrijo 
-ne vsebuje nobenega večkotnika dolžine manjše od $n$; ki poljubna 
-dva elementa unije točk in premic povezuje z nekim običajnem $n$-kotnikom 
-(kot podgeometrijo); ter ki ima vsaj en $(n+1)$-kotnik kot podgeometrijo.
-
-Incidenčni graf posplošenega večkotnika pa je nato le graf, z unijo 
+Incidenčni graf geometrije ranga 2, je nato le graf, z unijo 
 točk in premic kot množico vozlišč, ter povezavami določenimi prek 
-incidenčne relacije.
+incidenčne relacije. 
+
+Tako pravimo, da je geometrija ranga 2 običajni večkotnik, če je njen
+incidenčni graf cikličen graf dolžine $2n$. (Tu bi malo narisal kako izgleda 
+običajni večkotnik kot geometrija ter kako izgeleda njegov incidenčni graf.)
+
+Dodatno pa definirajmo še posplošeni večkotnik kot geometrijo ranga 2, ki
+izpolnjuje naslednja pogoja: 
+Kot podgeometrijo ne vssebuje nobenega manjšega večkotnika od $n$;
+poljubna dva elementa unije točk in premic povezuje nek običajni $n$-kotnik. 
+
+Iz te definicije sledi, da je incidenčni graf takega posplošenega večkotnika 
+dvodelen graf z ožino $g=2n$ ter premerom $D=n$.
+
+
+Pravimo, da ima posplošeni večkotnik red $(s, t)$, če ima vsaka premica
+natanko $s + 1$ točk, vsaka točka pa natanko $t + 1$ premic. 
+
+Izkaže se, da posplošeni večkotniki obstajajo zgolj za 
+$n \in \{2, 3, 4, 6, 8, 12\}$, ter da so njihovi incidenčni grafi 
+natanko tisti grafi, ki dosegajo spodnjo mejo za število vozlišč
+grafov z ožino $g=2n$ in maksimalno stopnjo $\Delta = s + 1$.
 
 \end{document}

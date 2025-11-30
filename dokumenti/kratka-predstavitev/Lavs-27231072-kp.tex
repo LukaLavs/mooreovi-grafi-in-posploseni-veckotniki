@@ -1,6 +1,3 @@
-% THIS DOCUMENT WAS COMPUTER GENERATED FROM  diploma-prazno
-% IT REQUIRES TO BE RUN FROM TERMINAL SINCE GLOBAL .vsc SETTINGS
-
 \documentclass{beamer}
 
 \usetheme{Warsaw}
@@ -15,6 +12,7 @@
 
 \usepackage{amsfonts, amsmath, amsthm}
 \usepackage{enumitem}
+\usepackage{graphicx}
 
 % --- Teorematična okolja ---
 \newtheorem{izrek}{Izrek}
@@ -82,11 +80,11 @@ pravimo, da je $G$ \emph{Mooreov graf}.
 \begin{frame}
 \frametitle{Lastnosti Mooreovih grafov}
 \begin{trditev}
-Moorejev graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
+Mooreov graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
 \end{trditev}
 
 \begin{posledica}
-Ožina Moorejevega grafa je $g = 2D + 1$.
+Ožina Mooreovega grafa je $g = 2D + 1$.
 \end{posledica}
 \end{frame}
 
@@ -94,14 +92,24 @@ Ožina Moorejevega grafa je $g = 2D + 1$.
 \begin{frame}
     \frametitle{Matrična enačba Mooreovih grafov}
     \begin{trditev}
-    Za regularen Moorejev graf $G$ stopnje $\Delta$ z matriko s
+    Za regularen Mooreov graf $G$ stopnje $\Delta$ z matriko s
 sosednosti $A$ velja:
 \[G_{\Delta, D} = J,\]    
 kjer je $J$ matrika samih enic in 
-$G_{\Delta, D} = A G_{\Delta, D-1} - 
-(\Delta - 1) G_{\Delta, D-2}$, 
+$G_{\Delta, i} = A G_{\Delta, i-1} - 
+(\Delta - 1) G_{\Delta, i-2}$, 
 $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
     \end{trditev}
+\end{frame}
+
+\begin{frame}
+\frametitle{Mooreovi grafi premera 2}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../../assets/hoffman-singelton-graph.png}
+    \caption{Hoffman-Singletonov graf}
+    \label{fig:hs_graph}
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -138,6 +146,12 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
 \(\PP' \subseteq \PP\), \(\LL' \subseteq \LL\) in
  \(\II' = \II \cap (\PP' \times \LL)\).
 \end{definicija}
+    \begin{definicija}
+    Naj bo \(\Gamma=(\PP,\LL,\II)\) geometrija ranga 2,
+    njen incidenčni graf $G$ je dan z 
+     množico vozlišč \(V(G) = \PP \cup \LL\) in množico 
+    povezav \(E(G) = \{ uv \mid u \II v \}\).
+    \end{definicija}
 \end{frame}
 
 
@@ -154,7 +168,6 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
         \item[\textbullet] da ne vsebuje $k$-kotnika z $2 \leq k < n$ (kot podgeometrijo),
         \item[\textbullet] poljubna $x, y \in \PP \cup \LL$ sta vsebovana v nekem 
         $n$-kotniku (kot podgeometrijo).
-        \item[\textbullet] v geometriji obstaja vsaj en $(n+1)$-kotnik (kot podgeometrija).
     \end{itemize}
     \end{definicija}
 \end{frame}
@@ -162,11 +175,47 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
 \begin{frame}
     \frametitle{Geometrija in posplošeni večkotniki}
     \begin{definicija}
-    Naj bo \(\Gamma=(\PP,\LL,\II)\) geometrija ranga 2,
-    njen incidenčni graf $G$ je dan z 
-     množico vozlišč \(V(G) = \PP \cup \LL\) in množico 
-    povezav \(E(G) = \{ uv \mid u \II v \}\).
+    Naj bo $G(n, s, t)$ (šibki) posplošeni $n$-kotnik, kjer je vsaka 
+    premica incidenčna z $s+1$ točkami, vsaka točka pa z 
+    $t+1$ premicami. Tedaj pravimo, da ima $G(n, s, t)$  
+    red $(s, t)$.
     \end{definicija}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{../../assets/fano-plane.png}%
+    \hspace{0.05\textwidth}%
+    \includegraphics[width=0.3\textwidth]{../../assets/generalized-quadrangle.png}
+    \caption{Posplošeni 3-kotnik in posplošeni 4-kotnik reda (2,2)}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Geometrija in posplošeni večkotniki} 
+    \begin{trditev}
+    Posplošeni $n$-kotniki obstajajo le za 
+    $n \in \{2, 3, 4, 6, 8, 12\}$.
+    \end{trditev}
+    \begin{trditev}
+    Posplošeni večkotniki reda $(1, 1)$ so natanko običajni večkotniki.
+    \end{trditev}
+    \begin{trditev}
+    Incidenčni grafi posplošenih $n$-kotnikov reda 
+    $(s, s)$ so natanko tisti grafi, ki dosežejo spodnjo mejo 
+    za število vozlišč grafov ožine $g=2n$ in maksimalne stopnje
+    $\Delta = s + 1$.
+    \end{trditev}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Geometrija in posplošeni večkotniki}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{../../assets/fano-plane-incidence-graph.png}%
+    \hspace{0.05\textwidth}%
+    \includegraphics[width=0.3\textwidth]{../../assets/generalized-guadrangle-incidence-graph.png}
+    \caption{Incidenčna grafa posplošenega 3-kotnika in posplošenga 4-kotnika reda (2,2)}
+\end{figure}
 \end{frame}
 
 \end{document}
