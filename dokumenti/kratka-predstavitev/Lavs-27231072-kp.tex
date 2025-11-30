@@ -81,9 +81,11 @@ pravimo, da je $G$ \emph{Mooreov graf}.
 \frametitle{Lastnosti Mooreovih grafov}
 \begin{trditev}
 Mooreov graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
+Mooreov graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
 \end{trditev}
 
 \begin{posledica}
+Ožina Mooreovega grafa je $g = 2D + 1$.
 Ožina Mooreovega grafa je $g = 2D + 1$.
 \end{posledica}
 \end{frame}
@@ -93,11 +95,12 @@ Ožina Mooreovega grafa je $g = 2D + 1$.
     \frametitle{Matrična enačba Mooreovih grafov}
     \begin{trditev}
     Za regularen Mooreov graf $G$ stopnje $\Delta$ z matriko s
+    Za regularen Mooreov graf $G$ stopnje $\Delta$ z matriko s
 sosednosti $A$ velja:
 \[G_{\Delta, D} = J,\]    
 kjer je $J$ matrika samih enic in 
-$G_{\Delta, i} = A G_{\Delta, i-1} - 
-(\Delta - 1) G_{\Delta, i-2}$, 
+$G_{\Delta, i} = A G_{\Delta, i-1} -
+(\Delta - 1) G_{\Delta, i-2}$ $(2 \le i \le D)$,
 $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
     \end{trditev}
 \end{frame}
@@ -167,7 +170,8 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
     \begin{itemize}
         \item[\textbullet] da ne vsebuje $k$-kotnika z $2 \leq k < n$ (kot podgeometrijo),
         \item[\textbullet] poljubna $x, y \in \PP \cup \LL$ sta vsebovana v nekem 
-        $n$-kotniku (kot podgeometrijo).
+        $n$-kotniku (kot podgeometrija).
+        \item[\textbullet] v geometriji obstaja vsaj en $(n+1)$-kotnik (kot podgeometrija).
     \end{itemize}
     \end{definicija}
 \end{frame}

@@ -81,9 +81,10 @@ dolžine največ $D$, nam omogoča zapis matrične enačbe, kateri
 morajo Mooreovi grafi zadoščati. 
 
 Matrika izpeljana rekurzivno s predpisom 
-$G_{\Delta, D} = A G_{\Delta, D - 1} - (\Delta - 1) G_{\Delta, D - 2}$,
+$G_{\Delta, i} = A G_{\Delta, i - 1} - (\Delta - 1) G_{\Delta, i - 2}$
+($2 \le i \le D$),
 $G_{\Delta, 1} = A + I$, $G_{\Delta, 0} = I$, kjer je $A$ matrika sosednosti
-grafa, namreč meri število poti dolžin največ $D$ med poljubnima 
+grafa, namreč meri število poti dolžin največ $i$ med poljubnima
 vozliščema. 
 O tem se prepričamo tako, da opazimo, da matrika $A^k$ meri število sprehodov dolžine 
 $k$ med poljubnima vozliščema. Za razliko od poti, pa sprehodi lahko 
@@ -100,11 +101,11 @@ kjer je $J$ matrika samih enic.
 Za primer ko je premer grafa enak $D=2$ dobimo enačbo 
 $A^2 + A - (\Delta - 1) I = J$. Prek nje pa omejitve za 
 lastne vrednosti in posledično tudi 
-omejitve za možne maksimalne stopnje Moorejevih grafov. 
+omejitve za možne maksimalne stopnje Mooreovih grafov.
 Tako se izkaže, da so možne stopnje za premer $D=2$ enake 
 $\{2, 3, 7, 57\}$. 
 \newline 
-Moorevi grafi s stopnjami $2, 3$ in $7$ so pentagon, Petersonov graf
+Mooreovi grafi s stopnjami $2, 3$ in $7$ so petkotnik, Petersenov graf
 ter Hoffman-Singeltonov graf. Obstoj grafa stopnje $57$ 
 pa je še vedno odprto vprašanje.
 
@@ -112,8 +113,8 @@ pa je še vedno odprto vprašanje.
 Zahtevke o omejenem premeru, maksimalni stopnji, regularnosti, 
 ožini\\ so kar "močne". Zato so Mooreovi grafi zelo redki. Preprosti 
 poizkusi konstrukcij s pohlepnimi algoritmi seveda običajno spodletijo. 
-Tako je na primer mogoče Petersonov graf zgraditi s takšnim
-algoritmom, medtem ko Hoffman-Singeltonov graf zahteva bolj
+Tako je na primer mogoče Petersenov graf zgraditi s takšnim
+algoritmom, medtem ko Hoffman-Singletonov graf zahteva bolj
 sofisticirano konstrukcijo. 
 
 Nekateri avtorji so zato predlagali analize "blizu" ~Mooreovih grafov, 
