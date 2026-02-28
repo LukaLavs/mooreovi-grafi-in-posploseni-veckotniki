@@ -12,6 +12,7 @@
 *.cb2
 *.xmpdata
 *.xmpi
+*ERROR
 
 ## Intermediate documents:
 *.dvi
