@@ -36,7 +36,11 @@
 % - povzetek v slovenščini
 %   V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga
 %   organizacije dela, torej v katerem razdelku je kaj, pač pa le opis vsebine.
-\povzetek{prostor za povzetek}
+\povzetek{
+    V tej diplomski nalogi bomo predstavili Mooreeve grafe, navedli njihove lastnosti, 
+    pokazali povezavo z kletkami, predstavili njihove konstrukcije ter končali s povezavo
+    o posplošenih večkotnikih in goemetrijah.
+}
 
 % - povzetek v angleščini
 \abstract{...}
@@ -71,7 +75,9 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{import}
-
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{calc, decorations.pathreplacing}
 
 % deklarirajte vse matematične operatorje, da jih bo LaTeX pravilno stavil
 % \DeclareMathOperator{\...}{...}
@@ -91,16 +97,668 @@
 \newcommand{\IIwd}[2]{#1 \;\II^D\; #2}
 \newcommand{\PP}{\mathcal{P}}
 \newcommand{\LL}{\mathcal{L}}
+\newcommand{\PG}{\mathrm{PG}}
+\newcommand{\GF}{\mathrm{GF}}
+\newcommand{\GQ}{\mathrm{GQ}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\sled}{\operatorname{sl}}
+\newcommand{\aut}{\operatorname{Aut}}
+\newcommand{\id}{\operatorname{id}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% https://fran.si/135/epravopis-slovenski-pravopis/4415248/moore?View=1&Query=moore
+% 	EDNINA	DVOJINA	MNOŽINA
+% imenovalnik	Moore	Moora	Moori
+% rodilnik	Moora	Moorov	Moorov
+% dajalnik	Mooru	Mooroma	Moorom
+% tožilnik	Moora	Moora	Moore
+% mestnik	pri Mooru	pri Moorih	pri Moorih
+% orodnik	z Moorom	z Mooroma	z Moori
+
 \begin{document}
+
+
+\section{Uvod v teorijo grofov}
+
+\section{Mooreovi grafi}
+% definicija, slike
+Mooreovi grafi so ekstremalni grafi, ki glede na dan premer ter dano 
+maksimalno stopnjo dosežejo maksimalno število vozlišč. Leta 1960 sta jih tako 
+poimenovala Hoffman in Singelton po Edwardu F. Mooru, ki je prvi zastavil vprašanje o 
+opisu in klasifikaciji teh struktur.
+
+\begin{definicija}\label{def:moore}
+Naj bo $G$ graf s premerom $D$ ter maksimalno stopnjo $\Delta$.
+Pravimo, da je $G$ Mooreov graf, če njegovo število vozlišč doseže zgornjo teoretično mejo:
+\begin{equation}\label{eq:moorebound}
+    |V| = 1 + \Delta + \Delta (\Delta - 1) + \ldots + \Delta (\Delta - 1)^{D - 1}.
+\end{equation}
+V nadaljevanju bomo simbola $D$ in $\Delta$ vselej uporabljali za označevanje parametrov 
+Mooreovega grafa.
+\end{definicija}
+
+\begin{opomba}
+Vrednost v enačbi~\ref{eq:moorebound} imenujemo Mooreova meja. Njen pomen postane jasen, 
+če opazujemo strukturo grafa iz izbranega vozlišča $v \in V$:
+na razdalji $1$ od $v$ je največ $\Delta$ sosedov, na vsaki naslednji razdalji $i$ 
+(kjer $1 < i < D)$ pa ima vsako vozlišče na voljo največ $\Delta - 1$ sosedov,
+ki niso bili obiskani v prejšnjih korakih.
+Mooreov graf je torej tisti mejni primer, kjer se veje sosedstva nikoli ne prekrivajo 
+dokler ne dosežemo premera $D$. 
+\end{opomba}
+
+\begin{trditev}\label{tr:mooreregularpaths}
+Mooreov graf je regularen stopnje $\Delta$, njegova ožina je enaka ${2D+1}$,
+ter za poljubni dve vozlišči $u$ in $v$
+velja, da med njima obstaja natanko ena najkrajša pot (dolžine največ~$D$).
+\end{trditev}
+
+\begin{figure}[ht]\label{fig:mooretree}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.9\textwidth}{!}{%
+        \import{../../assets/}{moore-bound.tex}
+    }
+    \caption{Lokalna struktura Moorejevega grafa.}
+\end{figure}
+
+
+\begin{dokaz}
+V Mooreevem grafu izberimo poljubno vozlišče $v$, če je stopnja tega vozlišča 
+manjša od $\Delta$, potem Mooreova meja ne more biti dosežena, saj velja: 
+\[|V(G)| \leq 1 + \deg(u)(\Delta - 1) + \ldots + \deg(u) (\Delta - 1)^{D - 1}.\]
+
+
+Hkrati se o enoličnosti najkrajše poti prepričamo tako, da iz poljubnega vozlišča $v$
+tvorimo inducirano drevo (kakor je prikazano na sliki~\ref{fig:mooretree}). To drevo je
+očitno tudi drevo najkrajših poti (in sicer enolično).
+
+Neposredno iz konstrukcije Mooreeve meje (glej~\ref{fig:mooretree}) je razvidno tudi,
+da je ožina Mooreovega grafa enaka $g=2D+1$. Krajših ciklov v grafu ni.
+\end{dokaz}
+
+
+V nadaljevanju bomo zasledili, da so Mooreovi grafi deležni številnih dodatnih
+omejitev, kar bo utemeljilo tudi njihovo redkost, namreč Mooreovi grafi obstajajo
+zgolj za omejene nabore parametrov $D$ in $\Delta$.
+
+\subsection{Lastnosti Mooreovih grafov}
+
+\subsubsection{Matrična enačba Mooreovih grafov}
+
+%citiraj izpeljavo iz uvoda v teorijo
+Naj bo $A$ sosednostna matrika Mooreovega grafa stopnje $\Delta$. 
+Definirajmo matriko $G^{\Delta, i}$ 
+tako, da njeni elementi $G^{\Delta, i}_{uv}$ podajo število poti  
+dolžine največ $i$ med $u$ in $v$. Ker so edine poti dolžine $0$ vozlišča sama, 
+velja $G^{\Delta, 0} = \II$, za poti dolžine največ $1$ pa $G^{\Delta, 0} = A + \II$.
+Produkt $AG^{\Delta, i-1}$ prešteva sprehode dolžine največ $i$, ki jih dobimo tako, 
+da potem dolžine $(i-1)$ dodamo še en korak. Pri tem upoštevamo, da se nekateri
+sprehodi iz $(i-1)$~-tega nivoja vrnejo nazaj v nivo $(i-2)$.
+Ker je Mooreov graf $\Delta$~-regularen, za vsak par vozlišč $(u, v)$ obstaja natanko
+$(\Delta - 1)G^{\Delta, i-2}_{uv}$ takšnih sprehodov, ki niso poti in jih je treba 
+odšteti.
+
+\begin{trditev}\label{tr:moorematrix}
+Sosednostna matrika Mooreovega grafa zadošča naslednji rekurzivni matrični enačbi:
+\begin{equation}
+\begin{cases} 
+G^{\Delta, 0} = I \\
+G^{\Delta, 1} = A + I \\
+G^{\Delta, i} = A G^{\Delta, i-1} - (\Delta-1) G^{\Delta, i-2} & \text{za } 2 \leq i \leq D
+\end{cases}
+\end{equation}
+\end{trditev}
+
+% Tu lahko rečeš da dodatno ta enačba celo posplošuje na grafe z defektom delta.
+
+\subsection{Izrek Hoffman-Singeltona}
+Naj bo premer $D$ enak $2$, ter stopnja $\Delta$ večja od $1$. Tedaj za matriko 
+sosednosti Mooreovega grafa (po trditvi \ref{tr:moorematrix}) velja:
+\begin{equation}\label{eq:moorematrix2}
+A^2 + A - (\Delta-1)\II = J,
+\end{equation}
+kjer je $\II$ identiteta in $J$ matrika samih enic.
+Iz definicije~\ref{def:moore} je razvidno, da je red Mooreovega grafa enak
+$\Delta^2 + 1$. Velja tudi, da je Mooreov graf premera $2$ krepko regularen 
+s parametri $(\Delta^2 + 1, \Delta, 0, 1)$, kar pomeni, da je vsak par sosednjih vozlišč 
+povezan z $0$ skupnimi sosedi, vsak par nesosednjih vozlišč pa je povezan z $1$ skupnim sosedom.
+
+Matrika $J$ je dimenzije $(\Delta^2 + 1) \times (\Delta^2 + 1)$, 
+ker velja $J\mathbf{1} = (\Delta^2 + 1)\mathbf{1}$, je $(\Delta^2 + 1)$ njena 
+lastna vrednost in $\mathbf{v_1} = \mathbf{1}$ njen lastni vektor. 
+Ker je $\rank(J) = 1$ je njena večkratnost enaka $1$, ostale
+lastne vrednosti so tako enake $0$, 
+po izreku o rangu in ničelnosti \cite{enwiki1344320194}, z večkratnostjo $\Delta^2$,
+za lastne vektorje 
+$(\mathbf{v}_2, \ldots, \mathbf{v}_{\Delta^2}) = (\mathbf{e}_1 - \mathbf{e}_2, \ldots, \mathbf{e}_1 - \mathbf{e}_{\Delta^2 + 1})$.
+
+Z množenjem matrične enačbe~\ref{eq:moorematrix2} z lastnimi vektorji $\mathbf{v}_i$ dobimo naslednji dve enačbi:
+
+\begin{align}
+x^2 + x - (\Delta - 1) = \Delta^2 + 1 \label{eq:karakteri1}\\
+x^2 + xrep - (\Delta - 1) = 0 \label{eq:karakteri2}
+\end{align}
+
+
+Iz enačbe~\ref{eq:karakteri1} dobimo lastno vrednost $\Delta$ z večkratnostjo $1$,
+Iz enačbe~\ref{eq:karakteri2} pa dobimo dve lastni 
+vrednosti $r$ in $s$ enaki $(-1 \pm \sqrt{4\Delta - 3})/2$, z večkratnostjo $a$ in $b$, 
+kjer $1 + a + b = 1 + \Delta^2$.
+Ker je sled matrike sosednosti vedno enaka $0$, in ker velja 
+$\sled(A) = \sum_{\lambda \text{ je lastna vr.}} \lambda$,
+je $\Delta + a r + b s = 0$.
+
+Če sta $r$ in $s$ iracionalni števili je $a = b$, potem 
+$\Delta + a r + b s = 0 \implies \Delta - \Delta^2 / 2 = 0 \implies \Delta = 2$.
+Sicer pa sta $r$ in $s$ celi števili, namreč $4\Delta - 3$ je vedno liho število, zato 
+je tudi njegov koren vedno lih. Tako nastavimo $4\Delta - 3 = m^2$ za nek $m \in \ZZ_+$, 
+oziroma $\Delta = \frac{m^2 + 3}{4}$, od tod dobimo pa dobimo: 
+$\Delta + a r + b s = 0 \implies m^5 + m^4 + 6m^3 - 2m^2 + 9m - 15 = 0$.
+Ker ima slednji polinom celoštevilske koeficiente, so po izreku o 
+celoštevilskih ničlah~\cite{enwiki1346919033}, njegove rešitve deljitelji števila $15$,
+torej $m \in \{1, 3, 5, 15\}$, kar nam da možne rešitve za $\Delta$ enake $\{1, 3, 7, 57\}$.
+
+Po trditvi~\ref{tr:stronglyregular} sta $a$ in $b$ enaka 
+$\frac{1}{2} [\Delta^2 \mp \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$.
+
+\begin{izrek}[Hoffman-Singeltonov izrek]\label{iz:hoffmansingeltonizrek}
+    Mooreovi grafi z premerom $D = 2$ in stopnjo $\Delta > 1$ obstajajo le za $\Delta \in \{2, 3, 7, 57\}$.
+    Njihove lastne vrednosti so $\Delta$ z večkratnostjo $1$, 
+    $\frac{1}{2}(-1 + \sqrt{4\Delta - 3})$ z večkratnostjo 
+    $\frac{1}{2} [\Delta^2 - \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$, ter 
+    $\frac{1}{2}(-1 - \sqrt{4\Delta - 3})$ z večkratnostjo
+    $\frac{1}{2} [\Delta^2 + \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$.
+\end{izrek}
+
+% lambda=0 mu=1
+
+\begin{definicija}
+Graf $G$ je krepko regularen s parametri $(n, k, \lambda, \mu)$, če je
+$G$ regularen stopnje $k$ na $n$ vozliščih, ter če imata poljubni dve sosedni 
+vozlišči natanko $\lambda$ skupnih sosedov, medtem ko imata poljubni dve 
+nesosednji vozlišči natanko $\mu$ skupnih sosedov.
+\end{definicija}
+
+\begin{trditev}\label{tr:stronglyregular}
+    Za krepko regularen graf s parametri $(n, k, \lambda, \mu)$ in njegovo matriko 
+    sosednosti veljajo naslednje lastnosti:
+    \begin{itemize}
+        \item $(n - k - 1)\mu = k(k - \lambda - 1)$
+        \item $AJ = JA = kJ$
+        \item $A^2 = kI + \lambda A + \mu (J - I - A)$
+        \item Njegove lastne vrednosti so $k$ z večkratnostjo $1$, \\
+        $[(\lambda - \mu) + \sqrt{(\lambda-\mu)^2 + 4(k-\mu)}]/2$ z večkratnostjo 
+        $[(n-1) - \frac{2k+(n-1)(\lambda-\mu)}{\sqrt{(\lambda-\mu)^2 + 4(k-\mu)}}]/2$, ter \\
+        $[(\lambda - \mu) + \sqrt{(\lambda-\mu)^2 + 4(k-\mu)}]/2$ z večkratnostjo
+        $[(n-1) + \frac{2k+(n-1)(\lambda-\mu)}{\sqrt{(\lambda-\mu)^2 + 4(k-\mu)}}]/2$
+    \end{itemize}
+\end{trditev}
+
+
+
+
+
+
+% \subsubsection{Izrek Hoffman-Singletona}
+
+% Omejimo se sedaj na problem premera $D=2$ ter stopnje $\Delta > 1$. Tedaj za 
+% za matriko sosednosti Mooreovega grafa velja:
+% \begin{equation}\label{eq:moorematrix}
+% A^2 + A - (\Delta-1)\II = J,
+% \end{equation}
+% kjer je $\II$ identiteta in $J$ matrika samih enic.
+
+% Ker Mooreov graf dosega Mooreovo mejo, je njegov red enak $\Delta^2 + 1$ \ref{eq:moorebound}.
+% Posledično  tudi $A \in \{0, 1\}^{(\Delta^2 + 1) \times (\Delta^2 + 1)}$.
+
+% Preko dane matrične enačbe lahko izračunamo spektralno polje incidenčne
+% matrike $A$. Ker je karakteristični polinom za matriko $J$ enak 
+% $x^{\Delta^2}(x - (\Delta^2 + 1))$, sledijo naslednje enačbe:
+% \begin{align}
+% x^2 + x - (\Delta - 1) = \Delta^2 + 1 \label{eq:karakteristicna1}\\ 
+% x^2 + 1 - (\Delta - 1) = 0 \label{eq:karakteristicna2}
+% \end{align} 
+% Od koder dobimo lastne vrednosti $\Delta$ (po \eqref{eq:karakteristicna1})
+% večkratnosti 1, ter lastni vrednosti $r$ in $s$ enaki 
+% $(-1 \pm \sqrt{4\Delta - 3})/2$. Več o večkratnosti lastnih vrednosti 
+% $r$ in $s$ pa nam podata enačbi $a + b = \Delta^2$ ter sled matrike, ki 
+% je enaka seštevku vseh lastnih vrednosti, po drugi strani pa 
+% je sled matrike sosednosti očitno enaka $0$, torej: 
+% $\Delta + a r + b s = 0$. 
+
+% Če sta $r$ in $s$ iracionalni števili je $a = b$ ter $\Delta = 2$, 
+% sicer pa sta $r$ in $s$ celi števili, torej $4\Delta - 3 = m^2$ za nek 
+% $m \in \ZZ_+$. Ob substitucijah $a = \Delta^2 - b$ in 
+% $\Delta = \frac{m^2 + 3}{4}$ sledi:
+% \begin{align}
+% \Delta + a r + b s &= 0 \\
+% \Leftrightarrow \\
+% \frac{m^2 + 3}{4} + \left(\left(\frac{m^2 + 3}{4}\right)^2 - b\right) 
+% \frac{-1 + m}{2} + b \frac{-1 - m}{2} &= 0 \\
+% \Leftrightarrow \\
+% \frac{m^5}{32} + \ldots + \left(\frac{3}{4} - \frac{9}{32}\right)  &= 0\\
+% \Leftrightarrow \\
+% m^5 + \ldots + 15 &= 0
+% \end{align}
+
+% Preden nadaljujemo si oglejmo pomemben rezultat linearne algebre.
+
+% \begin{izrek}[Izrek o celoštevilskih ničlah]
+% Naj bo $p = a_n x^n + \ldots + a_0$ polinom z celimi koeficienti, kjer 
+% je vodilni koeficient neničelen. Če ima polinom celoštevilsko ničlo $q$,
+% potem $q$ deli $a_0$.
+% \end{izrek}
+
+% \begin{dokaz}
+% Ker je $q$ ničla polinoma $p$ velja $p(q) = a_n q^n + \ldots + 
+% a_0 = 0$. Po preureditvi dobimo $a_0 = -(a_n q^n + \ldots + a_1 q)$.
+% Ker je desna stran deljiva z $q$ je z $q$ deljiv tudi $a_0$.
+% \end{dokaz}
+
+% Ker ima enačba $x^2 + 1 - (\Delta - 1) = 0$ cele koeficiente so njene 
+% racionalne rešitve nujno cele (po izreku).
+% S tem rezultatom, ter z upoštevanjem, da je $m$ pozitivno celo število, 
+% lahko sedaj razberemo, da so možne rešitve za $m$ enake 
+% $\{1, 3, 5, 15\}$ kar so tudi deljitelji števila 15. Posledično 
+% so kandidati za $\Delta$ enaki $\{1, 3, 7, 57\}$. (Utemelji še, da
+% so koeficienti naračunane enačbe v $m$ res celi, in smo smeli 
+% uporabiti izrek. Ter povej da sta to dokazala hoffman in singelton in tako začela
+% razglabljanje o mooreovih grafih, citiraj originalni dokaz.)
+
+
+
+
+\subsection{Obstoj Mooreovih grafov}
+% navedi povzetek vseh ki obstajajo potem pa podrobneje v podpoglavjih
+
+\subsubsection{Hoffman-Singeltonov graf}
+
+\subsubsection{Graf valence 57}
+Obstoj Mooreovega grafa stopnje $\Delta = 57$ in premera $D = 2$ je še 
+vedno odprto vprašanje. Vemo pa, da po definiciji Mooreovega grafa~\ref{def:moore},
+tak graf, 
+če obstaja $3250$ vozlišč. 
+Po izreku Hoffman-Singeltona~\ref{iz:hoffmansingeltonizrek} pa tudi, 
+da je stopnje $57$, da ima ožino $5$, ter
+da so njegove lastne vrednosti $57$, $7$ in $-8$ z 
+večkratnostmi $1$ ter $1729$ in $1520$.
+
+Iz meje za neodvisno število $\alpha$ (moč neodvisne množice), ki jo 
+podaja~\citeauthor{haemers2021hoffman}, ki pravi, da za $k$-regularni graf reda $n$ velja 
+$\alpha \leq n \frac{-\lambda_{\min}}{\lambda_{\max} - \lambda_{\min}}$,
+kjer je $\lambda_{\max}$ največja lastna vrednost, ter $\lambda_{\min}$ najmanjša lastna vrednost,
+dobimo, da je neodvisno število tega grafa manjše ali enako $400$.
+
+Predstavimo še trditev, ki jo je po govoricah ?? sam izrekel svojim študentom, ki pravi, 
+da graf valence $57$, če obstaja, ne more biti vozliščno tranzitiven, 
+kar pomeni, da ne more imeti simetrije, ki bi omogočala, da se katerokoli vozlišče preslika v 
+katerokoli drugo vozlišče. To ga loči od ostalih treh Mooreovih grafov, ki so vsi vozlično tranzitivni.
+
+\begin{trditev}
+Graf valence $57$, če obstaja, ni vozlično tranzitiven.
+Glej vira \citeauthor{higman1964finite} in \citeauthor{aschbacher1971nonexistence}. NEDOKONČANO.
+\end{trditev}
+
+
+
+\begin{dokaz}
+    Dokaz bomo izvedli z metodo \emph{reductio ad absurdum}.
+    Predpostavimo, da je graf valence $57$ vozliščno tranzitiven.
+    Ker je krepko regularen s parametri $(3250, 57, 0, 1)$,
+\end{dokaz}
+
+\subsection{Neobstoj preostalih Mooreovih grafov}
+
+
+\section{Razširitev Mooreovih grafov}
+% povezovalec, definicija, opomba pri definiciji da se ujema s prejšnjo
+
+Za Mooreov graf velja, da ne le doseže maksimalno število vozlišč za dano maksimalno
+stopnjo $\Delta$ ter premer $D$, temveč tudi doseže minimalno število vozlišč za dano
+minimalno stopnjo $\Delta$ ter ožino $g=2D + 1$. Spodnjo mejo za število vozlišč za graf
+z dano minimalno stopnjo $\Delta$ in ožino $g$ lahko naravno razširimo tudi za sode ožine.
+
+Začnimo z dvema povezanima vozliščema $u$ in $v$, ko začnemo potovati iz vozlišča $u$ v eno smer
+ter z vozlišča $v$ v drugo, se ti poti ne smeta srečati pred $k-1$ koraki -- namreč to bi vodilo 
+v protislovje z izbrano ožino $g=2k$, ker pa minimiziramo število povezav predpostavimo, da se 
+poti stakneta na $k$-tem koraku. Tako smo začeli z ničelnim nivojem, kjer smo imeli dve vozlišči $u$ 
+in $v$, v prvem nivoju smo tako imeli $2(k - 1)$ novih vozlišč, saj je minimalna stopnja enaka $k$,
+ter zaradi minimiziranja števila vozlišč je graf $k$ regularen. V $i$-tem nivoju imamo $2(k-1)^i$ 
+vozlišč. Tako smo izpeljali spodnjo mejo enako 
+$2\sum_{i=0}^{k-1} (k - 1)^i = 2\frac{(\Delta-1)^k - 1}{k - 2}$.
+
+\begin{trditev}\label{tr:transition}
+Naj bo $G$ regularen graf stopnje $\Delta$, ter z dolžino 
+najkrajšega cikla, oziroma ožino, $g$. Tedaj obstaja spodnja meja 
+za red grafa $G$ ter je enaka:
+\begin{equation} %V opisu diplomske naloge je bila napaka.%
+    |V(G)| \geq \begin{cases}
+    \frac{\Delta(\Delta - 1)^{(g-1)/2}}{\Delta - 2}, & g \text{ je liha} \\
+    \frac{2(\Delta - 1)^{g/2} - 2}{\Delta - 2}, & g \text{ je soda}
+    \end{cases}
+\end{equation}
+\end{trditev}
+
+V nadaljevanju vzemimo trditev~\ref{tr:transition} kot razširitev Moorevih grafov, pravimo 
+da so tudi grafi, ki za dano ožino $g$ ter minimalno stopnjo $\Delta$ dosežejo minimalno število 
+vozlišč, Mooreovi oziroma razširjeno Mooreovi. 
+
+%1.
+Mooreovi grafi sode ožine so dvodelni po konstrukciji, namreč lahko si predstavljamo, da smo pot iz 
+vozlišča $u$ polagali izmenično (glede na nivoje (recimo ali so sodi ali lihi)) 
+neko množico $A$ in $B$, pot iz vozlišča $v$ pa ravno obratno. Vozlišča iz zadnjega 
+nivoja ne smejo biti povezana z vozlišči zadnjega nivoja iste množice, saj bi sicer ustvarili manjše 
+cikle. Po konstrukciji so tudi regularni stopnje $d$.
+% NUJNO: Vstavi sliko, ki to vizualizira
+
+%2. !!!!!!!!!!!!
+da poljubna dva elementa ene particije (npr. premici) nista
+ hkrati incidentna z več kot enim elementom druge particije (točko).
+
+%3. 
+Njegov premer je enak $d$.
+
+Te lastnosti pa se ujemajo z definicijo posplošenega večkotnika, ki jo poda 
+\citeauthor{fresan2021packing}; ter tudi z definicijo šibkega (vključojoč 
+degenerirane primere) posplošenega večkotnika
+glede na terminologijo avtorja \citeauthor{van2012generalized}.
+% Lahko bi začel: "se ujema z definicijo šibkega posplošenega večkotnika avtorja
+% ... kar pa bomo za naše namene imenovali kar posplošeni večkotnik (zanimajo nast tudi
+% degenerirani primeri)
+\begin{definicija}
+Posplošeni večkotnik je incidenčna struktura drugega ranga $(\PP, \LL, \II)$,
+za katero velja:
+\begin{enumerate}
+    \item Obstaja naravno število $q\geq 1$ 
+\end{enumerate}
+\end{definicija}
+
+
+\subsection{Posplošeni večkotniki}
+% TODO: Nujno vključi 1.5.4 Lemma. iz Gheld knjige, ki govori o |L|, |P|, ...
+% TODO: 1.7.1 Theorem (Feit & Higman [1964]). pokaže n=3 -> projektivne ravnine in n=12 -> (1,1)
+% TODO: 1.7.2 Theorem. meje za s in t. (s <= t**2, ...)
+% TODO: 1.7.7 Remark, govori o tem kako je del kvadrat pri projektivnih ravninah ...
+
+% Naj bo L množica premic in P množica točk, posplošeni večkotnik je definiran kot ...  
+% širše gledano gamma = (P, L, I) predstavlja geometrijo drugega ranga, ... 
+
+% intuativna def: premer grafa je natanko n, ožina je natanko 2n, 
+\begin{definicija}
+    Preslikava $f: G \to G$ je endomorfizem, če ohranja sosednost.
+    Torej, če velja:
+    \[uv \in E(G) \implies f(u)f(v) \in E(f(G)).\]
+\end{definicija}
+
+\begin{definicija}
+    Če točka $p \in \PP$ leži na premici $l \in \LL$ potem paru $\{p, l\}$ pravimo komora.
+    Dve komori sta si sosednji, če se razlikujeta zgolj v enem elementu. Galerija je zaporedje
+    prehodov med komorami. Galerija je minimalna če je najkrajša pot.  
+\end{definicija}
+
+
+\begin{izrek}[Feit-Higmanov izrek]
+    Naj bo $S$ končni posplošeni $n$-kotnik z $s + 1$ točkami na vsaki premici 
+    ter $t + 1$ premicami na vsaki točki. Potem je $s = t = 1$ in $S$ je običajni večkotnik, 
+    ali pa je $n \in \{2,3,4,6,8,12\}$. Če sta $s, t > 1$ potem je $n \in \{2, 3, 4, 6, 8\}$,
+    in če je $n\in\{3,6\}$ je $st$ kvadrat, in če $n=8$ je $2st$ kvadratno število.
+    % običajni je mišljen kot navaden, sicer pa thick.
+\end{izrek}
+\begin{opomba}
+    Izrek sta leta 1964 dokazala \textcite{feit1964nonexistence}, alternativni dokaz sta 
+    kasneje podala tudi \textcite{kilmoyer1973theorem}. Velja tudi, da so posplošeni $3$~-kotniki
+    natanko projektivne ravnine. 
+    Iz izreka sledi tudi to, da posplošeni osem-kotniki niso regularni, saj 
+    $2st$ ni kvadratno število, če sta $s$ in $t$ večja od $1$. 
+    Sicer ($\sqrt{2ss} = \sqrt{2}s \notin \ZZ$).
+\end{opomba}
+
+% Mogoče še kaj o posplošenem digonu
+\subsubsection{Projektivne ravnine}
+
+\begin{definicija}[Projektivna ravnina]
+    Projektivna ravnina je incidenčna struktura drugega ranga $(\PP, \LL, \II)$ 
+    sestavljena iz množice točk $\PP$, množice premic $\LL$ ter incidenčne relacije
+    $\II \subset \PP \cup \LL$, ki zadostuje naslednjim lastnostim:
+    \begin{itemize}
+        \item Za dve različni točki obstaja natanko ena premica, ki je incidenčna z obema.
+        \item Za dve različni premici obstaja natnako ena točka, ki je z njima incidenčna.
+        \item Obstajajo štiri take točke, da nobena premica ni incidenčna z več kot dvema izmed njih.
+    \end{itemize}
+\end{definicija}
+
+\begin{izrek}[Bruck-Ryserjev izrek]
+    Če je projektivna ravnina končna, obstaja število $N$, da vsaka premica vsebuje $N+1$ točk, 
+    in je vsaka točka vsebovana v $N+1$ premicah. Če je $N \equiv 1$ ali $2 \mod 4$, ter če
+    brezkvadratni del števila $N$ vsebuje vsaj en prafaktor oblike $4k + 3$, potem ne obstaja
+    končna projektivna ravnina z $N+1$ točkami na premici \cite{bruck1949nonexistence}. Po 
+    Fermatovem izreku o vsoti dveh kvadratov \cite{enwiki1319561489} je pogoj s prafaktorjem ekvivalenten temu,
+    da je brezkvadratni del vsota dveh kvadratov.
+\end{izrek}
+
+\begin{definicija}[Galoisovo polje]
+    Galoisovo polje je množica s končnim številom elementov $s$, v kateri veljajo operacije
+    seštevanja, odštevanja, množenja in deljenja (razen z ničelnim elementom). 
+    Označeno ga z $\GF(s)$. Obstaja natanko takrat ko je $s=p^n$ za poljubno praštevilo $p$ in 
+    naravno število $n$. 
+\end{definicija}
+
+\begin{opomba}
+    Če je $p$ praštevilo je $\GF(p) = \mathbb{Z}_p := \{0, 1, 2, \dots, p - 1\}$. 
+    Dodatno je $\GF(p^n) = \{a_{n-1}x^{n-1} + \dots + a_1x + a_0 \mid a_i \in \GF(p)\}$ 
+    množica polinomov, kjer množenje definiramo tako, da računamo v modulu nerazcepnega polinoma
+    $P(x)$ stopnje $n$ (torej polinom, ki se ga v $\GF(p^n)$ ne da razbiti na produkt drugih).
+    Tako velja $\GF(p^n) \cong \GF(p)[x] \,/\, \langle P(x) \rangle$.
+\end{opomba}
+
+\begin{definicija}
+    TODO: Ta definicija povzroči zmedo, bolje definirati PG(k, K) bolj abstraktno in PG(2, K) bolj detajlno.
+Projektivni prostor dimenzije $k$ ter reda $q=p^n$ označena s $\PG(k, q)$ obstaja za vse 
+$k>2$ ter vse $n$ in vsa praštevila $p$. Namreč lahko jih generiramo s pomočjo Galloisovih polj,
+kjer so točke $\PP = \{\langle \mathbf{x} \rangle \mid \mathbf{x} \in V \setminus \{0\}\}$, 
+kjer je $V = \GF(q)^{k+1}$ vektorsko polje nad $\GF(q)$, ter 
+$\langle \mathbf{x} \rangle = \{\lambda \mathbf{x} \mid \lambda \in \GF(q)\}$ (večkratnike 
+vektorja $\mathbf{x}$ smatramo kot enake). Premice pa so množica hiperravnin 
+$\LL = \{\mathbf{H}_{\mathbf{u} }\mid \mathbf{u} \in V \setminus \{0\}\}$, kjer je
+$\mathbf{H}_{\mathbf{u}} = \{\langle \mathbf{x} \rangle \in \PP \mid \mathbf{u}\cdot\mathbf{x} = 0\}$.
+Incidenčna relacija pa je nato definirana tako, da je točka $\langle \mathbf{x} \rangle$ 
+incidenčna z premico (hiperravnino) $\mathbf{H}_{\mathbf{u}}$, če je njun skalarni produkt enak nič:
+\[\II = \{(\langle \mathbf{x} \rangle, \mathbf{H}_{\mathbf{u}}) \in \PP \times \LL \mid
+\sum_{i=0}^{k} u_i x_i = 0\}.\]
+\end{definicija}
+
+\begin{definicija}
+    Projektivna ravnina je projektivni prostor dimenzije $k=2$.
+\end{definicija}
+
+\begin{trditev}
+    Vsaka projektivna ravnina je posplošeni trikotnik reda $(s, s)$ za nek $s \in \ZZ_+$.
+    Posledično je incidenčni graf vsake projektivne ravnine posplošeni mooreov graf stopnje
+    $s + 1$ in ožine $6$.
+\end{trditev}
+% Lahko še kaj o ~Dekastrovih "grših" projektivnih ravninah.
+
+\begin{definicija}[!!!!!!!]
+    Projektivni prostor dimenzije $k$ nad poljem $\mathbb{K}$ je definiran kot:
+    \[\PG(k, \mathbb{K}) = (V \setminus \{0\})/\sim,\]
+    kjer je $V = \mathbb{K}^{k+1}$ vektorski prostor, relacija $\sim$ pa pravi, da
+    sta vektorja $x$ in $y$ ekvivalentna, če obstaja $\lambda \in \mathbb{K} \setminus \{0\}$,
+    da je $y = \lambda x$. Točke so $\PP = \{\langle x \rangle \mid x \in V \setminus \{0\}\}$, kjer 
+    je $\langle x \rangle$ definiran kot prej. Premice pa so ravnine 
+    $\LL = \{\langle \alpha x + \beta y \rangle \mid \alpha, \beta \in \mathbb{K} \textit{ neničelna.}\}$
+    Incidenčna relacija je definirana glede na vsebovanost.
+\end{definicija}
+
+\begin{trditev}
+    Vse končne projektivne ravnine temeljijo na $K = \mathbb{F}_{p^n}$.
+    TODO: Glej Joseph Wedderburn
+    TODO: Check!
+\end{trditev}
+% VSAKA projektivna ravnina ki je zgrajena iz vektorskega prostora nujno zadošča
+% Desarguesovemu izreku.
+
+\subsubsection{Posplošeni štirikotniki}
+\begin{definicija}
+    Skladno z definicijo avtorja~\citeauthor{van2012generalized} je šibki posplošeni 
+    štirikotnik definiran kot geometrija $\Gamma = (\PP, \LL, \II)$, za katero velja:
+    \begin{enumerate}
+        \item Naj bo $\{p, L\}$ antizastava. Potem obstaja natanko ena zastava $\{q, M\}$,
+        za katero velja $p \II M \II L \II q$.
+        \item Vsaka točka leži na vsaj dveh, a ne vseh, premicah, in dualno, vsaka premica
+        nosi vsaj dve, a ne vse, točke.
+    \end{enumerate}
+    Geometrija $\Gamma$ je posplošeni štirikotnik, 
+    če drži prvi aksiom, je "thick" in vsebuje vsaj eno antizastavo.
+\end{definicija}
+
+% except for two particular families of generalized quadrangles, which however
+% have nothing to do with symplectic spaces. Glej T_2(O) in T_3(O) konstrukcija iz ovalov.
+% Ahrens-Szekeres AS(q) pa ni relevantna s not= t
+% Tip GQ,"Red (s,t)",Obstoj,Opomba za graf
+% W(q),"(q,q)",Vsi q=pn,Vedno obstaja.
+% "Q(4,q)","(q,q)",Vsi q=pn,Dual W(q). Isti graf le za q=2n.
+% T2​(O),"(q,q)",q=2n,Novi grafi za neklasične ovale.
+% Kantor/Roman,"(q,q)",q=pn,Eksotični neklasični grafi.
+% Wedderburnov izrek, ki pravi, da je vsak končni obseg nujno polje.
+% g je (σ,1)-linearnost pomen: g(a*v, w) = a^sigma g(v, w) in g(v, w*b) = g(v, w)*b
+% Wittov indeks w je dimenzija največjega podprostora, 
+% ki je v celoti izotropen (to pomeni, da je vsak vektor v 
+% tem podprostoru ortogonalen na vse ostale, vključno s samim seboj).
+% w=2: Največji izotropni objekti so premice
+!!!(bolj splošno): V projektivni ravnini se vsaki dve premici sekata. Da to preprečimo, uvedemo funkcijo $g(x, y)$,
+ki bo določala kateri vektorji so si sorodni (zožala bo vektorski prostor) \cite{introtogeneralized}.
+
+Naj bo $\mathbb{K}$ (komutativno) polje in obravnavajmo v $\PG(3, \mathbb{K})$, glede na 
+neko izbrano bazo, simplektično polarnost $\tau$, ki preslika točko $(y_0, y_1, y_2, y_3)$
+v ravnino z enabo
+\[y1 X_0 - y_0 X_1 + y_3 X_2 - y_2 X_3 = 0.\]
+Premico $L$ v $\PG{3, \mathbb{K}}$ imenujemo popolnoma izotropna, če velja $L^\tau = L$.
+Definirajmo naslednjo geometrijo $W(\mathbb{K})$:
+\begin{enumerate}
+    \item Točke $W(\mathbb{K})$ so točke $\PG(3, \mathbb{K})$,
+    \item Premice $W(\mathbb{K})$ so popolnoma izotropne glede na $\tau$.
+\end{enumerate}
+Pokazali bomo, da je $W(\mathbb{K})$ posplošeni štirikotnik, ter da se za $\mathbb{K} = \mathbb{F}_q$
+ujema z $\GQ(q, q)$ (!!!malo preveri, nadaljuj) \cite[str. ~63]{van2012generalized}.
+
+% 174, 240, 312
+
+
+
+% str. 15, 52, 94, 63
+\subsubsection{Posplošeni šestkotniki}
+
+% 1.3.12 The smallest generalized hexagon
+
+% posplošeni 8-kotniki pa niso regularni, in ne bodo mogli bit mooreovi!
+% oziroma so lahko regularni (glej Ree-Titson graf), ampak niso s=t.
+% prevedi Galoisovo polje v končno polje.
+
+
+\subsection{Algebraična konstrukcija posplošenih večkotnikov}
+
+
+
+\subsection{Obstoj razširjenih Mooreovih grafov sode ožine}
+
+\section{Sorodni problemi}
+
+\subsection{Mooreovi grafi z defektom}
+
+
+\subsection{Kletke}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OLD | 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Uvod}
 
 \section{Uvodne definicije}
+
+\begin{definicija}
+    Naj bosta $(G, \cdot)$ in $(H, \circ)$ grupi. 
+    Preslikava $h: G \to H$ je homomorfizem, če za vse $u$ in $v$ v $G$ velja
+    $h(u \cdot v) = h(u) \circ h(v)$. Od tod sledi, 
+    da $h(e_G) = e_H$, kjer je $e_G$ enota grupe $G$, ter $e_H$ enota grupe $H$ ter
+    da $h(u^{-1}) = h(u)^{-1}$ za vsak $u \in G$.
+    Če je $h$ bijektivna, potem pravimo, da je $h$ izomorfizem.
+    Dve grupi $(G, \cdot)$ in $(H, \circ)$  sta izomorfni, če obstaja izomorfizem
+    med njima, pišemo $(G, \cdot) \cong (H, \circ)$.
+\end{definicija}
+\begin{definicija}
+Avtomorfizem grafa $G$ je bijektivna preslikava $\sigma: V(G) \to V(G)$, ki ohranja sosednost, 
+torej $uv \in E(G) \implies \sigma(u)\sigma(v) \in E(G)$, oziroma v drugi notaciji 
+$u^\sigma v^sigma \in E(G)$. Torej avtomorfizem je izomorfizem grafa $G$ v samega sebe.
+Kompozitum dveh avtomorfizmov je zopet avtomorfizem, zato avtomorfizmi grafa $G$,
+pod operacijo kompozituma, tvorijo grupo, ki ji pravimo grupa avtomorfizmov 
+grafa $G$ in jo označujemo z $\aut(G)$.
+V grafu z $n$ vozlišči je $\aut(G) \subset S_n$, kjer je $S_n$ množica vseh permutacij $n$ elementov,
+tako velja tudi $|\aut(G)| \leq n!$.
+Naj bo dodatno $s \in \aut(G)$ tak, da $s^k = \id$ za nek $k \in \ZZ_+$. 
+Potem pravimo, da je $s$ avtomorfizem reda $k$. Posebno, če $k=2$ potem pravimo,
+da je $s$ involucija.
+\end{definicija}
+
+\begin{definicija}
+Graf $G$ je vozliščno tranzitiven, če je za poljubni vozlišči $u$ in $v$ obstaja avtomorfizem
+$\sigma \in \aut(G)$, da $\sigma(u) = v$. Torej grupa avtomorfizmov deluje tranzitivno na množici
+vozlišč grafa $G$.
+\end{definicija}
+
+\begin{definicija}
+    % https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers
+    Naj bo $G$ grupa, ki deluje na množico $X$. Orbita elementa $x \in X$ je množica
+    elementov iz $X$, v katere se $x$ lahko preslika z delovanjem elementov iz $G$.
+    Torej orbita elementa $x$ je množica $G \cdot x = \{g \cdot x \mid g \in G\}$.
+    Množico vseh orbit delovanja grupe $G$ na množici $X$ imenujemo 
+    kvocientna množica $X/G$. Označimo tudi $X/G_x = \{gG_x \mid g \in G\}$.
+\end{definicija}
+
+\begin{definicija}
+    Naj bo $G$ grupa, in $g$ njen element. Pravimo, da $x \in X$ fiksna točka elementa $g$,
+    če je $g \cdot x = x$. Množico vseh fiksnih točk elementov iz $G$, ki fiksirajo element $x$,
+    imenujemo stabilizatorska podgrupa $G$ elementa $x$, pišemo 
+    $G_x = \{g \in G \mid g \cdot x = x\}$.
+\end{definicija}
+
+\begin{izrek}[Izrek o orbitah in stabilizatorjih]
+    Naj bo $x \in X$ fiksen in naj bo $f: G \to X$ podana z $g \mapsto g \cdot x$. 
+    Potem je $f(G) = G \cdot x$ orbita elementa $x$ in 
+    $f^{-1}(x) = G_x$ stabilizatorska podgrupa elementa $x$.
+    Če velja $f(g) = f(h)$ potem je $h \in g G_x$ in obratno.
+    Preslikava $f$ inducira bijekcijo $G/G_x \leftrightarrow g\cdot x$.
+    % izrek se lahko uporabi za pomoč pri štetju avtomorfizmov,
+    % https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers
+\end{izrek}
+
+
+
 \begin{definicija}
 Naj bo $G = (V, E)$ graf, kjer je $V$ množica njegovih
 vozlišč, ter $E$ množica njegovih povezav. Red grafa $G$ je 
@@ -194,9 +852,14 @@ p(A)v = \left(\sum_{k} c_k A^k\right)v =
 
 \section{Moorejev graf}\label{sec:moorejev_graf}
 
+Mooreovi grafi so ekstremalni grafi, ki glede na dan premer ter dano 
+maksimalno stopnjo dosežejo maksimalno število vozlišč. Leta 1960 sta jih tako 
+poimenovala Hoffman in Singelton po Edwardu F. Mooru, ki je prvi zastavil vprašanje o 
+opisu in klasifikaciji teh struktur.
+
 \begin{definicija}
 Naj bo $G = (V, E)$ graf s premerom $D$ ter maksimalno stopnjo $\Delta$.
-Izberimo poljubno vozlišče $v \in V$. Če za njegov red velja
+Če je njegov red enak
 \begin{equation}
     |V| = 1 + \Delta + \Delta (\Delta - 1) + \ldots + \Delta (\Delta - 1)^{D - 1},
 \end{equation}
@@ -209,7 +872,7 @@ poljubnega grafa $P$, ki zadostuje maksimalni stopnji $\Delta$ ter premeru $D$.
 Za poljubno vozlišče $v$ grafa $P$ namreč velja, da je število vozlišč od $v$ 
 oddaljenih za $i$ največ toliko kot, če bi bilo vsako vozlišče razdalje $i-1$ 
 od $v$ povezano z nadaljnimi $\Delta - 1$ vozlišči, oziroma
-$\forall\; 0 \leq i \leq D:\;|N_{i}(v)| \leq |N_{i-1}(v)|(\Delta - 1)$. Induktivno
+$\forall\; 0 \leq i \leq D:\;|N_{i}(v)| \leq |N_{i-1}(v)|\cdot (\Delta - 1)$. Induktivno
 tako dobimo zgornjo mejo za red grafa $P$, ki je natanko enaka redu Moorejevega 
 grafa.
 \end{opomba}
@@ -238,22 +901,58 @@ je vsaka pot med dvema vozliščema dolžine $D$ enolična.
 \begin{posledica}\label{po:ozina}
 Po trditvi~\ref{tr:regularnost_in_omejitve_dolzine} v grafu s parametroma $(\Delta, D)$ 
 med poljubnima vozliščema
-$v$ ter $u$ obstaja največ ena najkrajša pot dolžine $D$. Posledično 
+$v$ ter $u$ obstaja največ ena najkrajša pot dolžine največ $D$. Posledično 
 obstaja tudi pot od $u$ do $v$ dolžine $D + 1$. Najkrajši cikel 
 v grafu je tako lahko napet na najmanj $D + (D + 1)$ vozlišč.
-Ožina Moorejevega grafa je torej enaka $g=2D + 1$.
+Ožina Moorejevega grafa je torej enaka $g=2D + 1$. !!!! utemeljitev ni vredu.
+
+V nadaljevanju bomo zasledili, da so Mooreovi grafi deležni številnih omejitev, 
+kar bo utemeljilo tudi njihovo redkost, namreč Mooreovi grafi obstajajo le za:
+\begin{align}
+\Delta = 1, D = 0; \text{graf $K_1$} \\
+&\Delta = 2, D \geq 1; \text{cikli $C_{2D + 1}$} \\
+&D = 2, \Delta \in \{1, 3, 7, 57\}; \text{grafi $P_2$, Petersenov graf, Hoffman-Singeltonov graf, neznani graf} \\
+\end{align}
 
 \end{posledica}
 
 %%%%%%%%%%%%%%%%%
 
-\subsection{Omejitve za Moorejeve grafe}
+\subsection{Omejitve lastnih vrednosti}
 
 Primer v katerem je premer $D = 1$ je trivialen, saj iz tega sledi,
 da je tudi $\Delta = 1$ ter edini Moorejev graf s takimi parametri enak 
 $P_2$. V nadaljnem torej predpostavimo $D, \Delta > 1$.
 
 Tu bi omenil splošen problem in splošno enačbo ... 
+\begin{trditev}
+Mooreevi grafi zadostujejo naslednji matrični enačbi:
+\begin{equation}
+\begin{cases} 
+G_{\Delta, 0} = I \\
+G_{\Delta, 1} = A + I \\
+G_{\Delta, i} = A G_{\Delta, i - 1} - (\Delta - 1) G_{\Delta, i - 2} & \text{za } i \geq 2
+\end{cases}
+\end{equation}
+\end{trditev}
+
+\begin{dokaz}
+    Bazna primera za $i = 0$ in $i = 1$ sta očitna, saj $G_{\Delta, 0}$ meri število poti
+    dolžine 0, torej je enaka identiteti, $G_{\Delta, 1}$ pa meri število poti dolžine
+    največ 1, torej je enaka $A + I$. Za indukcijski korak pa opazujmo, da 
+    $A G_{\Delta, i - 1}$ meri število poti dolžine največ $i$ med vozliščema $u$ in $v$,
+    vključujoč tudi tiste, ki se iz $i-1$ nivoja vrnejo nazaj v $i-2$-gi nivo. 
+    Ker pa je graf $G$ regularen stopnje 
+    $\Delta$ za vsako vozlišče obstaja natanko $(\Delta - 1) G_{\Delta, i -2}$ 
+    takih sprehodov, ki jih ustrezno odštejemo.
+\end{dokaz}
+
+\begin{opomba}
+    V posebnem primeru za premer $D=2$, Mooreev graf zadođča enačbi:
+    \[A^2 + A - (\Delta - 1) I = J,\]
+    kjer je $J$ matrika samih enic.
+\end{opomba}
+
 
 \begin{trditev}
 Za $A^k = (A^k_{u, v})_{u, v}$ velja:
@@ -524,6 +1223,9 @@ ter smo pokazali, da je enoličen.
 Avtor dokaza še nadaljuje ter pokaže, da je automorfizem grafa $H$ reda $50\cdot 7!$.
 
 \subsection{Poiskusi dokaza o obstoju oziroma neobstoju Moorejevega grafa valence 57}
+
+\subsection{Dokazi o neobstoju ostalih Mooreevih grafov}
+
 %%%%%%%%%%%%%%%%
 
 \section{Posplošitev Moorejeve meje}
@@ -555,7 +1257,10 @@ Izkaže se, da so $\Delta$-regularni grafi
 z ožino $g$, kateri izpolnijo spodnjo mejo za število vozlišč,
 natanko Moorejevi grafi za lihe $g$. Za sode $g$ pa so ravno 
 enaki incidenčnim grafom posplošenih večkotnikov reda $\Delta -1$,
-o katerih bomo razglabljali v naslednjih poglavjih.
+o katerih bomo razglabljali v naslednjih poglavjih. Dodatno lahko pripomnimo, 
+da grafom, ki dosežejo posplošeno Mooreevo mejo, pravimo \text{cage}, oziroma kletka, 
+splošneje $(k g)$-kletka je graf, ki doseže minimalno število vozlišč, med vsemi grafi z 
+maksimalno stopnjo $k$ in ožino $g$.
 \end{opomba}
 
 \begin{dokaz}
@@ -639,8 +1344,74 @@ graf je izomorfen ciklu $C_n$.
 \end{definicija}
 
 \begin{definicija}[Posplošeni večkotnik]
-    
+    Naj bo $n$ pozitivno celo število. Šibki posplošeni $n$-kotnik je geometrija
+    $\Gamma = (\PP, \LL, I)$ ranga 2, ki zadošča naslednjima pogojema:
+    \begin{enumerate}
+        \item $\Gamma$ ne vsebuje običajnega $k$~-kotnika (kot podgeometrijo) za $0 \leq k < n$.
+        \item Poljubna dva elementa iz $\PP \cup \LL$ sta vsebovana v nekem običajnem $n$~-kotniku
+        (kot podgeometrija) v $\Gamma$, \emph{amartmaju}.
+    \end{enumerate} 
+    Posplošeni $n$~-kotnik je šibki posplošeni $n$~-kotnik $\Gamma$, ki zadošča še dodatnemu pogoju:
+    \begin{enumerate}[resume]
+        \item V $\Gamma$ obstaja običajen $(n+1)$~-kotnik (kot podgeometrija).
+    \end{enumerate}, 
 \end{definicija}
+
+\begin{opomba}
+    Vsak običajen $n$~-kotnik je tudi šibki posplošen $n$~-kotnik. % 1.3.10 Van Maldeghem.
+\end{opomba}
+Če posplošene večkotnike raje gledamo z vidika incidenčnih grafov, potem 
+lahko zgornjo definicijo preoblikujemo na sledeč način.
+
+\begin{definicija}\label{def:posploseniveckotnikiincidencnigraf}
+    Naj bo $n$ pozitivno celo število. Incidenčni graf šibkih 
+    posplošenih $n$~-kotnikov zadošča naslednjima pogojema: 
+    \begin{enumerate}
+        \item Ožina grafa je natanko $2n$.
+        \item Premer grafa je natanko $n$.
+    \end{enumerate}
+    Graf $\Gamma$ je incidenčni graf posplošenega $n$~-kotnika, če zadošča še dodatnemu pogoju:
+    \begin{enumerate}[resume]
+        \item Stopnja vsakega vozlišča v $\Gamma$ je vsaj 3.
+    \end{enumerate}
+\end{definicija}
+
+% lahko bi tu omenil še Theorem 1.3.8 Let (V, X), V = VI U V2, be a spherical building of rank 2. 
+% Then r = (VI, V 2 , I) is a generalized polygon. Ampak v stavbe se ne bi poglabljal.
+
+\begin{trditev}[Projektivne ravnine so natanko posplošeni trikotniki]
+    Dokažimo ekvivalenco deficij takole:
+
+    Vzemimo posplošen trikotnik $\Gamma = (\PP, \LL, I)$, ter dokažimo, 
+    da je $\Gamma$ projektivna ravnina. Ker velja $n=3$, je ožina grafa 
+    $G$ incidenčnega grafa $\Gamma$ enaka 6, premer pa 3.
+    
+    Če sta $P_1$ in $P_2$ poljubni točki, je razdalja med njima v dvodelnem grafu
+    vedno soda. Ker je premer grafa enak 3, je razdalja med $P_1$ in $P_2$ 
+    natanko 2, torej obstaja črta $l$, ki je v relaciji z obema točkama. Če
+    bi obstajala še druga črta $l'$, ki je v relaciji z obema točkama, potem bi
+    v grafu $G$ obstajal cikel $C_4$, kar je v nasprotju z ožino $g=6$. 
+    S tem smo pokazali, da je aksiom 1. iz definicije projektivne ravnine zadovoljen.
+
+    Z enakem argumentom lahko pokažemo, da je tudi aksiom 2. iz 
+    definicije projektivne ravnine zadovoljen. Tu vidimo tudi, da je red 
+    vsake projektivne ravnine enak $(s, s)$, saj se točke in premice obnašajo 
+    v enakem številu, ter da je stopnja vsakega vozlišča enaka $s+1$.
+
+    Ker je stopnja vsakega vozlišča v $G$ vsaj 3, je tudi
+     aksiom 3. iz definicije projektivne ravnine izpolnjen, namreč (TODO: najlažje 
+     je razumeti vizualno).
+
+    Obratno, vzemimo projektivno ravnino $\Gamma = (\PP, \LL, I)$, ter dokažimo,
+    da je $\Gamma$ posplošen trikotnik. Ker je $\Gamma$ projektivna ravnina, velja, 
+    da je ožina njenega incidenčnega grafa ... TODO.
+
+
+
+\end{trditev}
+
+
+
 
 
 
@@ -680,6 +1451,38 @@ Dvig grafa $G$ z napetostno preslikavo $\alpha$ je graf $G^\alpha$, definiran ko
            e = uv \in D(G),\ g \in \Gamma \,\}$.
 \end{enumerate}
 \end{definicija}
+
+
+\section{Working on:}
+
+% Dynamic cage survey ima lepo definicijo, začni z definicijo kletke in mejo za vozlišča, 
+% in potem tisti ki jo dosežejo so moorevoi, označi jo z M(k=degree, g), no ampak tak graf
+% je regularen po definiciji, bi bilo treba predrugačiti trditev da itak so regularni tudi drugače
+% . Vsi mooreovi grafi so kletke. minimalen (k, g)-graf je kletka.
+
+% Regarding (v), it should be noted that the only known symmetric generalized n-gons
+% have prime power order.
+
+% To this day, Sachs’ result is the only constructive proof of the existence of (k, g)-graphs
+% for any set of parameters k > 2, g > 3 that is completely non-algebraic.
+
+% tista 5kotna zvezda se imenuje pentagram.
+
+% Če želiš konstruirati Moorev graf z ožino g=6, moraš konstruirati 
+% posplošen trikotnik (n=3). Posplošen trikotnik pa je v resnici le 
+% drugo ime za projektivno ravnino.
+
+% Levi graf je drugo ime za incidenčni graf.
+% Heawoodov graf je preprosto incidenčni (Levijev) graf Fanojeve ravnine (ki je projektivna ravnina).
+% Matrika sosednosti za incidenčni graf je preprosto [[0, M]; [M^T, 0]], kjer je M incidenčna matrika
+% geometrije.
+
+% However their classification is
+% very difficult, since, for instance, every projective plane is a generalized
+% triangle. (Feigh in higmann)
+% To je "sveti gral" teh konstrukcij. Najbolj znana je Tits-ov posplošeni šesterokotnik.
+
+% ki jo je razvil Hans Van Maldeghem.
 
 
 

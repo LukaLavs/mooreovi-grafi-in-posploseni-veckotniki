@@ -1,0 +1,78 @@
+\begin{tikzpicture}[
+        node/.style={circle, fill=black, inner sep=1.2pt},
+        % Nastavitve razdalj za 4 glavne veje
+        level 1/.style={sibling distance=45mm, level distance=20mm},
+        level 2/.style={sibling distance=15mm, level distance=25mm},
+        level 3/.style={sibling distance=5mm, level distance=30mm},
+        edge from parent/.style={draw, thin}
+    ]
+
+    % KOREN (Stopnja Delta = 4)
+    \node[node, label=above:{$v$}] (v) {}
+        % PRVA GLAVNA VEJA
+        child { node[node] (a1) {} 
+            child { node[node] (b11) {} 
+                child {node[node] (d1) {}} 
+                child {node[node] {}} 
+                child {node[node] (d3) {}} 
+            }
+            child { node[node] (b12) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b13) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+        }
+        % DRUGA GLAVNA VEJA
+        child { node[node] (a2) {} 
+            child { node[node] (b21) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b22) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b23) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+        }
+        % TRETJA GLAVNA VEJA
+        child { node[node] (a3) {} 
+            child { node[node] (b31) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b32) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b33) {} child {node[node]{}} child {node[node]{}} child {node[node] (c_third) {}} }
+        }
+        % ČETRTA GLAVNA VEJA
+        child { node[node] (a4) {} 
+            child { node[node] (b41) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b42) {} child {node[node]{}} child {node[node]{}} child {node[node]{}} }
+            child { node[node] (b43) {} 
+                child {node[node] (c_last) {}} 
+                child {node[node]{}} 
+                child {node[node]{}} 
+            }
+        };
+
+    % PIKICE ZA NADALJEVANJE
+    \node[gray] at ($(a4)+(1.5,0)$) {$\dots$};
+    \node[gray] at ($(c_last)+(0.8,0)$) {$\dots$};
+
+    % OKLEPAJI ZA STOPNJO
+    % Zgoraj: Delta vej iz korena
+    \draw [decorate, decoration={brace, amplitude=8pt, raise=5pt}] 
+        (a1.north west) -- (a4.north east) node [midway, above=15pt] {$\Delta$ vej};
+
+
+
+    % NOVO: Spodaj: Delta-1 vej na čisto spodnjem nivoju (razdalja D)
+    \draw [decorate, decoration={brace, amplitude=3pt, raise=2pt, mirror}] 
+        (d1.south west) -- (d3.south east) 
+        node [midway, below=6pt, align=center] {$\Delta-1$ vej};
+
+    % SIMBOLIČNE POVEZAVE OŽINE
+    \begin{scope}[dashed, black!40, thin]
+        \draw (d1) .. controls +(0,-3.5) and +(0,-3.5) .. (c_last);
+        \draw (d3) .. controls +(0,-2.5) and +(0,-2.5) .. (c_third);
+        \node[font=\footnotesize, black, align=center] at (0,-8.5) 
+            {Povezave med vozlišči na razdalji $D$ sklenejo cikle dolžine $g = 2D+1$.};
+    \end{scope}
+
+    % STRANSKE OZNAKE (Popravljene višine glede na level distance)
+    \begin{scope}[every node/.style={anchor=west, black, font=\small}]
+        \draw[dotted, black!20] (v) -- (10,0) node {$i=0$};
+        \draw[dotted, black!20] (a4) -- (10,-2.0) node {$i=1$};
+        \draw[dotted, black!20] (b43) -- (10,-4.5) node {$i=2$};
+        \draw[dotted, black!20] (c_last) -- (10,-7.5) node {$i=D$};
+    \end{scope}
+
+    \end{tikzpicture}
+    
