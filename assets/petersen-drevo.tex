@@ -1,0 +1,67 @@
+\begin{tikzpicture}[scale=0.8, every node/.style={scale=0.8}]
+
+    % --- 1. STOPNJA: DREVO ---
+    \begin{scope}[local bounding box=tree1]
+        \node[vnode, label={[label_style]above:$v$}] (v) at (0,0) {};
+        \foreach \i [evaluate=\i as \x using (\i-2)*1.5] in {1,2,3} {
+            \node[vnode, label={[label_style]left:$v_{\i}$}] (v\i) at (\x, -1) {};
+            \draw[old_struct] (v) -- (v\i);
+            \foreach \j [evaluate=\j as \xx using \x+(\j-1.5)*0.6] in {1,2} {
+                \node[vnode, label={[label_style]below:$v_{\i\j}$}] (v\i\j) at (\xx, -2.5) {};
+                \draw[old_struct] (v\i) -- (v\i\j);
+            }
+        }
+    \end{scope}
+
+    \draw[main_arrow] (1.8, -1.25) -- (2.4, -1.25);
+
+    % --- 2. STOPNJA: NOVE POVEZAVE IZ V11 ---
+    \begin{scope}[xshift=4.4cm]
+        \node[vnode, label={[label_style]above:$v$}] (u) at (0,0) {};
+        \foreach \i [evaluate=\i as \x using (\i-2)*1.5] in {1,2,3} {
+            \node[vnode, label={[label_style]left:$v_{\i}$}] (u\i) at (\x, -1) {}; \draw[old_struct] (u) -- (u\i);
+            \foreach \j [evaluate=\j as \xx using \x+(\j-1.5)*0.6] in {1,2} {
+                \node[vnode, label={[label_style]below:$v_{\i\j}$}] (u\i\j) at (\xx, -2.5) {}; \draw[old_struct] (u\i) -- (u\i\j);
+            }
+        }
+        \draw[new_edge] (u11) to[bend right=30] (u21);
+        \draw[new_edge] (u11) to[bend right=45] (u31);
+    \end{scope}
+
+    \draw[main_arrow] (6.2, -1.25) -- (6.8, -1.25);
+
+    % --- 3. STOPNJA: NOVE POVEZAVE IZ V12 ---
+    \begin{scope}[xshift=8.8cm]
+        \node[vnode, label={[label_style]above:$v$}] (m) at (0,0) {};
+        \foreach \i [evaluate=\i as \x using (\i-2)*1.5] in {1,2,3} {
+            \node[vnode, label={[label_style]left:$v_{\i}$}] (m\i) at (\x, -1) {}; \draw[old_struct] (m) -- (m\i);
+            \foreach \j [evaluate=\j as \xx using \x+(\j-1.5)*0.6] in {1,2} {
+                \node[vnode, label={[label_style]below:$v_{\i\j}$}] (m\i\j) at (\xx, -2.5) {}; \draw[old_struct] (m\i) -- (m\i\j);
+            }
+        }
+        \draw[old_struct] (m11) to[bend right=30] (m21);
+        \draw[old_struct] (m11) to[bend right=45] (m31);
+        \draw[new_edge] (m12) to[bend right=30] (m22);
+        \draw[new_edge] (m12) to[bend right=45] (m32);
+    \end{scope}
+
+    \draw[main_arrow] (10.6, -1.25) -- (11.2, -1.25);
+
+    % --- 4. STOPNJA: KONČNI KRIŽ ---
+    \begin{scope}[xshift=13.2cm]
+        \node[vnode, label={[label_style]above:$v$}] (z) at (0,0) {};
+        \foreach \i [evaluate=\i as \x using (\i-2)*1.5] in {1,2,3} {
+            \node[vnode, label={[label_style]left:$v_{\i}$}] (z\i) at (\x, -1) {}; \draw[old_struct] (z) -- (z\i);
+            \foreach \j [evaluate=\j as \xx using \x+(\j-1.5)*0.6] in {1,2} {
+                \node[vnode, label={[label_style]below:$v_{\i\j}$}] (z\i\j) at (\xx, -2.5) {}; \draw[old_struct] (z\i) -- (z\i\j);
+            }
+        }
+        \draw[old_struct] (z11) to[bend right=30] (z21);
+        \draw[old_struct] (z11) to[bend right=45] (z31);
+        \draw[old_struct] (z12) to[bend right=30] (z22);
+        \draw[old_struct] (z12) to[bend right=45] (z32);
+        \draw[new_edge] (z21) to[bend right=20] (z32);
+        \draw[new_edge] (z22) to[bend left=20] (z31);
+    \end{scope}
+
+\end{tikzpicture}

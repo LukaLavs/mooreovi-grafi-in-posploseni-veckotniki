@@ -1,0 +1,61 @@
+\begin{tikzpicture}[x={1.1cm}, y={0.6cm}] % Prilagojena perspektiva za horizontalno vrsto
+
+    % --- 1. SLIKA: PENTAGON ---
+    \begin{scope}[local bounding box=s1]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (a\i) at ({90 + (\i-1)*72}:1) {};
+        }
+        \draw[old_edge] (a1) -- (a2) -- (a3) -- (a4) -- (a5) -- (a1);
+    \end{scope}
+
+    % Puščica 1
+    \draw[main_arrow] (s1.east) ++(0.2,0) -- ++(0.8,0);
+
+    % --- 2. SLIKA: LOVKE ---
+    \begin{scope}[xshift=4.5cm, local bounding box=s2]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (b\i) at ({90 + (\i-1)*72}:1) {};
+            \node[vnode] (c\i) at ({90 + (\i-1)*72}:2.2) {}; 
+            \draw[old_edge] (b\i) -- (c\i);
+        }
+        \draw[old_edge] (b1) -- (b2) -- (b3) -- (b4) -- (b5) -- (b1);
+    \end{scope}
+
+    % Puščica 2
+    \draw[main_arrow] (s2.east) ++(0.2,0) -- ++(0.8,0);
+
+    % --- 3. SLIKA: ENA LOVKA JE POVEZANA Z OBEMA ---
+    \begin{scope}[xshift=10.5cm, local bounding box=s3]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (d\i) at ({90 + (\i-1)*72}:1) {};
+            \node[vnode] (e\i) at ({90 + (\i-1)*72}:2.2) {};
+            \draw[old_edge] (d\i) -- (e\i);
+        }
+        \draw[old_edge] (d1) -- (d2) -- (d3) -- (d4) -- (d5) -- (d1);
+        
+        % Vozlišče e1 se poveže z e3 in e4 (da dobi stopnjo 3)
+        \draw[new_edge] (e1) to[bend right=15] (e3);
+        \draw[new_edge] (e1) to[bend left=15] (e4);
+    \end{scope}
+
+    % Puščica 3
+    \draw[main_arrow] (s3.east) ++(0.2,0) -- ++(0.8,0);
+
+    % --- 4. SLIKA: KONČNI PETERSEN ---
+    \begin{scope}[xshift=16.5cm, local bounding box=s4]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (f\i) at ({90 + (\i-1)*72}:1) {};
+            \node[vnode] (g\i) at ({90 + (\i-1)*72}:2.2) {};
+            \draw[old_edge] (f\i) -- (g\i);
+        }
+        \draw[old_edge] (f1) -- (f2) -- (f3) -- (f4) -- (f5) -- (f1);
+        
+        % Vse povezave zunanje zvezde
+        \draw[new_edge] (g1) to[bend right=15] (g3);
+        \draw[new_edge] (g3) to[bend right=15] (g5);
+        \draw[new_edge] (g5) to[bend right=15] (g2);
+        \draw[new_edge] (g2) to[bend right=15] (g4);
+        \draw[new_edge] (g4) to[bend right=15] (g1);
+    \end{scope}
+
+\end{tikzpicture}

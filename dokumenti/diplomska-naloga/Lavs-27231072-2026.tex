@@ -48,6 +48,7 @@
 % - klasifikacijske oznake, ločene z vejicami
 %   Oznake, ki opisujejo področje dela, so dostopne na strani https://www.ams.org/msc/
 \klasifikacija{..., ...}
+%05C50 05C25 20B25 20C15
 
 % - ključne besede, ki nastopajo v delu, ločene s \sep
 \kljucnebesede{...\sep ...}
@@ -78,6 +79,7 @@
 \usepackage{url}
 \usepackage{tikz}
 \usetikzlibrary{calc, decorations.pathreplacing}
+\usetikzlibrary{positioning, arrows.meta}
 
 % deklarirajte vse matematične operatorje, da jih bo LaTeX pravilno stavil
 % \DeclareMathOperator{\...}{...}
@@ -104,6 +106,19 @@
 \newcommand{\sled}{\operatorname{sl}}
 \newcommand{\aut}{\operatorname{Aut}}
 \newcommand{\id}{\operatorname{id}}
+\newcommand{\kneser}{\operatorname{KG}}
+\newcommand{\specter}{\operatorname{Spec}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\sgn}{\operatorname{sgn}}
+
+\tikzset{
+    vnode/.style={circle, draw, fill=black, inner sep=0pt, minimum size=3pt},
+    old_struct/.style={thin, black!40},
+    old_edge/.style={thin, black!40},
+    new_edge/.style={very thick, black},
+    main_arrow/.style={-{Stealth}, line width=0.3pt, black},
+    label_style/.style={font=\tiny, text=black!70}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
@@ -122,6 +137,290 @@
 
 
 \section{Uvod v teorijo grofov}
+
+
+
+\subsection{Osnovna teorija grafov}
+
+\subsection{Teorija grup}
+
+\begin{definicija}
+    Množica generatorjev grupe $G$ je podmnožica $S \subseteq G$, 
+    tako da je vsak element $g \in G$ mogoče zapisati kot produkt elementov iz $S$ in njihovih inverzov.
+    Pišemo $G = \langle S \rangle$.
+\end{definicija}
+
+\begin{definicija}\label{def:normalna_podgrupa}
+    Podgrupa $H$ grupe $G$ je normalna podgrupa v $G$, če velja
+    $gHg^{-1} = H$ za vsak $g \in G$. Označimo $H \triangleleft G$.
+\end{definicija}
+\begin{definicija}
+    Produkt $HK$ dveh podgrup $H$ in $K$ grupe $G$ je množica $HK = \{hk \mid h \in H, k \in K\}$.
+\end{definicija}
+\begin{definicija}
+    Direktni produkt $G \times H$ dveh grup $(G, \cdot)$ in $(H, \circ)$ je grupa $(G \times H, *)$, kjer so
+    $\{(g, h)\mid g\in G, h\in H\}$ njeni elementi, operacija pa definirana kot
+    $(g_1, h_1) * (g_2, h_2) = (g_1 \cdot g_2, h_1 \circ h_2)$.
+\end{definicija}
+\begin{definicija}\label{def:semidirektni_produkt}
+    Naj bo $G$ grupa z enoto $e$, $H$ njena podgrupa in $N \triangleleft G$ normalna podgrupa.
+    Če je $G$ enak produktu $NH$ in $H \cap N = \{e\}$, potem pravimo, da je $G$ semidirektni produkt $H$ in $N$, 
+    kar označujemo z $G = N \rtimes H$. 
+\end{definicija}
+
+\begin{opomba}\label{op:lastnost_semidirektnega_produkta}
+    V primeru, da je $G = N \rtimes H$, potem je $|G| = |N||H|$, saj je $G = NH$ in $H \cap N = \{e\}$.
+\end{opomba}
+
+\begin{trditev}\label{tr:semidirect_order}
+    Naj bo $H = \langle\beta\rangle$ grupa generirana z $\beta$. 
+    Naj bo $N = \langle \alpha \rangle$ grupa generirana z $\alpha$.
+    Grupa $N$ je normalna v $\langle\alpha\beta\rangle$ ($N \trianglelefteq \langle\alpha\beta\rangle$) 
+    in $N \cap H = \{e\}$, če velja $\alpha\beta\alpha^{-1} \in \langle \beta \rangle$, oziroma
+    $\alpha\beta\alpha^{-1} = \beta^m$ za nek $m \in \mathbb{Z}$.
+
+    Potem je $G = \langle \beta \rangle \rtimes \langle \alpha\rangle$ semidirektni produkt
+    in $|G| = |N||H| = |\langle \alpha \rangle||\langle \beta \rangle|$.
+\end{trditev}
+
+
+\begin{definicija}
+    Permutacija
+\end{definicija}
+\begin{definicija}
+    Transpozicija je permutacija, ki zamenja le dva elementa, ostale pa pusti na mestu.
+    Transpozicijo, ki zamenja elementa $i$ in $j$ ter pusti ostale na mestu, 
+    označimo z $\tau: (i\; j)$.
+\end{definicija}
+
+\begin{definicija}
+    Permutacija $\sigma$ je soda, če se da zapisati kot produkt sodega števila transpozicij.
+\end{definicija}
+
+\begin{definicija}
+    Simetrična grupa $S_n$ je grupa vseh permutacij množice \\
+    $[n] = \{1, 2, \ldots, n\}$, 
+    kjer je operacija kompozitum funkcij.
+\end{definicija}
+
+\begin{definicija}
+    Alternijajoča grupa $A_n$ je podgrupa simetrične grupe $S_n$, ki jo tvorijo vse sode permutacije.
+\end{definicija}
+
+\begin{definicija}
+    Ciklična grupa $C_n$ je grupa, ki jo tvori element $g$ reda $n$, 
+    torej $C_n = \{e, g, g^2, \ldots, g^{n-1}\}$. Alternativno lahko
+    ciklično grupo definiramo kot podgrupo simetrične grupe $S_n$, 
+    ki jo tvori ciklična permutacija, ki zamenja $n$ elementov v enem ciklu, na primer 
+    $(1\; 2\; \ldots \; n)$.
+\end{definicija}
+
+\begin{zgled}
+    Ciklična grupa $C_2 = \{e, g\}$, kjer je $g^2 = e$. Izomorfna je grupi 
+    $\{e, \tau\}$, kjer je $\tau$ transpozicija, na primer $\tau = (1\; 2)$.
+\end{zgled}
+
+\begin{zgled}
+    Simetrična grupa $S_n$ je semidirektni produkt alternijajoče grupe $A_n$ in cikla $C_2$,
+    velja $S_n = A_n \rtimes C_2$,
+    ki ga tvorijo soda permutacija. Alternijajoča grupa $A_n$ je 
+    normalna podgrupa simetrične grupe $S_n$,
+\end{zgled}
+\begin{dokaz}
+    Alternijajoča grupa $A_n$ je normalna grupa v $S_n$, namreč 
+    za vsak $\tau \in A_n$ in $\sigma \in S_n$ je 
+    $\sgn (\sigma \tau \sigma^{-1}) = \sgn(\sigma)\sgn(\tau)\sgn(\sigma^{-1}) = \sgn(\sigma)^2\sgn(\tau) = 1^2\cdot 1 = 1$ 
+    in zato
+    $\sigma A_n \sigma^{-1} = A_n$.
+
+    Očitno je $A_n \cap C_2 = \{e\}$, saj je $C_2$ ciklična grupa izomorfna eni transpoziciji, ki je liha permutacija.
+    Dodatno pa vidimo $A_nC_2 = S_n$ saj na trivialen način dobimo vse sode permutacije, 
+    za vse lihe permutacije $\sigma \in S_n$ pa velja kot $\tau \sigma = a \in A_n$, 
+    torej $\sigma = \tau^{-1} a \in A_nC_2$.
+\end{dokaz}
+
+\begin{zgled}
+    
+\end{zgled}
+
+
+\subsection{Orbite in delovanje grup}
+
+
+\begin{definicija}
+    Grupa $G$ je primitivna, če deluje tranzitivno na množici $X$ in če 
+    delovanje grupe $G$ na množici $X$ ne ohranja nobene netrivialne particije množice $X$.
+\end{definicija}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definicija}
+    Levi koset podgrupe $H$ v grupi $G$ je množica 
+    $gH = \{gh \mid h \in H\}$, kjer je $g$ poljuben element iz $G$. 
+\end{definicija}
+\begin{trditev}
+    Levi koseti tvorijo disjunktno dekompozicijo grupe $G$ na podmnožice, ki so vse enake velikosti
+    kot $H$.
+\end{trditev}
+\begin{dokaz}
+    Ker je $H$ podgrupa $G$, vsebuje enoto $e$. Posledično je 
+    $\bigcup_{g \in G} gH \supseteq \bigcup_{g \in G} ge = \bigcup_{g \in G} g = G$.
+
+    Dalje $H$ in $gH$ imata enako število elementov, saj je $h \mapsto gh$ bijekcija med njima in 
+    $x \mapsto g^{-1} x$ njen inverz. 
+
+    Pokažimo še disjunktnost kosetov. Naj bosta $g_1 H$ in $g_2 H$ dva različna leva koseta, 
+    katerih presek vsebuje $x$ potem je $x = g_1 h_1$ in hkrati $g_2 h_2$. Velja
+    $g_1 = g_2 h_2 h_1^{-1}$, za poljuben $h$ je tako $g_1 h = g_2 h_2 h_1^{-1} h \in g_2 H$,
+    kar  pomeni, da je $g_1 H \subseteq g_2 H$, simetrično dobimo tudi $g_2 H \subseteq g_1 H$, 
+    torej $g_1 H = g_2 H$.
+\end{dokaz}
+
+
+\begin{definicija}
+    Indeks podgrupe $H$ v grupi $G$ je število levih
+    kosetov $H$-ja v $G$. Indeks podgrupe $H$ v grupi $G$ se označuje z $[G : H]$.
+    Ker levi koseti tvorijo disjunktno dekompozicijo grupe $G$ na podmnožice, ki so si 
+    enake v velikosti, za indeks velja $[G : H] = |G| / |H|$.
+\end{definicija}
+
+\begin{zgled}
+Naj bo $G = \mathbb{Z}$ grupa celih števil z operacijo seštevanja. Naj bo $H = 2\mathbb{Z}$ 
+podgrupa sodih celih števil. Potem ima $H$ dva koseta v $G$, 
+namreč za vsak $g \in G$ je $g + H = \begin{cases}
+\mathbb{Z} & \text{če je $g$ sodo} \\
+\mathbb{Z} + 1 & \text{sicer}
+\end{cases}$. Indeks podgrupe $H$ v grupi $G$ je torej $[G : H] = 2$.
+\end{zgled}
+
+\begin{izrek}[Lagrangev izrek]\label{iz:index_lagrange}
+    Naj bo $H$ podgrupa $G$ in $K$ podgrupa $H$. Potem je 
+    red grupe $G$ deljiv z redom grupe $H$ in $[G : K] = [G : H][H : K]$.
+\end{izrek}
+\begin{dokaz}
+    Prva trditev sledi iz definicije indeksa, drugo pa pokažimo takole.
+    Naj bo $S$ set predstavnikov kosetov za $K$ v $H$ in naj bo $T$ set predstavnikov
+    kosetov za $H$ v $G$. Potem je $G = \bigsqcup_{t \in T} t H = \bigsqcup_{t \in T} \bigsqcup_{s \in S} tsK$.
+    Posledično je set predstavnikov kosetov za $K$ v $G$ enak $TS = \{ts \mid t \in T, s \in S\}$, 
+    kar pomeni, da je $[G : K] = |T||S| = [G : H][H : K]$.
+\end{dokaz}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{definicija}
+    Orbita elementa $x \in X$ je podmnožica elementov iz $X$, ki jih lahko dosežemo
+    z delovanjem elementov iz grupe $G$. Pišemo $G \cdot x = \{g \cdot x \mid g \in G\}$.
+
+    Množico vseh orbit delovanja grupe $G$ na množici $X$ imenujemo 
+    kvocientna množica $X/G$. Označimo tudi $X/G_x = \{gG_x \mid g \in G\}$.
+    Če ima grupa eno samo orbito, pravimo, da grupa deluje tranzitivno na množici $X$.
+\end{definicija}
+
+\begin{definicija}
+    Naj bo $G$ grupa, in $g$ njen element. Pravimo, da $x \in X$ fiksna točka elementa $g$,
+    če je $g \cdot x = x$. Množico vseh fiksnih točk elementov iz $G$, ki fiksirajo element $x$,
+    imenujemo stabilizatorska podgrupa $G$ elementa $x$, pišemo 
+    $G_x = \{g \in G \mid g \cdot x = x\}$.
+\end{definicija}
+
+\begin{trditev}\label{tr:stabilizator_sosedstvo}
+    Naj bo $H$ graf in $V(H)$ množica njegovih vozlišč. Naj bo $Q \subseteq V(H)$
+    podmnožica vozlišč. Stabilizatorska grupa $G_Q$ je podgrupa avtomorfizmov grafa $H$ in
+    vsak njen element $g$ ohranja sosedstvo množice $Q$, 
+    torej $g(N(Q)) = N(Q)$.
+\end{trditev}
+\begin{dokaz}
+    Vzemimo $v \sim Q$. Ker je $g$ avtomorfizem, je 
+    $g(v) \sim g(Q)$. Ker dalje $g$ fiksira množico $Q$, 
+    je $g(Q) = Q$, in zato $g(v) \in N(Q)$, kar pomeni, da $g(N(Q)) \subseteq N(Q)$.
+    Ker je $g$ bijekcija, je $g^{-1}$ tudi avtomorfizem, ki fiksira množico $Q$,
+    torej $g^{-1}(N(Q)) \subseteq N(Q)$, kar pomeni, da $N(Q) \subseteq g(N(Q))$.
+\end{dokaz}
+
+\begin{izrek}[Izrek o orbitah in stabilizatorjih]\label{iz:orbite_stabilizator}
+    Naj bo $x \in X$ fiksen in naj bo $f: G \to X$ podana z $g \mapsto g \cdot x$. 
+    Potem je $f(G) = G \cdot x$ orbita elementa $x$ in 
+    $f^{-1}(x) = G_x$ stabilizatorska podgrupa elementa $x$.
+    Če imata dva elementa enako sliko, potem velja
+    \begin{align*}
+    f(g) = f(h) &\iff g\cdot x = h\cdot x \iff g^{-1}h\cdot x = x \iff g^{-1}h \in G_x \iff h \in gG_x 
+    \end{align*}
+    
+    Torej, če sta $g$ in $h$ elementa enakega koseta (tukaj $gG_x$) 
+    za stabilizatorsko grupo $G_x$, potem imata enako sliko, in obratno.
+\end{izrek}
+
+\begin{izrek}\label{iz:orbita_stabilizator_red}
+    Če je $G$ končna potem red orbite elementa $x$ enak številu kosetov stabilizatorske
+    podgrupe $[G : G_x]$, kar je enako $|G| / |G_x|$.
+\end{izrek}
+\begin{dokaz}
+    Izrek sledi neposredno iz izreka o orbitah in stabilizatorjih~\ref{iz:orbite_stabilizator}
+    in iz lagrangevega izreka o številu kosetov~\ref{iz:index_lagrange}.
+\end{dokaz}
+
+
+\begin{trditev}
+    Orbite delovanja grupe $G$ na množici $X$ tvorijo particijo množice $X$.
+\end{trditev}
+\begin{dokaz}
+    Pokažemo lahko, da so orbite ekvivalenčni razredi neke ekvivalenčne relacije,
+    po tem bomo vedeli, da nujno razdelijo $X$ na disjunktne podmnožice, katerih unija je $X$.
+
+    Definiramo relacijo $\sim$ na $X$ z 
+    $x \sim y \iff \exists g \in G: g \cdot x = y \iff y \in G\cdot x$.
+    Taka relacija je refleksivna $(x \sim x)$, saj je za enoto $e\in G$ $e \cdot x = x$. 
+    Je simetrična $(x\sim y \implies y \sim x)$, saj če velja $x\sim y$,
+    potem obstaja $g\in G$, tak da $g\cdot x = y$. Dobimo $x = g^{-1} \cdot y$.
+    In je tranzitivna $(x\sim z \land z\sim y \implies x \sim y)$, saj če 
+    velja $x\sim y$ (torej $y = g\cdot x$) in $z\sim y$ (torej $y = h \cdot z$), 
+    potem je $h^{-1}g \cdot x = z$, kar pomeni, da je $x \sim z$.
+\end{dokaz}
+
+
+
+
+\begin{zgled}\label{zg:petersen_avtomorfizmi}
+    Teorijo orbit in stabilizatorjev lahko uporabimo za štetje avtomorfizmov Petersenovega
+    grafa. Petersenov graf je vozliščno tranzitiven, kar pomeni, da lahko s simetrijo 
+    katerokoli vozlišče pretvorimo v katerokoli drugo vozlišče. Ker ima Petersenov 
+    graf $10$ vozlišč, je orbita poljubnega vozlišča $v$
+    reda $|G\cdot v| = 10$. Zdaj pa si zamislimo, da $v$ fiksiramo na mestu, 
+    ker je Petersenov graf $3$-regularen, ima $v$ natanko $3$ sosede, ki jih lahko vsak 
+    avtomorfizem, ki fiksira $v$ zgolj premeša. Premeša jih lahko na $3!$ načinov, kar 
+    pomeni, da je stabilizatorska grupa $G_v$ reda $6$. 
+    Po izreku o orbitah in stabilizatorjih~\ref{iz:orbite_stabilizator} je 
+    red avtomorfizmov Petersenovega grafa enak $|G| = |G\cdot v||G_v| = 10 \cdot 6 = 60$.
+\end{zgled}
+\begin{zgled}
+    Predstavljajmo si graf, ki je sestavljen iz dveh trikotnikov, ki sta povezana z eno samo
+    povezavo, recimo mu $H$. Vozlišča razdelimo na dve začetni orbiti $O_1$ in $O_2$, 
+    glede na njihovo stopnjo.
+    Tako vzamemo $O_1 = \{v_1, w_1\}$ vozlišči na mostu in $Q_2 = \{v_2, v_3, w_2, w_3\}$
+    vozlišča stopnje $2$.
+
+    Izberimo zaporedje vozlišč $v_1, v_2, w_2$ in sestavimo verigo podgrup, kjer vsaka fiksira
+    eno točko več:
+    \[\aut(H) = G \geq G^{(1)} \geq G^{(2)} \geq G^{(3)} = \{e\}\]
+    kjer je $e$ enota, torej avtomorfizem $\id$.
+    
+    Po Lagrangevem izreku~\ref{iz:index_lagrange} je 
+    $|G| = [G : G^{(1)}][G^{(1)} : G^{(2)}][G^{(2)} : G^{(3)}]$. 
+
+    V celotnem grafu se vozlišče $v_1$ lahko preslika le v vozlišče, ki je enake stopnje,
+    torej zgolj samo vase ali v $w_1$. Ker sta oba strukturno enaka, je $[G : G^{(1)}] = 2$.
+
+    Ko fiksiramo $v_1$, postane celoten desni del grafa (trikotnik $w_1, w_2, w_3$) 
+    nepremičen glede na levo stran, saj mostu ne moremo več zrcaliti.
+    V levem trikotniku pa se nahajata še $v_2$ in $v_3$, ki ju lahko zamenjamo z zrcaljenjem
+    levega trikotnika. Tako je $[G^{(1)} : G^{(2)}] = 2$.
+
+    Enako kot smo storili za $v_2$ in $v_3$ lahko zdaj storimo še za $w_2$ in $w_3$, 
+    kar pomeni, da je $[G^{(2)} : G^{(3)}] = 2$, in posledično 
+    $|\aut(H)| = 2 \cdot 2 \cdot 2 = 8$.
+\end{zgled}
 
 \section{Mooreovi grafi}
 % definicija, slike
@@ -149,6 +448,8 @@ ki niso bili obiskani v prejšnjih korakih.
 Mooreov graf je torej tisti mejni primer, kjer se veje sosedstva nikoli ne prekrivajo 
 dokler ne dosežemo premera $D$. 
 \end{opomba}
+
+\subsection{Lastnosti Mooreovih grafov}
 
 \begin{trditev}\label{tr:mooreregularpaths}
 Mooreov graf je regularen stopnje $\Delta$, njegova ožina je enaka ${2D+1}$,
@@ -185,8 +486,6 @@ V nadaljevanju bomo zasledili, da so Mooreovi grafi deležni številnih dodatnih
 omejitev, kar bo utemeljilo tudi njihovo redkost, namreč Mooreovi grafi obstajajo
 zgolj za omejene nabore parametrov $D$ in $\Delta$.
 
-\subsection{Lastnosti Mooreovih grafov}
-
 \subsubsection{Matrična enačba Mooreovih grafov}
 
 %citiraj izpeljavo iz uvoda v teorijo
@@ -198,12 +497,15 @@ velja $G^{\Delta, 0} = \II$, za poti dolžine največ $1$ pa $G^{\Delta, 0} = A 
 Produkt $AG^{\Delta, i-1}$ prešteva sprehode dolžine največ $i$, ki jih dobimo tako, 
 da potem dolžine $(i-1)$ dodamo še en korak. Pri tem upoštevamo, da se nekateri
 sprehodi iz $(i-1)$~-tega nivoja vrnejo nazaj v nivo $(i-2)$.
-Ker je Mooreov graf $\Delta$~-regularen, za vsak par vozlišč $(u, v)$ obstaja natanko
+Ker je Mooreov graf $\Delta$~-regularen (\ref{tr:mooreregularpaths}), za vsak par vozlišč $(u, v)$ obstaja natanko
 $(\Delta - 1)G^{\Delta, i-2}_{uv}$ takšnih sprehodov, ki niso poti in jih je treba 
-odšteti.
+odšteti. S tem razmislekom smo ravnokar dokazali naslednjo trditev.
 
 \begin{trditev}\label{tr:moorematrix}
-Sosednostna matrika Mooreovega grafa zadošča naslednji rekurzivni matrični enačbi:
+Sosednostna matrika Mooreovega grafa zadošča matrični enačbi 
+\[G^{\Delta, D} = J,\]
+kjer je 
+$J$ matrika samih enic, $G^{\Delta, D}$ pa dobljena rekurzivno z:
 \begin{equation}
 \begin{cases} 
 G^{\Delta, 0} = I \\
@@ -213,9 +515,16 @@ G^{\Delta, i} = A G^{\Delta, i-1} - (\Delta-1) G^{\Delta, i-2} & \text{za } 2 \l
 \end{equation}
 \end{trditev}
 
+\begin{opomba}
+    Velja celo to, da regularni graf z defektom $\delta$ zadošča enačbi
+    $G^{\Delta, D} = J + B$, kjer je $B$ matrika z 
+    stolpičnimi in vrstičnimi seštevki enaki $\delta$ \cite[str. 15]{MillerSiran2013}.
+    Več o grafih z defektom bomo povedali kasneje~(\ref{sec:moorerazsiritev}).
+\end{opomba}
+
 % Tu lahko rečeš da dodatno ta enačba celo posplošuje na grafe z defektom delta.
 
-\subsection{Izrek Hoffman-Singeltona}
+\subsubsection{Izrek Hoffman-Singeltona}
 Naj bo premer $D$ enak $2$, ter stopnja $\Delta$ večja od $1$. Tedaj za matriko 
 sosednosti Mooreovega grafa (po trditvi \ref{tr:moorematrix}) velja:
 \begin{equation}\label{eq:moorematrix2}
@@ -225,28 +534,29 @@ kjer je $\II$ identiteta in $J$ matrika samih enic.
 Iz definicije~\ref{def:moore} je razvidno, da je red Mooreovega grafa enak
 $\Delta^2 + 1$. Velja tudi, da je Mooreov graf premera $2$ krepko regularen 
 s parametri $(\Delta^2 + 1, \Delta, 0, 1)$, kar pomeni, da je vsak par sosednjih vozlišč 
-povezan z $0$ skupnimi sosedi, vsak par nesosednjih vozlišč pa je povezan z $1$ skupnim sosedom.
+povezan z $0$ skupnimi sosedi (glej omejitev ožine~\ref{tr:mooreregularpaths}), 
+vsak par nesosednjih vozlišč pa je povezan z $1$ skupnim sosedom (glej omejitev premera~\ref{def:moore}).
 
-Matrika $J$ je dimenzije $(\Delta^2 + 1) \times (\Delta^2 + 1)$, 
-ker velja $J\mathbf{1} = (\Delta^2 + 1)\mathbf{1}$, je $(\Delta^2 + 1)$ njena 
-lastna vrednost in $\mathbf{v_1} = \mathbf{1}$ njen lastni vektor. 
-Ker je $\rank(J) = 1$ je njena večkratnost enaka $1$, ostale
-lastne vrednosti so tako enake $0$, 
-po izreku o rangu in ničelnosti \cite{enwiki1344320194}, z večkratnostjo $\Delta^2$,
+Matrika $J$ je dimenzije $(\Delta^2 + 1) \times (\Delta^2 + 1)$.
+Ker velja $J\cdot\mathbf{1} = (\Delta^2 + 1)\cdot\mathbf{1}$, je $(\Delta^2 + 1)$ njena 
+lastna vrednost in $\mathbf{v}_1 = \mathbf{1}$ njen lastni vektor. 
+Ker je $\rank(J) = 1$, in s tem $\dim(\ker(J)) = \Delta^2$ \cite{enwiki1344320194}, je njena večkratnost enaka $1$, ostale
+lastne vrednosti pa so tako enake $0$, z večkratnostjo $\Delta^2$,
 za lastne vektorje 
-$(\mathbf{v}_2, \ldots, \mathbf{v}_{\Delta^2}) = (\mathbf{e}_1 - \mathbf{e}_2, \ldots, \mathbf{e}_1 - \mathbf{e}_{\Delta^2 + 1})$.
+$(\mathbf{v}_2, \ldots, \mathbf{v}_{\Delta^2}) = (\mathbf{e}_1 - \mathbf{e}_2, \ldots, \mathbf{e}_1 - \mathbf{e}_{\Delta^2 + 1})$,
+kjer je $\mathbf{e}_i$ $i$-ti standardni bazni vektor.
 
 Z množenjem matrične enačbe~\ref{eq:moorematrix2} z lastnimi vektorji $\mathbf{v}_i$ dobimo naslednji dve enačbi:
 
 \begin{align}
 x^2 + x - (\Delta - 1) = \Delta^2 + 1 \label{eq:karakteri1}\\
-x^2 + xrep - (\Delta - 1) = 0 \label{eq:karakteri2}
+x^2 + x - (\Delta - 1) = 0 \label{eq:karakteri2}
 \end{align}
 
 
 Iz enačbe~\ref{eq:karakteri1} dobimo lastno vrednost $\Delta$ z večkratnostjo $1$,
 Iz enačbe~\ref{eq:karakteri2} pa dobimo dve lastni 
-vrednosti $r$ in $s$ enaki $(-1 \pm \sqrt{4\Delta - 3})/2$, z večkratnostjo $a$ in $b$, 
+vrednosti $r$ in $s$ enaki $(-1 \pm \sqrt{4\Delta - 3})/2$, s pripadajočima večkratnostima $a$ in $b$, 
 kjer $1 + a + b = 1 + \Delta^2$.
 Ker je sled matrike sosednosti vedno enaka $0$, in ker velja 
 $\sled(A) = \sum_{\lambda \text{ je lastna vr.}} \lambda$,
@@ -254,15 +564,15 @@ je $\Delta + a r + b s = 0$.
 
 Če sta $r$ in $s$ iracionalni števili je $a = b$, potem 
 $\Delta + a r + b s = 0 \implies \Delta - \Delta^2 / 2 = 0 \implies \Delta = 2$.
-Sicer pa sta $r$ in $s$ celi števili, namreč $4\Delta - 3$ je vedno liho število, zato 
+Sicer pa sta $r$ in $s$ celi števili, namreč $4\Delta - 3$ je vedno liho število, posledično 
 je tudi njegov koren vedno lih. Tako nastavimo $4\Delta - 3 = m^2$ za nek $m \in \ZZ_+$, 
-oziroma $\Delta = \frac{m^2 + 3}{4}$, od tod dobimo pa dobimo: 
+oziroma $\Delta = \frac{m^2 + 3}{4}$, od tod dobimo: 
 $\Delta + a r + b s = 0 \implies m^5 + m^4 + 6m^3 - 2m^2 + 9m - 15 = 0$.
-Ker ima slednji polinom celoštevilske koeficiente, so po izreku o 
+Ker ima slednji moničen polinom celoštevilske koeficiente, so po izreku o 
 celoštevilskih ničlah~\cite{enwiki1346919033}, njegove rešitve deljitelji števila $15$,
 torej $m \in \{1, 3, 5, 15\}$, kar nam da možne rešitve za $\Delta$ enake $\{1, 3, 7, 57\}$.
 
-Po trditvi~\ref{tr:stronglyregular} sta $a$ in $b$ enaka 
+Iz zgornjih dveh enačb, ki sta linearni v $a$ in $b$, izvemo tudi, da sta $a$ in $b$ enaka 
 $\frac{1}{2} [\Delta^2 \mp \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$.
 
 \begin{izrek}[Hoffman-Singeltonov izrek]\label{iz:hoffmansingeltonizrek}
@@ -274,108 +584,671 @@ $\frac{1}{2} [\Delta^2 \mp \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$.
     $\frac{1}{2} [\Delta^2 + \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$.
 \end{izrek}
 
-% lambda=0 mu=1
-
-\begin{definicija}
-Graf $G$ je krepko regularen s parametri $(n, k, \lambda, \mu)$, če je
-$G$ regularen stopnje $k$ na $n$ vozliščih, ter če imata poljubni dve sosedni 
-vozlišči natanko $\lambda$ skupnih sosedov, medtem ko imata poljubni dve 
-nesosednji vozlišči natanko $\mu$ skupnih sosedov.
-\end{definicija}
-
-\begin{trditev}\label{tr:stronglyregular}
-    Za krepko regularen graf s parametri $(n, k, \lambda, \mu)$ in njegovo matriko 
-    sosednosti veljajo naslednje lastnosti:
-    \begin{itemize}
-        \item $(n - k - 1)\mu = k(k - \lambda - 1)$
-        \item $AJ = JA = kJ$
-        \item $A^2 = kI + \lambda A + \mu (J - I - A)$
-        \item Njegove lastne vrednosti so $k$ z večkratnostjo $1$, \\
-        $[(\lambda - \mu) + \sqrt{(\lambda-\mu)^2 + 4(k-\mu)}]/2$ z večkratnostjo 
-        $[(n-1) - \frac{2k+(n-1)(\lambda-\mu)}{\sqrt{(\lambda-\mu)^2 + 4(k-\mu)}}]/2$, ter \\
-        $[(\lambda - \mu) + \sqrt{(\lambda-\mu)^2 + 4(k-\mu)}]/2$ z večkratnostjo
-        $[(n-1) + \frac{2k+(n-1)(\lambda-\mu)}{\sqrt{(\lambda-\mu)^2 + 4(k-\mu)}}]/2$
-    \end{itemize}
-\end{trditev}
-
-
-
-
-
-
-% \subsubsection{Izrek Hoffman-Singletona}
-
-% Omejimo se sedaj na problem premera $D=2$ ter stopnje $\Delta > 1$. Tedaj za 
-% za matriko sosednosti Mooreovega grafa velja:
-% \begin{equation}\label{eq:moorematrix}
-% A^2 + A - (\Delta-1)\II = J,
-% \end{equation}
-% kjer je $\II$ identiteta in $J$ matrika samih enic.
-
-% Ker Mooreov graf dosega Mooreovo mejo, je njegov red enak $\Delta^2 + 1$ \ref{eq:moorebound}.
-% Posledično  tudi $A \in \{0, 1\}^{(\Delta^2 + 1) \times (\Delta^2 + 1)}$.
-
-% Preko dane matrične enačbe lahko izračunamo spektralno polje incidenčne
-% matrike $A$. Ker je karakteristični polinom za matriko $J$ enak 
-% $x^{\Delta^2}(x - (\Delta^2 + 1))$, sledijo naslednje enačbe:
-% \begin{align}
-% x^2 + x - (\Delta - 1) = \Delta^2 + 1 \label{eq:karakteristicna1}\\ 
-% x^2 + 1 - (\Delta - 1) = 0 \label{eq:karakteristicna2}
-% \end{align} 
-% Od koder dobimo lastne vrednosti $\Delta$ (po \eqref{eq:karakteristicna1})
-% večkratnosti 1, ter lastni vrednosti $r$ in $s$ enaki 
-% $(-1 \pm \sqrt{4\Delta - 3})/2$. Več o večkratnosti lastnih vrednosti 
-% $r$ in $s$ pa nam podata enačbi $a + b = \Delta^2$ ter sled matrike, ki 
-% je enaka seštevku vseh lastnih vrednosti, po drugi strani pa 
-% je sled matrike sosednosti očitno enaka $0$, torej: 
-% $\Delta + a r + b s = 0$. 
-
-% Če sta $r$ in $s$ iracionalni števili je $a = b$ ter $\Delta = 2$, 
-% sicer pa sta $r$ in $s$ celi števili, torej $4\Delta - 3 = m^2$ za nek 
-% $m \in \ZZ_+$. Ob substitucijah $a = \Delta^2 - b$ in 
-% $\Delta = \frac{m^2 + 3}{4}$ sledi:
-% \begin{align}
-% \Delta + a r + b s &= 0 \\
-% \Leftrightarrow \\
-% \frac{m^2 + 3}{4} + \left(\left(\frac{m^2 + 3}{4}\right)^2 - b\right) 
-% \frac{-1 + m}{2} + b \frac{-1 - m}{2} &= 0 \\
-% \Leftrightarrow \\
-% \frac{m^5}{32} + \ldots + \left(\frac{3}{4} - \frac{9}{32}\right)  &= 0\\
-% \Leftrightarrow \\
-% m^5 + \ldots + 15 &= 0
-% \end{align}
-
-% Preden nadaljujemo si oglejmo pomemben rezultat linearne algebre.
-
-% \begin{izrek}[Izrek o celoštevilskih ničlah]
-% Naj bo $p = a_n x^n + \ldots + a_0$ polinom z celimi koeficienti, kjer 
-% je vodilni koeficient neničelen. Če ima polinom celoštevilsko ničlo $q$,
-% potem $q$ deli $a_0$.
-% \end{izrek}
-
-% \begin{dokaz}
-% Ker je $q$ ničla polinoma $p$ velja $p(q) = a_n q^n + \ldots + 
-% a_0 = 0$. Po preureditvi dobimo $a_0 = -(a_n q^n + \ldots + a_1 q)$.
-% Ker je desna stran deljiva z $q$ je z $q$ deljiv tudi $a_0$.
-% \end{dokaz}
-
-% Ker ima enačba $x^2 + 1 - (\Delta - 1) = 0$ cele koeficiente so njene 
-% racionalne rešitve nujno cele (po izreku).
-% S tem rezultatom, ter z upoštevanjem, da je $m$ pozitivno celo število, 
-% lahko sedaj razberemo, da so možne rešitve za $m$ enake 
-% $\{1, 3, 5, 15\}$ kar so tudi deljitelji števila 15. Posledično 
-% so kandidati za $\Delta$ enaki $\{1, 3, 7, 57\}$. (Utemelji še, da
-% so koeficienti naračunane enačbe v $m$ res celi, in smo smeli 
-% uporabiti izrek. Ter povej da sta to dokazala hoffman in singelton in tako začela
-% razglabljanje o mooreovih grafih, citiraj originalni dokaz.)
-
-
+\begin{opomba}
+Do matrične enačbe, ter spektra grafa, bi lahko prišli tudi z uporabo dejstva, 
+da so Mooreovi grafi premera $2$ krepko regularni s parametri
+$(n, k, \lambda, \mu) = (\Delta^2 + 1, \Delta, 0, 1)$. Namreč
+krepko regularni grafi zadoščajo matrični enačbi $A^2 = k\II + \lambda A + \mu(J - \II - A)$,
+ter spekter matrike $A$ je znan~\cite{enwiki1342817669}.
+\end{opomba}
 
 
 \subsection{Obstoj Mooreovih grafov}
-% navedi povzetek vseh ki obstajajo potem pa podrobneje v podpoglavjih
+
+Hitro lahko sestavimo nekaj trivialnih Mooreovih grafov, namreč, če je premer $D=1$, potem 
+je Mooreov graf poln graf $K_{\Delta + 1}$ za vsako stopnjo $\Delta$, če je stopnja 
+$\Delta = 1$, potem je Mooreov graf ciklični graf $C_{2D + 1}$ za vsak premer $D$.
+
+Hoffman-Singeltonov izrek~\ref{iz:hoffmansingeltonizrek} pa nam pove, da za premer $D=2$ obstajajo 
+največ štirje Mooreovi grafi, in sicer za stopnje $\Delta \in \{2, 3, 7, 57\}$.
+Izkaže se, da so prvi trije Mooreovi grafi unikatni, imenovani Ciklični graf $C_5$,
+Petersenov graf, ter Hoffman-Singeltonov graf, medtem ko obstoj grafa valence $57$ ostaja odprt problem.
+
+Predstavimo sedaj netrivialne primere podrobneje, v naslednjih nekaj sekcijah.
+
+\subsubsection{Petersenov graf}
+
+Konstrukcija Petersenovega grafa je preprosta, in bi lahko bila puščena bralcu kot vaja, vendar jo bomo vseeno 
+predstavili, in sicer na več različnih načinov, saj nam bo služila kot dobra vaja za razumevanje 
+kasneje kompleksnejših konstrukcij.
+
+Začnimo s konstrukcijo, ki izhaja iz drevesnega grafa~(glej \ref{def:moore}). 
+Vzemimo neko začetno vozlišče $v$, ter ga povežimo z $\Delta=3$ sosedi, ki jih poimenujemo $v_1, v_2, v_3$.
+Vsakega izmed teh povežimo še z dvema novima vozliščema, ki jih poimenujemo 
+$v_{11}, v_{12}, v_{21}, v_{22}, v_{31}, v_{32}$. V tem trenutku v rokah držimo drevesni graf. Sedaj moramo
+njegove liste povezati tako, da ne ustvarimo ciklov dolžine $3$ ali $4$~(glej \ref{tr:mooreregularpaths}). 
+Brez škode za splošnost lahko 
+povežemo $v_{11}$ z $v_{21}$ ter z $v_{31}$, $v_{12}$, po tem smo prisiljeni povezati $v_{12}$ z 
+$v_{22}$ in $v_{32}$, brez drugih izbir tako ostanemo do konca konstrukcije, povežemo $v_{21}$ z
+$v_{32}$, ter $v_{22}$ z $v_{31}$.
+
+\begin{figure}[ht]\label{fig:petersendrevo}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.8\textwidth}{!}{%
+        \import{../../assets/}{petersen-drevo.tex}
+    }
+    \caption{Drevesna konstrukcija Petersenovega grafa.}
+\end{figure}
+
+Alternativno lahko uporabimo dejstvo, da je ožina takega grafa enaka $5$~(glej \ref{def:moore}), torej v takem grafu obstaja
+cikel $C_5$. Začnimo zato z ciklom $C_5$. Ker vsakemu vozlišču v tem ciklu manjka še en sosed, mu ga dodamo.
+Tu opazimo, da vozlišča cikla $C_5$ ne smejo imeti skupnih sosedov (izven tega cikla). Če se sedaj osredotočimo
+na eno izmed novo dodanih vozlišč, vidimo, da je lahko povezano le z dvema vozliščema, ki sta soseda nasprotnih dveh 
+vozlišč v ciklu $C_5$. Hkrati mora biti povezano z natanko dvema. Povežemo ga z njima. Simetrično nato storimo 
+za druge. Taki konstrukciji
+rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji Hoffman-Singeltonovega grafa.
+
+\begin{figure}[ht]\label{fig:petersenpetkotnik}
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.8\textwidth}{!}{%
+        \import{../../assets/}{petersen-petkotnik.tex}
+    }
+    \caption{Konstrukcija Petersenovega grafa iz petkotnika.}
+\end{figure}
+
+Petersenov graf lahko konstruiramo tudi s pomočjo simetrične grupe \newline $S_5 = \{1, 2, 3, 4, 5\}$, 
+kjer so vozlišča grafa predstavljena z $2$-elementnimi podmnožicami množice $S_5$, medtem ko so povezave
+med vozlišči predstavljene z njihovo disjunktnostjo. Pišemo lahko 
+$V(\text{Petersenov graf}) = \{\{a, b\}\mid\{a, b\}\subset S_5\}$ ter $uv \in E(\text{Petersenov graf}) \iff u \cap v = \emptyset$. 
+Ta konstrukcija res poda Mooreov graf na $10$ vozliščih, stopnje $3$ in premera $2$, 
+saj ima ustvarjen graf $\binom{5}{2} = 10$ vozlišč, 
+za poljubno vozlišče $\{a, b\}$ obstajajo natanko $\binom{3}{2} = 3$ pari, ki so z njim disjunktni, in zato sosednji,
+ter ker so cikli krajši od $5$, po konstrukciji, nemogoči.
+Iz te konstrukcije je razvidno, da je Petersenov graf Kneserjev graf $\kneser(5, 2)$, torej tudi, da je 
+vozliščno tranzitiven, in da je
+$\aut(\text{Petersenov graf}) \cong S_5$.
+
+
 
 \subsubsection{Hoffman-Singeltonov graf}
+
+Naj bo $H$ graf, ki ga iščemo, torej Mooreov graf premera $2$ ter stopnje $7$.
+Tak graf sestoji iz $7\cdot 7 + 1 = 50$ vozlišč (\ref{def:moore}) in ima 
+ožino $5$ (\ref{tr:mooreregularpaths}).
+Po korakih Conga Fana in Allena J. Schwenka \cite{fan1993structure} dokažimo,
+da tak graf, ki mu pravimo Hoffma-Singeltonov graf, obstaja in je enoličen.
+
+Ker ima graf ožino $5$ v njem najdemo vsaj en cikel $C_5$. Označimo ga s
+$Q=v_1 v_2 v_3 v_4 v_5 v_1$ in mu recimo centralni cikel. 
+V nadaljevanju bomo opazovali njegove sosede
+in s tem gradili strukturo grafa $H$.
+
+\begin{trditev}\label{tr:gruce_preparation}
+    Poljubno vozlišče centralnega cikla $v \in Q$ ima natanko $7 - 2 = 5$ sosedov nevsebovanih v $Q$.
+\end{trditev}
+\begin{dokaz}
+    Če to ne bi veljalo, bi med vozlišči grafa $Q$ našli cikel $C_3$, kar bi 
+    bilo v nasprotju s predpostavko o ožini.
+\end{dokaz}
+
+Sedaj si te sosede oglejmo podrobneje. 
+Rečemo, da vozlišča grafa $H$, ki so sosedna vozlišču $v_i \in Q$, vendar ne ležijo v $Q$,
+pripadajo gruči $\gr_i$. Dodatno bomo rekli, da je $v_i$ center svoje gruče $\gr_i$. 
+Matematično bi to definirali kot:
+\begin{equation*}
+\forall v_i \in Q: \; \gr_i = \{\, u \in H \setminus Q \mid u \sim v_i\,\} = N(v_i) \setminus V(Q).
+\end{equation*}
+Pri taki definiciji je dobro uvideti, da unija takih gruč pokrije ravno vse sosede vozlišč v $Q$,
+in da je moč vsake take gruče po trditvi~\ref{tr:gruce_preparation} enaka 5.
+
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{0.7\columnwidth}
+    \import{../../assets/}{hoffman-singelton-proof.pdf_tex}
+    \caption{Vizualni prikaz strukture gruč v grafu $H$.}
+\end{figure}
+
+\begin{trditev}\label{tr:lastnosti_gruc}
+Gruče, kot definirane zgoraj, v grafu $H$ zadoščajo naslednjim lastnostim:
+\begin{enumerate}[label=(\roman*)]
+\item Gruče so si paroma disjunkne: \(\forall i, j: \;\gr_i \cap \gr_j = \emptyset\).
+    \label{itm:g1}
+\item Vozlišča znotraj posamezne gruče so nepovezana: 
+\(\forall i. \forall u, v \in \gr_i: \; u \not\sim v\).  
+    \label{itm:g2}
+\item Če sta centra \(v_i\) in \(v_j\) sosedna v \(Q\), med gručama ni povezave,
+sicer pa je vsako vozlišče gruče \(\gr_i\) sosedno največ enemu vozlišču 
+gruče \(\gr_j\). Oziroma: \\ \(\forall i, j. \forall u\in \gr_i:\; \left( (v_i \sim v_j 
+\implies \gr_i \not\sim \gr_j) \lor  (|N(u) \cap \gr_j| \leq 1)\right)\)
+    \label{itm:g3}
+\end{enumerate}
+\end{trditev}
+
+\begin{dokaz}
+Vzemimo vozlišči $u, w \in \gr_i$, ter vozlišče $z \in \gr_j$, kjer $i \neq j$.
+Pri dokazih uporabimo metodo protislovja, kjer se dokaz zaključi ko najdemo 
+vsaj en cikel dolžine manj kot 5. To bi namreč bilo v nasprotju z ožino grafa.
+\begin{enumerate}[label=(\roman*)]
+\item Predpostavimo, da obstajata dve gruči, katerih presek ni prazen.
+Brez škode za splošnost predpostavimo $u = z \in \gr_i \cap \gr_j$.
+Tedaj v grafu $H$ obstaja cikel $u v_i \ldots v_j u$, ki je bodisi $C_3$ ali $C_4$.
+\item Naj obstaja gruča $\gr_i$ ter znotraj nje vozlišči $u$ ter $w$, ki sta povezani.
+Tedaj v grafu obstaja cikel $C_3 = u v_i w u$.
+\item Naj bosta najprej centra gruč $v_i$ ter $v_j$ sosedna, ter $u$ in $z$
+povezana. Tedaj v grafu $H$ obstaja cikel $C_4 = u v_i v_j z u$.
+Predpostavimo sedaj, da $v_i \not \sim v_j$, ter da je vozlišče $z$ povezano 
+tako z $u$ kot z $w$. Tedaj obstaja cikel $C_4 = z u v_i w z$.
+\end{enumerate}
+\end{dokaz}
+
+\begin{posledica}\label{po:enolicna_povezava_iz_nq_v_q}
+    Poljubno vozlišče $u$ iz $N(Q)$ je povezano z natanko enim vozliščem iz centralnega
+    cikla $Q$. Namreč po definiciji gruč je unija vseh njih ravno $N(Q)$, 
+    po trditvi~\ref{tr:lastnosti_gruc}\ref{itm:g1} pa, ker so si te gruče disjunktne,
+    velja da je taka unija disjunktna.
+    Torej je $u$ del natanko ene gruče, ki je po definiciji povezana z natanko enim vozliščem iz $Q$.
+\end{posledica}
+
+\begin{posledica}\label{po:lastnosti_gruc}
+Izvedeli smo tudi, da je maksimalna stopnja
+podgrafa $H[N(Q)]$ induciranega z množico sosedov $Q$, označeno z $N(Q)$, enaka $2$. 
+Po točki~\ref{itm:g3} trditve~\ref{tr:lastnosti_gruc} namreč velja, da je vsako vozlišče dane 
+gruče $\gr_i$ lahko povezano zgolj z gručami katerih centri si niso sosedni z $v_i$.
+Taki gruči sta dve, ter do vsake izmed njiju lahko vodi največ ena povezava.
+\end{posledica}
+
+Ogledali smo si strukturo centralnega cikla $Q$ ter strukturo njegovih sosedov $N(Q)$,
+katerih je, mimogrede, natanko $5\cdot 5 = 25$ 
+(glej \ref{tr:gruce_preparation} in \ref{tr:lastnosti_gruc}\ref{itm:g1}).
+
+Da bomo o strukturi grafa $H$ lahko povedali še kaj več, si oglejmo še preostala vozlišča, 
+katerih je $50 - 5 - 25 = 20$. Ker so le ta, na razdalji natanko $2$ od vozlišč centralnega cikla $Q$,
+jih prikladno označimo z $N_2(Q)$.
+
+\begin{trditev}\label{tr:st_povezav_iz_n2q}
+    Naj bo $q$ vozlišče iz množice $N_2(Q)$, tedaj ima lahko z vozlišči iz $N(Q)$ največ $5$ povezav.
+\end{trditev}
+\begin{dokaz}
+    Če bi jih imelo več, bi to pomenilo, da je $q$ povezano z neko gručo $\gr_i$ dvakrat,
+    recimo z $u$ in $w$. Potem bi v grafu $H$ obstajal cikel $C_4 = q u v_i w q$,
+    kar bi bilo v nasprotju z ožino grafa.
+\end{dokaz}
+
+\begin{trditev}\label{tr:st_sosedov_v_n2q}
+Vsako vozlišče $u$, ki pripada gruči $\gr_i$, ima natanko $4$ sosede v $N_2(Q)$. Poleg tega
+vozlišča iz iste gruče nimajo skupnih sosedov v $N_2(Q)$. Formalno to zapišemo kot:
+\[
+\forall i:\; \forall u \neq w \in \gr_i:\ |N(u) \cap N_2(Q)| = 4 \ \land \ N(u) \cap N(w) \cap N_2(Q) = \emptyset,
+\]
+\end{trditev}
+
+\begin{dokaz}
+Kot v dokazu trditve~\ref{tr:lastnosti_gruc} bomo tudi tu vzeli vozlišči $u, w \in \gr_i$,
+ter vozlišče $z\in\gr_j$, kjer $i \neq j$. Tudi tu bomo uporabili metodo protislovja.
+
+Opazujmo najprej vozlišče $w$. Tako vozlišče ima vsaj 4 sosede v $N_2(Q)$, 
+saj je njegova stopnja enaka $7$, povezan pa je z vozliščem 
+$v_i \in Q$ ter po posledici~\ref{po:lastnosti_gruc} še z največ dvema
+vozliščema iz $N(Q)$. Hkrati pa v $N_2(Q)$ nima več kot 4 sosede, kar pokažemo z enostavnejšim 
+protislovjem. Predpostavimo lahko nasprotno, potem bi iz množice vozlišč $N(Q)$ 
+v množico vozlišč $N_2(Q)$ vodilo vsaj 
+$24\cdot 4 + 1\cdot 5 = 101$ povezav, kar je več kot $20\cdot 5 = 100$, ki bi vodilo v obratno 
+smer (namreč vozlišče iz $N_2(Q)$ ima lahko največ $5$ sosedov v $N(Q)$ 
+\ref{tr:st_povezav_iz_n2q}).
+\end{dokaz}
+
+\begin{posledica}\label{po:regularnosti_podgrafov}
+    S tem smo pokazali tudi, da je podgraf $H[N(Q)]$ induciran z množico $N_2(Q)$ 2-regularen ter,
+    da ima vsako vozlišče iz $N_2(Q)$ natanko 5 sosedov v $N(Q)$. Posledično je tudi $H[N_2(Q)]$
+    2-regularen.
+\end{posledica}
+
+\begin{dokaz}
+    Vozlišče iz podgrafa $H[N(Q)]$ je po trditvi~\ref{tr:st_sosedov_v_n2q} povezano 
+    z natanko 4 vozlišči iz $N_2(Q)$, torej iz množice $N(Q)$ v množico $N_2(Q)$
+    vodi natanko $25\cdot 4 = 100$ povezav. V dokazu ravno te trditve pa smo pokazali,
+    da lahko v nasprotno smer vodi toliko povezav zgolj, če ima vsako vozlišče iz $N_2(Q)$ 
+    natanko $5$ sosedov v $N(Q)$, od koder naravno sledi, da je $H[N_2(Q)]$ $2$-regularen.
+    
+    Poleg tega pa je, po 
+    posledici~\ref{po:enolicna_povezava_iz_nq_v_q}, tako vozlišče iz $H[N(Q)]$ povezano z 
+    natanko enim vozliščem iz centralnega cikla $Q$. Skupno ima tako vozlišče natanko $5$ povezav izven 
+    $H[N(Q)]$ in zato točno $2$ povezavi znotraj $H[N(Q)]$ -- je $2$-regularen.
+
+    Pri dokazu trditve~\ref{tr:st_sosedov_v_n2q} 
+\end{dokaz}
+
+\begin{trditev}\label{tr:unija_ciklov}
+    Podgraf $H[N(Q)]$ induciran z množico $N(Q)$ je disjunktna unija ciklov, 
+    katerih dolžina je večkratnik števila $5$.
+\end{trditev}
+
+\begin{dokaz}
+    Tu se preprosto skličemo na posledico~\ref{po:regularnosti_podgrafov}, ki nam pove,
+    da je $H[N(Q)]$ 2-regularen, kar je ekvivalentno temu, da je disjunktna unija ciklov.
+    Lastnosti gruč~\ref{tr:lastnosti_gruc}\ref{itm:g3} pa nam dodatno povedo, da lahko vsak 
+    cikel zaključimo šele v koraku, ki je večkratnik števila $5$. 
+\end{dokaz}
+
+Sedaj se osredotočimo na spektralno analizo grafa $H$ s pomočjo katere bomo 
+lahko sklepali več o številu in velikosti ciklov, ki sestavljajo podgraf $H[N(Q)]$. 
+Iz lastnosti Mooreovih 
+grafov~\ref{iz:hoffmansingeltonizrek} vemo, da je njegov spekter 
+enak $\{7^{(1)}, 2^{(28)}, (-3)^{(21)}\}$.
+
+Pred nadaljevanjem je smiselno predstaviti lemo, ki govori o lastnih vrednostih cikličnih
+grafov, ter splošno znan izrek, ki govori o lastnih vrednostih podgrafov.
+
+\begin{lema}\label{le:cikellastne}
+Naj bo dan cikel $C_n$ ter njegova sosednostna matrika $A$. Tedaj so lastne vrednosti 
+matrike $A$ enake $2\cos(2\pi k/n)$, kjer $k \in \{0, 1, \ldots, n-1\}$. Posebno za 
+vsako lastno vrednost velja $-2 \leq 2\cos(2\pi k/n) \leq 2$.
+\end{lema}
+\begin{dokaz}
+    Naj bo $A$ sosednostna matrika cikla $C_n$. Potem velja:
+    \begin{align*}
+        A =  \begin{pmatrix} 
+            0 & 1 & 0 & \dots & 1 \\ 
+            1 & 0 & 1 & \dots & 0 \\ 
+            0 & 1 & 0 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            1 & 0 & 0 & \dots & 0 \end{pmatrix}
+        =  \begin{pmatrix} 
+            0 & 0 & 0 & \dots & 1 \\ 
+            1 & 0 & 0 & \dots & 0 \\ 
+            0 & 1 & 0 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            0 & 0 & 0 & \dots & 0 \end{pmatrix} 
+            +
+            \begin{pmatrix} 
+            0 & 1 & 0 & \dots & 0 \\ 
+            0 & 0 & 1 & \dots & 0 \\ 
+            0 & 0 & 0 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            1 & 0 & 0 & \dots & 0 \end{pmatrix}
+        = P + P^{-1}.
+    \end{align*}
+    Kjer je $P$ permutacijska matrika, ki predstavlja rotacijo vozlišč 
+    cikla $C_n$ v smeri urinega kazalca.
+    Nadaljno velja:
+    \begin{align*}
+        \det(P - \lambda I) &= -\lambda \begin{vmatrix} 
+            -\lambda & 0 & 0 & \dots & 0 \\ 
+            1 & -\lambda & 0 & \dots & 0 \\ 
+            0 & 1 & -\lambda & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            0 & 0 & 0 & \dots & -\lambda  \end{vmatrix}
+            + (-1)^{n+1} \begin{vmatrix} 
+            1 & -\lambda & 0 & \dots & 0 \\ 
+            0 & 1 & -\lambda & \dots & 0 \\ 
+            0 & 0 & 1 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            0 & 0 & 0 & \dots & 1  \end{vmatrix} \\
+            &= (-1)^n \lambda^n + (-1)^{n+1}
+    \end{align*}
+    Posledično je karakteristični polinom matrike $P$ enak $\lambda^n - 1$, katerega ničle 
+    so $n$-ti koreni enote, torej so lastne vrednosti matrike $A$ enake 
+    $\lambda_j = e^{i \frac{2\pi j}{n}} + e^{-i \frac{2\pi j}{n}} = 2\cosh(2\pi i j/n) = 2\cos(2\pi j/n)$.
+\end{dokaz}
+
+
+\begin{izrek}[Izrek o prepletanju lastnih vrednosti]\label{iz:interlacing}
+Naj bo $G$ graf z $n$ vozlišči, ter $H$ njegov podgraf z $r$ vozlišči. Naj bo 
+$A$ sosednostna matrika grafa $G$, ter $B$ sosednostna matrika grafa $H$. Naj bo
+$\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_n$ spekter matrike $A$, 
+ter $\mu_1 \geq \mu_2 \geq \ldots \geq \mu_r$ spekter matrike $B$. Potem velja:
+\[
+\lambda_i \geq \mu_i \geq \lambda_{n - r + i} \quad \text{za vse } i \in \{1, 2, \ldots, r\}.
+\]
+\end{izrek}
+\begin{dokaz}
+    Dokaz izpustimo. Več lahko preberete v~\cite{enwiki1325771674}.
+\end{dokaz}
+
+Po lemi~\ref{le:cikellastne} vemo, da ima cikel $C_n$ natanko eno lastno vrednost enako $2$, 
+in ker je $H[N(Q)]$ disjunktna unija ciklov, bo imel tak podgraf natanko toliko 
+lastnih vrednosti enakih $2$, kolikor je ciklov v tej uniji.
+
+Nato lahko izrek o prepletanju lastnih vrednosti~\ref{iz:interlacing} uporabimo
+direktno na podgrafu $H[N(Q)]$, vendar dobimo prešibke rezultate.
+
+Izkaže se, da je bolje uporabiti izrek o prepletanju lastnih vrednosti na 
+podgrafu $H[v \cup N(Q)]$, ki ga dobimo, če iz grafa $H$ odstranimo vsa vozlišča, 
+razen enega iz $Q$ in tistih iz $N(Q)$, nato pa opazovati spremembo multiplitete
+lastne vrednosti $2$ ko iz podgrafa $H[v \cup N(Q)]$ odstranimo vozlišče $v$.
+
+V ta namen navedimo naslednjo definicijo in lemo, ki nam bosta služili pri nadaljnji analizi.
+
+\begin{definicija}
+    Naj bo $H$ poljuben graf z množico vozlišč $V(H)$, za
+    poljubno $W \subset V(H)$ neprazno, definiramo delni spoj, označen z $\oplus$, 
+    kot $v \oplus (H, W)$, kjer je $v$ novo vozlišče, ki je povezano z vsemi 
+    vozlišči iz $W$, ter z nobenim drugim vozliščem grafa $H$.
+\end{definicija}
+
+
+\begin{lema}\label{le:knjiga}
+    Naj bo $G = \cup_{i=1}^k C_{n_i}$, ter $W \subset V(G)$ neprazna. Potem je 
+    multipliteta lastne vrednosti $2$ v grafu $v \oplus (G, W)$ enaka 
+    $k-1$.
+\end{lema}
+\begin{dokaz}
+    Vredno je omeniti, da ima vsak cikel $C_n$ natanko eno lastno vrednost enako $2$ 
+    (glej lemo~\ref{le:cikellastne}). Naj bodo $B_1, \ldots, B_k$ 
+    sosednostne matrike ciklov $C_{n_1}, \ldots, C_{n_k}$
+    ter $B$ sosednostna matrika grafa $G$.
+    $B$ je bločno diagonalna matrika, katere bloki so 
+    matrike $B_1, \ldots, B_k$. Posledično je multipliteta lastne vrednosti $2$ v 
+    grafu $G$ enaka $k$.
+
+    Naj bo dalje $A$ sosednostna matrika grafa $v \oplus (G, W)$,
+    podrobneje pa nas zanima dimenzija lastnega prostora lastne vrednosti $2$; velja:
+    \begin{align*}
+        A - 2I &= \begin{bmatrix} 
+            B_1 - 2I & 0 & 0 & \dots & x_{C_{n_1}} \\ 
+            0 & B_2 - 2I & 0 & \dots & x_{C_{n_2}} \\ 
+            0 & 0 & B_3 - 2I & \dots & x_{C_{n_3}} \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            x_{C_{n_1}}^\top & x_{C_{n_2}}^\top & x_{C_{n_3}}^\top & \dots & -2  \end{bmatrix}
+            = \begin{bmatrix}
+            B - 2I & \mathbf{x} \\
+            \mathbf{x}^\top & -2
+            \end{bmatrix}
+        \end{align*}
+    Naj bo zdaj $\begin{bmatrix}
+        \mathbf{v} \\
+        t
+    \end{bmatrix} \in \ker(A - 2I)$, potem je $0 = (A - 2I) \begin{bmatrix}
+        \mathbf{v} \\
+        t
+    \end{bmatrix} = \begin{bmatrix}
+        (B - 2I)\mathbf{v} + t \mathbf{x} \\
+        \mathbf{x}^\top \mathbf{v} - 2t
+    \end{bmatrix}$. Ker $(B-2I)\mathbf{v} + t \mathbf{x} = 0$, je
+    $-t\mathbf{x} \in \im(B-2I)$. Ker je $(B-2I)$ simetrična je $\im(B-2I) = \ker(B-2I)^\perp$,
+    torej za vsak $u \in \ker(B-2I)$ velja $-t\mathbf{x} \cdot u = 0$. 
+    Ker je $\ker(B-2I) = \{\mathbf{1}_{C_{n_1}}, \ldots, \mathbf{1}_{C_{n_k}}\}$ 
+    (\ref{le:cikellastne}), in ker $W \cap V(G) \neq \emptyset$, 
+    obstaja $i \in \{1, 2, \ldots, k\}$, da za $\mathbf{x} \cdot \mathbf{1}_{C_{n_i}} > 0$
+    in posledično iz 
+    $-t\mathbf{x} \cdot \mathbf{1}_{C_{n_i}} = 0$ sledi $t=0$.
+
+    Sistem se poenostavi v $\begin{bmatrix}
+        (B-2I)\mathbf{v} \\
+        \mathbf{x}^\top \mathbf{v}
+    \end{bmatrix} = 0$. Od tod velja $\mathbf{v} \in \ker(B-2I)$, torej 
+    $\mathbf{v} = \alpha_1 \mathbf{1}_{C_{n_1}} + \ldots + \alpha_k \mathbf{1}_{C_{n_k}}$ in
+    $\mathbf{x}^\top (\alpha_1 \mathbf{1}_{C_{n_1}} + \ldots + \alpha_k \mathbf{1}_{C_{n_k}}) = 0$.
+    Ker je to ena enačba z $k$ spremenljivkami, je dimenzija rešitvenega prostora enaka $k-1$.
+    Posledično je $\dim\ker(A-2I) = k-1$.
+\end{dokaz}
+
+
+\begin{trditev}\label{tr:pet_ciklov}
+    Podgraf $H[N(Q)]$ je enak disjunktni uniji petih ciklov $C_5$.
+\end{trditev}
+\begin{dokaz}
+    Vzemimo graf $H$ z lastnimi vrednostmi 
+    $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_{50}$ ter njegov podgraf 
+    $H[v \cup N(Q)]$ z lastnimi vrednostmi 
+    $\mu_1 \geq \mu_2 \geq \ldots \geq \mu_{26}$. Na njem uporabimo izrek o 
+    prepletanju lastnih vrednosti~\ref{iz:interlacing}, s $r=26$ ter $n=50$.
+    Za vsak $i \in \{2, 3, 4, 5\}$ dobimo:
+    \[2 = \lambda_i \geq \mu_5 \geq \lambda_{24 + i} = 2.\]
+    Večkratnost lastne vrednosti $2$ v $H[v \cup N(Q)]$ je torej vsaj $4$.
+
+    Po lemi~\ref{le:knjiga}, uporabljeni na
+    $G = H[N(Q)]$, $v \in Q$ ter $W = \gr_i$, dobimo, da je večkratnost lastne vrednosti $2$
+    v $H[N(Q)]$ vsaj $4+1=5$, ker je $5$ tudi največje število ciklov, ki jih lahko 
+    imamo v $20$-vozliščnem $2$-regularnem grafu, je 
+    po lemi~\ref{le:cikellastne}, $H[N(Q)]$ 
+    enak $C_5$.
+\end{dokaz}
+
+
+
+
+
+
+Velja torej $H[N(Q)] = 5C_5$. Označimo te cikle z $P_0, P_1, P_2, P_3, P_4$. Za vsak $i$ velja, da
+$P_i \cup Q \subset H$ sestoji iz 10 vozlišč, je ožine 5, ter je kubičen graf (namreč 
+vsako vozlišče iz $Q$ ima dva soseda v $Q$ ter natanko enega v $P_i$, simetrično velja za vozlišča iz $P_i$); 
+to so karakteristike Petersenovega grafa, zato torej $P_i \cup Q$ inducira Petersenov graf. Ker bi našo analizo lahko začeli s poljubnim ciklom $C_5$,
+bi lahko izbrali tudi $P_i$ namesto $Q$ ter tako izvedeli, da je $N(P_i) = Q \cup N_2(Q) = 5C_5$ 
+(namreč vsako vozlišče iz $N_2(Q)$ ima natanko 5 sosedov v $N(Q)$, natanko enega na gručo). Posledično
+je iz te perspektive razvidno, da je $H[N_2(Q)] = 4C_5$.
+Označimo te cikle z $Q_1, Q_2, Q_3, Q_4$, originalni $Q$ pa s $Q_0$. Tudi $Q_i \cup P_j$ inducira Petersenov graf.
+ 
+Postavimo $Q_i$ ter $P_j$ v matriko, ker poljubna unija tvori Petersenov graf, 
+je jasno, lahko povezavo med $Q_i$ in $P_j$ opišemo z neko permutacijo 
+$\pi_{ij}$. Oštevilčimo vozlišča v $P_j$ v smeri urinega kazalca, $Q_i$ pa 
+najprej preoblikujemo v komplementarno zvezdno obliko, ter nato oštevilčimo prav 
+tako v smeri urinega kazalca. BSŠ lahko predpostavimo $\pi_{0j} = \pi_{i0} = \text{id}$; identiteta
+(namreč, sicer lahko cikle $Q_i$ ter $P_j$ preuredimo).
+Opazimo, da za $i, j \leq 1$ permutacija $\pi_{ij}$ ne sme imeti fiksne točke, da se 
+prepričamo vzemimo fiksno točko $k$ (torej $\pi_{ij}(k) = k$), potem nastane 
+$C_4 = Q_0^k P_0^k P_j^k Q_i^k Q_0^k$, protislovje (z ožino). Dodatno, ker je $Q_i \cup P_j$ 
+Petersenov graf, je $\pi_{ij}$ lahko zgolj rotacijska permutacija (namreč sicer nastanejo cikli), označimo 
+jo z $\rho$, kjer je $\rho = (4\,0\,1\,2\,3)$ ter 
+$\rho^m = (\rho^{m-1}(4)\, \rho^{m-1}(0)\, \rho^{m-1}(1)\, \rho^{m-1}(2)\, \rho^{m-1}(3))$,
+kjer $\rho^0 = \id$.
+Dodatno vidimo tudi, da si morajo biti permutacije, ki so v isti vrstici ali istem stolpcu,
+različne. Za protislovje BSŠ vzemimo $\pi_{ij} = \pi_{i'j}$, tako nastane cikel
+$Q_0^k Q_i^k P_j^{\pi_{ij}(k)} Q_i'^{k} Q_0^k$; protislovje.
+Tako lahko poljubno izberemo različne si permutacije $\pi_{i1}$ in $\pi_{1j}$, dokler so si različne, BSŠ 
+vzemimo kar naravno izbiro, $\pi_{i1} = \rho^i$ in $\pi_{1j} = \rho^j$. Opazimo še, da je sedaj lahko 
+permutacija $\pi_{32}$ lahko bodisi $\rho$ ali $\rho^3$; vendar pri izbiri $\pi_{32} = \rho^4$ potem 
+je $\pi_{11}^{-1} \pi_{12} \pi_{32}^{-1} \pi_{31} = \text{id}$, kar pomeni, da obstaja cikel $C_4$. Od tu 
+naprej lahko brez težav zapolnimo preostale permutacije, saj so si vse permutacije v istem stolpcu ali vrstici 
+različne.  
+
+\begin{equation*}
+\begin{array}{c|ccccc}
+    & P_0 & P_1 & P_2 & P_3 & P_4 \\
+    \hline 
+    Q_0 & \text{id} & \text{id} & \text{id} & \text{id} & \text{id} \\
+    Q_1 & \text{id} & \rho & \rho^2 & \rho^3 & \rho^4 \\
+    Q_2 & \text{id} & \rho^2 & \rho^4 & \rho & \rho^3 \\
+    Q_3 & \text{id} & \rho^3 & \rho & \rho^4 & \rho^2 \\
+    Q_4 & \text{id} & \rho^4 & \rho^3 & \rho^2 & \rho \\
+\end{array}
+\end{equation*}
+
+Tako smo konstruirali unikatnega kandidata za Mooreov graf stopnje $7$ in premera $2$,
+ki ga imenujemo Hoffman-Singeltonov graf.
+Preostane nam le še pokazati, da je graf resnično Mooreov in v zadnjih korakih nismo ustvarili
+kratkih ciklov.
+
+Videli smo, da $Q_i \cup P_j$ inducira Petersenov graf, ki ima ožino $5$. Torej, če bi 
+cikel obstajal bi moral biti potekati vsaj skozi enega $P_i$-ja in dva $Q_i$-ja (ali pa obratno).
+Ampak če cikel obišče enega $P_i$-ja in dva $Q_i$-ja, potem mora vsebovati vsaj dve vozlišči
+iz vsakega, vendar potem je dolžina takega cikla vsaj $6$. Namreč $Q_i^u P_j^v$ lahko nadaljujemo 
+edino z $Q_i^v$, kar pa niti ne tvori cikla, torej res mora vsebovati vsaj dve vozilšči iz vsakega.
+
+Edina ostala možnost, ki bi lahko ustvarila cikel, je, da obišče dva $P_i$-ja in dva $Q_i$-ja,
+in s tem tvori $C_4$. Recimo, da je ta cikel $Q_i^u P_j^v Q_k^w P_l^x Q_i^u$.
+
+Vidimo lahko, da se permutacijo, ki poveže $Q_i$ z $P_j$ lahko zapišemo tudi krajše
+kot $\pi_{ij} = \rho^{ij \pmod 5}$. Torej iz vozlišča $Q_i^u$ v $P_j^v$ lahko pridemo
+le, če je $v = u + ij \pmod 5$, podobno se nazaj vračamo z inverzno permutacijo in zato
+lahko iz vozlišča $P_j^v$ pridemo v $Q_k^w$ le, če je $w = v - jk \pmod 5$.
+
+Tako bi naš cikel $Q_i^u P_j^v Q_k^w P_l^x Q_i^u$ lahko obstajal le, če bi veljale enačbe:
+\begin{align}
+    v &\equiv u + ij \pmod 5 \\
+    w &\equiv v - jk \pmod 5 \\
+    x &\equiv w + kl \pmod 5 \\
+    u &\equiv x - li \pmod 5
+\end{align}
+Seštete enačbe dajo $v + w + x + u \equiv v + w + x + u + ij - jk + kl - li \pmod 5$, 
+kar se poenostavi v $0 \equiv (i-k)(j-l) \pmod 5$. Ampak potem je bodisi $(i-k) \equiv 0$
+bodisi $(j-l) \equiv 0$, ker so $i, j, k, l$ elementi množice $\{0, 1, 2, 3, 4\}$,  
+to prisili, 
+da je $i=k$ ali $j=l$, kar pomeni, da cikel ne obstaja.
+
+Tako smo pokazali, da je graf, ki smo ga konstruirali resnično Mooreov graf stopnje $7$ in 
+premera $2$, ter da je unikaten.
+
+\begin{trditev}\label{tr:sosedstva_ciklov}
+    Sosedstva med cikli $P_i$ in $Q_j$ so opisana z relacijo
+    \begin{equation}
+        P^i_j \sim Q^k_m \iff m \equiv j + i\cdot k \pmod 5
+    \end{equation}
+\end{trditev}
+
+\paragraph{Grupa avtomorfizmov}
+\begin{trditev}\label{tr:red_avtomorfizmov}
+    Red avtomorfizmov Hoffman-Singeltonovega grafa je $|\aut(H)| = 50\cdot 7!$.
+\end{trditev}
+
+Fiksirali bomo nek cikel $C_5$ v grafu $H$, recimo $P^0$ in opazovali njegovo orbito
+ter stabilizatorsko grupo. Če označimo $G = \aut(H)$, nam izrek o 
+orbitah in stabilizatorjih~\ref{iz:orbita_stabilizator_red}
+pove, da je $|\aut(H)| = |G\cdot P^0||G_{P^0}|$.
+
+Število elementov v orbiti $G\cdot P^0$ je enako številu ciklov $C_5$ v grafu $H$,
+v katere lahko preslikamo $P^0$.
+Red stabilizatorja $G_{P^0}$ pa bomo izračunali tako, da bomo našli grupo $\Delta$, ki
+ji je v njem vsebovana in pokazali, da mu je v resnici enaka.
+
+\begin{lema}
+    Število ciklov $C_5$ v grafu $H$ je enako $1260 = 50\cdot 7\cdot 6\cdot 6$
+    In posledično je $|G\cdot P^0| = 50\cdot 7\cdot 6\cdot 6$.
+\end{lema}
+\begin{dokaz}
+    Ker ima graf $H$ premer $2$ in ožino $5$, vsaka pot dolžine $4$ enolično določa
+    cikel $C_5$. Tako pot lahko začnemo v poljubnem vozlišču, nadaljujemo pa
+    jo z poljubnim sosedom, nato pa z vozliščem, ki ni sosed prvega, 
+    ampak je sosed drugega, in tako naprej.
+\end{dokaz}
+
+\begin{lema}\label{le:permutira_qi_je}
+    Vsak avtomorfizem, ki fiksira $P^0$ permutira $Q^i$-je, brez rotacij.
+\end{lema}
+\begin{dokaz}
+    Naj bo $\sigma \in G_{P^0}$ in $Q = \{Q^0, \ldots, Q^4\}$. 
+    Potem je $P^0_j \sim Q^k_j$ (\ref{tr:sosedstva_ciklov}).
+    Tako za presekano množico sosedov velja $N(P^0_j)\cap Q = \{Q^k_j \mid k \in \mathbb{Z}_5\}$.
+    Ker $\sigma$ ohranja sosedstva in fiksira $P^0_j$ velja 
+    $\sigma(\{Q^k_j \mid k \in \mathbb{Z}_5\}) = \{Q^k_j \mid k \in \mathbb{Z}_5\}$
+    (\ref{tr:stabilizator_sosedstvo}), kar pomeni, da $\sigma$ permutira $Q^i$-je brez rotacij.
+\end{dokaz}
+
+Definirajmo zdaj grupo $\Delta = \langle\alpha\beta\rangle$ generirano
+z $\alpha$ in $\beta$, kjer sta $\alpha, \beta: V(H) \to V(H)$, definirani kot:
+    \begin{align}
+        &\alpha: \begin{cases}
+            P_j^i &\mapsto P_j^{3i} \\
+            Q_j^k &\mapsto P_j^{2k}
+        \end{cases}\\
+        &\beta: \begin{cases}
+            P_j^i &\mapsto P_{j-i}^i \\
+            Q_j^k &\mapsto Q_j^{k+1}
+        \end{cases}
+    \end{align}
+\begin{lema}
+    Grupa $\Delta$ je izomorna semidirektnemu produktu 
+    (\ref{def:semidirektni_produkt}) ciklične grupe $C_5$ in grupe $C_4$.
+    Posledično je $|\Delta| = 20$.
+\end{lema}
+\begin{dokaz}
+    Najprej preverimo, da sta $\alpha$ in $\beta$ resnično avtomorfizma grafa $H$. 
+    Po trditvi~\ref{tr:sosedstva_ciklov} je $P^i_j \sim Q^k_{j + ik}$.
+    Res preslikavi ohranjata sosedstva, saj 
+    \begin{align*}
+    &\alpha(P^i_j) = P^{3i}_j \sim Q^{2i}_{j + (3i)(2k)} 
+        \equiv Q^{2i}_{j + ik} = \alpha(Q^k_{j + ik}) \\
+    &\beta(P^i_j) = P^i_{j-i} \sim Q^{k+1}_{(j-i)+i(k+1)} 
+        \equiv Q^{k+1}_{j + ik} = \beta(Q^k_{j + ik})
+    \end{align*}
+
+    Dalje pokažimo, da je $\beta$ normalna podgrupa (\ref{def:normalna_podgrupa}) v $\Delta$.
+    Velja namreč
+    \begin{align*}
+    &(\alpha\circ\beta\circ\alpha^{-1})(V(H)) \ni (\alpha\circ\beta\circ\alpha^{-1})(P^i_j) = (\alpha\circ\beta)(P^{2i}_j) = 
+    \alpha(P^{2i}_{j-2i}) = P^{3(2i)}_{j-2i} \\
+    &\equiv P^i_{j-2i} = \beta^2(P^i_j) \in \langle\beta\rangle \\
+    &(\alpha\circ\beta\circ\alpha^{-1})(V(H)) \ni (\alpha\circ\beta\circ\alpha^{-1})(Q^k_j) = (\alpha\circ\beta)(P^{3k}_j) = 
+    \alpha(P^{3k}_{j-3k}) = P^{3(3k)}_{j-3k} \\
+    &\equiv P^k_{j-3k} = \beta^3(Q^k_j) \in \langle\beta\rangle
+    \end{align*}
+
+    Ker je tudi $\langle\beta\rangle \cap \langle\alpha\rangle = \{\id\}$,
+    namreč $\alpha$ fiksira $Q^0$ medtem ko ga $\beta$ nikoli ne,
+    sedaj vemo, da je $\Delta = \langle\beta\rangle \rtimes \langle\alpha\rangle$, 
+    semidirektni produkt (\ref{def:semidirektni_produkt}), in da
+    velja $|\Delta| = |\langle\beta\rangle||\langle\alpha\rangle|$ 
+    (\ref{op:lastnost_semidirektnega_produkta}).
+
+    Ker je $\beta^5 = \id$ in $\alpha^4 = \id$, je $|\langle\beta\rangle| = 5$ in 
+    $|\langle\alpha\rangle| = 4$, posledično je $|\Delta| = 20$.
+
+    Mimogrede, ker je $\alpha$ edini generator grupe $\langle\alpha\rangle$ in je reda
+    $4$, je $\langle\alpha\rangle$ izomorfna ciklični grupi $C_4$. 
+    Podobno je $\langle\beta\rangle$ izomorna ciklični grupi $C_5$. Tako tudi 
+    $\Delta \cong C_5 \rtimes C_4$.
+\end{dokaz}
+
+
+\begin{lema}
+    Grupa $\Delta$ je natanko stabilizatorska grupa $G_{P^0}$.
+    Posledično je $|G_{P^0}| = 20$.
+\end{lema}
+\begin{dokaz}
+    Če bi $G_{P^0}$ imel še kako permutacijo $\tau \not\in \Delta$,
+    potem bi ta prisilila obstoj netrivialne permutacije, ki bi fiksirala $P^0$
+    in še dva $Q^i$-ja. Namreč po Lagrangevem izreku~\ref{iz:index_lagrange} 
+    vemo, da je $|G_{P^0}|$ večkratnik reda svoje podgrupe $\Delta$, torej večkratnik
+    števila $20$. Če je grupa $G_{P^0}$ večja od grupe $\Delta$, 
+    mora veljati $|G_{P^0}| \geq 40$. Po izreku o orbitah in 
+    stabilizatorjih~\ref{iz:orbita_stabilizator_red} 
+    je $|G_{P^0}| = |G_{P^0}\cdot Q^0||(G_{P^0})_{Q^0}|$.
+    Ker $G_{P^0}$ fiksira $P^0$, permutira zgolj $Q^i$-je brez 
+    rotacij (\ref{le:permutira_qi_je}), se $Q^0$ pri fiksiranem
+    $P^0$ lahko preslika natanko v enega izmed $5$-ih $Q^i$-jev, 
+    zato $|G_{P^0}\cdot Q^0| = 5$.
+
+    Velja torej $|(G_{P^0})_{Q^0}| \geq 40 / 5 = 8$. Zdaj izrek o orbitah 
+    in stabilizatorjih~\ref{iz:orbita_stabilizator_red} uporabimo še enkrat, 
+    in tokrat dobimo 
+    $|(G_{P^0})_{Q^0}| = |(G_{P^0})_{Q^0}\cdot Q_1||((G_{P^0})_{Q^0})_{Q_1}|$
+    in posledično $|((G_{P^0})_{Q^0})_{Q^1}| \geq 8 / 4 = 2$.
+    To nam neposredno pove, da obstaja vsaj ena netrivialna permutacija 
+    $\sigma \in G_{P^0}$, ki fiksira $P^0$, $Q^0$ in $Q^1$. Označimo 
+    $S = \{P^0, Q^0, Q^1\}$ in $\sigma(S) = S$. 
+
+    Preostane nam še pokazati, da bi taka permutacija $\sigma$ nujno ustvarila
+    cikel $C_4$, kar bi bilo protislovje.
+
+    Vzemimo poljubno vozlišče $P^i_j$, kjer $i\neq 0$. Potem sta njegova soseda v množici 
+    $S$ enaka $\{Q^0_j, Q^1_{j+1}\} = N(P^i_j)\cap S$ (\ref{tr:sosedstva_ciklov}). 
+    Ker $\sigma$ fiksira $S$ 
+    točkovno, velja $N(\sigma(P^i_j)) \cap S = N(P^i_j) \cap S$, %% TODO: Utemelji. z referenco.
+    torej si $\sigma(P^i_j)$ in $P^i_j$ delita soseda $Q^0_j$ in $Q^1_{j+1}$.
+    Tako smo prispeli v protislovje, našli smo namreč cikel
+    $C_4 = P^i_j Q^0_j \sigma(P^i_j) Q^1_{j+1} P^i_j$. 
+\end{dokaz}
+
+Zdaj končno vidimo, da je $|\aut(H)| = |G\cdot P^0||G_{P^0}| = (50\cdot 7\cdot 6\cdot 6) \cdot 20 = 50 \cdot 7!$.
+Naša trditev~\ref{tr:red_avtomorfizmov} je dokazana.
+
+\begin{opomba}\label{op:hs_tranzitiven}
+Vidimo lahko, da je $50\cdot 7!$ tudi največje število avtomorfizmov,
+ki jih lahko ima graf reda $50$ in stopnje $7$. Namreč, po
+izreku o orbitah in 
+stabilizatorjih~\ref{iz:orbita_stabilizator_red}, 
+je $|\aut(H)| = |G\cdot v||G_v|$ za poljubno vozlišče $v$.
+
+Orbita vozlišča $v$ je množica vseh vozlišč, v katera ga lahko preslikamo in 
+takih je največ $50$. Stabilizator $G_v$ pa lahko kvečjemu permutira vseh 
+njegovih $7$ sosedov, kar pomeni, da je njegov red kvečjemu $7!$.
+
+Ker je orbita poljubnega vozlišča $v$ maksimalna, je 
+Hoffman-Singeltonov graf tudi vozliščno tranzitiven.
+\end{opomba}
+
+\begin{opomba}
+    Izkaže se, da grupa avtomorfizmov Hoffman-Singeltonovega grafa
+    izomorfna semidirektnemu produktu med projektivno posebno unitarno
+    grupo $\text{PSU}(3, 5^2)$ in ciklično grupo $C_2$.
+    Velja torej $\aut(H) \cong \text{PSU}(3, 5^2) \rtimes C_2$.
+\end{opomba}
+
+
+
+
 
 \subsubsection{Graf valence 57}
 Obstoj Mooreovega grafa stopnje $\Delta = 57$ in premera $D = 2$ je še 
@@ -393,7 +1266,7 @@ $\alpha \leq n \frac{-\lambda_{\min}}{\lambda_{\max} - \lambda_{\min}}$,
 kjer je $\lambda_{\max}$ največja lastna vrednost, ter $\lambda_{\min}$ najmanjša lastna vrednost,
 dobimo, da je neodvisno število tega grafa manjše ali enako $400$.
 
-Predstavimo še trditev, ki jo je po govoricah ?? sam izrekel svojim študentom, ki pravi, 
+Predstavimo še trditev, ki pravi, 
 da graf valence $57$, če obstaja, ne more biti vozliščno tranzitiven, 
 kar pomeni, da ne more imeti simetrije, ki bi omogočala, da se katerokoli vozlišče preslika v 
 katerokoli drugo vozlišče. To ga loči od ostalih treh Mooreovih grafov, ki so vsi vozlično tranzitivni.
@@ -401,20 +1274,55 @@ katerokoli drugo vozlišče. To ga loči od ostalih treh Mooreovih grafov, ki so
 \begin{trditev}
 Graf valence $57$, če obstaja, ni vozlično tranzitiven.
 Glej vira \citeauthor{higman1964finite} in \citeauthor{aschbacher1971nonexistence}. NEDOKONČANO.
+
 \end{trditev}
 
 
 
-\begin{dokaz}
-    Dokaz bomo izvedli z metodo \emph{reductio ad absurdum}.
-    Predpostavimo, da je graf valence $57$ vozliščno tranzitiven.
-    Ker je krepko regularen s parametri $(3250, 57, 0, 1)$,
+\begin{dokaz}[Skica dokaza]
+Predpostavimo, da je graf valence $57$ vozliščno tranzitiven. Potem njegova grupa avtomorfizmov
+deluje tranzitivno na njegovih $3250$ vozliščih. Ker je premer grafa $2$, 
+stabilizator $G_v$ razdeli preostalih $(n-1)$ vozlišč na natanko dve množici (orbiti).
+Prva orbita vsebuje $57$ vozlišč, ki so sosedi vozlišča $v$,
+druga orbita pa vsebuje $57\cdot (57 - 1) = 3192$ vozlišč, ki niso sosedna vozlišču $v$.
+Skupaj s trivialno orbito $\{v\}$ to pomeni, da ima grupa rang $3$.
+
+Predpostavimo sedaj, da je $G^\Omega$ grupa ranga $3$ stopnje $3250$ in podstopnje $57$.
+Naj bo $\infty$ poljubna točka $\Omega$ in naj bo $H = G_{\infty}$ stabilizator te točke.
+$H$ tako vsebuje vse avtomorfizme, ki fiksirajo točko $\infty$.
+
+Naj bosta $\Delta$ in $\Gamma$ netrivialni orbiti grupe $H$ na množici $\Omega$ z $|\Delta| = 57$.
+$\Delta$ je tako množica sosedov točke $\infty$, $\Gamma$ pa množica nesosedov točke $\infty$.
+
+Naj bo zdaj $K$ podgrupa $H$ sestavljena iz vseh permutacij, ki so sode tako na $\Delta$ 
+kot na $\Gamma$. Permutacije so sode, če zamenjajo sodo število elementov.
+Rezultati iz (TODO?Section1) pokažejo, da involucija $\sigma$ na $H$ fiksira 
+$1, 3, 7, 55$ ali $57$ elementov iz $\Delta$. Ker je $K$ soda podgrupa, so 
+v $K$ možne le involucije, ki fiksirajo $1$ ali $57$ elementov iz $\Delta$. Namreč
+zgolj $(57 - 1)/2 = 28$ in $(57 - 57)/2 = 0$ sta sodi števili.
+
+Ker pa involucija $\sigma$ v $K$ poleg točk iz $\Delta$ fiksira tudi točko $\infty$, fiksira 
+zvezdo s $55$???? ali $58$ točkami. Ker mora biti $\sigma$ soda tudi na $\Omega$, fiksira 
+zvezdo s $58$ točkami.
+
+TODO: Nadaljuj.
 \end{dokaz}
 
-\subsection{Neobstoj preostalih Mooreovih grafov}
+\begin{opomba}
+    \citeauthor{higman1964finite}\cite[str. 150]{higman1964finite} je pokazal, da
+    so $C_5$, Petersenov graf in Hoffman-Singeltonov graf vsi vozliščno tranzitivni, 
+    tako da je našel tranzitivne podgrupe njihovih grup avtomorfizmov.
+    In sicer so te: Dihedralna grupa $D_10$ za $C_5$, simetrična grupa $S_5$ za Petersenov graf
+    in projektivna specialna unitarna grupa $U_3(5)$ za Hoffman-Singeltonov graf.
+\end{opomba}
+
+\subsection{Neobstoj Mooreovih grafov}
+
+%TODO
+Glej \cite{bannai1973finite}.
 
 
-\section{Razširitev Mooreovih grafov}
+\section{Razširitev Mooreovih grafov}\label{sec:moorerazsiritev}
 % povezovalec, definicija, opomba pri definiciji da se ujema s prejšnjo
 
 Za Mooreov graf velja, da ne le doseže maksimalno število vozlišč za dano maksimalno
@@ -699,7 +1607,35 @@ ujema z $\GQ(q, q)$ (!!!malo preveri, nadaljuj) \cite[str. ~63]{van2012generaliz
 
 \section{Uvod}
 
+\begin{lema}\label{le:regularnilastne}
+Naj bo $G$ $k$-regularen graf in $A$ njegova sosednostna matrika. Potem je $k$ njegova lastna
+vrednost in vse ostale lastne vrednosti ležijo na intervalu $[-k, k]$ in so si različne. 
+Velja celo to, da je
+$k$ enojna lastna vrednost, vendar dokaz tega izpustimo.
+\end{lema}
+\begin{dokaz}
+    Ker je $G$ $k$-regularen, je vsako njegovo vozlišče povezano z $k$ sosedi. Posledično
+    se vsaka vrstica sosednostne matrike $A$ sešteje v $k$. 
+    Velja torej $A\mathbf{1} = k\mathbf{1}$, $k$ je lastna vrednost.
+
+    Naj bo zdaj $\lambda$ poljubna lastna vrednost matrike $A$, ter $\mathbf{x}$ njen 
+    pripadajoč lastni vektor. Naj bo $i^{*}$ indeks, za katerega velja $|x_{i^{*}}| = \max_{j} |x_j|$.
+    Potem velja:
+    \begin{align*}
+        |\lambda| \cdot |x_{i^{*}}| &= |\lambda x_{i^{*}}| = |(A\mathbf{x})_{i^{*}}| = \left|\sum_{j} A_{i^{*}j} x_j\right| \leq \sum_{j} A_{i^{*}j} |x_j|
+        \leq \sum_{j} A_{i^{*}j} |x_{i^{*}}| = k |x_{i^{*}}|.
+    \end{align*}
+    Posledično je $|\lambda| \leq k$.
+\end{dokaz}
+
 \section{Uvodne definicije}
+
+\begin{definicija}
+Graf $G$ je krepko regularen s parametri $(n, k, \lambda, \mu)$, če je
+$G$ regularen stopnje $k$ na $n$ vozliščih, ter če imata poljubni dve sosedni 
+vozlišči natanko $\lambda$ skupnih sosedov, medtem ko imata poljubni dve 
+nesosednji vozlišči natanko $\mu$ skupnih sosedov.
+\end{definicija}
 
 \begin{definicija}
     Naj bosta $(G, \cdot)$ in $(H, \circ)$ grupi. 
@@ -730,32 +1666,6 @@ Graf $G$ je vozliščno tranzitiven, če je za poljubni vozlišči $u$ in $v$ ob
 $\sigma \in \aut(G)$, da $\sigma(u) = v$. Torej grupa avtomorfizmov deluje tranzitivno na množici
 vozlišč grafa $G$.
 \end{definicija}
-
-\begin{definicija}
-    % https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers
-    Naj bo $G$ grupa, ki deluje na množico $X$. Orbita elementa $x \in X$ je množica
-    elementov iz $X$, v katere se $x$ lahko preslika z delovanjem elementov iz $G$.
-    Torej orbita elementa $x$ je množica $G \cdot x = \{g \cdot x \mid g \in G\}$.
-    Množico vseh orbit delovanja grupe $G$ na množici $X$ imenujemo 
-    kvocientna množica $X/G$. Označimo tudi $X/G_x = \{gG_x \mid g \in G\}$.
-\end{definicija}
-
-\begin{definicija}
-    Naj bo $G$ grupa, in $g$ njen element. Pravimo, da $x \in X$ fiksna točka elementa $g$,
-    če je $g \cdot x = x$. Množico vseh fiksnih točk elementov iz $G$, ki fiksirajo element $x$,
-    imenujemo stabilizatorska podgrupa $G$ elementa $x$, pišemo 
-    $G_x = \{g \in G \mid g \cdot x = x\}$.
-\end{definicija}
-
-\begin{izrek}[Izrek o orbitah in stabilizatorjih]
-    Naj bo $x \in X$ fiksen in naj bo $f: G \to X$ podana z $g \mapsto g \cdot x$. 
-    Potem je $f(G) = G \cdot x$ orbita elementa $x$ in 
-    $f^{-1}(x) = G_x$ stabilizatorska podgrupa elementa $x$.
-    Če velja $f(g) = f(h)$ potem je $h \in g G_x$ in obratno.
-    Preslikava $f$ inducira bijekcijo $G/G_x \leftrightarrow g\cdot x$.
-    % izrek se lahko uporabi za pomoč pri štetju avtomorfizmov,
-    % https://en.wikipedia.org/wiki/Group_action#Orbits_and_stabilizers
-\end{izrek}
 
 
 
@@ -1049,178 +1959,6 @@ Naj bo $G$ Moorejev graf, tedaj je njegova ožina enaka $g=$
 \section{Konstrukcija znanih Moorejevih grafov}
 
 \subsection{Konstrukcija Petersenovega grafa}
-
-Naj bo $P$ Moorejev graf s parametri $(D=2, \Delta=3)$. Trdimo,
-da je $P$ izomorfen Petersenovem grafu. Po posledici~\ref{po:ozina} 
-za graf $P$ velja, da je ožine $g=5$ ter reda 
-$1 + \Delta + \Delta (1 - \Delta)=\Delta^2 + 1=10$.
-
-Skladno izpeljavi Moorejeve meje, konstruirajmo drevesni podgraf $T \subset P$
-z vozlišči $a, N(a)=\{b, c, d\}, N_2(a)=\{e, f, g, h, i, j\}$. Sedaj za vsako 
-vozlišče iz množice $N_2(a)$ potrebujemo še natanko dve povezavi. Vzemimo vozlišče 
-$v \in N_2(a)$ ter mu dodelimo prvi dve povezavi, ki grafu $T$ ne ustvarita cikla 
-dolžine manj kot $g=5$. Postopek ponavljamo dokler ne preidemo v 2-regularen graf.
-
-Z enako strategijo spoznamo tudi, da je Moorejev graf s parametroma $(\Delta=2, D=2)$
-enak pentagonu. Žal pa se taki pohlepni algoritmi ne generalizirajo v primerih Moorejevih 
-grafov z $\Delta \geq 7$.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Konstrukcija Hoffman-Singeltonovega grafa}
-% POPRAVI SLIKO
-Naj bo $H$ regularen graf stopnje $\Delta=7$ s premerom $D=2$.
-Naj ta graf doseže Moorejevo mejo, torej naj bo reda 
-$M_{D, \Delta}=1 + \Delta + \Delta(1-\Delta)=\Delta^2 + 1$.
-Posledično vemo tudi, da je njegova ožina enaka $g=2D + 1=5$.
-
-Trdimo, da tak graf obstaja, preko njegove konstrukcije bomo po poti 
-Conga Fana in Allena J. Schwenka \cite{fan1993structure}
-pokazali, da je enoličen, ter spregovorili tudi o njegovih 
-automorfizmih.
-
-Ker je ožina grafa $H$ enaka $g=5$, ta vsebuje cikel dolžine 5,
-torej velja $C_5 \subset H$.
-Izberimo en tak $C_5$ ter ga označimo s $Q=v_1 v_2 v_3 v_4 v_5 v_1$. 
-Poljubno vozlišče $v \in Q$ ima natanko $\Delta-2=5$ sosedov, 
-nevsebovanih v $Q$. Če to ne bi veljalo, bi med vozlišči grafa 
-$Q$ našli $C_4$, kar bi bilo v nasprotju z ožino $g=5$.
-
-Pravimo, da vozlišča grafa $H$, katera niso del podgrafa $Q$, pripadajo
-gruči $\gr_i$, če so sosedna vozlišču $v_i \in Q$, kateremu 
-pravimo center gruče. Z drugimi besedami, po naši definiciji velja:
-\begin{equation*}
-\forall i \in \{1, 2, 3, 4, 5\},\; v_i \in Q: \; \gr_i = \{\, u \in H \setminus Q \mid u \sim v_i\,\}.
-\end{equation*}
-
-\begin{figure}[ht]
-    \centering
-    \def\svgwidth{0.7\columnwidth}
-    \import{../../assets/}{hoffman-singelton-proof.pdf_tex}
-    \caption{Vizualni prikaz strukture gruč v grafu $H$.}
-\end{figure}
-
-\begin{trditev}\label{tr:lastnosti_gruc}
-Dane gruče iz grafa $H$ imajo naslednje lastnosti:
-\begin{enumerate}[label=(\Roman*)]
-\item \(\gr_i \cap \gr_j = \varnothing\) za vse \(i \neq j\).  
-(Gruče so paroma disjunktne.) \label{itm:g1}
-\item \(u \not\sim v\) za vse \(u,v \in \gr_i\).  
-(Vozlišča znotraj posamezne gruče so nepovezana.) \label{itm:g2}
-\item Če \(v_i \sim v_j\) v \(Q\), potem \(\gr_i \not\sim \gr_j\); sicer
-\(\forall u \in \gr_i: \ |N(u) \cap \gr_j| \leq 1\).
-(Če sta centra \(v_i\) in \(v_j\) sosedna v \(Q\), med gručama ni povezave; 
-sicer je vsako vozlišče gruče \(\gr_i\) sosedno največ enemu vozlišču 
-gruče \(\gr_j\).) \label{itm:g3}
-\end{enumerate}
-\end{trditev}
-
-\begin{dokaz}
-Vzemimo vozlišči $u, w \in \gr_i$, ter vozlišče $z \in \gr_j$, kjer $i \neq j$.
-Pri dokazih uporabimo metodo protislovja, kjer se dokaz zaključi ko najdemo 
-vsaj en cikel dolžine manj kot 5. To bi namreč bilo v nasprotju z dejstvom, 
-da ima graf $H$ ožino $g=5$.
-\begin{enumerate}[label=(\Roman*)]
-\item Predpostavimo, da obstajata dve gruči, katerih presek ni prazen.
-Brez škode za splošnost predpostavimo $u = z \in \gr_i \cap \gr_j$.
-Tedaj v grafu $H$ obstaja cikel $u v_i \ldots v_j u$, ki je bodisi $C_3$ ali $C_4$.
-\item Naj obstaja gruča $\gr_i$ ter znotraj nje vozlišči $u$ ter $w$, ki sta povezani.
-Tedaj v grafu obstaja cikel $C_3 = u v_i w u$.
-\item Naj bosta najprej centra gruč $v_i$ ter $v_j$ sosedna, ter $u$ in $z$
-povezana. Tedaj v grafu $H$ obstaja cikel $C_4 = u v_i v_j z u$.
-Predpostavimo sedaj, da $v_i \not \sim v_j$, ter da je vozlišče $z$ povezano 
-tako z $u$ kot z $w$. Tedaj obstaja cikel $C_4 = z u v_i w z$.
-\end{enumerate}
-\end{dokaz}
-
-\begin{posledica}\label{po:lastnosti_gruc}
-Naj bo 
-\[
-H[N(Q)] = \left(N(Q), 
-\{\,uv \in E(H) \mid u, v \in N(Q)\,\}\right)
-\]
-podgraf induciran z vozlišči iz $N(Q)$. Potem je maksimalna stopnja podgrafa \\$H[N(Q)]$
-enaka največ 2. Po trditvi~\ref{itm:g3} namreč velja, da je vsako vozlišče dane 
-gruče $\gr_i$ lahko povezano zgolj z gručami katerih centri si niso sosedni z $v_i$.
-Taki gruči sta dve, ter do vsake izmed njiju lahko vodi največ ena povezava.
-
-Velja celo to, da je $H[N(Q)]$ 2-regularen, kar bomo dokazali kasneje.
-\end{posledica}
-
-Ker je graf $H$ reda 50 ter s premerom $D=2$, 
-moč množice $V(Q) \cup N(Q)$ pa enaka 30, velja $|N_2(Q)| = 20$.
-
-\begin{trditev}
-Velja:
-\[
-\forall i:\ \forall u \neq w \in \gr_i:\ |N(u) \cap N_2(Q)| = 4 \ \land \ N(u) \cap N(w) \cap N_2(Q) = \emptyset,
-\] oziroma z besedami, vsako vozlišče $u$ iz gruče $\gr_i$ ima natanko 4 sosede v $N_2(Q)$,
-ter vozlišča iz iste gruče nimajo skupnih sosedov v $N_2(Q)$.
-\end{trditev}
-
-\begin{dokaz}
-Nadaljujmo s skico, ki smo jo začrtali že v dokazu trditve~\ref{tr:lastnosti_gruc} ter opazujmo 
-vozlišče $w$. 
-Vozlišče $w$ ima vsaj 4 sosede v $N_2(Q)$, saj je njegova stopnja enaka 7, povezan pa je z vozliščem 
-$v_i \in Q$ ter po posledici~\ref{po:lastnosti_gruc} še z največ dvema
-vozliščema iz $N(Q)$. Hkrati pa v $N_2(Q)$ nima več kot 4 sosede, kar pokažemo z enostavnejšim 
-protislovjem. Predpostavimo nasprotno, potem bi iz množice vozlišč $N(Q)$ v množico vozlišč $N_2(Q)$ vodilo vsaj 
-$24\cdot 4 + 1\cdot 5 = 101$ povezav, kar je več kot $20\cdot 5 = 100$, ki bi vodilo v obratno 
-smer (namreč število povezav, ki jih poljubno vozlišče iz $N_2(Q)$ lahko tvori z vozlišči iz $N(Q)$ 
-je največ 5, sicer dobimo cikel $C_4$ ali $C_3$). S tem smo 
-pokazali, tudi obljubo posledice~\ref{po:lastnosti_gruc}, da je $H[N(Q)]$ 2-regularen ter, da 
-ima vsako vozlišče iz $N_2(Q)$ natanko 5 sosedov v $N(Q)$. Posledično je $H[N_2(Q)]$
-2-regularen.
-\end{dokaz}
-
-Ker je podgraf $H[N(Q)]$ 2-regularen, reda 25 ter brez ciklov $C_3$ in $C_4$
-ter ima vsako njegovo vozlišče natanko dva soseda vsakega v eni izmed nasprotnih si gručah, je enolično določen, ter je enak disjunktni uniji petih ciklov $C_5$, 
-torej velja $H[N(Q)] = 5C_5$. Označimo te cikle z $P_0, P_1, P_2, P_3, P_4$. Za vsak $i$ velja, da
-$P_i \cup Q \subset H$ sestoji iz 10 vozlišč, je ožine 5, ter je kubičen graf (namreč 
-vsako vozlišče iz $Q$ ima dva soseda v $Q$ ter natanko enega v $P_i$, simetrično velja za vozlišča iz $P_i$); 
-to so karakteristike Petersenovega grafa, zato torej $P_i \cup Q$ inducira Petersenov graf. Ker bi našo analizo lahko začeli s poljubnim ciklom $C_5$,
-bi lahko izbrali tudi $P_i$ namesto $Q$ ter tako izvedeli, da je $N(P_i) = Q \cup N_2(Q) = 5C_5$ 
-(namreč vsako vozlišče iz $N_2(Q)$ ima natanko 5 sosedov v $N(Q)$, natanko enega na gručo). Posledično
-je iz te perspektive razvidno, da je $H[N_2(Q)] = 4C_5$.
-Označimo te cikle z $Q_1, Q_2, Q_3, Q_4$, originalni $Q$ pa s $Q_0$. Tudi $Q_i \cup P_j$ inducira Petersenov graf.
- 
-Postavimo $Q_i$ ter $P_j$ v matriko, ker poljubna unija tvori Petersenov graf, 
-je jasno, lahko povezavo med $Q_i$ in $P_j$ opišemo z neko permutacijo 
-$\pi_{ij}$. Oštevilčimo vozlišča v $P_j$ v smeri urinega kazalca, $Q_i$ pa 
-najprej preoblikujemo v komplementarno zvezdno obliko, ter nato oštevilčimo prav 
-tako v smeri urinega kazalca. BSŠ lahko predpostavimo $\pi_{0j} = \pi_{i0} = \text{id}$; identiteta
-(namreč, sicer lahko cikle $Q_i$ ter $P_j$ preuredimo).
-Opazimo, da za $i, j \leq 1$ permutacija $\pi_{ij}$ ne sme imeti fiksne točke, da se 
-prepričamo vzemimo fiksno točko $k$ (torej $\pi_{ij}(k) = k$), potem nastane 
-$C_4 = Q_0^k P_0^k P_j^k Q_i^k Q_0^k$, protislovje. Dodatno, ker je $Q_i \cup P_j$ 
-Petersenov graf, je $\pi_{ij}$ lahko zgolj rotacijska permutacija (namreč sicer nastanejo cikli), označimo 
-jo z $\rho$, kjer je $\rho = (4\,0\,1\,2\,3)$ ter $\rho^m = (\rho^{m-1}(4)\, \rho^{m-1}(0)\, \rho^{m-1}(1)\, \rho^{m-1}(2)\, \rho^{m-1}(3))$.
-Dodatno vidimo tudi, da si morajo biti permutacije, ki so v isti vrstici ali istem stolpcu,
-različne. Za protislovje BSŠ vzemimo $\pi_{ij} = \pi_{i'j}$, tako nastane cikel
-$Q_0^k Q_i^k P_j^{\pi_{ij}(k)} Q_i'^{k} Q_0^k$; protislovje.
-Tako lahko poljubno izberemo različne si permutacije $\pi_{i1}$ in $\pi_{1j}$, dokler so si različne, BSŠ 
-vzemimo kar naravno izbiro, $\pi_{i1} = \rho^i$ in $\pi_{1j} = \rho^j$. Opazimo še, da je sedaj lahko 
-permutacija $\pi_{32}$ lahko bodisi $\rho$ ali $\rho^3$; vendar pri izbiri $\pi_{32} = \rho^4$ potem 
-je $\pi_{11}^{-1} \pi_{12} \pi_{32}^{-1} \pi_{31} = \text{id}$, kar pomeni, da obstaja cikel $C_4$. Od tu 
-naprej lahko brez težav zapolnimo preostale permutacije, saj so si vse permutacije v istem stolpcu ali vrstici 
-različne.  
-
-\begin{equation*}
-\begin{array}{c|ccccc}
-    & P_0 & P_1 & P_2 & P_3 & P_4 \\
-    \hline 
-    Q_0 & \text{id} & \text{id} & \text{id} & \text{id} & \text{id} \\
-    Q_1 & \text{id} & \rho & \rho^2 & \rho^3 & \rho^4 \\
-    Q_2 & \text{id} & \rho^2 & \rho^4 & \rho & \rho^3 \\
-    Q_3 & \text{id} & \rho^3 & \rho & \rho^4 & \rho^2 \\
-    Q_4 & \text{id} & \rho^4 & \rho^3 & \rho^2 & \rho \\
-\end{array}
-\end{equation*}
-
-TODO: Preveri še enkrat, da nismo kje naredili kratkih ciklov pri permutaciji. 
-Tako smo konstruirali graf $H$, ki je Mooreov graf s parametri $(D=2, \Delta=7)$, 
-ter smo pokazali, da je enoličen.
-
-Avtor dokaza še nadaljuje ter pokaže, da je automorfizem grafa $H$ reda $50\cdot 7!$.
 
 \subsection{Poiskusi dokaza o obstoju oziroma neobstoju Moorejevega grafa valence 57}
 
