@@ -19,6 +19,7 @@
 \newtheorem{trditev}[izrek]{Trditev}
 \newtheorem{posledica}[izrek]{Posledica}
 \newtheorem{definicija}[izrek]{Definicija}
+\newtheorem{zgled}[izrek]{Zgled}
 
 % --- Ukazi ---
 \newcommand{\red}{\operatorname{red}}
@@ -80,13 +81,22 @@ pravimo, da je $G$ \emph{Mooreov graf}.
 \end{frame}
 
 \begin{frame}
+\frametitle{Trivialni Mooreovi grafi}
+\begin{trditev}
+    Trivialni družini Mooreovih grafov sta $C_{2D+1}$, za poljuben premer 
+    in stopnjo $2$, ter $K_{\Delta+1}$, za poljubno stopnjo in premer $1$.
+\end{trditev}
+\end{frame}
+
+\begin{frame}
 \frametitle{Lastnosti Mooreovih grafov}
 \begin{trditev}
-Mooreov graf $G$ je $\Delta$-regularen. Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
+Mooreov graf $G$ je $\Delta$-regularen. 
+Njegova ožina je $g = 2D + 1$.
 \end{trditev}
 
 \begin{posledica}
-Ožina Mooreovega grafa je $g = 2D + 1$.
+Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
 \end{posledica}
 \end{frame}
 
@@ -104,6 +114,19 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
     \end{trditev}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Mooreovi grafi premera 2}
+    \begin{trditev}
+        Mooreov graf premera $2$ je krepko regularen graf s parametri 
+        $(\Delta^2 + 1, \Delta, 0, 1)$.
+    \end{trditev}
+    \begin{definicija}
+        Graf $G$ je krepko regularen graf s parametri $(n, k, \lambda, \mu)$, 
+        če je $G$ $k$-regularen graf z $n$ vozlišči, 
+        ima vsak par sosednjih vozlišč $\lambda$ skupnih sosedov in
+        vsak par nesosednjih vozlišč $\mu$ skupnih sosedov.
+    \end{definicija}
+\end{frame}
 
 \begin{frame}
 \frametitle{Mooreovi grafi premera 2}
@@ -125,19 +148,25 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
 \end{trditev}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Mooreovi grafi premera 2}
+    \begin{trditev}
+        Petersenov graf je Mooreov graf premera $2$ in maksimalne stopnje $3$.
+    \end{trditev}
+\end{frame}
+
 
 \begin{frame}
     \frametitle{Mooreovi grafi premera 2}
     \begin{definicija}
-        Graf $G$ je krepko regularen graf s parametri $(n, k, \lambda, \mu)$, 
-        če je $G$ $k$-regularen graf z $n$ vozlišči, 
-        ima vsak par sosednjih vozlišč $\lambda$ skupnih sosedov in
-        vsak par nesosednjih vozlišč $\mu$ skupnih sosedov.
+        Sosede, podmnožice vozlišč $Q$ označimo z $N(Q)$. Vozlišča, do katerih 
+        od podmnožice $Q$ potrebujemo natanko dva koraka, označimo z $N^2(Q)$.
     \end{definicija}
-    \begin{trditev}
-        Mooreov graf premera $2$ je krepko regularen graf s parametri 
-        $(\Delta^2 + 1, \Delta, 0, 1)$.
-    \end{trditev}
+
+    \begin{definicija}
+        Pravimo, da podmnožica vozlišč $N(Q)$ inducira podgraf natanko tedaj, 
+        ko je tak podgraf tvorjen zgolj iz vozlišč iz $N(Q)$ ter povezav med njimi.
+    \end{definicija}
 \end{frame}
 
 \begin{frame}
@@ -168,8 +197,6 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
 \begin{frame}
     \frametitle{Redkost in razširitve Mooreovih grafov}
     \begin{itemize}
-        \item[\textbullet] Iskanje grafov, ki dosežejo  
-        red $M_{\Delta, D} - \delta$ za "majhen"~$\delta$. 
         \item[\textbullet] Spodnja meja za red grafov ožine $g=2D+1$
         ter maksimalne stopnje $\Delta$, razširja zgornjo mejo 
         za Mooreove grafe. 
@@ -190,85 +217,18 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
 \begin{frame}
 \frametitle{Posplošeni večkotniki}
 \begin{definicija}
-    Šibki posplošeni $n$-kotnik je geometrija ranga 2, katere incidenčni graf ima ožino $2n$
-    ter premer natanko $n$.
-    Če je poleg tega stopnja vsakega vozlišča v incidenčnem grafu vsaj 3, taki geometriji 
-    pravimo (klasični) posplošeni $n$-kotnik.
+    Posplošeni $n$-kotnik je geometrija ranga 2 \(\Gamma=(\PP, \LL, \II)\), kjer imamo
+točke $\PP$ in premice $\LL$, ki so med seboj povezane z neko relacijo, 
+tako, da cela struktura nima podgeometrijskih struktur, ki bi bile običajni manjši
+kotniki, ter da se vsaka dva elementa nahajata v nekem običajnem $n$-kotniku.
 \end{definicija}
-\end{frame}
 
-\begin{frame}
-\frametitle{Podrobneje o geometriji ranga 2}
 \begin{definicija}
-Geometrija ranga 2 \(\Gamma=(\PP, \LL, \II)\) je trojica 
-nepraznih disjunktnih množic točk $\PP$, premic $\LL$, ter 
-incidenčne relacije \(\II \subseteq \PP \times \LL\).
+    Pravimo, da je posplošen $n$-kotnik simetričen, oziroma, da je reda $(s, s)$, če je vsaka
+premica incidentna s $s + 1$ točkami, in vsaka točka incidentna s $s + 1$ premicami.
+
+V splošnem so posplošeni $n$-kotniki reda $(s, t)$.
 \end{definicija}
-\begin{definicija}
-$\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$, če velja
-\(\PP' \subseteq \PP\), \(\LL' \subseteq \LL\) in
- \(\II' = \II \cap (\PP' \times \LL')\).
-\end{definicija}
-    \begin{definicija}
-    Naj bo \(\Gamma=(\PP,\LL,\II)\) geometrija ranga 2,
-    njen incidenčni graf $G$ je dan z 
-     množico vozlišč \(V(G) = \PP \cup \LL\) in množico 
-    povezav \(E(G) = \{ uv \mid u \II v \}\).
-    \end{definicija}
-\end{frame}
-
-
-\begin{frame}
-    \frametitle{Geometrijska definicija posplošenih večkotnikov}
-    \begin{definicija}
-    Običajni $n$-kotnik je geometrija ranga 2, sestavljena iz 
-    $n$ točk in $n$ premic, kjer se z incidenčno relacijo povežejo 
-    v cikel dolžine $2n$.
-    \end{definicija}
-    \begin{definicija}
-    Šibki posplošeni $n$-kotnik je geometrija ranga 2 za katero velja,
-    \begin{itemize}
-        \item[\textbullet] da ne vsebuje $k$-kotnika z $2 \leq k < n$ (kot podgeometrijo),
-        \item[\textbullet] poljubna $x, y \in \PP \cup \LL$ sta vsebovana v nekem 
-        $n$-kotniku (kot podgeometrija).
-    \end{itemize}
-    Če poleg tega šibki posplošeni $n$-kotnik vsebuje običajen $(n+1)$-kotnik (kot podgeometrijo),
-    mu pravimo posplošeni $n$-kotnik.
-    \end{definicija}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Geometrija in posplošeni večkotniki}
-    \begin{definicija}
-    Naj bo $G(n, s, t)$ (šibki) posplošeni $n$-kotnik, kjer je vsaka 
-    premica incidenčna z $s+1$ točkami, vsaka točka pa z 
-    $t+1$ premicami. Tedaj pravimo, da ima $G(n, s, t)$  
-    red $(s, t)$.
-    \end{definicija}
-    \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.3\textwidth]{../../assets/fano-plane.png}%
-    \hspace{0.05\textwidth}%
-    \includegraphics[width=0.3\textwidth]{../../assets/generalized-quadrangle.png}
-    \caption{Posplošeni 3-kotnik in posplošeni 4-kotnik reda (2,2)}
-\end{figure}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Geometrija in posplošeni večkotniki} 
-    \begin{trditev}
-    (Šibki) posplošeni $n$-kotniki reda $(s, t)$, kjer $s\geq2 \lor t\geq2$, obstajajo le za 
-    $n \in \{2, 3, 4, 6, 8, 12\}$.
-    \end{trditev}
-    \begin{trditev}
-    (Šibki) posplošeni večkotniki reda $(1, 1)$ so natanko običajni večkotniki.
-    \end{trditev}
-    \begin{trditev}
-    Incidenčni grafi posplošenih $n$-kotnikov reda 
-    $(s, s)$ so natanko tisti grafi, ki dosežejo spodnjo mejo 
-    za število vozlišč grafov ožine $g=2n$ in maksimalne stopnje
-    $\Delta = s + 1$.
-    \end{trditev}
 \end{frame}
 
 \begin{frame}
@@ -283,18 +243,35 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
 \end{frame}
 
 \begin{frame}
-    \frametitle{Geometrija in posplošeni večkotniki}
-    \begin{figure}[h]
-    \centering
-    \includegraphics[width=0.3\textwidth]{../../assets/fano-plane-incidence-graph.png}%
-    \hspace{0.05\textwidth}%
-    \includegraphics[width=0.3\textwidth]{../../assets/generalized-guadrangle-incidence-graph.png}
-    \caption{Incidenčna grafa posplošenega 3-kotnika in posplošenga 4-kotnika reda (2,2)}
-\end{figure}
+    \frametitle{Primer posplošenega večkotnika}
+    \begin{definicija}
+        Običajni $n$-kotnik je geometrija ranga 2, katere incidenčni graf je cikel 
+        dolžine $2n$.
+    \end{definicija}
+    \begin{zgled}
+        Običajni $n$-kotnik je posplošeni natanko $n$-kotnik reda $(1, 1)$. Posledično
+        je $2n$-kotnik posplošen Mooreov graf.
+    \end{zgled}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Geometrija in posplošeni večkotniki} 
+    \begin{trditev}
+    Posplošeni $n$-kotniki reda $(s, t)$, kjer $s\geq2 \lor t\geq2$, obstajajo le za 
+    $n \in \{2, 3, 4, 6, 8, 12\}$.
+    \end{trditev}
+    \begin{zgled}
+        V primeru $n=2$ imamo posplošeni 2-kotnik, katerega incidenčni graf je pravzaprav kompletni 
+        bipartitni graf $K_{s+1, t+1}$, ki je torej posplošeno Mooreov graf.
+    \end{zgled}
 \end{frame}
 
 \begin{frame}
     \frametitle{Projektivne ravnine}
+    \begin{trditev}
+        Definicija projektivne ravnine sovpada z definicijo posplošenega $3$-kotnika, čim je red
+        večji od $(1,1)$.
+    \end{trditev}
     \begin{definicija}
         Projektivna ravnina je geometrija drugega ranga ($\PP, \LL, \II$), sestavljena iz 
         množice točk $\PP$, množice premic $\LL$ in incidenčne relacije $\II \subset \PP \cup \LL$,
@@ -305,16 +282,10 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
             \item[\textbullet] Obstaja vsaj štiri točke, od katerih nobene tri niso kolinearne.
         \end{itemize}
     \end{definicija}
-    \begin{trditev}
-        Definicija projektivne ravnine sovpada z definicijo posplošenega $3$-kotnika.
-    \end{trditev}
-    \begin{trditev}
-        Projektivna ravnina je regularen posplošeni $3$-kotnik reda $(s, s)$, za 
-        nek $s \ge 2$.
-    \end{trditev}
 \end{frame}
 
 \begin{frame}
+    \frametitle{Projektivne ravnine}
     \begin{izrek}
         Če je projektivna ravnina končna, potem obstaja število $s$, da vsaka premica vsebuje $s+1$ točk,
         in vsaka premica vsebuje $s+1$ točk. Poleg tega, če je $s \equiv 1$ ali $2 \pmod{4}$, 
@@ -328,6 +299,42 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
         kjer je $\langle \mathbf{x} \rangle$ množica vseh neničelnih vektorjev, 
         ki so linearne kombinacije vektorja $\mathbf{x}$,
     \end{trditev}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Projektivna ravnina}
+    \begin{zgled}
+        Tako lahko recimo za polje vzamemo končno polje $\mathbb{F}_2 = \{0, 1\}$,
+        dobimo $V\setminus \{0\} = \mathbb{F}_2^3 \setminus \{0\} = \{T_{ijk}\mid i,j,k\in\mathbb{F}_2\}$
+        in relacijo
+        \begin{align*}
+T_{100} &\sim {T_{010}, T_{001}, T_{011}} \\
+T_{010} &\sim {T_{100}, T_{001}, T_{101}} \\
+T_{001} &\sim {T_{100}, T_{010}, T_{110}} \\
+T_{110} &\sim {T_{001}, T_{111}, T_{110}} \\
+T_{011} &\sim {T_{100}, T_{111}, T_{011}} \\
+T_{101} &\sim {T_{010}, T_{111}, T_{101}} \\
+T_{111} &\sim {T_{110}, T_{011}, T_{101}}
+\end{align*}
+    \end{zgled}
+\end{frame}
+
+\begin{frame}
+\frametitle{Projektivna ravnina}    
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{../../assets/fano-plane.png}%
+    \caption{Fanova ravnina (reda $(2,2)$)}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Projektivna ravnina}
+        \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{../../assets/fano-plane-incidence-graph.png}%
+    \caption{Incidenčni graf Fanove ravnine}
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -348,6 +355,31 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
             Ta geometrija je posplošeni štirikotnik reda $(2, 2)$, oziroma $\operatorname{GQ}(2, 2)$.
 \end{frame}
 
+
+\begin{frame}
+    \frametitle{Primer posplošenega štirikotnika}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{../../assets/generalized-quadrangle.png}
+    \caption{Posplošeni 4-kotnik reda $(2,2)$}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Primer posplošenega štirikotnika}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{../../assets/generalized-guadrangle-incidence-graph.png}
+    \caption{Incidenčni graf posplošenega 4-kotnika reda $(2,2)$}
+\end{figure}
+\end{frame}
+
+
+
+
+
+
+
 \begin{frame}
     \frametitle{Posplošeni šestkotniki}
     \begin{figure}[h]
@@ -361,13 +393,13 @@ $\Gamma=(\PP', \LL', \II')$ je podgeometrija geometrije $\Gamma=(\PP, \LL, \II)$
 \begin{frame}
     \frametitle{Posplošeni osem in dvanajstkotniki}
     \begin{trditev}
-        Incidenčni graf posplošenega osemkotnika ne more biti Mooreov, saj bi sicer, po Feit-Higmanov izreku,
-        $2ss$ moral biti kvadrat, kar ni mogoče. 
+        Incidenčni graf posplošenega osemkotnika ne more biti posplošeno Mooreov, saj mora biti, po Feit-Higmanov izreku,
+        $2ss$ kvadrat, kar ni mogoče.
     \end{trditev}
-    \begin{trditev}
-        Posplošeni dvanajstkotnik reda $(1, 1)$ pa je običajen dvanajstkotnik, torej je njegov incidenčni 
-        graf Mooreov, in sicer $C_{24}$.
-    \end{trditev}
+%    \begin{trditev}
+%        Posplošeni dvanajstkotnik reda $(1, 1)$ pa je običajen dvanajstkotnik, torej je njegov incidenčni 
+%        graf Mooreov, in sicer $C_{24}$.
+%    \end{trditev}
 \end{frame}
 
 \end{document}

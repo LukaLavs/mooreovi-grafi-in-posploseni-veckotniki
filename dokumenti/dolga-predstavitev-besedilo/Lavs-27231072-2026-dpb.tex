@@ -1,0 +1,239 @@
+\documentclass{fmfkpb}
+
+\avtor{Luka Lavš}
+\naslov{Mooreovi grafi in posplošeni večkotniki}
+\letnica{2026}
+\mentor{doc. dr. Janoš Vidali}
+
+\newcommand{\red}{\operatorname{red}}
+\newcommand{\srg}{\operatorname{srg}}
+\newcommand{\diam}{diam}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\reach}{\operatorname{Reach}}
+\newcommand{\gr}{\mathscr{G}}
+
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\II}{\mathbf{I}}
+\newcommand{\IIw}[2]{#1 \;\II\; #2}
+\newcommand{\IIwd}[2]{#1 \;\II^D\; #2}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\LL}{\mathcal{L}}
+
+\begin{document}
+
+\makefrontpage
+\cleardoublepage
+
+\section{Mooreovi grafi in posplošeni večkotniki}
+
+\paragraph{Par najosnovnejših pojmov}
+V teoriji grafov, rečemo, da je $D$ premer grafa, če je največja razdalja med katerima
+koli vozliščema enaka $D$.
+Dalje pravimo, da ima graf ožino $g$, če je to dolžina najkrajšega cikla.
+Grafu, v katerem so stopnje vseh vozlišč enake $\Delta$, pravimo $\Delta$-regularen.
+
+
+\paragraph{Mooreova meja in Mooreov graf}
+Definiramo zdaj Mooreovo mejo kot maksimalno število vozlišč, ki bi jih 
+graf z danim premerom in dano maksimalno stopnjo, 
+v optimističnem primeru, lahko imel.
+
+Vidimo, da se
+vsak graf začne v nekem vozlišču ($1 + \ldots$),
+ki ima največ $\Delta$ sosedov ($1 + \Delta + \ldots$), 
+in vsak izmed teh sosedov
+pa ima največ $\Delta - 1$ novih sosedov ($1 + \Delta + \Delta(\Delta - 1) + \ldots$).
+Vidimo, da lahko tako nadaljujemo dokler nismo primorani vejanja končati 
+zaradi premera $D$. Dobili smo 
+($1 + \Delta + \Delta(\Delta - 1) + \ldots \Delta (\Delta - 1)^{D - 1}$) in 
+temu rečemo Mooreova meja.
+
+Tu je morda smiselno omeniti, da smo pri konstrukciji Mooreove meje ustvarili 
+drevesni podgraf, ki je nekakšen "idealni" podgraf, saj ima največje 
+možno število vozlišč za dan premer in maksimalno stopnjo.
+Ni pa nujno, da za vsak premer in maksimalno stopnjo, tak graf tudi obstaja,
+vendar če, mu rečemo Mooreov graf.
+V resnici so taki grafi zelo redki.
+
+\paragraph{Trivialni Mooreovi grafi}
+Zdaj bom navedel vse trivialne primere Mooreovih grafov. Morda lahko 
+začnem z najenostavnejšim, in sicer z trikotnikom. Trikotnik je Mooreov graf
+za dan premer $1$ in maksimalno stopnjo $2$. (Narišem trikotnik in utemeljim,
+da doseže Mooreovo mejo $1 + \Delta = 3$).
+
+Dodatno lahko hitro ugotovimo, da so vsi cikli $C_{2D + 1}$ Mooreovi grafi 
+za poljuben premer $D$ in maksimalno stopnjo $2$.
+Preostali trivialni Mooreovi grafi pa so še polni grafi $K_{\Delta + 1}$, 
+za poljubno stopnjo in premer $1$. (Narišem polni graf kot polno povezan graf).
+
+\paragraph{Lastnosti Mooreovih grafov}
+Kot sem že namignil, so ostali netrivialni Mooreovi grafi zelo redki, 
+zato je smiselno analizirati njihove lastnosti, da bi razumeli zakaj je temu
+tako, in da bi jih morda celo našli.
+
+Z enostavnejšima premislekoma se izkaže, da so Mooreovi grafi regularni,
+in da je dolžina njihovega najkrajšega cikla, in torej ožina, enaka $g=2D+1$.
+Posledično tudi obstaja natanko ena pot dolžine največ $D$, med vsakima vozliščema.
+
+Opremljeni s tem dejstvom lahko potem tvorimo matrično enačbo, kateri 
+morajo vsi Mooreovi grafi zadoščati. In sicer je ta enačba navedena na prosojnici,
+kjer je morda vredno dodati, da je tisti $G$ matrika katere 
+vhodi merijo število poti dolžine največ $D$ med vozlišči, tisti "J" pa 
+je matrika samih enic ustrezne dimenzije.
+
+\paragraph{Mooreov graf premera 2}
+Mimogrede, Mooreov graf premera $2$ je tudi krepko regularen, sosednja vozlišča imajo 
+natanko nič skupnih sosedov, nesosednja pa natanko enega.
+
+Ravno prej omenjena matrična enačba se v primeru ko je premer enak $2$ znatno
+poenostavi, in sicer dobimo ($A^2 + A + I = J$), kjer je $A$ matrika 
+sosednosti grafa in $J$ zopet matrika samih enic.
+
+Ker iz linearne algebre vemo, da ima matrika samih enic lastni vrednosti
+$\Delta^2 + 1$ in $0$, dobimo teli dve enačbi. (Pokažem na prosojnici).
+
+Ko ju rešimo, dobimo možne lastne vrednosti matrike sosednosti $A$.
+Zanimajo pa nas še njihove večkratnosti, in v ta namen uporabimo
+še splošno znano enačbo ($0 = sl(A) = \sum\lambda_i$).
+
+Analiziramo jo s pomočjo celosti, lihosti in izreka o ničlah 
+celoštevilskih polinomov in dobimo, da so večkratnosti take (pokažem na prosojnici), 
+in da so možne stopnje Mooreovih grafov premera $2$ zgolj $\{2, 3, 7, 57\}$.
+
+\paragraph{Petersenov graf}
+Morda nas bi zdaj zamikalo, da bi take grafe poskušali tudi konstruirati.
+Za začetek se preizkusimo s tistim, ki ima stopnjo $3$.
+
+Obstaja več različnih konstrukcij, danes bom pokazal dve.
+
+Lahko ga konstruiramo iz drevesnega podgrafa, kjer poskušamo povezati zadnji
+nivo vozlišč brez da bi kršili pogoj o ožini. 
+(Narišem drevesni podgraf in povežem sosede).
+
+Alternativno ga bi lahko konstruirali tudi iz cikla $C_5$, 
+ki seveda zaradi pogoja o ožini obstaja. 
+(Narišem pentagon in dokončam graf).
+
+Mimogrede, ta graf se imenuje Petersenov graf.
+
+\paragraph{Hoffman-Singletonov graf}
+To ni bilo težko, poizkusimo zdaj konstruirati še naslednjega, tistega z stopnjo $7$.
+Tukaj se graf konstruira ravno tako iz petkotnika, vendar pa je tak graf 
+zdaj na $7\cdot 7 + 1 = 50$ vozliščih in precej kompleksnejši.
+
+Na tej predstavitvi bom začrtal zgolj skico njegove konstrukcije, 
+ki je tudi precej zahtevna. Je pa taka konstrukcija podrobno opisana v
+moji diplomski nalogi in predstavlja tudi eno izmed daljših sekcij.
+
+(Narišem pentagon, definiram nivoje $N(Q), N_2(Q)$ in gruče zgolj na hitro).
+Izkaže se, da so si gruče paroma disjunktne; da če je en element
+gruče povezan z elementom druge gruče, potem noben drug element prvotne 
+gruče ne more biti povezan z katerim koli elementom druge gruče;
+in da poljubna gruča ni povezana z gručama, ki sta sosednji glede na 
+predstavnika. (Tu pokažem, da so $v_i \in Q$ taki predstavniki).
+
+Posledično se izkaže tudi, da je risba, ki sem jo narisal do zdaj pravilna,
+in da je stopnja v podgrafu induciranim z vozlišči prvega nivoja največ $2$.
+
+
+Dodatno pa, da so vozlišča iz drugega nivoja povezana z natanko $5$ 
+vozlišči iz prvega nivoja; vozlišča iz prvega nivoja pa natanko $4$-mi.
+Tako se izkaže, da sta podgrafa inducirana z vozlišči prvega in 
+drugega nivoja $2$-regularna, ter da sta oba podgrafa ravno
+disjunktna unija ciklov dolžine večkratnika $5$.
+
+Nekaj lem kasneje nam končno uspe pokazati, da je podgraf induciran z 
+vozlišči prvega nivoja natanko unija $5$-ih $5$-ciklov, in da je
+podgraf induciran z vozlišči drugega nivoja natanko unija $4$-ih $5$-ciklov.
+
+Skupno ima tako iskani graf $5$ $5$-ciklov ene sorte in $5$ $5$-ciklov druge sorte.
+Problem se poenostavi v iskanje $25$ permutacij, ki narekujejo povezave med 
+takimi cikli.
+
+Podrobnosti bom tu izpustil, lahko pa kot zanimivost omenim, da se na koncu
+izkaže, da je graf generiran z $5$-mi cikli sorte $P$ in 
+$5$-imi cikli sorte $Q$, kateri so med seboj 
+povezani po pravilu $P^i_j \sim Q^k_{j + ik \pmod 5}$.
+
+Za konec lahko še omenim, da se z uporabo Lagrangevega izreka o kosetih, 
+ter izreka o orbitah in stabilizatorjih, ki sta ob izreka o grupah,
+in še z nekaj truda, lahko določi število avtomorfizmov tega grafa,
+ki je enako $50\cdot 7!$.
+(Tu lahko omenim kaj izreka pravita, vendar najverjetneje ne bom.)
+
+\paragraph{Graf valence 57}
+Že tak graf je bilo kar zahtevno konstruirati, kako šele je pri tem grafu 
+stopnje $57$. Tak graf bi moral stati na $1 +57\cdot 57$ vozliščih, kar je
+neproporcionalno več od prejšjega. In tudi nikomur ga ni uspelo konstruirati,
+niti zavrniti njegovega obstoja. Ne ve se če obstaja.
+
+Se pa ve, da če obstaja, potem ni vozliščno tranzitiven, kar je precej nenavadno, 
+glede na to da so vsi prejšnji grafi bili.
+To se pokaže s pomočjo teorije grup, ki pokaže, da grupa avtomorfizmov 
+vozliščno tranzitivnega grafa, takih parametrov, ne obstaja.
+
+\paragraph{Obstoj Mooreovih grafov}
+Mooreovi grafi, ki jih nisem navedel, ne obstajajo. Zato je smiselno problem 
+razširiti in zajeti še tiste grafe, ki so sode ožine. Namreč dozdajšnja definicija
+je dopuščala zgolj lihe ožine.
+
+Definiramo razširjeno Mooreovo mejo kot spodnjo mejo števila vozlišč, ki bi jih
+graf sode ožine moral imeti. (Narišem izpeljavo take meje, prek dvodelnosti.)
+
+Taki grafi imajo zdaj sodo ožino, so tudi regularni in imajo določen premer, ki je 
+enak polovici ožine. Takim grafom pravimo ravno incidenčni grafi simetričnih 
+posplošenih večkotnikov.
+
+\paragraph{Posplošeni večkotniki}
+Posplošeni $n$-kotnik je neka geometrijska struktura, 
+kjer imamo dvoje sort "vozlišč" -- točke in premice, 
+ki so med seboj povezane z neko relacijo, tako, da cela struktura nima 
+podgeometrijskih struktur, ki bi bile običajni manjši kotniki,
+ter da se vsaka dva elementa nahajata v nekem običajnem $n$-kotniku.
+
+Pravimo, da je posplošen $n$-kotnik simetričen, oziroma, da je reda $(s, s)$,
+če je vsaka premica incidentna s $s + 1$ točkami, 
+in vsaka točka incidentna s $s + 1$ premicami.
+
+Obstaja trditev, ki tudi za splošnejši red izračuna število točk in premic
+posplošenega $n$-kotnika, v našem simetričnem primeru pa vidimo, da se 
+izračun tega števila natanko ujema z mejo, ki smo jo že navedli. Kakor bi 
+tudi pričakovali.
+
+Za primer lahko vzamemo najpreprostejši posplošen $n$-kotnik reda $(1, 1)$, in sicer 
+je to kar običajni $n$-kotnik (narišem običajni $n$-kotnik, v smislu geometrije).
+Posledično je vsak $2n$-kotnik posplošen Mooreov graf.
+
+Izkaže se, da posplošeni $n$-kotniki reda večjega od $1$ obstajajo zgolj za $n \in \{2, 3, 4, 6, 8, 12\}$.
+Primer ko je $n = 2$ je seveda posplošen dvokotnik, in njegov incidenčni graf
+je polni dvodelni graf $K_{s, s}$. 
+
+
+\paragraph{Projektivna ravnina}
+Za zaključek lahko prikažem še zgled neke lepše projektivne ravnine, ki je 
+posplošen simetrični trikotnik.
+Projektivna ravnina je preprosto generirana nad nekim poljem $\mathbb{K}$, 
+tako, da opazujemo vektorski prostor $V = \mathbb{K}^3 \setminus 0$, 
+kjer točke definiramo kot vektorje, in premice kot ravnine. Relacijo sosednosti
+pa definiramo glede na vsebovanost.
+
+Tako lahko recimo za polje vzamemo končno polje $\mathbb{F}_2 = \{0, 1\}$,
+Vektorski prostor brez ničle ima tako $2^3 - 1 = 7$ točk ter $7$ premic.
+Točka leži na ravnini, če je produkt normale in točke enak $0$.
+Tako recimo vidimo, da na ravnini, predstavljeni z normalo $(1, 0, 0)$ 
+leži
+vsaka točka, ki zadošča enačbi $1\cdot x + 0\cdot y + 0\cdot z = 0$. 
+Torej vsaka izmed teh točk $\{(0,1,0),(0,0,1),(0,1,1)\}$ je sosedna z $(1, 0, 0)$.
+Če bi to naredili še za vse ostale točke, bi dobili celoten posplošen 
+simetrični trikotnik, ki mu pravimo Fanova ravnina.
+
+\paragraph{Opomba sebi}
+O ostalih večkotnikih bom razpravljal več v svoji diplomski nalogi,
+s tem sem svojo dolgo predstavitev zaključil. 
+(Lahko bi predstavil še zgled posplošenega $4$-kotnika, vendar ga nameravam bolj bežno omeniti,
+saj bo drugače to verjetno že malo prekompleksno za omejen čas). Pokazal bom le še slike,
+ki jih imam na prosojnicah.
+
+
+\end{document}
