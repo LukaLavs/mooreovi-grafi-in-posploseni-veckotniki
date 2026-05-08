@@ -132,7 +132,7 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
 \frametitle{Mooreovi grafi premera 2}
 \begin{trditev}
     Mooreov graf $G$ premera $D=2$ in maksimalne stopnje $\Delta$ zadošča matrični enačbi
-    \[A^2 + A - (\Delta - 1)\II = J\]
+    \[A^2 + A - (\Delta - 1) I = J\]
 \end{trditev}
 \begin{trditev}
     Lastne vrednosti takega grafa zadoščajo sistemu
@@ -198,7 +198,7 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
     \frametitle{Redkost in razširitve Mooreovih grafov}
     \begin{itemize}
         \item[\textbullet] Spodnja meja za red grafov ožine $g=2D+1$
-        ter maksimalne stopnje $\Delta$, razširja zgornjo mejo 
+        ter maksimalne stopnje $\Delta$ razširja zgornjo mejo
         za Mooreove grafe. 
 
     \end{itemize}
@@ -261,8 +261,8 @@ V splošnem so posplošeni $n$-kotniki reda $(s, t)$.
     $n \in \{2, 3, 4, 6, 8, 12\}$.
     \end{trditev}
     \begin{zgled}
-        V primeru $n=2$ imamo posplošeni 2-kotnik, katerega incidenčni graf je pravzaprav kompletni 
-        bipartitni graf $K_{s+1, t+1}$, ki je torej posplošeno Mooreov graf.
+        V primeru $n=2$ imamo posplošeni 2-kotnik, katerega incidenčni graf je pravzaprav polni
+        dvodelni graf $K_{s+1, t+1}$, ki je torej posplošen Mooreov graf.
     \end{zgled}
 \end{frame}
 
@@ -274,7 +274,7 @@ V splošnem so posplošeni $n$-kotniki reda $(s, t)$.
     \end{trditev}
     \begin{definicija}
         Projektivna ravnina je geometrija drugega ranga ($\PP, \LL, \II$), sestavljena iz 
-        množice točk $\PP$, množice premic $\LL$ in incidenčne relacije $\II \subset \PP \cup \LL$,
+        množice točk $\PP$, množice premic $\LL$ in incidenčne relacije $\II \subset \PP \times \LL$,
         ki zadoča naslednjim aksiomom:
         \begin{itemize}
             \item[\textbullet] Poljubni dve različni točki ležita na natanko eni premici.
@@ -295,9 +295,8 @@ V splošnem so posplošeni $n$-kotniki reda $(s, t)$.
         Klasična oziroma Desarguesova projektivna ravnina $\PG(2, \mathbb{K})$ nad poljem $\mathbb{K}$
         je izpeljana iz vektorskega prostora $V = \mathbb{K}^3$, kjer so točke 
         $\PP = \{\langle \mathbf{x} \rangle \mid \mathbf{x} \in V \setminus \{0\}\}$,
-        premice pa $\LL = \{\langle \mathbf{y} \rangle \mid \mathbf{y} \in V \setminus \{0\}\}$,
-        kjer je $\langle \mathbf{x} \rangle$ množica vseh neničelnih vektorjev, 
-        ki so linearne kombinacije vektorja $\mathbf{x}$,
+        premice pa $\LL = \{\langle \mathbf{y} \rangle^\bot \mid \mathbf{y} \in V \setminus \{0\}\}$,
+        kjer je $\langle \mathbf{x} \rangle$ množica vseh večkratnikov vektorja $\mathbf{x}$.
     \end{trditev}
 \end{frame}
 
@@ -305,16 +304,17 @@ V splošnem so posplošeni $n$-kotniki reda $(s, t)$.
     \frametitle{Projektivna ravnina}
     \begin{zgled}
         Tako lahko recimo za polje vzamemo končno polje $\mathbb{F}_2 = \{0, 1\}$,
-        dobimo $V\setminus \{0\} = \mathbb{F}_2^3 \setminus \{0\} = \{T_{ijk}\mid i,j,k\in\mathbb{F}_2\}$
-        in relacijo
+        dobimo $\PP = \{p_{ijk}\mid (i,j,k) \in \mathbb{F}_2 \setminus \{0\}\}$
+        in $\LL = \{\ell_{ijk}\mid (i,j,k) \in \mathbb{F}_2 \setminus \{0\}\}$
+        ter relacijo
         \begin{align*}
-T_{100} &\sim {T_{010}, T_{001}, T_{011}} \\
-T_{010} &\sim {T_{100}, T_{001}, T_{101}} \\
-T_{001} &\sim {T_{100}, T_{010}, T_{110}} \\
-T_{110} &\sim {T_{001}, T_{111}, T_{110}} \\
-T_{011} &\sim {T_{100}, T_{111}, T_{011}} \\
-T_{101} &\sim {T_{010}, T_{111}, T_{101}} \\
-T_{111} &\sim {T_{110}, T_{011}, T_{101}}
+p_{100} &\sim {\ell_{010}, \ell_{001}, \ell_{011}} \\
+p_{010} &\sim {\ell_{100}, \ell_{001}, \ell_{101}} \\
+p_{001} &\sim {\ell_{100}, \ell_{010}, \ell_{110}} \\
+p_{110} &\sim {\ell_{001}, \ell_{111}, \ell_{110}} \\
+p_{011} &\sim {\ell_{100}, \ell_{111}, \ell_{011}} \\
+p_{101} &\sim {\ell_{010}, \ell_{111}, \ell_{101}} \\
+p_{111} &\sim {\ell_{110}, \ell_{011}, \ell_{101}}
 \end{align*}
     \end{zgled}
 \end{frame}
@@ -342,8 +342,8 @@ T_{111} &\sim {T_{110}, T_{011}, T_{101}}
     \begin{trditev}
         Šibki posplošeni štirikotnik je geometrija $\Gamma = (\PP, \LL, \II)$, za katero velja:
         \begin{itemize}
-            \item [\textbullet] Za vsak nepovezan par $p, L$ obstaja natanko en par $p', L'$, 
-            tako, da $p \II L'$ in $p' \II L$.
+            \item [\textbullet] Za vsak neincidenčen par $p, \ell$ obstaja natanko en par $p', \ell'$,
+            tako, da $p \II \ell'$ in $p' \II \ell$.
             \item Vsaka točka leži na vsaj dveh premicah, a ne vseh, in dualno, vsaka premica nosi
             vsaj dve, a ne vse, točke.
         \end{itemize}
@@ -385,7 +385,7 @@ T_{111} &\sim {T_{110}, T_{011}, T_{101}}
     \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{../../assets/SplitCayleyHexagon.png}
-    \caption{Split Cayleyjev šestkotnik reda $(2, 2)$}
+    \caption{Razdeljeni Cayleyjev šestkotnik reda $(2, 2)$}
     \label{fig:sch_graph}
 \end{figure}
 \end{frame}
@@ -393,8 +393,8 @@ T_{111} &\sim {T_{110}, T_{011}, T_{101}}
 \begin{frame}
     \frametitle{Posplošeni osem in dvanajstkotniki}
     \begin{trditev}
-        Incidenčni graf posplošenega osemkotnika ne more biti posplošeno Mooreov, saj mora biti, po Feit-Higmanov izreku,
-        $2ss$ kvadrat, kar ni mogoče.
+        Incidenčni graf posplošenega osemkotnika ne more biti posplošen Mooreov graf, saj mora po Feit-Higmanov izreku biti
+        $2st = 2s^2$ kvadrat, kar ni mogoče.
     \end{trditev}
 %    \begin{trditev}
 %        Posplošeni dvanajstkotnik reda $(1, 1)$ pa je običajen dvanajstkotnik, torej je njegov incidenčni 
