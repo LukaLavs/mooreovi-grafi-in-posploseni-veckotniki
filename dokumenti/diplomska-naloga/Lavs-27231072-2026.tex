@@ -138,9 +138,63 @@
 
 \section{Uvod v teorijo grofov}
 
+\subsection{Osnove algebre}
+
+\begin{definicija}
+    Naj bosta $\lambda_i$ in $\lambda_j$ neki lastni vrednosti matrike $A$. Potem 
+    pravimo, da sta $\lambda_i$ in $\lambda_j$ algebrajsko konjugirani, če sta
+    korena istega ireducibilnega polinoma nad celimi števili. Torej natanko
+    tedaj ko $\exists p(x) \in \mathbb{Z}[x]: p(\lambda_i) = p(\lambda_j) = 0$.
+\end{definicija}
+
 
 
 \subsection{Osnovna teorija grafov}
+
+\begin{definicija}
+    Graf je razdaljno regularen, če je regularen, in če za vsak par vozlišč $u$ in $v$ velja, 
+    da je število vozlišč razdalje $j$ od $u$ in $k$ od $v$ odvisno le od $j$, $k$ in razdalje med $u$ in $v$.
+
+    Formalno je to $\exists s: \mathbb{N}_0^3 \to \mathbb{N}_0$ taka, da
+    $\forall u, v \in V(G):\;s(j, k, d(u, v)) = |\{w \in V(G) \mid d(u, w) = j \land d(v, w) = k\}|$.
+\end{definicija}
+
+\begin{definicija}
+    Presečno polje razdaljno regularnega grafa je zaporedje
+    \[\{b_0, \ldots, b_{D-1}; c_1, \ldots, x_D\},\]
+    kjer je $D$ premer grafa.
+    Za vsak $1 \leq j \leq D$ je $b_j$ število sosedov vozlišča $u$, ki so na razdalji $j+1$
+    od vozlišča $v$, in $c_j$ število sosedov od vozlišča $u$, ki so na razdalji $j-1$ od vozlišča $v$.
+
+    Od tu lahko izračunamo tudi $a_j$, ki pove, koliko sosedov ima $u$, ki so na razdalji $j$ od vozlišča $v$,
+    in sicer $a_j = k - b_j - c_j$, kjer je $k$ red grafa.
+\end{definicija}
+\begin{definicija}\label{def:presecna_matrika}
+    Presečno polje lahko predstavimo tudi z presečno matriko $M$, in sicer tako, da izrazimo sosednostno matriko $A$
+    v bazi vektorjev $\{\mathbf{e}_{N_0(v)}, \ldots, \mathbf{e}_{N_D(v)}\}$, kjer je $\mathbf{e}_{N_j(v)}$ 
+    vektor, ki ima enice na pozicijah vozlišč, ki so na razdalji $j$ od vozlišča $v$, in ničle drugje.
+    V tej bazi je, ob dogovoru $b_{-1} = c_{D+1} = 0$,
+    $A\mathbf{e}_{N_j(v)} = b_{j-1}\mathbf{e}_{N_{j-1}(v)} + a_j \mathbf{e}_{N_j(v)} + c_{j+1} \mathbf{e}_{N_{j+1}(v)}$,
+    in posledično z razvojem $A$ po taki bazi dobimo tridiagonalno matriko
+
+    \begin{equation}
+    M = \begin{bmatrix}
+    a_0 & b_0 & 0 & \cdots & 0 \\
+    c_1 & a_1 & b_1 & \cdots & 0 \\
+    0 & c_2 & a_2 & \cdots & 0 \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \cdots & b_{D-1} \\
+    0 & 0 & c_D & \cdots & a_D
+    \end{bmatrix}
+    \end{equation}
+\end{definicija}
+
+\begin{opomba}
+Ker je presečna matrika $M$ podobna matriki $A$ ($\exists P:\; M = P^{-1}AP$),
+ima tudi enake lastne vrednosti. Velja celo to, da je karakteristični polinom
+matrike $M$ ravno minimalni polinom matrike $A$.
+\end{opomba}
+
 
 \subsection{Teorija grup}
 
@@ -422,6 +476,31 @@ namreč za vsak $g \in G$ je $g + H = \begin{cases}
     $|\aut(H)| = 2 \cdot 2 \cdot 2 = 8$.
 \end{zgled}
 
+\begin{definicija}
+    $H / K = \{hK \mid h\in H\}$ faktorska grupa (kvocient) (grupa kosetov).
+\end{definicija}
+\begin{zgled}
+    $\mathbb{Z} / 3\mathbb{Z} = \{0, 1, 2\}$
+\end{zgled}
+\begin{zgled}
+    $G / G_x  \cong X$
+\end{zgled}
+
+\begin{izrek}[Cauchyjev izrek]\label{iz:cauchy}
+    % https://en.wikipedia.org/wiki/Cauchy%27s_theorem_(group_theory)
+    Naj bo $G$ grupa, katere red je deljiv s praštevilom $p$. 
+    Potem ima $G$ element reda $p$.
+\end{izrek}
+
+\begin{izrek}[Izrek o izomorfizmih]\label{iz:izomorfizmi}
+Naj bosta $G$ in $H$ grupi in $f: G \to H$ homomorfizem. Potem veljajo 
+\begin{itemize}
+    \item $\ker(f) = \{g \in G \mid f(g) = e\}$ je normalna podgrupa $G$,
+    \item $\im(f) = \{f(g) \mid g \in G\}$ je podgrupa $H$,
+    \item $f$ inducira izomorfizem $G / \ker(f) \cong \im(f)$.
+\end{itemize}  
+\end{izrek}
+
 \section{Mooreovi grafi}
 % definicija, slike
 Mooreovi grafi so ekstremalni grafi, ki glede na dan premer ter dano 
@@ -521,6 +600,17 @@ G^{\Delta, i} = A G^{\Delta, i-1} - (\Delta-1) G^{\Delta, i-2} & \text{za } 2 \l
     stolpičnimi in vrstičnimi seštevki enaki $\delta$ \cite[str. 15]{MillerSiran2013}.
     Več o grafih z defektom bomo povedali kasneje~(\ref{sec:moorerazsiritev}).
 \end{opomba}
+
+\begin{trditev}\label{tr:moorematrixsimplified}
+Rekurzivna enačba matrike $G^{\Delta, i}$ je diferenčna enačba drugega reda s konstantnimi koeficienti,
+posledično ima rešitev oblike $G^{\Delta, D}(A) = \alpha \lambda_1^D + \beta \lambda_2^D$, 
+kjer sta $\lambda_1 = \frac{A + \sqrt{A^2 - 4(\Delta-1)}}{2}$ in 
+$\lambda_2 = \frac{A - \sqrt{A^2 - 4(\Delta-1)}}{2}$ korena karakteristične enačbe, slednje se poenostavi v:
+\begin{equation}
+    G^{\Delta, D}(A:=2s\cos(\phi)) = \frac{s^D}{\sin(\phi)}[\sin((D+1)\phi) + \frac{1}{s}\sin(D\phi)],
+\end{equation}
+kjer je $s = 2\sqrt{\Delta-1}$ in $\phi=\arccos(\frac{A}{2\sqrt{\Delta-1}})$.
+\end{trditev}
 
 % Tu lahko rečeš da dodatno ta enačba celo posplošuje na grafe z defektom delta.
 
@@ -1225,6 +1315,7 @@ Zdaj končno vidimo, da je $|\aut(H)| = |G\cdot P^0||G_{P^0}| = (50\cdot 7\cdot 
 Naša trditev~\ref{tr:red_avtomorfizmov} je dokazana.
 
 \begin{opomba}\label{op:hs_tranzitiven}
+    OPOMBA JE NAPAČNA! Ni res da $|G_v| \leq 7!$, protiprimer: Petersenov graf.
 Vidimo lahko, da je $50\cdot 7!$ tudi največje število avtomorfizmov,
 ki jih lahko ima graf reda $50$ in stopnje $7$. Namreč, po
 izreku o orbitah in 
@@ -1266,6 +1357,9 @@ $\alpha \leq n \frac{-\lambda_{\min}}{\lambda_{\max} - \lambda_{\min}}$,
 kjer je $\lambda_{\max}$ največja lastna vrednost, ter $\lambda_{\min}$ najmanjša lastna vrednost,
 dobimo, da je neodvisno število tega grafa manjše ali enako $400$.
 
+Red avtomorfične grupe je največ $375$
+
+\paragraph{Vozliščna tranzitivnost}
 Predstavimo še trditev, ki pravi, 
 da graf valence $57$, če obstaja, ne more biti vozliščno tranzitiven, 
 kar pomeni, da ne more imeti simetrije, ki bi omogočala, da se katerokoli vozlišče preslika v 
@@ -1275,7 +1369,14 @@ katerokoli drugo vozlišče. To ga loči od ostalih treh Mooreovih grafov, ki so
 Graf valence $57$, če obstaja, ni vozlično tranzitiven.
 Glej vira \citeauthor{higman1964finite} in \citeauthor{aschbacher1971nonexistence}. NEDOKONČANO.
 
+V enem kosu to dokaže tudi \citeauthor{cameron1999permutation} \cite[izrek 3.13]{cameron1999permutation}
 \end{trditev}
+
+\begin{definicija}
+    Pravimo, da ima grupa $G$ na množici $\Omega$ rang $r$, če je $r$ število orbit, ki jih 
+    ima stabilizator $G_v$ poljubne točke $v \in \Omega$. Drugače povedano,
+    če ekvivalenčna relacija $y\sim z \iff y \in G_v \cdot z$ povzroči razpad na $r$ ekvivalenčnih razredov.
+\end{definicija}
 
 
 
@@ -1318,11 +1419,88 @@ TODO: Nadaljuj.
 
 \subsection{Neobstoj Mooreovih grafov}
 
-%TODO
-Glej \cite{bannai1973finite}.
+\citeauthor{hoffman1960moore}\cite{hoffman1960moore} pokaže, da Mooreovi grafi za premer $3$ ne obstajajo,
+z izjemo trivialnega primera $C_7$. 
+
+\paragraph{Štetje sprehodov}
+\citeauthor{plesnik1974one}\cite{plesnik1974one} razvije metodo s katerimi z računalniško asistenco
+pokaže, da Mooreovi grafi za premer $4$ ne obstajajo vse do neke meje.
+
+$F_n$ označuje število sprehodov dolžine $n$, kjer prva in zadnja povezava poteka po zadnjem nivoju $N_D(w)$.
+Očitno mora tako po ostalih nivojih potekati sodo število (recimo $2t$) povezav. Prvo povezavo (po $N_D(w)$) lahko 
+izberemo na $(d-1)$ načinov, potem lahko nadaljujemo po ostalih nivojih. Ko se nižamo proti $w$ nimamo 
+se lahko nižamo le po eni poti, ter ko se vračamo proti $N_D(w)$ imamo $(d-1)$ možnosti. Tako s povezavami
+pri teh ostalih nivojih doprinesemo še faktor $(d-1)^t$. Ker nam je zdaj preostalo še $n-2t-1$ korakov
+preden zaključimo sprehod, v množici $N_D(w)$ dobimo še faktor $(d-2)^{n-2t-1}$, saj ne smemo izbrati poti, 
+po kateri bi se vrnili v začetno vozlišče. Po takšnih premislekih je Plesnik dobil naslednjo identiteto.
+\begin{align}
+&N(t, n) = (\Delta-1)^{t+1}(\Delta-2)^{n - 2t -1} \\
+&F_n = \sum_{t=0}^{\lfloor (n-2)/2 \rfloor} \binom{n-t-2}{t} N(t, n)\quad \forall n \geq 2
+\end{align}
+
+Potem izračuna, za vsak rob grafa, število ciklov dolžine $2D + n$, ki ga označi z $r_{2D+n}$, in dobi:
+\begin{equation}
+    r_{2D+n} = r_{2D + n-2} + (\Delta-1)^{D-1}(F_n - F_{n-2}) \quad \forall 1 \leq n \leq 2D+1
+\end{equation}
+
+Potem dokaže še preprosto dejstvo, da če je nek rob vsebovan v natanko $r$ podgrafih, ki so vsi cikli dolžine $2D+1$,
+in je teh podgrafov $s$ in je v vsakem $m$ povezav,
+potem velja $r |E| = sm$ oziroma $r |E| \equiv 0 \pmod m$.
+
+Po tem malem dokazu, očitno sledi njegov izrek, ki pravi
+\begin{equation}
+    \frac{1}{2} (1 + \Delta\sum_{i=0}^{D-1} (\Delta-1)^i) r_{2D+n} \equiv 0 \pmod {2D+n} 
+    \quad\forall 1 \leq n \leq 2D+1
+\end{equation}
+S pomočjo te enačbe, ki jo z Fermatovim izrekom še oplemeniti, računalniško ovrže obstoj Mooreovih 
+grafov za parametra $(D, \Delta) \in [3, 100]^2 \cup (\{3\} \times [3, 1000])$.
 
 
-\section{Razširitev Mooreovih grafov}\label{sec:moorerazsiritev}
+\paragraph{Krotenje lastnih vrednosti}
+\citeauthor{bannai1973finite}\cite{bannai1973finite} zaključita vprašanje o neobstoju, in pokažeta,
+da z izjemo trivialnih primerov, Mooreovi grafi za premer $D \geq 3$ ne obstajajo.
+
+Če močno povzamemo, to storita tako, da uporabita dejstvo, da so Mooreovi grafi razdaljno regularni,
+torej opazujeta njegovo presečno matriko
+\begin{equation*}
+    M = \begin{bmatrix}
+0 & D & 0 & 0 & \cdots & 0 \\
+1 & 0 & D-1 & 0 & \cdots & 0 \\
+0 & 1 & 0 & D-1 & \cdots & 0 \\
+0 & 0 & 1 & 0 & \ddots & \vdots \\
+\vdots & \vdots & & \ddots & \ddots & D-1 \\
+0 & 0 & \cdots & 0 & 1 & 0
+\end{bmatrix}
+\end{equation*}
+Vesta, da se njen karakteristični polinom ujema z minimalnim polinomom matrike sosednosti Mooreovega grafa.
+Njen karakteristični polinom lahko dobimo z izračunom $G_D := \det(xI - M)$. Dobimo rekurzijo
+$f_D() = xf^{D-1} - (D-1)f^{D-2}$, z začetnimi pogoji $f^0 = 1$ in $f^1 = x$. Izkaže se, da obstaja 
+povezava med 
+$G^{\Delta, D}(x) = f^D(x) + (D-1)f^{D-1}(x)$.
+
+Od tu dalje uporabita formulo, ki jo poda Higman \cite[lema 3.4]{feit1964nonexistence}, 
+ki pravi, da $m(\theta_i) = \frac{\sl(f^D_i(A))}{f^D_i(\theta_i)}$, kjer je\\ $f^D_i(x) = f^D(x)/(x-\theta_i)$.
+
+Izračunata, da je 
+$m(\theta_i) = \frac{Df^{D-1}(\theta_i)}{(\theta_i-D)\frac{\partial G^{\Delta, D-1}}{\partial x}(\theta_i)}$.
+Tako sta z substitucijo $x = 2s\cos(\phi)$ in $s^2 = D - 1$ izrazila $m(\theta_i)$ kot trigonometrično funkcijo.
+
+Z analizo ničel funkcije $G^{\Delta, D}(x)$ (ki se ujemajo z lastnimi vrednostmi Mooreovega grafa)
+pokažeta, da so lastne vrednosti razporejene dokaj enakomerno in sta našla intervalske omejitve zanjih.
+
+Potem jima je preko formule za $m(\theta_i)$ preko razmerja večkratnosti po mnogo analitičnih neenakostih 
+uspelo pokazati, da sta večkratnosti od največje lastne vrednosi (izklučajoč trivialno lastno vrednost $D$)
+$\theta_1$ in najmanjše lastne vrednosti $\theta_D$ manjše od vseh ostalih. 
+
+Potem je sledilo, da morata biti algebrajsko konjugirani. Pokazala sta, da sta bodisi obe iracionalni
+in potem bi moralo biti $\theta_1 + \theta_D \in \mathbb{Z}$ kar je bilo protislovje, ali pa 
+da sta obe racionalni, vendar sta že za $\theta_D$ pokazala, da je interval okoli nje tako majhen, 
+stran od celih števil, da ne dopušča celosti, razen v nekih omejenih primerih, ki sta jih preverila 
+računalniško.
+
+
+\section{Posplošitev Mooreovih grafov}\label{sec:moorerazsiritev}
+\subsection{Pogled s strani ožine}
 % povezovalec, definicija, opomba pri definiciji da se ujema s prejšnjo
 
 Za Mooreov graf velja, da ne le doseže maksimalno število vozlišč za dano maksimalno
@@ -1510,6 +1688,9 @@ incidenčna z premico (hiperravnino) $\mathbf{H}_{\mathbf{u}}$, če je njun skal
 % Desarguesovemu izreku.
 
 \subsubsection{Posplošeni štirikotniki}
+% The only known generalized quadrangles of order
+% (q, q) are the classical ones from Sp(4, q) and O(5, q).
+% For q > 4, it is not known whether other examples exist. omenjeno BY: https://ericmoorhouse.org/slides/ZJU_lectures.pdf
 \begin{definicija}
     Skladno z definicijo avtorja~\citeauthor{van2012generalized} je šibki posplošeni 
     štirikotnik definiran kot geometrija $\Gamma = (\PP, \LL, \II)$, za katero velja:
@@ -1571,7 +1752,7 @@ ujema z $\GQ(q, q)$ (!!!malo preveri, nadaljuj) \cite[str. ~63]{van2012generaliz
 
 
 
-\subsection{Obstoj razširjenih Mooreovih grafov sode ožine}
+\subsection{Obstoj in klasifikacija posplošenih Mooreovih grafov}
 
 \section{Sorodni problemi}
 

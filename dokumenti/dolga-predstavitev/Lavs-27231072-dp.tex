@@ -104,13 +104,18 @@ Med vsakima dvema vozliščema obstaja natanko ena pot dolžine največ $D$.
 \begin{frame}
     \frametitle{Matrična enačba Mooreovih grafov}
     \begin{trditev}
-    Za Mooreov graf $G$ stopnje $\Delta$ ter premera $D$ z matriko
+    Za Mooreov graf stopnje $\Delta$ ter premera $D$ z matriko
     sosednosti $A$ velja:
 \[G_{\Delta, D} = J,\]    
-kjer je $J$ matrika samih enic in 
-$G_{\Delta, i} = A G_{\Delta, i-1} -
-(\Delta - 1) G_{\Delta, i-2}$ $(2 \le i \le D)$,
-$G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
+kjer je $J$ matrika samih enic in $G_{\Delta, i}$ matrika, 
+katere $uv$-ta komponenta predstavlja število poti dolžine 
+največ $i$ med vozliščema $u$ in $v$. Oziroma:
+\begin{align*}
+    &G_{\Delta, i} = A G_{\Delta, i-1} -
+(\Delta - 1) G_{\Delta, i-2} \quad \text{za } (2 \le i \le D),\\
+&G_{\Delta, 1} = A + I,\\
+&G_{\Delta, 0} = I.
+\end{align*}
     \end{trditev}
 \end{frame}
 
@@ -160,7 +165,7 @@ $G_{\Delta, 1} = A + I$ in $G_{\Delta, 0} = I$.
     \frametitle{Mooreovi grafi premera 2}
     \begin{definicija}
         Sosede, podmnožice vozlišč $Q$ označimo z $N(Q)$. Vozlišča, do katerih 
-        od podmnožice $Q$ potrebujemo natanko dva koraka, označimo z $N^2(Q)$.
+        od podmnožice $Q$ potrebujemo natanko dva koraka, označimo z $N_2(Q)$.
     \end{definicija}
 
     \begin{definicija}
@@ -304,8 +309,8 @@ V splošnem so posplošeni $n$-kotniki reda $(s, t)$.
     \frametitle{Projektivna ravnina}
     \begin{zgled}
         Tako lahko recimo za polje vzamemo končno polje $\mathbb{F}_2 = \{0, 1\}$,
-        dobimo $\PP = \{p_{ijk}\mid (i,j,k) \in \mathbb{F}_2 \setminus \{0\}\}$
-        in $\LL = \{\ell_{ijk}\mid (i,j,k) \in \mathbb{F}_2 \setminus \{0\}\}$
+        dobimo $\PP = \{p_{ijk}\mid (i,j,k) \in \mathbb{F}_2^3 \setminus \{0\}\}$
+        in $\LL = \{\ell_{ijk}\mid (i,j,k) \in \mathbb{F}_2^3 \setminus \{0\}\}$
         ter relacijo
         \begin{align*}
 p_{100} &\sim {\ell_{010}, \ell_{001}, \ell_{011}} \\
