@@ -1,0 +1,57 @@
+\begin{tikzpicture}[x={1.1cm}, y={0.6cm}]
+
+    % --- 1. SLIKA: OSNOVA (Vse gruče s pikami) ---
+    \begin{scope}[local bounding box=s1]
+        \foreach \i in {0,...,4} {
+            \node[vnode] (v\i) at ({90 + \i*72}:1) {};
+            \node[label_style] at ({90 + \i*72}:0.7) {$v_{\i}$};
+            
+            \pgfmathsetmacro{\baseangle}{90 + \i*72}
+            \foreach \j in {0,...,4} {
+                \pgfmathsetmacro{\targetangle}{\baseangle + (\j-2)*8}
+                \node[vnode] (u\i\j) at (\targetangle:2.4) {};
+                \draw[old_edge] (v\i) -- (u\i\j);
+            }
+            \node[label_style] at (\baseangle:3.0) {$\mathcal{G}_{\i}$};
+        }
+        \draw[old_edge] (v0) -- (v1) -- (v2) -- (v3) -- (v4) -- (v0);
+    \end{scope}
+
+    % Puščica koraka (Bližje postavljena)
+    \draw[main_arrow] (s1.east) ++(0.2,0) -- ++(0.8,0);
+
+    % --- 2. SLIKA: IZBRANE KOMPLEMENTARNE 5-ZVEZDE ---
+    \begin{scope}[xshift=8cm, local bounding box=s2]
+        \foreach \i in {0,...,4} {
+            \node[vnode] (v_f\i) at ({90 + \i*72}:1) {};
+            \node[label_style] at ({90 + \i*72}:0.7) {$v_{\i}$};
+            
+            \pgfmathsetmacro{\baseangle}{90 + \i*72}
+            \foreach \j in {0,...,4} {
+                \pgfmathsetmacro{\targetangle}{\baseangle + (\j-2)*8}
+                \node[vnode] (w\i\j) at (\targetangle:2.4) {};
+                \draw[old_edge] (v_f\i) -- (w\i\j);
+            }
+            \node[label_style] at (\baseangle:3.2) {$\mathcal{G}_{\i}$};
+        }
+        \draw[old_edge] (v_f0) -- (v_f1) -- (v_f2) -- (v_f3) -- (v_f4) -- (v_f0);
+
+        % --- RISANJE ZGOLJ 3 ZVEZD (za nivoje j=0, j=2 in j=4) ---
+        \foreach \j in {0} {
+            \draw[new_edge] (w0\j) -- (w2\j);
+            \draw[new_edge] (w2\j) -- (w4\j);
+            \draw[new_edge] (w4\j) -- (w1\j);
+            \draw[new_edge] (w1\j) -- (w3\j);
+            \draw[new_edge] (w3\j) -- (w0\j);
+        }
+    \end{scope}
+
+\end{tikzpicture}
+
+% \tikzset{
+%     vnode/.style={circle, draw, fill=black, inner sep=0pt, minimum size=3pt},
+%     old_edge/.style={thin, black!20},
+%     new_edge/.style={thick, black},
+%     main_arrow/.style={-{Stealth}, line width=0.3pt, black},
+%     label_style/.style={font=\tiny, text=black!70}
+% }

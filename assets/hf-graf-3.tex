@@ -1,0 +1,49 @@
+\begin{tikzpicture}[x={1.5cm}, y={0.9cm}]
+
+    % --- GRADNJA KONSTRUKCIJE ---
+    \foreach \i in {0,...,4} {
+        % Osrednja vozlišča (brez imen)
+        \node[vnode] (v\i) at ({90 + \i*72}:1.2) {};
+        
+        \pgfmathsetmacro{\baseangle}{90 + \i*72}
+        
+        % Gruče (w_ij)
+        \foreach \j in {0,...,4} {
+            \pgfmathsetmacro{\targetangle}{\baseangle + (\j-2)*12}
+            \node[vnode] (w\i\j) at (\targetangle:2.8) {};
+            \draw[old_edge] (v\i) -- (w\i\j);
+            
+            % 5 lovk h_ijk
+            \foreach \k in {0,...,4} {
+                \pgfmathsetmacro{\extangle}{\targetangle + (\k-2)*2.2}
+                \node[vnode] (h\i\j\k) at (\extangle:4.4) {};
+                \draw[old_edge] (w\i\j) -- (h\i\j\k);
+            }
+        }
+    }
+    
+    % --- OZNAKE STRUKTUR ---
+
+    % 1. Notranji pentagon Q_0
+    \draw[old_edge] (v0) -- (v1) -- (v2) -- (v3) -- (v4) -- (v0);
+    \node[label_style] at (0,0) {$Q_0$};
+
+    % 2. Komplementarna zvezda P_j
+    \draw[old_edge] (w00) -- (w20);
+    \draw[old_edge] (w20) -- (w40);
+    \draw[old_edge] (w40) -- (w10);
+    \draw[old_edge] (w10) -- (w30);
+    \draw[old_edge] (w30) -- (w00);
+    % Oznaka P_j blizu ene od povezav zvezde
+    \node[label_style, anchor=south] at (-0.9, 1.5) {$P_j$};
+
+    % 3. Zunanji petkotnik Q_i
+    \draw[new_edge] (h034) to (h134);
+    \draw[new_edge] (h134) to (h234);
+    \draw[new_edge] (h234) to (h334);
+    \draw[new_edge] (h334) to (h434);
+    \draw[new_edge] (h434) to (h034);
+    % Oznaka Q_i na zunanjem robu
+    \node[label_style, anchor=south] at (-3, -1.2) {$Q_i$};
+
+\end{tikzpicture}

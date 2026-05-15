@@ -1,0 +1,65 @@
+\begin{tikzpicture}[x={1.1cm}, y={0.6cm}]
+
+    % --- 1. SLIKA: PENTAGON ---
+    \begin{scope}[local bounding box=s1]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (a\i) at ({90 + (\i-1)*72}:1) {};
+            \node[label_style] at ({90 + (\i-1)*72}:0.7) {$v_{\i}$};
+        }
+        \draw[old_edge] (a1) -- (a2) -- (a3) -- (a4) -- (a5) -- (a1);
+    \end{scope}
+
+    % Puščica 1
+    \draw[main_arrow] (s1.east) ++(0.3,0) -- ++(0.8,0);
+
+    % --- 2. SLIKA: LOVKE (Temnejši kraki s puščicami) ---
+    % Povečan xshift na 6.5cm
+    \begin{scope}[xshift=6.5cm, local bounding box=s2]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (v\i) at ({90 + (\i-1)*72}:1) {};
+            \node[label_style] at ({90 + (\i-1)*72}:0.7) {$v_{\i}$};
+            
+            \pgfmathsetmacro{\baseangle}{90 + (\i-1)*72}
+            
+            % Temnejši krepki kraki s puščicami
+            \foreach \j in {-2,-1,0,1,2} {
+                \pgfmathsetmacro{\targetangle}{\baseangle + \j*8}
+                \draw[new_edge, -{Stealth[scale=0.6]}] (v\i) -- (\targetangle:2.4);
+            }
+            \node[label_style] at (\baseangle:2.9) {$\mathcal{G}_{\i}$};
+        }
+        \draw[old_edge] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- (v1);
+    \end{scope}
+
+    % Puščica 2
+    \draw[main_arrow] (s2.east) ++(0.4,0) -- ++(0.8,0);
+
+    % --- 3. SLIKA: KONČNE PIKE (Vse sivo, le pike črne) ---
+    % Povečan xshift na 14.5cm za maksimalen razmik
+    \begin{scope}[xshift=14.5cm, local bounding box=s3]
+        \foreach \i in {1,...,5} {
+            \node[vnode] (v_fin\i) at ({90 + (\i-1)*72}:1) {};
+            \node[label_style] at ({90 + (\i-1)*72}:0.7) {$v_{\i}$};
+            
+            \pgfmathsetmacro{\baseangle}{90 + (\i-1)*72}
+            
+            % Vse črte so spet nežne (sive), poudarjene so končne pike
+            \foreach \j in {-2,-1,0,1,2} {
+                \pgfmathsetmacro{\targetangle}{\baseangle + \j*8}
+                \node[vnode] (u\i\j) at (\targetangle:2.4) {};
+                \draw[old_edge] (v_fin\i) -- (u\i\j);
+            }
+            \node[label_style] at (\baseangle:3.0) {$\mathcal{G}_{\i}$};
+        }
+        \draw[old_edge] (v_fin1) -- (v_fin2) -- (v_fin3) -- (v_fin4) -- (v_fin5) -- (v_fin1);
+    \end{scope}
+
+\end{tikzpicture}
+
+% \tikzset{
+%     vnode/.style={circle, draw, fill=black, inner sep=0pt, minimum size=3pt},
+%     old_edge/.style={thin, black!30},
+%     new_edge/.style={thick, black},
+%     main_arrow/.style={-{Stealth}, line width=0.3pt, black},
+%     label_style/.style={font=\tiny, text=black!70}
+% }

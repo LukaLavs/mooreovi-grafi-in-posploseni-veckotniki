@@ -1,0 +1,71 @@
+\begin{tikzpicture}
+
+    % --- 1. VRSTICA ---
+
+    % T1: id v Q0 in P0
+    \node[table_node] (T1) {
+        $\begin{array}{c|ccccc}
+            & P_0 & P_1 & P_2 & P_3 & P_4 \\
+            \hline 
+            Q_0 & \text{id} & \text{id} & \text{id} & \text{id} & \text{id} \\
+            Q_1 & \text{id} & & & & \\
+            Q_2 & \text{id} & & & & \\
+            Q_3 & \text{id} & & & & \\
+            Q_4 & \text{id} & & & & \\
+        \end{array}$
+    };
+
+    % T2: id + Q1 vrstica in P1 stolpec
+    \node[table_node, right=2.2cm of T1] (T2) {
+        $\begin{array}{c|ccccc}
+            & P_0 & P_1 & P_2 & P_3 & P_4 \\
+            \hline 
+            Q_0 & \text{id} & \text{id} & \text{id} & \text{id} & \text{id} \\
+            Q_1 & \text{id} & \rho & \rho^2 & \rho^3 & \rho^4 \\
+            Q_2 & \text{id} & \rho^2 & & & \\
+            Q_3 & \text{id} & \rho^3 & & & \\
+            Q_4 & \text{id} & \rho^4 & & & \\
+        \end{array}$
+    };
+
+    % --- 2. VRSTICA ---
+
+    % T3: Dodan element Q2, P2
+    \node[table_node, below=1.2cm of T1] (T3) {
+        $\begin{array}{c|ccccc}
+            & P_0 & P_1 & P_2 & P_3 & P_4 \\
+            \hline 
+            Q_0 & \text{id} & \text{id} & \text{id} & \text{id} & \text{id} \\
+            Q_1 & \text{id} & \rho & \rho^2 & \rho^3 & \rho^4 \\
+            Q_2 & \text{id} & \rho^2 & & & \\
+            Q_3 & \text{id} & \rho^3 & \rho & & \\
+            Q_4 & \text{id} & \rho^4 & & & \\
+        \end{array}$
+    };
+
+    % T4: Končna tabela
+    \node[table_node, right=2.2cm of T3] (T4) {
+        $\begin{array}{c|ccccc}
+            & P_0 & P_1 & P_2 & P_3 & P_4 \\
+            \hline 
+            Q_0 & \text{id} & \text{id} & \text{id} & \text{id} & \text{id} \\
+            Q_1 & \text{id} & \rho & \rho^2 & \rho^3 & \rho^4 \\
+            Q_2 & \text{id} & \rho^2 & \rho^4 & \rho & \rho^3 \\
+            Q_3 & \text{id} & \rho^3 & \rho & \rho^4 & \rho^2 \\
+            Q_4 & \text{id} & \rho^4 & \rho^3 & \rho^2 & \rho \\
+        \end{array}$
+    };
+
+    % --- PUŠČICE ---
+
+    % Ravna 1 -> 2
+    \draw[main_arrow] (T1.east) -- (T2.west);
+
+    % Zavita 2 -> 3 (iz spodnjega levega kota T2 v zgornji desni kot T3)
+    % Uporabimo in/out kote za gladek prehod
+    \draw[main_arrow] (T2.south west) to[out=225, in=45] (T3.north east);
+
+    % Ravna 3 -> 4
+    \draw[main_arrow] (T3.east) -- (T4.west);
+
+\end{tikzpicture}

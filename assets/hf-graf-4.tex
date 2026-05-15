@@ -1,0 +1,57 @@
+\begin{tikzpicture}
+
+    % Parametri postavitve
+    \def\hdist{5.0}    % Horizontalni razmik
+    \def\vdist{8.0}    % Kompaktna vertikalna razdalja
+    \def\radius{1.2}   % Radij grafov
+
+    % --- ZGORNJA VRSTA: 5 ZVEZD (P_0 do P_4) ---
+    \foreach \j in {0,...,4} {
+        \coordinate (P\j) at (\j*\hdist, \vdist);
+        \node[above=1.6cm] at (P\j) {\large $P_{\j}$};
+        
+        % Vozlišča (0-4 v smeri urinega kazalca)
+        \foreach \v [count=\idx from 0] in {90, 18, 306, 234, 162} {
+            \node[vnode] (p\j_\idx) at ($(P\j) + (\v:\radius)$) {};
+            \node[label_style, shift={(\v:0.35)}] at (p\j_\idx) {\idx};
+        }
+        % Sklenjena zvezda z novim stilom
+        \draw[new_edge] (p\j_0) -- (p\j_2) -- (p\j_4) -- (p\j_1) -- (p\j_3) -- (p\j_0);
+        
+        % Sidrišče za povezave, odmaknjeno od vozlišča 0
+        \coordinate (P_anchor_\j) at ($(P\j) + (0, -1.5)$);
+    }
+
+    % --- SPODNJA VRSTA: 5 PETKOTNIKOV (Q_0 do Q_4) ---
+    \foreach \i in {0,...,4} {
+        \coordinate (Q\i) at (\i*\hdist, 0);
+        \node[below=1.6cm] at (Q\i) {\large $Q_{\i}$};
+        
+        % Vozlišča (0-4 v smeri urinega kazalca)
+        \foreach \v [count=\idx from 0] in {90, 18, 306, 234, 162} {
+            \node[vnode] (q\i_\idx) at ($(Q\i) + (\v:\radius)$) {};
+            \node[label_style, shift={(\v:0.35)}] at (q\i_\idx) {\idx};
+        }
+        % Sklenjen cikel C5 z novim stilom
+        \draw[new_edge] (q\i_0) -- (q\i_1) -- (q\i_2) -- (q\i_3) -- (q\i_4) -- (q\i_0);
+        
+        % Sidrišče za povezave, odmaknjeno od vozlišča 0
+        \coordinate (Q_anchor_\i) at ($(Q\i) + (0, 2)$);
+    }
+
+    % --- POVEZAVE MED VRSTAMA (z oznakami \pi_ji) ---
+    \foreach \j in {0,...,4} {
+        \foreach \i in {0,...,4} {
+            % Povezava med sidrišči namesto direktno čez vozlišča
+            \draw[old_edge] (P_anchor_\j) -- (Q_anchor_\i);
+            
+            % Dinamičen izračun pozicije za \pi_ji, da se ne prekrivajo
+            \pgfmathsetmacro{\pos}{0.25 + \j*0.1 + \i*0.02}
+            
+            % Oznaka na povezavi
+            \node[fill=white, inner sep=0.5pt, font=\normalsize, opacity=0.9] 
+                at ($(P_anchor_\j)!\pos!(Q_anchor_\i)$) {$\pi_{\i\j}$};
+        }
+    }
+
+\end{tikzpicture}
