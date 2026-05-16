@@ -15,9 +15,19 @@
             
             % 5 lovk h_ijk
             \foreach \k in {0,...,4} {
+                % \pgfmathsetmacro{\extangle}{\targetangle + (\k-2)*2.2}
+                % \node[vnode] (h\i\j\k) at (\extangle:4.4) {};
+                % \draw[old_edge] (w\i\j) -- (h\i\j\k);
+                % \pgfmathsetmacro{\extangle}{\targetangle + (\k-2)*2.2}
+                
                 \pgfmathsetmacro{\extangle}{\targetangle + (\k-2)*2.2}
-                \node[vnode] (h\i\j\k) at (\extangle:4.4) {};
-                \draw[old_edge] (w\i\j) -- (h\i\j\k);
+                
+                % Namesto vozlišča (pike) definiramo koordinato (nevidna točka)
+                \coordinate (h\i\j\k) at (\extangle:4.4);
+                
+                % Narišemo povezavo s puščico na koncu
+                % Stealth[scale=0.8] naredi lepo ostro konico
+                \draw[new_edge, -{Stealth[scale=0.8]}] (w\i\j) -- (h\i\j\k);
             }
         }
     }
