@@ -80,6 +80,7 @@
 \usepackage{tikz}
 \usetikzlibrary{calc, decorations.pathreplacing}
 \usetikzlibrary{positioning, arrows.meta}
+\usetikzlibrary{decorations.markings}
 
 % deklarirajte vse matematične operatorje, da jih bo LaTeX pravilno stavil
 % \DeclareMathOperator{\...}{...}
@@ -120,7 +121,10 @@
     old_edge/.style={thin, black!40},
     new_edge/.style={very thick, black},
     main_arrow/.style={-{Stealth}, line width=0.3pt, black},
-    label_style/.style={font=\tiny, text=black!70}
+    label_style/.style={font=\tiny, text=black!70},
+    dashed_edge/.style={line width=1.0pt, black, dashed},
+    old_edge_doily/.style={line width=1.1pt, black!70},
+    v_point/.style={circle, draw=black, fill=white, inner sep=0pt, minimum size=5pt}
 }
 \newcommand{\tikznode}[2]{%
   \ifmmode
@@ -129,6 +133,19 @@
     \tikz[remember picture, baseline=(#1.base)]\node[inner sep=0pt, outer sep=0pt](#1){#2};%
   \fi
 }
+
+
+
+% \tikzset{
+%     vnode/.style={circle, draw, fill=black, inner sep=0pt, minimum size=4.0pt},
+%     old_struct/.style={thin, black!40},
+%     old_edge/.style={line width=0.3pt, black!15},
+%     new_edge/.style={line width=1.1pt, black},
+%     main_arrow/.style={-{Stealth[scale=1.2]}, line width=1.2pt, black}
+% }
+
+   
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ZAČETEK VSEBINE
@@ -1172,13 +1189,14 @@ Slednji pogled na strukturo Mooreovega grafa je prikazan na sliki
 (\ref{fig:mooretree}).
 \end{opomba} % TODO!! ZAkaj sliko narobe labela???!?!
 
-\begin{figure}[ht]\label{fig:mooretree}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.9\textwidth}{!}{%
         \import{../../assets/}{moore-bound.tex}
     }
     \caption{Lokalna struktura Moorejevega grafa.}
+    \label{fig:mooretree}
 \end{figure}
 
 \subsection{Lastnosti Mooreovih grafov}
@@ -1383,13 +1401,14 @@ povežemo $v_{11}$ z $v_{21}$ ter z $v_{31}$, $v_{12}$, po tem smo prisiljeni po
 $v_{22}$ in $v_{32}$, brez drugih izbir tako ostanemo do konca konstrukcije, povežemo $v_{21}$ z
 $v_{32}$, ter $v_{22}$ z $v_{31}$.
 
-\begin{figure}[ht]\label{fig:petersendrevo}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{petersen-drevo.tex}
     }
     \caption{Drevesna konstrukcija Petersenovega grafa.}
+    \label{fig:petersendrevo}
 \end{figure}
 
 Alternativno lahko uporabimo dejstvo, da je ožina takega grafa enaka $5$~(glej \ref{def:moore}), 
@@ -1401,13 +1420,14 @@ vozlišč v ciklu $C_5$. Hkrati mora biti povezano z natanko dvema. Povežemo ga
 za druge. Taki konstrukciji
 rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji Hoffman-Singeltonovega grafa.
 
-\begin{figure}[ht]\label{fig:petersenpetkotnik}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{petersen-petkotnik.tex}
     }
     \caption{Konstrukcija Petersenovega grafa iz petkotnika.}
+    \label{fig:petersenpetkotnik}
 \end{figure}
 
 Petersenov graf lahko konstruiramo tudi s pomočjo množice $X = \{1, 2, 3, 4, 5\}$, 
@@ -1493,13 +1513,14 @@ gruče \(\gr_j\): \\ \(\forall i, j. \forall u\in \gr_i:\; \left( (v_i \sim v_j
 \end{enumerate}
 \end{trditev}
 
-\begin{figure}[ht]\label{fig:hoffman_1}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{hf-graf-1.tex}
     }
     \caption{Centralni cikel in gruče v Hoffmann-Singeltonovem grafu.}
+    \label{fig:hoffman_1}
 \end{figure}
 
 \begin{dokaz}
@@ -1770,13 +1791,14 @@ V ta namen navedimo naslednjo definicijo in lemo, ki nam bosta služili pri nada
     Podgraf $H[N_1(Q)]$ je enak disjunktni uniji natanko petih ciklov $C_5$.
 \end{trditev}
 
-\begin{figure}[ht]\label{fig:hoffman_2}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{hf-graf-2.tex}
     }
     \caption{Petkotniki v podgrafu $H[N_1(Q)\cup Q]$ napeti kot komplementarne zvezde.}
+    \label{fig:hoffman_2}
 \end{figure}
 
 \begin{dokaz}
@@ -1812,13 +1834,14 @@ Označimo te cikle z $Q_1, Q_2, Q_3, Q_4$,
 originalni $Q$ pa s $Q_0$. Tudi $Q_i \cup P_j$ inducira Petersenov graf.
 
 
-\begin{figure}[ht]\label{fig:hoffman_3}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{hf-graf-3.tex}
     }
     \caption{Skica strukture Hoffmann-Singeltonovega grafa.}
+    \label{fig:hoffman_3}
 \end{figure}
 
 Ker poljubna unija $Q_i \cup P_j$ tvori Petersenov graf, 
@@ -1827,13 +1850,14 @@ $\pi_{ij}$. Oštevilčimo vozlišča ciklov $Q_i$ v smeri urinega kazalca, vozli
 najprej preoblikujemo v komplementarno zvezdno obliko, ter nato oštevilčimo prav 
 tako v smeri urinega kazalca (\ref{fig:hoffman_2}). 
 
-\begin{figure}[ht]\label{fig:hoffman_4}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{hf-graf-4.tex}
     }
     \caption{Permutacije, ki cikle povežejo v Petersenove grafe.}
+    \label{fig:hoffman_4}
 \end{figure}
 
 Ker cikla $Q_i \cup P_j$ inducirata Petersenov graf, 
@@ -1852,13 +1876,14 @@ različne. Da se prepričamo BŠS vzemimo $\pi_{ij} = \pi_{i'j}$, kjer $\pi_{ij}
 našli bi kratek cikel
 $C_4 = Q_i^k \overset{\pi_{ij}}{\rightarrow} P_j^{k'} \overset{\pi_{i'j}^{-1}}{\rightarrow} Q_{i'}^{k} \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k$ (\ref{tr:mooreregularpaths}).
 
-\begin{figure}[ht]\label{fig:hoffman_permutacije}
+\begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
         \import{../../assets/}{hf-perm-table.tex}
     }
     \caption{Permutacije, ki povezujejo petkotnike Hoffman Singeltonovega grafa.}
+    \label{fig:hoffman_permutacije}
 \end{figure}
 
 Tako smo primorani izbrati za $\pi_{i1}$ in $\pi_{1j}$ same različne rotacije. BŠS 
@@ -2580,13 +2605,20 @@ Geometrija (ranga n) je nabor
 $\Gamma = \left(
     \A_1, \A_2, \ldots, \A_n, \II
 \right)$, kjer so $\A_1, \A_2, \ldots, \A_n$ neprazne paroma disjunktne 
-množice, in $\II$ relacija incidenčnosti za katero velja 
+množice, in $\II$ relacija (\ref{def:binarna_relacija}) incidenčnosti za katero velja 
 \[\II \subseteq \bigcup_{i\neq j} \A_i \times \A_j.\] Če za poljubna
 $a, b \in \bigcup_{i} \A_i$ velja $(a, b) \in \II$, potem pišemo tudi
 $\IIw{a}{b}$. 
 \end{definicija}
 
-\begin{definicija}
+\begin{definicija}[Podgeometrija]
+Pravimo, da je $\Gamma'$ podgeometrija natanko 
+tedaj ko $\Gamma' = \left(\A_1', \A_2', \ldots, \A_n', \II'\right)$,
+kjer za vsak $1 \leq i \leq n$ velja $\A_i' \subseteq \A_i$ ter kjer 
+je $\II' = \II \cap \bigcup_{i\neq j} \A_i' \times \A_j'$ ustrezna zožitev relacije $\II$.
+\end{definicija}
+
+\begin{definicija}[Dualna geometrija]
 Naj bo $\Gamma = \left(
     \A_1, \A_2, \ldots, \A_n, \II
 \right)$ geometrija. Pravimo, da je $\Gamma^D$ njena dualna geometrija 
@@ -2595,30 +2627,29 @@ Naj bo $\Gamma = \left(
 \right)$, kjer je $\IIwd{a}{b} \Leftrightarrow \IIw{b}{a}$.
 \end{definicija}
 
-\begin{definicija}
-Pravimo, da je $\Gamma'$ podgeometrija natanko 
-tedaj ko $\Gamma' = \left(\A_1', \A_2', \ldots, \A_n', \II'\right)$,
-kjer za vsak $1 \leq i \leq n$ velja $\A_i' \subseteq \A_i$ ter kjer 
-je $\II'$ ustrezna zožitev relacije $\II$.
-\end{definicija}
-
 \begin{definicija}[Incidenčni graf]
 Naj bo $\Gamma = \left(
     \A_1, \A_2, \ldots, \A_n, \II
 \right)$ geometrija. Incidenčni graf geometrije $\Gamma$ je graf $G$
-za katerega velja $V(G) = \bigcup_i \A_i$ ter 
+z vozlišči $V(G) = \bigcup_i \A_i$ ter povezavami
 $E(G) = \{uv \mid \IIw{u}{v} \lor \IIw{v}{u}\}$. Tak graf je očitno $n$-delen.
 \end{definicija}
 
-\begin{definicija}
-Geometrija (ranga 2) je nabor 
-$\Gamma = \left(\PP, \LL, \II\right)$. Množici $\PP$ pravimo \textsl{točke}, 
-množico $\LL$ pa poimenujmo \textsl{premice}. Pravimo, da je $p \in \PP$ 
-\textsl{točka} ter $l \in \LL$ \textsl{premica}. \newline 
-\textsl{Premica} je v relaciji z \textsl{točko}, če velja $\IIw{l}{p}$.
-\end{definicija}
+\begin{zgled}[Geometrija ranga $2$]
+Geometrija (ranga 2) je trojica
+$\Gamma = \left(\PP, \LL, \II\right)$, ki vsebuje množico točk $\PP$, 
+množico premic $\LL$ in relacijo incidenčnosti $\II \subseteq \PP \times \LL$.
+\end{zgled}
 
-
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.9\textwidth}{!}{%
+        \import{../../assets/}{dvokotnik.tex}
+    }
+    \caption{Posplošeni dvokotnik in njegov incidenčni graf.}
+    \label{fig:dvokotnik_geom}
+\end{figure}
 
 
 \subsection{Posplošeni večkotniki}
@@ -2732,6 +2763,16 @@ lahko zgornjo definicijo preoblikujemo na sledeč način.
 
 Ni se težko prepričati, da ta definicija povsem sovpada z definicijo posplošenih trikotnikov, 
 če le tej niso reda $(1, 1)$.
+
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.9\textwidth}{!}{%
+        \import{../../assets/}{fano-pg2.tex}
+    }
+    \caption{Fanova ravnina in njen incidenčni graf.}
+    \label{fig:fano_pg2}
+\end{figure}
 
 \paragraph{Desarguesove projektivne ravnine}
 \begin{definicija}\label{def:desarguesova_ravnina_verzija_1}
@@ -3022,7 +3063,7 @@ vendar ne obstajajo višje dimenzionalni podprostori v $q^{-1}(0)$, ustrezen Wit
 ravno pravo bogatost kvadratične forme.
 
 Najenostavnejši primer ortogonalnega enakoredega posplošenega štirikotnika, bi tako dobili z kvadratično 
-formo $q(x_0, x_1, x_2, x_3) = x_0x_1 + x_2x_3 + x_4$, recimo nad vektorskem prostoru $ V= \GF(2)^5$. Wittov indeks take forme je res 
+formo $q(x_0, x_1, x_2, x_3) = x_0x_1 + x_2x_3 + x_4^2$, recimo nad vektorskem prostoru $ V= \GF(2)^5$. Wittov indeks take forme je res 
 enak $2$, saj obstajajo $2$-dimenzionalni podprostori v $q^{-1}(0)$, 
 na primer tisti, ki jih določata ravnini $(a, 0, c, 0, 0)$ in $(0, b, 0, d, 0)$. Večdimenzionalnih podprostorov v 
 $q^{-1}(0)$ pa ni, saj enačba $q(a, b, c, d, e) = ac + bd = 0$ implicira, da je $e = 0$, 
@@ -3030,6 +3071,17 @@ in da sta vsaj dve izmed ostalih koordinat ničelni.
 
 Taka definicija nam da vedeti, da so posplošeni štirikotniki natanko dovolj bogate algebraične ploskve v 
 projektivnih prostorih.
+
+\begin{figure}[htbp]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \import{../../assets/}{gq22-tex.tex}%
+    }
+    \caption{Posplošeni štirikotnik $Q(4, \GF(2))\cong W(\GF(2))$ dobljen prek projektivnega prostora $\PG(4, \GF(2))$
+    s parabolično kvadratno formo $q(x_0, x_1, x_2, x_3, x_4) = x_0x_1 + x_2x_3 + x_4^2$.
+    Njegov incidenčni graf je $3$-regulren graf ožine $8$ in premera $4$.}
+    \label{fig:generalized_quadrangle_gq22}
+\end{figure}
 
 
 
@@ -3103,7 +3155,8 @@ Norma je naravno porodena kot $N(x) = x x^*$.
 \begin{definicija}
     Graf maksimalne stopnje $\Delta$ in premera $D$ je Mooreov graf z defektom $\epsilon$,
     če ima $M_{\Delta, D} \pm \epsilon$ vozlišč, 
-    kjer je $M_{\Delta, D}$ Mooreova meja (\ref{def:moore})
+    kjer je $M_{\Delta, D}$ Mooreova meja (\ref{def:moore}). Pravimo mu 
+    $(\Delta, D, \pm\epsilon)$-graf.
 \end{definicija}
 
 \begin{opomba}
@@ -3111,12 +3164,18 @@ Norma je naravno porodena kot $N(x) = x x^*$.
     vendar so ti rezultati precej omejeni (\cite{FERIAPURON20111331}, \cite{MillerSiran2013}).
 \end{opomba}
 
+\begin{opomba}\label{op:defekt_matrika}
+    Mooreov graf z defektom $\delta$ zadošča enačbi
+    $G^{\Delta, D} = J + B$, kjer je $B$ matrika z 
+    stolpičnimi in vrstičnimi seštevki enaki $\delta$ \cite[str. 15]{MillerSiran2013}.
+\end{opomba}
+
 \begin{figure}[htbp]
     \centering
     \resizebox{\textwidth}{!}{%
         \import{../../assets/}{defect-2.tex}%
     }
-    \caption{Graf $(3, 2, -2)$ s pripadajočima matrikama.}
+    \caption{Graf $(3, 2, -2)$ s pripadajočima matrikama (\ref{op:defekt_matrika}).}
     \label{fig:graf_matrike}
 \end{figure}
 
@@ -3130,7 +3189,8 @@ Norma je naravno porodena kot $N(x) = x x^*$.
 \end{definicija}
 
 \begin{opomba}
-    Razširjeni Mooreovi grafi so ekstremni primeri kletk.
+    Razširjeni Mooreovi grafi so ekstremni primeri kletk. Vse kletke so Mooreovi grafi z 
+    nekim defektom.
 \end{opomba}
 
 \begin{opomba}

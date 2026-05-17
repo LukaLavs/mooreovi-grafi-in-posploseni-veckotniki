@@ -1,0 +1,78 @@
+\begin{tikzpicture}
+
+    % =========================================================================
+    % 1. LEVA SLIKA: POVEČANI DVE POKONČNI ELIPSI Z VEČ PROSTORA
+    % =========================================================================
+    \coordinate (P_center) at (-2.8, 0);
+    \coordinate (L_center) at (2.8, 0);
+
+    % Robovi elips so povečani na 1.1cm x 2.1cm za boljšo čitljivost
+    \draw[new_edge] (P_center) ellipse (1.1cm and 2.1cm);
+    \node[font=\large] at ($(P_center)+(0, 2.4)$) {$\mathcal{P}$};
+
+    \draw[new_edge] (L_center) ellipse (1.1cm and 2.1cm);
+    \node[font=\large] at ($(L_center)+(0, 2.4)$) {$\mathcal{L}$};
+
+    % Tri točke znotraj elips so bolj narazen (razmik 1.2cm), da oznake niso stisnjene
+    \coordinate (p1) at ($(P_center)+(0, 1.2)$);
+    \coordinate (p2) at ($(P_center)+(0, 0)$);
+    \coordinate (p3) at ($(P_center)+(0, -1.2)$);
+    
+    \coordinate (l1) at ($(L_center)+(0, 1.2)$);
+    \coordinate (l2) at ($(L_center)+(0, 0)$);
+    \coordinate (l3) at ($(L_center)+(0, -1.2)$);
+
+    % Incidenčne povezave so izrisane z stilom 'old_edge' (thin, black!40)
+    \draw[old_edge] (p1) -- (l1); \draw[old_edge] (p1) -- (l2); \draw[old_edge] (p1) -- (l3);
+    \draw[old_edge] (p2) -- (l1); \draw[old_edge] (p2) -- (l2); \draw[old_edge] (p2) -- (l3);
+    \draw[old_edge] (p3) -- (l1); \draw[old_edge] (p3) -- (l2); \draw[old_edge] (p3) -- (l3);
+
+    % Vozlišča in njihova poimenovanja na prvi sliki (večji odmik med oznako in piko)
+    \node[vnode] at (p1) {}; \node[font=\small, text=black!70, left=5pt] at (p1) {$p_1$};
+    \node[vnode] at (p2) {}; \node[font=\small, text=black!70, left=5pt] at (p2) {$p_2$};
+    \node[vnode] at (p3) {}; \node[font=\small, text=black!70, left=5pt] at (p3) {$p_3$};
+    
+    \node[vnode] at (l1) {}; \node[font=\small, text=black!70, right=5pt] at (l1) {$l_1$};
+    \node[vnode] at (l2) {}; \node[font=\small, text=black!70, right=5pt] at (l2) {$l_2$};
+    \node[vnode] at (l3) {}; \node[font=\small, text=black!70, right=5pt] at (l3) {$l_3$};
+
+
+    % =========================================================================
+    % 2. OSREDNJI PREHOD
+    % =========================================================================
+    \draw[main_arrow] (4.2, 0) -- (5.4, 0);
+
+
+    % =========================================================================
+    % 3. DESNA SLIKA: TOČEN MATHEMATICA PRIKAZ Z SPECIFIČNIMI STILI
+    % =========================================================================
+    \begin{scope}[xshift=9.0cm, yshift=0cm, scale=2.5]
+        
+        % --- KRIVULJA l1: Položna nevalovita elipsa -> 'new_edge' (very thick, black) ---
+        \draw[new_edge, domain=0:360, samples=120, variable=\t] 
+            plot ({cos(\t)}, {0.5*sin(\t)});
+        \node[font=\small, text=black!70, left=2pt] at (-0.3, -0.3) {$l_1$};
+
+        % --- KRIVULJA l2: Zgornja valovita elipsa -> 'old_edge' (thin, black!40) ---
+        \draw[old_edge, domain=0:360, samples=150, variable=\t] 
+            plot ({cos(\t)}, {0.5*sin(\t) + 0.2*cos(3*\t) + 0.2});
+        \node[font=\small, text=black!70, above=2pt] at (0, 0.8) {$l_2$};
+
+        % --- KRIVULJA l3: Spodnja valovita elipsa -> Črtkana (dashed, thin, black!80) ---
+        \draw[thin, black!80, dashed, domain=0:360, samples=150, variable=\t] 
+            plot ({cos(\t)}, {0.5*sin(\t) - 0.1*cos(3*\t) - 0.1});
+        \node[font=\small, text=black!70, below=2pt] at (-0.3, -0.7) {$l_3$};
+
+        % --- PRESEČNE TOČKE (Mathematica parametri: t = 60°, 180°, 300°) ---
+        \coordinate (P1_coord) at ({cos(60)}, {0.5*sin(60)}); 
+        \coordinate (P2_coord) at ({cos(180)}, {0.5*sin(180)}); 
+        \coordinate (P3_coord) at ({cos(300)}, {0.5*sin(300)}); 
+
+        % Izris točk na vrhu vseh linij z \small znotraj label parametrov
+        \node[v_point, label={[font=\small, text=black!70]above right:$p_1$}] at (P1_coord) {};
+        \node[v_point, label={[font=\small, text=black!70]above left:$p_2$}] at (P2_coord) {};
+        \node[v_point, label={[font=\small, text=black!70]below right:$p_3$}] at (P3_coord) {};
+
+    \end{scope}
+
+\end{tikzpicture}
