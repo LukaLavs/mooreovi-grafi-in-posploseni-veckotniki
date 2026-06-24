@@ -1,3 +1,4 @@
+a = 0.7; b = 4.7;
 Block[{vsiVektorji, q, tockeQ42, premiceQ42, aliJeQTočka, premiceVsi, 
   aliJeQPremica, r, koti, oglisca, srediscaZunanjihRobov, 
   srediscaNotranjihPremic, premiceKvadrike, koordinate15, 
@@ -7,200 +8,154 @@ Block[{vsiVektorji, q, tockeQ42, premiceQ42, aliJeQTočka, premiceVsi,
   tikzSredinaTocke, tikzSredinaPremice, tikzDesnaTocke, 
   tikzDesnaPremice, pModra, pRdeca1, pRdeca2, xc, yc, rad, tZacetni, 
   tKončni, vsiLokiStr, celotnaKoda, i, j, k, line, pt, n, idx, style, 
-  v, p},(*Pomožna funkcija za varen izpis decimalnih števil brez ekspo\
-nentov*)izpisStevila[x_] := 
-  NumberForm[N[x], {16, 6}, ExponentFunction -> (Null &)];
- (*1. STRUKTURA PG(4,2) IN ISKANJE KVADRIKE Q(4,2)*)
+  v, p, t, xPos, yPos, odmikKota},
+ 
+ (* Pomožna funkcija za varen izpis decimalnih števil *)
+ izpisStevila[x_] := NumberForm[N[x], {16, 6}, ExponentFunction -> (Null &)];
+ 
+ (* 1. STRUKTURA PG(4,2) IN ISKANJE KVADRIKE Q(4,2) *)
  vsiVektorji = Select[Tuples[{0, 1}, 5], Total[#] > 0 &];
  q[v_] := Mod[v[[1]]*v[[2]] + v[[3]]*v[[4]] + v[[5]]^2, 2];
  tockeQ42 = Select[vsiVektorji, q[#] == 0 &];
- premiceVsi = 
-  Select[Subsets[vsiVektorji, {3}], 
-   Mod[Total[#], 2] == {0, 0, 0, 0, 0} &];
+ premiceVsi = Select[Subsets[vsiVektorji, {3}], Mod[Total[#], 2] == {0, 0, 0, 0, 0} &];
  premiceQ42 = Select[premiceVsi, SubsetQ[tockeQ42, #] &];
- aliJeQTočka = 
-  Association[Table[v -> MemberQ[tockeQ42, v], {v, vsiVektorji}]];
- aliJeQPremica = 
-  Association[Table[p -> MemberQ[premiceQ42, p], {p, premiceVsi}]];
- (*2. GEOMETRIJSKE KOORDINATE DOILYJA*)r = 3.2;
+ aliJeQTočka = Association[Table[v -> MemberQ[tockeQ42, v], {v, vsiVektorji}]];
+ aliJeQPremica = Association[Table[p -> MemberQ[premiceQ42, p], {p, premiceVsi}]];
+ 
+ (* 2. GEOMETRIJSKE KOORDINATE DOILYJA *)
+ r = 3.2;
  koti = Table[n*2*Pi/5 + Pi/2, {n, 0, 4}];
  oglisca = Table[{r*Cos[a], r*Sin[a]}, {a, koti}];
- srediscaZunanjihRobov = 
-  Table[(oglisca[[i]] + oglisca[[Mod[i, 5] + 1]])/2., {i, 1, 5}];
- srediscaNotranjihPremic = 
-  Table[srediscaZunanjihRobov[[i]]/2., {i, 1, 5}];
- koordinate15 = 
-  Join[oglisca, srediscaZunanjihRobov, srediscaNotranjihPremic];
- premiceKvadrike = {{1, 6, 2}, {2, 7, 3}, {3, 8, 4}, {4, 9, 5}, {5, 
-    10, 1}, {6, 11, 4}, {7, 12, 5}, {8, 13, 1}, {9, 14, 2}, {10, 15, 
-    3}, {11, 12, 3}, {12, 13, 4}, {13, 14, 5}, {14, 15, 1}, {15, 11, 
-    2}};
- (*3. GENERIRANJE SLIKE 1 (Kronološki TikZ vrstni red brez preklapljan\
-ja plasti)*)tikzLevaKoordinateP = {}; tikzLevaKoordinateL = {};
+ srediscaZunanjihRobov = Table[(oglisca[[i]] + oglisca[[Mod[i, 5] + 1]])/2., {i, 1, 5}];
+ srediscaNotranjihPremic = Table[srediscaZunanjihRobov[[i]]/2., {i, 1, 5}];
+ koordinate15 = Join[oglisca, srediscaZunanjihRobov, srediscaNotranjihPremic];
+ premiceKvadrike = {{1, 6, 2}, {2, 7, 3}, {3, 8, 4}, {4, 9, 5}, {5, 10, 1}, 
+                    {6, 11, 4}, {7, 12, 5}, {8, 13, 1}, {9, 14, 2}, {10, 15, 3}, 
+                    {11, 12, 3}, {12, 13, 4}, {13, 14, 5}, {14, 15, 1}, {15, 11, 2}};
+ 
+ (* 3. GENERIRANJE SLIKE 1 *)
+ tikzLevaKoordinateP = {}; tikzLevaKoordinateL = {};
  tikzLevaSivePovezave = {}; tikzLevaCrnePovezave = {};
  tikzLevaSiveTocke = {}; tikzLevaCrneTocke = {};
  tikzLevaSivePremice = {}; tikzLevaCrnePremice = {};
- (*Najprej ustvarimo absolutne fiksne točke (baze),\
-da jih TikZ pozna pred risanjem linij*)
- Do[AppendTo[tikzLevaKoordinateP, 
-    "    \\coordinate (L-p" <> ToString[i] <> 
-     ") at ($(P_center_L) + ({" <> 
-     ToString[izpisStevila[90 - (i - 1)*(360/31)]] <> 
-     "}:0.7cm and 4.7cm)$);"];, {i, 1, 31}];
- Do[AppendTo[tikzLevaKoordinateL, 
-    "    \\coordinate (L-l" <> ToString[j] <> 
-     ") at ($(L_center_L) + ({" <> 
-     ToString[izpisStevila[90 - (j - 1)*(360/155)]] <> 
-     "}:0.7cm and 4.7cm)$);"];, {j, 1, 155}];
- (*Nato pripravimo ukaze za risanje premic*)
+ 
+ odmikKota = 15.0 * Pi / 180.0;
+ 
+ (* 31 točk (levi elipsoid) *)
+ Do[
+  t = (i - 1) * (2 * Pi / 31) + odmikKota;
+  xPos = a * Cos[t];
+  yPos = b * Sin[t];
+  AppendTo[tikzLevaKoordinateP, 
+   "    \\coordinate (L-p" <> ToString[i] <> ") at ($(P_center_L) + (" <> 
+    ToString[izpisStevila[xPos]] <> "cm," <> ToString[izpisStevila[yPos]] <> "cm)$);"];
+  , {i, 1, 31}];
+ 
+ (* 155 premic kot točk (desni elipsoid) *)
+ Do[
+  t = (j - 1) * (2 * Pi / 155) + odmikKota;
+  xPos = a * Cos[t];
+  yPos = b * Sin[t];
+  AppendTo[tikzLevaKoordinateL, 
+   "    \\coordinate (L-l" <> ToString[j] <> ") at ($(L_center_L) + (" <> 
+    ToString[izpisStevila[xPos]] <> "cm," <> ToString[izpisStevila[yPos]] <> "cm)$);"];
+  , {j, 1, 155}];
+ 
+ (* Povezave incidentnosti *)
  Do[Module[{p = premiceVsi[[j]], jStr = ToString[j], idx1, idx2, idx3},
-    idx1 = Position[vsiVektorji, p[[1]]][[1, 1]];
+   idx1 = Position[vsiVektorji, p[[1]]][[1, 1]];
    idx2 = Position[vsiVektorji, p[[2]]][[1, 1]];
    idx3 = Position[vsiVektorji, p[[3]]][[1, 1]];
+   
+   (* Če premica pripada kvadriki Q(4,2), jo izrišemo krepko črno *)
    If[aliJeQPremica[p], 
-    AppendTo[tikzLevaCrnePovezave, 
-     "    \\draw[line width=1.3pt, black] (L-p" <> ToString[idx1] <> 
-      ") -- (L-l" <> jStr <> ");"];
-    AppendTo[tikzLevaCrnePovezave, 
-     "    \\draw[line width=1.3pt, black] (L-p" <> ToString[idx2] <> 
-      ") -- (L-l" <> jStr <> ");"];
-    AppendTo[tikzLevaCrnePovezave, 
-     "    \\draw[line width=1.3pt, black] (L-p" <> ToString[idx3] <> 
-      ") -- (L-l" <> jStr <> ");"];, 
-    AppendTo[tikzLevaSivePovezave, 
-     "    \\draw[old_edge] (L-p" <> ToString[idx1] <> ") -- (L-l" <> 
-      jStr <> ");"];
-    AppendTo[tikzLevaSivePovezave, 
-     "    \\draw[old_edge] (L-p" <> ToString[idx2] <> ") -- (L-l" <> 
-      jStr <> ");"];
-    AppendTo[tikzLevaSivePovezave, 
-     "    \\draw[old_edge] (L-p" <> ToString[idx3] <> ") -- (L-l" <> 
-      jStr <> ");"];];], {j, 1, Length[premiceVsi]}];
- (*Pripravimo vizualne krožce,\
-ki se bodo narisali točno na te koordinate*)Do[v = vsiVektorji[[i]];
+    AppendTo[tikzLevaCrnePovezave, "    \\draw[line width=1.3pt, black] (L-p" <> ToString[idx1] <> ") -- (L-l" <> jStr <> ");"];
+    AppendTo[tikzLevaCrnePovezave, "    \\draw[line width=1.3pt, black] (L-p" <> ToString[idx2] <> ") -- (L-l" <> jStr <> ");"];
+    AppendTo[tikzLevaCrnePovezave, "    \\draw[line width=1.3pt, black] (L-p" <> ToString[idx3] <> ") -- (L-l" <> jStr <> ");"];, 
+    (* Sicer je del starega ambienta in ostane bleda in tanka *)
+    AppendTo[tikzLevaSivePovezave, "    \\draw[old_edge] (L-p" <> ToString[idx1] <> ") -- (L-l" <> jStr <> ");"];
+    AppendTo[tikzLevaSivePovezave, "    \\draw[old_edge] (L-p" <> ToString[idx2] <> ") -- (L-l" <> jStr <> ");"];
+    AppendTo[tikzLevaSivePovezave, "    \\draw[old_edge] (L-p" <> ToString[idx3] <> ") -- (L-l" <> jStr <> ");"];];], 
+  {j, 1, Length[premiceVsi]}];
+ 
+ (* Vizualne pike na elipsah *)
+ Do[v = vsiVektorji[[i]];
   If[aliJeQTočka[v], 
-   AppendTo[tikzLevaCrneTocke, 
-     "    \\fill[black] (L-p" <> ToString[i] <> 
-      ") circle (2.5pt); \\draw[black, line width=0.5pt] (L-p" <> 
-      ToString[i] <> ") circle (2.5pt);"];, 
-   AppendTo[tikzLevaSiveTocke, 
-     "    \\fill[white] (L-p" <> ToString[i] <> 
-      ") circle (1.5pt); \\draw[black!20, line width=0.4pt] (L-p" <> 
-      ToString[i] <> ") circle (1.5pt);"];];, {i, 1, 31}];
+   AppendTo[tikzLevaCrneTocke, "    \\fill[black] (L-p" <> ToString[i] <> ") circle (2.5pt); \\draw[black, line width=0.5pt] (L-p" <> ToString[i] <> ") circle (2.5pt);"];, 
+   AppendTo[tikzLevaSiveTocke, "    \\fill[white] (L-p" <> ToString[i] <> ") circle (1.5pt); \\draw[black!20, line width=0.4pt] (L-p" <> ToString[i] <> ") circle (1.5pt);"];];, 
+  {i, 1, 31}];
+ 
  Do[p = premiceVsi[[j]];
   If[aliJeQPremica[p], 
-   AppendTo[tikzLevaCrnePremice, 
-     "    \\fill[black] (L-l" <> ToString[j] <> 
-      ") circle (2.5pt); \\draw[black, line width=0.5pt] (L-l" <> 
-      ToString[j] <> ") circle (2.5pt);"];, 
-   AppendTo[tikzLevaSivePremice, 
-     "    \\fill[white] (L-l" <> ToString[j] <> 
-      ") circle (1.0pt); \\draw[black!10, line width=0.3pt] (L-l" <> 
-      ToString[j] <> ") circle (1.0pt);"];];, {j, 1, 155}];
- (*4. GENERIRANJE SLIKE 2*)
+   AppendTo[tikzLevaCrnePremice, "    \\fill[black] (L-l" <> ToString[j] <> ") circle (2.5pt); \\draw[black, line width=0.5pt] (L-l" <> ToString[j] <> ") circle (2.5pt);"];, 
+   AppendTo[tikzLevaSivePremice, "    \\fill[white] (L-l" <> ToString[j] <> ") circle (1.0pt); \\draw[black!10, line width=0.3pt] (L-l" <> ToString[j] <> ") circle (1.0pt);"];];, 
+  {j, 1, 155}];
+ 
+ (* 4. GENERIRANJE SLIKE 2 *)
  tikzSredinaTocke = StringRiffle[Table[pt = koordinate15[[i]];
-    "    \\node[vnode] (S-p" <> ToString[i] <> 
-     ") at ($(GQ_center) + (" <> ToString[izpisStevila[pt[[1]]]] <> 
-     "," <> ToString[izpisStevila[pt[[2]]]] <> ")$) {};", {i, 1, 15}],
-    "\n"];
- tikzSredinaPremice = 
-  StringRiffle[
-   Table["    \\draw[new_edge] (S-p" <> ToString[line[[1]]] <> 
-     ") -- (S-p" <> ToString[line[[2]]] <> ") -- (S-p" <> 
-     ToString[line[[3]]] <> ");", {line, premiceKvadrike}], "\n"];
- (*5. GENERIRANJE SLIKE 3 (Popravljen in varno sklenjen obod)*)
+     "    \\node[vnode] (S-p" <> ToString[i] <> ") at ($(GQ_center) + (" <> ToString[izpisStevila[pt[[1]]]] <> "," <> ToString[izpisStevila[pt[[2]]]] <> ")$) {};", {i, 1, 15}], "\n"];
+ 
+ tikzSredinaPremice = StringRiffle[Table[
+     Module[{style},
+      style = If[k <= 10, "new_edge", "dashed_edge"];
+      "    \\draw[" <> style <> "] (S-p" <> ToString[premiceKvadrike[[k, 1]]] <> ") -- (S-p" <> ToString[premiceKvadrike[[k, 2]]] <> ") -- (S-p" <> ToString[premiceKvadrike[[k, 3]]] <> ");"
+     ], {k, 1, Length[premiceKvadrike]}], "\n"];
+ 
+ (* 5. GENERIRANJE SLIKE 3 *)
  tikzDesnaTocke = StringRiffle[Table[pt = koordinate15[[i]];
-    "    \\node[circle, draw=black, fill=black, inner sep=0pt, \
-minimum size=4.5pt] (D-p" <> ToString[i] <> ") at ($(GQ_center) + (" <>
-      ToString[izpisStevila[pt[[1]]]] <> "," <> 
-     ToString[izpisStevila[pt[[2]]]] <> ")$) {};", {i, 1, 15}], "\n"];
- tikzDesnaPremice = 
-  "    % Sklenjen obod zunanjega petkotnika brez napak\n" <> 
-   StringRiffle[
-    Table["    \\draw[new_edge] (D-p" <> ToString[i] <> ") -- (D-p" <>
-       ToString[i + 5] <> ") -- (D-p" <> ToString[Mod[i, 5] + 1] <> 
-      ");", {i, 1, 5}], "\n"] <> "\n" <> 
+     "    \\node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p" <> ToString[i] <> ") at ($(GQ_center) + (" <> ToString[izpisStevila[pt[[1]]]] <> "," <> ToString[izpisStevila[pt[[2]]]] <> ")$) {};", {i, 1, 15}], "\n"];
+ 
+ tikzDesnaPremice = "    % Sklenjen obod zunanjega petkotnika\n" <> StringRiffle[Table["    \\draw[new_edge] (D-p" <> ToString[i] <> ") -- (D-p" <> ToString[i + 5] <> ") -- (D-p" <> ToString[Mod[i, 5] + 1] <> ");", {i, 1, 5}], "\n"] <> "\n" <> 
    "    % Notranji radialni žarki\n" <> 
    "    \\draw[old_edge_doily] (D-p6) -- (D-p11) -- (D-p4);\n" <> 
    "    \\draw[old_edge_doily] (D-p7) -- (D-p12) -- (D-p5);\n" <> 
    "    \\draw[old_edge_doily] (D-p8) -- (D-p13) -- (D-p1);\n" <> 
    "    \\draw[old_edge_doily] (D-p9) -- (D-p14) -- (D-p2);\n" <> 
    "    \\draw[old_edge_doily] (D-p10) -- (D-p15) -- (D-p3);";
+ 
  pModra = srediscaZunanjihRobov[[3]]; 
  pRdeca1 = srediscaNotranjihPremic[[2]]; 
  pRdeca2 = srediscaNotranjihPremic[[4]];
  xc = 0.0; 
- yc = ((pModra[[1]]^2 + pModra[[2]]^2) - (pRdeca1[[1]]^2 + 
-       pRdeca1[[2]]^2))/(2.0*(pModra[[2]] - pRdeca1[[2]]));
+ yc = ((pModra[[1]]^2 + pModra[[2]]^2) - (pRdeca1[[1]]^2 + pRdeca1[[2]]^2))/(2.0*(pModra[[2]] - pRdeca1[[2]]));
  rad = Sqrt[pModra[[1]]^2 + (pModra[[2]] - yc)^2];
  tZacetni = ArcTan[pRdeca1[[1]] - xc, pRdeca1[[2]] - yc]; 
  tKončni = ArcTan[pRdeca2[[1]] - xc, pRdeca2[[2]] - yc];
  If[tKončni < tZacetni, tKončni = tKončni + 2*Pi];
- vsiLokiStr = 
-  Table[Module[{središčeRotirano, tockeLoka, strTock}, 
-    središčeRotirano = {xc*Cos[n*2*Pi/5] - yc*Sin[n*2*Pi/5], 
-      xc*Sin[n*2*Pi/5] + yc*Cos[n*2*Pi/5]};
-    tockeLoka = 
-     Table[središčeRotirano + 
-       rad*{Cos[t + n*2*Pi/5], Sin[t + n*2*Pi/5]}, {t, tZacetni, 
-       tKončni, (tKončni - tZacetni)/25}];
-    strTock = 
-     StringRiffle[
-      Table["($(GQ_center) + (" <> ToString[izpisStevila[pt[[1]]]] <> 
-        "," <> ToString[izpisStevila[pt[[2]]]] <> ")$)", {pt, 
-        tockeLoka}], " -- "];
-    "    \\draw[dashed_edge] " <> strTock <> ";"], {n, 0, 4}];
- tikzDesnaPremiceArcs = 
-  "    % 5 Notranjih simetričnih lokov Doilyja\n" <> 
-   StringJoin[Riffle[vsiLokiStr, "\n"]];
- (*6. SINTEZA V FINALNO LA-TEX KODO*)
- celotnaKoda = 
-  "\\documentclass[margin=5mm]{standalone}\n\\usepackage{amsmath}\n\
-\\usepackage{amsfonts}\n\\usepackage{amssymb}\n\\usepackage{tikz}\n\
-\\usetikzlibrary{calc, arrows.meta}\n\n\\tikzset{\n" <> 
-   "    vnode/.style={circle, draw, fill=black, inner sep=0pt, \
-minimum size=4.0pt},\n" <> 
+ 
+ vsiLokiStr = Table[Module[{središčeRotirano, tockeLoka, strTock}, 
+     središčeRotirano = {xc*Cos[n*2*Pi/5] - yc*Sin[n*2*Pi/5], xc*Sin[n*2*Pi/5] + yc*Cos[n*2*Pi/5]};
+     tockeLoka = Table[središčeRotirano + rad*{Cos[t + n*2*Pi/5], Sin[t + n*2*Pi/5]}, {t, tZacetni, tKončni, (tKončni - tZacetni)/25}];
+     strTock = StringRiffle[Table["($(GQ_center) + (" <> ToString[izpisStevila[pt[[1]]]] <> "," <> ToString[izpisStevila[pt[[2]]]] <> ")$)", {pt, tockeLoka}], " -- "];
+     "    \\draw[dashed_edge] " <> strTock <> ";"], {n, 0, 4}];
+ tikzDesnaPremiceArcs = "    % 5 Notranjih simetričnih lokov Doilyja\n" <> StringJoin[Riffle[vsiLokiStr, "\n"]];
+ 
+ (* 6. SINTEZA V FINALNO LA-TEX KODO *)
+ celotnaKoda = "\\documentclass[margin=5mm]{standalone}\n\\usepackage{amsmath}\n\\usepackage{amsfonts}\n\\usepackage{amssymb}\n\\usepackage{tikz}\n\\usetikzlibrary{calc, arrows.meta}\n\n\\tikzset{\n" <> 
+   "    vnode/.style={circle, draw, fill=black, inner sep=0pt, minimum size=4.0pt},\n" <> 
    "    old_struct/.style={thin, black!40},\n" <> 
    "    old_edge/.style={line width=0.3pt, black!15},\n" <> 
    "    old_edge_doily/.style={line width=1.1pt, black!70},\n" <> 
    "    new_edge/.style={line width=1.1pt, black},\n" <> 
    "    dashed_edge/.style={line width=1.0pt, black, dashed},\n" <> 
-   "    main_arrow/.style={-{Stealth[scale=1.2]}, line width=1.2pt, \
-black}\n}\n\n" <> "\\begin{document}\n\\begin{tikzpicture}\n\n" <> 
-   "  % --- SLIKA 1: AMBIENTNI PROSTOR (Strogi kronološki nivoji \
-risanja) ---\n" <> "  \\begin{scope}[xshift=0cm]\n" <> 
+   "    main_arrow/.style={-{Stealth[scale=1.2]}, line width=1.2pt, black}\n}\n\n" <> "\\begin{document}\n\\begin{tikzpicture}\n\n" <> 
+   "  % --- SLIKA 1: AMBIENTNI PROSTOR ---\n" <> "  \\begin{scope}[xshift=0cm]\n" <> 
    "    \\coordinate (P_center_L) at (-2.3, 0);\n" <> 
    "    \\coordinate (L_center_L) at (2.3, 0);\n" <> 
-   "    \\draw[old_struct] (P_center_L) ellipse (1.1cm and 5.2cm);\n" \
-<> "    \\draw[old_struct] (L_center_L) ellipse (1.1cm and 5.2cm);\n\n\
-" <> "    % 1. Najprej definiramo vse fiksne koordinate v prostoru\n" \
-<> StringRiffle[tikzLevaKoordinateP, "\n"] <> "\n" <> 
-   StringRiffle[tikzLevaKoordinateL, "\n"] <> "\n\n" <> 
-   "    % 2. Narišemo blede sive povezave (spodnji nivo)\n" <> 
-   StringRiffle[tikzLevaSivePovezave, "\n"] <> "\n\n" <> 
-   "    % 3. Čez sive povezave narišemo blede sive pikice\n" <> 
-   StringRiffle[tikzLevaSiveTocke, "\n"] <> "\n" <> 
-   StringRiffle[tikzLevaSivePremice, "\n"] <> "\n\n" <> 
-   "    % 4. Čez vse sivo narišemo krepke črne izbrane povezave\n" <> 
-   StringRiffle[tikzLevaCrnePovezave, "\n"] <> "\n\n" <> 
-   "    % 5. Na sam vrh (čez črne črte in sivo ozadje) narišemo \
-krepke črne pike\n" <> StringRiffle[tikzLevaCrneTocke, "\n"] <> "\n" <>
-    StringRiffle[tikzLevaCrnePremice, "\n"] <> "\n" <> 
+   "    \\draw[old_struct] (P_center_L) ellipse (1.1cm and 5.2cm);\n" <> "    \\draw[old_struct] (L_center_L) ellipse (1.1cm and 5.2cm);\n\n" <> 
+   "    % 1. Definicija fiksno izračunanih enakomernih koordinat\n" <> StringRiffle[tikzLevaKoordinateP, "\n"] <> "\n" <> StringRiffle[tikzLevaKoordinateL, "\n"] <> "\n\n" <> 
+   "    % 2. Blede sive povezave (nefiltrirano ozadje)\n" <> StringRiffle[tikzLevaSivePovezave, "\n"] <> "\n\n" <> 
+   "    % 3. Blede sive pikice\n" <> StringRiffle[tikzLevaSiveTocke, "\n"] <> "\n" <> StringRiffle[tikzLevaSivePremice, "\n"] <> "\n\n" <> 
+   "    % 4. Krepke črne izbrane povezave (FILTRIRANO - KVADRIKA)\n" <> StringRiffle[tikzLevaCrnePovezave, "\n"] <> "\n\n" <> 
+   "    % 5. Krepke črne pike na samem vrhu\n" <> StringRiffle[tikzLevaCrneTocke, "\n"] <> "\n" <> StringRiffle[tikzLevaCrnePremice, "\n"] <> "\n" <> 
    "  \\end{scope}\n\n" <> 
-   "  \\draw[main_arrow] (5.0, 0) -- (7.0, 0) node[midway, above=4pt, \
-font=\\large] {$q^{-1}(0)$};\n\n" <> 
-   "  % --- SLIKA 2: UREJENA KVADRIKA Q(4,2) ---\n" <> 
-   "  \\begin{scope}[xshift=11.5cm]\n" <> 
-   "    \\coordinate (GQ_center) at (0, 0);\n\n" <> tikzSredinaTocke <>
-    "\n\n" <> tikzSredinaPremice <> "\n  \\end{scope}\n\n" <> 
-   "  \\draw[main_arrow] (16.2, 0) -- (18.0, 0) node[midway, \
-above=4pt, font=\\Large] {$\\cong$};\n\n" <> 
-   "  % --- SLIKA 3: KANONIČNI GEOMETRIJSKI DOILY ---\n" <> 
-   "  \\begin{scope}[xshift=23.0cm]\n" <> 
-   "    \\coordinate (GQ_center) at (0, 0);\n\n" <> tikzDesnaTocke <> 
-   "\n\n" <> tikzDesnaPremice <> "\n\n" <> tikzDesnaPremiceArcs <> 
-   "\n" <> "    % Sredinska votla pika\n" <> 
-   "    \\node[circle, draw=black, fill=white, line width=1.2pt, \
-inner sep=0pt, minimum size=5.5pt] at (GQ_center) {};\n" <> 
+   "  \\draw[main_arrow] (5.0, 0) -- (7.0, 0) node[midway, above=4pt, font=\\large] {$q^{-1}(0)$};\n\n" <> 
+   "  % --- SLIKA 2: UREJENA KVADRIKA Q(4,2) ---\n" <> "  \\begin{scope}[xshift=11.5cm]\n" <> 
+   "    \\coordinate (GQ_center) at (0, 0);\n\n" <> tikzSredinaTocke <> "\n\n" <> tikzSredinaPremice <> "\n  \\end{scope}\n\n" <> 
+   "  \\draw[main_arrow] (16.2, 0) -- (18.0, 0) node[midway, above=4pt, font=\\Large] {$\\cong$};\n\n" <> 
+   "  % --- SLIKA 3: KANONIČNI GEOMETRIJSKI DOILY ---\n" <> "  \\begin{scope}[xshift=23.0cm]\n" <> 
+   "    \\coordinate (GQ_center) at (0, 0);\n\n" <> tikzDesnaTocke <> "\n\n" <> tikzDesnaPremice <> "\n\n" <> tikzDesnaPremiceArcs <> "\n" <> 
+   "    % Sredinska votla pika\n" <> "    \\node[circle, draw=black, fill=white, line width=1.2pt, inner sep=0pt, minimum size=5.5pt] at (GQ_center) {};\n" <> 
    "  \\end{scope}\n\n\\end{tikzpicture}\n\\end{document}";
+ 
  CellPrint[Cell[celotnaKoda, "Output", TextAutoformatting -> False]]]
