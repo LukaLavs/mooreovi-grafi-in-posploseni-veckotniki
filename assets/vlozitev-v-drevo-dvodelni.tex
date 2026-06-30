@@ -1,0 +1,269 @@
+\begin{tikzpicture}[
+        scale=0.9, 
+        transform shape,
+        level distance=0.6cm,
+        level 1/.style={sibling distance=0.85cm},
+        level 2/.style={sibling distance=0.4cm},
+        level 3/.style={sibling distance=0.2cm}
+    ]
+        
+        % ==========================================
+        % 1. INJEKCIJA T^[2]
+        % ==========================================
+        
+        % Drevo 1: Graf G (nekatere veje manjkajo)
+        \begin{scope}[xshift=0cm,
+        level 1/.style={sibling distance=0.77cm},
+    level 2/.style={sibling distance=0.40cm},
+    level 3/.style={sibling distance=0.20cm}
+]
+            \node[vnode] (R1) at (-0.80,0) {} 
+                % Leva veja R1: polna
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                }
+                % Desna veja R1: okrnjena (manjka celoten nivo 3)
+                child { node[vnode] {}
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child[missing]
+                    edge from parent[new_edge]
+                };
+                
+            \node[vnode] (R2) at (0.80,0) {} 
+                % Leva veja R2: popolnoma manjka
+                child[missing]
+                % Desna veja R2: polna
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                };
+            \draw[new_edge] (R1) -- (R2);
+            \node at (0, -2.2) [label_style] {$K(uv, D(g)-1:=\frac{g}{2}-1)$};
+        \end{scope}
+
+        % Puščica phi
+        \draw[-{Stealth}, old_edge] (1.7, -0.9) -- (2.5, -0.9) node[midway, above, label_style] {$\psi$};
+
+        % Drevo 2: T^[2]_{Delta_max} (Polno binarno drevo z označenimi vložki)
+        \begin{scope}[xshift=4.2cm,
+        level 1/.style={sibling distance=0.77cm},
+    level 2/.style={sibling distance=0.40cm},
+    level 3/.style={sibling distance=0.20cm}
+]
+            \node[vnode] (R1) at (-0.80,0) {} 
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    edge from parent[new_edge]
+                };
+                
+            \node[vnode] (R2) at (0.80,0) {} 
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    edge from parent[old_edge]
+                }
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                };
+            \draw[new_edge] (R1) -- (R2);
+            \node at (0, -2.2) [label_style] {$T^{[2]}_{\Delta_{\max}, D(g)}$};
+        \end{scope}
+
+        % ==========================================
+        % 2. SURJEKCIJA T^[2]
+        % ==========================================
+
+        % Drevo 3: Graf G (polno drevo, ki nakazuje večjo stopnjo)
+        \begin{scope}[xshift=9cm,
+        level 1/.style={sibling distance=0.77cm},
+    level 2/.style={sibling distance=0.40cm},
+    level 3/.style={sibling distance=0.20cm}
+]
+            \node[vnode] (R1) at (-0.80,0) {} 
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    edge from parent[old_edge]
+                }
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    edge from parent[old_edge]
+                };
+                
+            \node[vnode] (R2) at (0.80,0) {} 
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    edge from parent[old_edge]
+                }
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        child { node[vnode] {} edge from parent[old_edge] }
+                        edge from parent[old_edge]
+                    }
+                    edge from parent[old_edge]
+                };
+            \draw[old_edge] (R1) -- (R2);
+            \node at (0, -2.2) [label_style] {$K(uv, D(g) - 1:= \frac{g}{2}-1)$};
+        \end{scope}
+
+        % Puščica psi
+        \draw[-{Stealth}, old_edge] (10.9, -0.9) -- (11.7, -0.9) node[midway, above, label_style] {$\phi$};
+
+        % Drevo 4: T^[2]_{Delta_min} (Polno drevo prebarvano z new_edge)
+        \begin{scope}[
+    xshift=13.2cm,
+    level 1/.style={sibling distance=0.77cm},
+    level 2/.style={sibling distance=0.40cm},
+    level 3/.style={sibling distance=0.20cm}
+]
+            \node[vnode] (R1) at (-0.80,0) {} 
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                };
+                
+            \node[vnode] (R2) at (0.80,0) {} 
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {}
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    child { node[vnode] {} 
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        child { node[vnode] {} edge from parent[new_edge] }
+                        edge from parent[new_edge]
+                    }
+                    edge from parent[new_edge]
+                };
+            \draw[new_edge] (R1) -- (R2);
+            \node at (0, -2.2) [label_style] {$T^{[2]}_{\Delta_{\min}, D(g)}$};
+        \end{scope}
+
+\end{tikzpicture}

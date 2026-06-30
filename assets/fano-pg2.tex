@@ -1,129 +1,148 @@
 \begin{tikzpicture}[
-    % Slogi za puščice so zdaj definirani neposredno v sliki in so varno lokalni
     directed_outer/.style={
-        decoration={
-            markings,
+        decoration={markings,
             mark=at position 0.28 with {\arrow[line width=0.8pt]{Stealth}},
-            mark=at position 0.72 with {\arrow[line width=0.8pt]{Stealth}}
-        },
+            mark=at position 0.72 with {\arrow[line width=0.8pt]{Stealth}}},
         postaction={decorate}
     },
     directed_inner/.style={
-        decoration={
-            markings,
+        decoration={markings,
             mark=at position 0.18 with {\arrow[line width=0.8pt]{Stealth}},
-            mark=at position 0.82 with {\arrow[line width=0.8pt]{Stealth}}
-        },
+            mark=at position 0.82 with {\arrow[line width=0.8pt]{Stealth}}},
         postaction={decorate}
     },
     directed_circle/.style={
-        decoration={
-            markings,
+        decoration={markings,
             mark=at position 0.16 with {\arrow[line width=0.8pt]{Stealth}},
             mark=at position 0.50 with {\arrow[line width=0.8pt]{Stealth}},
-            mark=at position 0.83 with {\arrow[line width=0.8pt]{Stealth}}
-        },
+            mark=at position 0.83 with {\arrow[line width=0.8pt]{Stealth}}},
         postaction={decorate}
     }
 ]
-    % =========================================================================
-    % 1. LEVA SLIKA: USMERJENA FANOVA RAVNINA (GEOMETRIJSKI PRIKAZ)
-    % =========================================================================
-    \begin{scope}[xshift=0cm, yshift=0cm, scale=2.2]
 
-        % Oglišča trikotnika
-        \coordinate (P1) at (0, 1.5);      
-        \coordinate (P3) at (-1.3, -0.75); 
-        \coordinate (P5) at (1.3, -0.75);  
+% =========================================================
+% 1. LEVA SLIKA
+% =========================================================
+\begin{scope}[xshift=0cm, yshift=0cm, scale=2.2]
 
-        % Razpolovišča stranic
-        \coordinate (P2) at ($0.5*(P1)+0.5*(P3)$);
-        \coordinate (P4) at ($0.5*(P3)+0.5*(P5)$);
-        \coordinate (P6) at ($0.5*(P1)+0.5*(P5)$);
+    \coordinate (P1) at (0, 1.5);      
+    \coordinate (P2) at (-1.3, -0.75); 
+    \coordinate (P3) at (1.3, -0.75);  
 
-        % Težišče
-        \coordinate (P7) at (0, 0);
+    \coordinate (P4) at ($0.5*(P1)+0.5*(P2)$);
+    \coordinate (P5) at ($0.5*(P2)+0.5*(P3)$);
+    \coordinate (P6) at ($0.5*(P1)+0.5*(P3)$);
+    \coordinate (P7) at (0, 0);
 
-        % --- IZRIS USMERJENIH PREMIC ---
-        % Zunanje stranice (l1, l2, l3)
-        \draw[new_edge, directed_outer] (P1) -- (P3);
-        \draw[new_edge, directed_outer] (P3) -- (P5);
-        \draw[new_edge, directed_outer] (P5) -- (P1);
+    % ---------------- OUTER TRIANGLE ----------------
+    \draw[new_edge, directed_outer] (P1) -- (P2)
+        node[midway, sloped, xshift=-40pt, auto, font=\small, text=black!70] {$l_3$};%
 
-        % Notranje višine (l4, l5, l6) - Puščice so umaknjene iz centra p7
-        \draw[old_edge, directed_inner] (P1) -- (P4);
-        \draw[old_edge, directed_inner] (P5) -- (P2);
-        \draw[old_edge, directed_inner] (P3) -- (P6);
+    \draw[new_edge, directed_outer] (P2) -- (P3)
+        node[midway, sloped, below, xshift=-40pt, font=\small, text=black!70] {$l_1$};%
 
-        % Središčna krožnica (l7) - Popoln krog s puščicami
-        \draw[thin, black!80, dashed, directed_circle] (P7) circle (0.75cm);
+    \draw[new_edge, directed_outer] (P3) -- (P1)
+        node[midway, sloped, xshift=-40pt, auto, font=\small, text=black!70] {$l_6$};%
 
-        % --- VARNO POZICIONIRANJE OZNAK PREMIC (Brez prekrivanja) ---
-        \node[font=\small, text=black!70, left=6pt] at (-0.3, 1) {$l_1$};
-        \node[font=\small, text=black!70, below=6pt] at (-0.5, -0.7) {$l_2$};
-        \node[font=\small, text=black!70, right=6pt] at (1, -0.3) {$l_3$};
-        
-        \node[font=\small, text=black!70, right=3pt] at (0, 0.4) {$l_4$};
-        \node[font=\small, text=black!70, above=3pt] at (0.4, -0.24) {$l_5$};
-        \node[font=\small, text=black!70, above=3pt] at (-0.4, -0.23) {$l_6$};
-        
-        \node[font=\small, text=black!70, below right=2pt] at (-0.4, 0.7) {$l_7$};
+    % ---------------- INNER LINES ----------------
+    \draw[old_edge, directed_inner] (P1) -- (P5)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_2$};%
 
-        % --- IZRIS TOČK (v_point) NA VRHU LINIJ ---
-        \node[v_point, label={[font=\small, text=black!70]above:$p_1$}] at (P1) {};
-        \node[v_point, label={[font=\small, text=black!70]left=4pt:$p_2$}] at (P2) {};
-        \node[v_point, label={[font=\small, text=black!70]below left:$p_3$}] at (P3) {};
-        \node[v_point, label={[font=\small, text=black!70]below=5pt:$p_4$}] at (P4) {};
-        \node[v_point, label={[font=\small, text=black!70]below right:$p_5$}] at (P5) {};
-        \node[v_point, label={[font=\small, text=black!70]right=4pt:$p_6$}] at (P6) {};
-        \node[v_point, label={[font=\small, text=black!70]above right=2pt:$p_7$}] at (P7) {};
+    \draw[old_edge, directed_inner] (P3) -- (P4)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_7$};%
 
-    \end{scope}
+    \draw[old_edge, directed_inner] (P2) -- (P6)
+        node[midway, sloped, auto, font=\small, text=black!70] {$l_5$};%
 
-    % =========================================================================
-    % 2. OSREDNJI PREHOD (Vertikalno uravnan na višino težišča y=0.3125*2.2 = 0.687)
-    % =========================================================================
-    \draw[main_arrow] (4.2, 0.687) -- (5.6, 0.687);
+    % ---------------- CIRCLE ----------------
+    \draw[thin, black!80, dashed, directed_circle]
+        (P7) circle (0.75cm);
 
-    % =========================================================================
-    % 3. DESNA SLIKA: DVE ELIPSI (Uravnano na višino težišča y=0.687)
-    % =========================================================================
-    \begin{scope}[xshift=11cm, yshift=0.687cm]
-        
-        \coordinate (P_center) at (-2.5, 0);
-        \coordinate (L_center) at (2.5, 0);
+    \node at (0.65, 0) {$l_4$};% KROG
 
-        % Elipsi (very thick)
-        \draw[new_edge] (P_center) ellipse (1.6cm and 3cm);
-        \node[font=\large] at ($(P_center)+(0, 3.4)$) {$\mathcal{P}$};
+    % ---------------- POINTS (offset labels to avoid clashes) ----------------
+    \node[v_point] at (P1) {};
+    \node[above=3pt, font=\small, text=black!70] at (P1) {$p_1$};%
 
-        \draw[new_edge] (L_center) ellipse (1.6cm and 3cm);
-        \node[font=\large] at ($(L_center)+(0, 3.4)$) {$\mathcal{L}$};
+    \node[v_point] at (P2) {};
+    \node[below left=3pt, font=\small, text=black!70] at (P2) {$p_2$};%
 
-        % Generiranje koordinat simetrično okoli novega središča
-        \foreach \i in {1,...,7} {
-            \coordinate (p\i) at ($(P_center)+(0, 3.0 - \i*0.75)$);
-            \coordinate (l\i) at ($(L_center)+(0, 3.0 - \i*0.75)$);
-        }
+    \node[v_point] at (P3) {};
+    \node[below right=3pt, font=\small, text=black!70] at (P3) {$p_6$};%
 
-        % Incidenčne povezave
-        \draw[old_edge] (p1) -- (l1); \draw[old_edge] (p2) -- (l1); \draw[old_edge] (p3) -- (l1);
-        \draw[old_edge] (p3) -- (l2); \draw[old_edge] (p4) -- (l2); \draw[old_edge] (p5) -- (l2);
-        \draw[old_edge] (p1) -- (l3); \draw[old_edge] (p5) -- (l3); \draw[old_edge] (p6) -- (l3);
-        \draw[old_edge] (p1) -- (l4); \draw[old_edge] (p4) -- (l4); \draw[old_edge] (p7) -- (l4);
-        \draw[old_edge] (p2) -- (l5); \draw[old_edge] (p5) -- (l5); \draw[old_edge] (p7) -- (l5);
-        \draw[old_edge] (p3) -- (l6); \draw[old_edge] (p6) -- (l6); \draw[old_edge] (p7) -- (l6);
-        \draw[old_edge] (p2) -- (l7); \draw[old_edge] (p4) -- (l7); \draw[old_edge] (p6) -- (l7);
+    \node[v_point] at (P4) {};
+    \node[left=3pt, font=\small, text=black!70] at (P4) {$p_4$};%
 
-        % Izris pik in oznak
-        \foreach \i in {1,...,7} {
-            \node[vnode] at (p\i) {};
-            \node[font=\small, text=black!70, left=6pt] at (p\i) {$p_{\i}$};
-            
-            \node[vnode] at (l\i) {};
-            \node[font=\small, text=black!70, right=6pt] at (l\i) {$l_{\i}$};
-        }
-        
-    \end{scope}
+    \node[v_point] at (P5) {};
+    \node[below=3pt, font=\small, text=black!70] at (P5) {$p_3$};%
+
+    \node[v_point] at (P6) {};
+    \node[right=3pt, font=\small, text=black!70] at (P6) {$p_7$};%
+
+    \node[v_point] at (P7) {};
+    \node[above right=3pt, font=\small, text=black!70] at (P7) {$p_5$};%
+
+\end{scope}
+
+% =========================================================
+% 2. PREHOD
+% =========================================================
+\draw[main_arrow] (4.2, 0.687) -- (5.6, 0.687);
+
+% =========================================================
+% 3. DESNA SLIKA
+% =========================================================
+\begin{scope}[xshift=11cm, yshift=0.687cm]
+
+    \coordinate (P_center) at (-2.5, 0);
+    \coordinate (L_center) at (2.5, 0);
+
+    \draw[new_edge] (P_center) ellipse (1.6cm and 3cm);
+    \draw[new_edge] (L_center) ellipse (1.6cm and 3cm);
+
+    \foreach \i in {1,...,7} {
+        \coordinate (p\i) at ($(P_center)+(0, 3.0 - \i*0.75)$);
+        \coordinate (l\i) at ($(L_center)+(0, 3.0 - \i*0.75)$);
+    }
+
+    % ---------------- INCIDENCE ----------------
+    \draw[old_edge] (p1)--(l3);
+    \draw[old_edge] (p1)--(l2);
+    \draw[old_edge] (p1)--(l6);
+
+    \draw[old_edge] (p2)--(l3);
+    \draw[old_edge] (p2)--(l1);
+    \draw[old_edge] (p2)--(l5);
+
+    \draw[old_edge] (p3)--(l2);
+    \draw[old_edge] (p3)--(l1);
+    \draw[old_edge] (p3)--(l4);
+
+    \draw[old_edge] (p4)--(l3);
+    \draw[old_edge] (p4)--(l4);
+    \draw[old_edge] (p4)--(l7);
+
+    \draw[old_edge] (p5)--(l2);
+    \draw[old_edge] (p5)--(l5);
+    \draw[old_edge] (p5)--(l7);
+
+    \draw[old_edge] (p6)--(l1);
+    \draw[old_edge] (p6)--(l6);
+    \draw[old_edge] (p6)--(l7);
+
+    \draw[old_edge] (p7)--(l4);
+    \draw[old_edge] (p7)--(l5);
+    \draw[old_edge] (p7)--(l6);
+
+    % ---------------- NODES ----------------
+    \foreach \i in {1,...,7} {
+        \node[vnode] at (p\i) {};
+        \node[left=4pt, font=\small, text=black!70] at (p\i) {$p_{\i}$};
+
+        \node[vnode] at (l\i) {};
+        \node[right=4pt, font=\small, text=black!70] at (l\i) {$l_{\i}$};
+    }
+
+\end{scope}
 
 \end{tikzpicture}

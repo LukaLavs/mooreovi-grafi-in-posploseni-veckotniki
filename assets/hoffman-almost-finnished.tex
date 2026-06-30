@@ -1,0 +1,93 @@
+\begin{tikzpicture}[x={1.5cm},y={0.9cm}]
+
+%-------------------------------------------------
+% GRADNJA KONSTRUKCIJE
+%-------------------------------------------------
+
+\foreach \i in {0,...,4}{
+
+    %----------------------------
+    % NOTRANJI PETKOTNIK Q_0
+    %----------------------------
+    \node[vnode] (Q0\i) at ({90+\i*72}:1.2) {};
+
+    \pgfmathsetmacro{\baseangle}{90+\i*72}
+    \node[label_style] at ({\baseangle}:1.4) {$Q_0^{\i}$};
+
+    %----------------------------
+    % ZUNANJI SISTEM P_k^i
+    %----------------------------
+    \foreach \k in {0,...,4}{
+
+        \pgfmathsetmacro{\angle}{\baseangle+(\k-2)*12}
+
+        % vozlišče P_k^i
+        \node[vnode] (P\k\i) at (\angle:2.8) {};
+
+        % povezava Q -> P
+        \draw[old_edge] (Q0\i)--(P\k\i);
+
+        % label (enkrat dovolj, ne v vsakem loopu!)
+        \node[label_style] at (\angle:3.05) {$P_{\k}^{\i}$};
+
+        % zunanji nivo (če ga želiš)
+           \ifnum\k=0\relax
+        \else % uporabimo P_k^i ~ Q_{m}^{i-km (mod 5)} kjer m=k.
+                 \pgfmathtruncatemacro{\kk}{\k*\k}
+                \pgfmathtruncatemacro{\m}{mod(\i - \kk + 100, 5)}
+
+                \node[vnode] (Q\k\m) at (\angle:4.4) {};
+                \node[label_style] at (\angle:4.6) {$Q_{\k}^{\m}$};
+            \ifnum\k>1\relax\else
+            \pgfmathtruncatemacro{\kk}{\k*\k}
+            \pgfmathtruncatemacro{\m}{mod(\i - \kk + 100, 5)}
+
+            \node[vnode] (Q\k\m) at (\angle:4.4) {};
+            \draw[old_edge] (P\k\i)--(Q\k\m);
+            \node[label_style] at (\angle:4.6) {$Q_{\k}^{\m}$};
+            \fi
+        \fi
+    }
+}
+
+%-------------------------------------------------
+% NOTRANJI PETKOTNIK Q_0
+%-------------------------------------------------
+
+% \draw[new_edge]
+% (Q00)--(Q01)--(Q02)--(Q03)--(Q04)--(Q00);
+% \node[label_style] at (0,0) {$Q_0$};
+
+%-------------------------------------------------
+% PENTAGRAM P_j
+%-------------------------------------------------
+
+\foreach \i in {0,...,4}{
+    \foreach \j in {0,...,4}{
+        % naslednji indeks j+1 (ciklično)
+        \pgfmathtruncatemacro{\jp}{mod(\j+2,5)} % P_k^i ~ P_k^{i+-2}
+
+        % povezava P_i^j -> P_i^{j+1}
+        \ifnum\i<0
+        \draw[new_edge] (P\i\j)--(P\i\jp);
+        \else
+        \draw[old_edge] (P\i\j)--(P\i\jp);
+        \fi
+    }
+}
+
+% %-------------------------------------------------
+% % ZUNANJI PETKOTNIK Q_i
+% %-------------------------------------------------
+
+\foreach\i in {0,...,4}{
+    \foreach\j in {0,...,4}{
+        \pgfmathtruncatemacro{\jp}{mod(\j+1,5)}
+        \ifnum\i<2
+        \draw[new_edge] (Q\i\j)--(Q\i\jp);
+        \else
+        \draw[old_edge] (Q\i\j)--(Q\i\jp);
+        \fi
+    }
+}
+\end{tikzpicture}

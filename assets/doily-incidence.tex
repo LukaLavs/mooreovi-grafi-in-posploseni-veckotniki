@@ -1,0 +1,45 @@
+\begin{tikzpicture}[scale=1.3]
+    % Polmer kroga
+    \def\R{4.5}
+
+    % Zunanji krožni okvir (kot na sliki)
+    \draw[old_struct] (0,0) circle (\R);
+
+    % 1. Razporeditev vseh 30 vozlišč v vrstnem redu Hamiltonovega cikla
+    % (Izmenjujejo se točke 'v_point' in premice 'vnode')
+    \foreach \name/\type/\k/\lbl in {
+        p1/v_point/1/{p_{1}},   l1/vnode/2/{l_{1}},    p3/v_point/3/{p_{3}},   l4/vnode/4/{l_{4}},    p2/v_point/5/{p_{2}},
+        l5/vnode/6/{l_{5}},    p4/v_point/7/{p_{4}},   l2/vnode/8/{l_{2}},    p7/v_point/9/{p_{7}},   l13/vnode/10/{l_{13}},
+        p11/v_point/11/{p_{11}}, l7/vnode/12/{l_{7}},   p5/v_point/13/{p_{5}},  l8/vnode/14/{l_{8}},   p12/v_point/15/{p_{12}},
+        l14/vnode/16/{l_{14}},  p8/v_point/17/{p_{8}},  l12/vnode/18/{l_{12}},  p15/v_point/19/{p_{15}}, l9/vnode/20/{l_{9}},
+        p10/v_point/21/{p_{10}}, l6/vnode/22/{l_{6}},   p14/v_point/23/{p_{14}}, l11/vnode/24/{l_{11}},  p6/v_point/25/{p_{6}},
+        l10/vnode/26/{l_{10}},  p9/v_point/27/{p_{9}},  l15/vnode/28/{l_{15}},  p13/v_point/29/{p_{13}}, l3/vnode/30/{l_{3}}
+    } {
+        % Začetek pri 84° in pomik v smeri urinega kazalca za 12° na korak,
+        % kar postavi črno in belo vozlišče simetrično na vrh (okoli 12. ure)
+        \pgfmathsetmacro{\ang}{84 - (\k-1)*12}
+        \node[\type] (\name) at (\ang:\R) {};
+        % Izpis oznak zunaj kroga
+        \node[label_style, anchor={\ang+180}] at (\ang:\R+0.35) {$\lbl$};
+    }
+
+    % 2. IZRIS INCIDENČNIH POVEZAV (točno iz tvojega zgleda)
+    % Ker so vozlišča v ciklu, zunanji robovi sami tvorijo krog, notranji pa zvezdo.
+    \begin{scope}[old_edge_doily]
+        \draw (p1) -- (l1); \draw (p1) -- (l2); \draw (p1) -- (l3);
+        \draw (p2) -- (l4); \draw (p2) -- (l5); \draw (p2) -- (l6);
+        \draw (p3) -- (l1); \draw (p3) -- (l4); \draw (p3) -- (l7);
+        \draw (p4) -- (l2); \draw (p4) -- (l5); \draw (p4) -- (l8);
+        \draw (p5) -- (l7); \draw (p5) -- (l8); \draw (p5) -- (l9);
+        \draw (p6) -- (l1); \draw (p6) -- (l10); \draw (p6) -- (l11);
+        \draw (p7) -- (l2); \draw (p7) -- (l12); \draw (p7) -- (l13);
+        \draw (p8) -- (l4); \draw (p8) -- (l12); \draw (p8) -- (l14);
+        \draw (p9) -- (l5); \draw (p9) -- (l10); \draw (p9) -- (l15);
+        \draw (p10) -- (l3); \draw (p10) -- (l6); \draw (p10) -- (l9);
+        \draw (p11) -- (l7); \draw (p11) -- (l13); \draw (p11) -- (l15);
+        \draw (p12) -- (l8); \draw (p12) -- (l11); \draw (p12) -- (l14);
+        \draw (p13) -- (l3); \draw (p13) -- (l14); \draw (p13) -- (l15);
+        \draw (p14) -- (l6); \draw (p14) -- (l11); \draw (p14) -- (l13);
+        \draw (p15) -- (l9); \draw (p15) -- (l10); \draw (p15) -- (l12);
+    \end{scope}
+\end{tikzpicture}

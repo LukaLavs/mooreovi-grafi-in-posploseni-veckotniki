@@ -1,0 +1,85 @@
+\begin{tikzpicture}[scale=0.85, transform shape]
+        
+        % --- 1. INJEKCIJA ---
+        \begin{scope}[xshift=0cm, level 1/.style={sibling distance=0.8cm}, level 2/.style={sibling distance=0.4cm}, level distance=0.8cm]
+            \node[vnode] (G_inj) at (0,0) {}
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    edge from parent[new_edge]
+                };
+            \node at (0, -2.2) [label_style] {$K(v, D(g):=\frac{g-1}{2})$};
+        \end{scope}
+
+        \draw[-{Stealth}, old_edge] (1.2, -0.8) -- (2.3, -0.8) node[midway, above, label_style] {$\psi$};
+
+        \begin{scope}[xshift=3.5cm, level 1/.style={sibling distance=0.8cm}, level 2/.style={sibling distance=0.4cm}, level distance=0.8cm]
+            \node[vnode] (T_max) at (0,0) {}
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    edge from parent[old_edge]
+                };
+            \node at (0, -2.2) [label_style] {$T_{\Delta_{\max}, D(g)}^{[1]}$};
+        \end{scope}
+        
+        % --- 2. SURJEKCIJA ---
+        \begin{scope}[xshift=8.5cm, level 1/.style={sibling distance=0.9cm}, level 2/.style={sibling distance=0.3cm}, level distance=0.8cm]
+            \node[vnode] (G_sur) at (0,0) {}
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    edge from parent[old_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    edge from parent[old_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    child { node[vnode] {} edge from parent[old_edge] }
+                    edge from parent[old_edge]
+                };
+            \node at (0, -2.2) [label_style] {$K(v, D(g):=\frac{g-1}{2})$)};
+        \end{scope}
+
+        \draw[-{Stealth}, old_edge] (10, -0.8) -- (11.1, -0.8) node[midway, above, label_style] {$\phi$};
+
+        \begin{scope}[xshift=12.5cm, level 1/.style={sibling distance=0.8cm}, level 2/.style={sibling distance=0.4cm}, level distance=0.8cm]
+            \node[vnode] (T_min) at (0,0) {}
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    edge from parent[new_edge]
+                }
+                child { node[vnode] {} 
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    child { node[vnode] {} edge from parent[new_edge] }
+                    edge from parent[new_edge]
+                };
+            \node at (0, -2.2) [label_style] {$T_{\Delta_{\min}, D(g)}^{[1]}$};
+        \end{scope}
+
+\end{tikzpicture}

@@ -1,0 +1,77 @@
+\begin{tikzpicture}
+
+  % --- SLIKA 3: KANONIČNI GEOMETRIJSKI DOILY ---
+  \begin{scope}[xshift=0.0cm, scale=1.1]
+    \coordinate (GQ_center) at (0, 0);
+
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p1) at ($(GQ_center) + (0.000000,3.200000)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p2) at ($(GQ_center) + (-3.043381,0.988854)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p3) at ($(GQ_center) + (-1.880913,-2.588854)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p4) at ($(GQ_center) + (1.880913,-2.588854)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p5) at ($(GQ_center) + (3.043381,0.988854)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p6) at ($(GQ_center) + (-1.521690,2.094427)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p7) at ($(GQ_center) + (-2.462147,-0.800000)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p8) at ($(GQ_center) + (0.000000,-2.588854)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p9) at ($(GQ_center) + (2.462147,-0.800000)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p10) at ($(GQ_center) + (1.521690,2.094427)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p11) at ($(GQ_center) + (-0.760845,1.047214)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p12) at ($(GQ_center) + (-1.231073,-0.400000)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p13) at ($(GQ_center) + (0.000000,-1.294427)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p14) at ($(GQ_center) + (1.231073,-0.400000)$) {};
+    \node[circle, draw=black, fill=black, inner sep=0pt, minimum size=4.5pt] (D-p15) at ($(GQ_center) + (0.760845,1.047214)$) {};
+
+
+    \node[above=3pt, font=\small, text=black!70] at (D-p1) {$p_1$};%
+    \node[left=3pt, font=\small, text=black!70] at (D-p2) {$p_6$};%
+    \node[below left=3pt, font=\small, text=black!70] at (D-p3) {$p_{15}$};%
+    \node[below right=3pt, font=\small, text=black!70] at (D-p4) {$p_8$};%
+    \node[right=3pt, font=\small, text=black!70] at (D-p5) {$p_{13}$};%
+    \node[left=3pt, font=\small, text=black!70] at (D-p6) {$p_3$};%
+    \node[below left=3pt, font=\small, text=black!70] at (D-p7) {$p_9$};%
+    \node[below=3pt, font=\small, text=black!70] at (D-p8) {$p_7$};%
+    \node[below right=3pt, font=\small, text=black!70] at (D-p9) {$p_{12}$};%
+    \node[right=3pt, font=\small, text=black!70] at (D-p10) {$p_{10}$};% 
+    \node[left=3pt, yshift=-2pt, xshift=1pt, font=\small, text=black!70] at (D-p11) {$p_{2}$};%
+    \node[below left=3pt, xshift=10pt, font=\small, text=black!70] at (D-p12) {$p_{11}$};%
+    \node[below=3pt, xshift=7pt, yshift=12pt, font=\small, text=black!70] at (D-p13) {$p_{4}$};%
+    \node[below right=3pt, font=\small, text=black!70] at (D-p14) {$p_{14}$};%
+    \node[right=3pt, yshift=-3pt, xshift=-2pt, font=\small, text=black!70] at (D-p15) {$p_{5}$};%
+    % Sklenjen obod zunanjega petkotnika
+    \draw[new_edge] (D-p1) -- (D-p6) -- (D-p2)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_1$};%
+    \draw[new_edge] (D-p2) -- (D-p7) -- (D-p3)
+        node[midway, sloped, swap, xshift=0pt, auto, font=\small, text=black!70] {$l_{10}$};%
+    \draw[new_edge] (D-p3) -- (D-p8) -- (D-p4)
+        node[midway, sloped, swap, xshift=0pt, auto, font=\small, text=black!70] {$l_{12}$};%
+    \draw[new_edge] (D-p4) -- (D-p9) -- (D-p5)
+        node[midway, sloped, swap, xshift=0pt, auto, font=\small, text=black!70] {$l_{14}$};%
+    \draw[new_edge] (D-p5) -- (D-p10) -- (D-p1)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_3$};%
+    % Notranji radialni žarki
+    \draw[old_edge_doily] (D-p6) -- (D-p11) -- (D-p4)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_4$};%
+    \draw[old_edge_doily] (D-p7) -- (D-p12) -- (D-p5)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_{15}$};%
+    \draw[old_edge_doily] (D-p8) -- (D-p13) -- (D-p1)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_2$};%
+    \draw[old_edge_doily] (D-p9) -- (D-p14) -- (D-p2)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_{11}$};%
+    \draw[old_edge_doily] (D-p10) -- (D-p15) -- (D-p3)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_{9}$};%
+
+    % 5 Notranjih simetričnih lokov Doilyja
+    \draw[dashed_edge] ($(GQ_center) + (-1.231073,-0.400000)$) -- ($(GQ_center) + (-1.339573,-0.618196)$) -- ($(GQ_center) + (-1.409744,-0.851558)$) -- ($(GQ_center) + (-1.439579,-1.093408)$) -- ($(GQ_center) + (-1.428224,-1.336827)$) -- ($(GQ_center) + (-1.376005,-1.574849)$) -- ($(GQ_center) + (-1.284416,-1.800666)$) -- ($(GQ_center) + (-1.156076,-2.007814)$) -- ($(GQ_center) + (-0.994658,-2.190368)$) -- ($(GQ_center) + (-0.804781,-2.343104)$) -- ($(GQ_center) + (-0.591878,-2.461653)$) -- ($(GQ_center) + (-0.362039,-2.542621)$) -- ($(GQ_center) + (-0.121842,-2.583693)$) -- ($(GQ_center) + (0.121842,-2.583693)$) -- ($(GQ_center) + (0.362039,-2.542621)$) -- ($(GQ_center) + (0.591878,-2.461653)$) -- ($(GQ_center) + (0.804781,-2.343104)$) -- ($(GQ_center) + (0.994658,-2.190368)$) -- ($(GQ_center) + (1.156076,-2.007814)$) -- ($(GQ_center) + (1.284416,-1.800666)$) -- ($(GQ_center) + (1.376005,-1.574849)$) -- ($(GQ_center) + (1.428224,-1.336827)$) -- ($(GQ_center) + (1.439579,-1.093408)$) -- ($(GQ_center) + (1.409744,-0.851558)$) -- ($(GQ_center) + (1.339573,-0.618196)$) -- ($(GQ_center) + (1.231073,-0.400000)$)
+        node[pos=0.3, above, xshift=-110pt, yshift=5pt, font=\small, text=black!70] {$l_5$};
+    \draw[dashed_edge] ($(GQ_center) + (-0.000000,-1.294427)$) -- ($(GQ_center) + (0.173989,-1.465042)$) -- ($(GQ_center) + (0.374245,-1.603892)$) -- ($(GQ_center) + (0.595038,-1.707002)$) -- ($(GQ_center) + (0.830052,-1.771424)$) -- ($(GQ_center) + (1.072562,-1.795314)$) -- ($(GQ_center) + (1.315628,-1.777988)$) -- ($(GQ_center) + (1.552298,-1.719942)$) -- ($(GQ_center) + (1.775798,-1.622837)$) -- ($(GQ_center) + (1.979734,-1.489451)$) -- ($(GQ_center) + (2.158271,-1.323602)$) -- ($(GQ_center) + (2.306300,-1.130033)$) -- ($(GQ_center) + (2.419587,-0.914283)$) -- ($(GQ_center) + (2.494889,-0.682527)$) -- ($(GQ_center) + (2.530052,-0.441394)$) -- ($(GQ_center) + (2.524071,-0.197783)$) -- ($(GQ_center) + (2.477116,0.041333)$) -- ($(GQ_center) + (2.390530,0.269115)$) -- ($(GQ_center) + (2.266792,0.479045)$) -- ($(GQ_center) + (2.109441,0.665116)$) -- ($(GQ_center) + (1.922980,0.822004)$) -- ($(GQ_center) + (1.712743,0.945220)$) -- ($(GQ_center) + (1.484747,1.031239)$) -- ($(GQ_center) + (1.245514,1.077600)$) -- ($(GQ_center) + (1.001890,1.082976)$) -- ($(GQ_center) + (0.760845,1.047214)$)
+        node[pos=0.3, above, xshift=41pt, yshift=-45pt, font=\small, text=black!70] {$l_{8}$};%
+    \draw[dashed_edge] ($(GQ_center) + (1.231073,-0.400000)$) -- ($(GQ_center) + (1.447104,-0.287250)$) -- ($(GQ_center) + (1.641040,-0.139702)$) -- ($(GQ_center) + (1.807333,0.038422)$) -- ($(GQ_center) + (1.941225,0.242026)$) -- ($(GQ_center) + (2.038885,0.465284)$) -- ($(GQ_center) + (2.097519,0.701809)$) -- ($(GQ_center) + (2.115449,0.944831)$) -- ($(GQ_center) + (2.092162,1.187400)$) -- ($(GQ_center) + (2.028324,1.422573)$) -- ($(GQ_center) + (1.925762,1.643622)$) -- ($(GQ_center) + (1.787411,1.844222)$) -- ($(GQ_center) + (1.617229,2.018635)$) -- ($(GQ_center) + (1.420084,2.161868)$) -- ($(GQ_center) + (1.201619,2.269825)$) -- ($(GQ_center) + (0.968084,2.339416)$) -- ($(GQ_center) + (0.726161,2.368650)$) -- ($(GQ_center) + (0.482771,2.356691)$) -- ($(GQ_center) + (0.244879,2.303880)$) -- ($(GQ_center) + (0.019291,2.211730)$) -- ($(GQ_center) + (-0.187538,2.082876)$) -- ($(GQ_center) + (-0.369691,1.921005)$) -- ($(GQ_center) + (-0.521955,1.730749)$) -- ($(GQ_center) + (-0.639974,1.517551)$) -- ($(GQ_center) + (-0.720370,1.287512)$) -- ($(GQ_center) + (-0.760845,1.047214)$)
+        node[pos=0.3, above, xshift=47pt, yshift=20pt, font=\small, text=black!70] {$l_{6}$};%
+    \draw[dashed_edge] ($(GQ_center) + (0.760845,1.047214)$) -- ($(GQ_center) + (0.720370,1.287512)$) -- ($(GQ_center) + (0.639974,1.517551)$) -- ($(GQ_center) + (0.521955,1.730749)$) -- ($(GQ_center) + (0.369691,1.921005)$) -- ($(GQ_center) + (0.187538,2.082876)$) -- ($(GQ_center) + (-0.019291,2.211730)$) -- ($(GQ_center) + (-0.244879,2.303880)$) -- ($(GQ_center) + (-0.482771,2.356691)$) -- ($(GQ_center) + (-0.726161,2.368650)$) -- ($(GQ_center) + (-0.968084,2.339416)$) -- ($(GQ_center) + (-1.201619,2.269825)$) -- ($(GQ_center) + (-1.420084,2.161868)$) -- ($(GQ_center) + (-1.617229,2.018635)$) -- ($(GQ_center) + (-1.787411,1.844222)$) -- ($(GQ_center) + (-1.925762,1.643622)$) -- ($(GQ_center) + (-2.028324,1.422573)$) -- ($(GQ_center) + (-2.092162,1.187400)$) -- ($(GQ_center) + (-2.115449,0.944831)$) -- ($(GQ_center) + (-2.097519,0.701809)$) -- ($(GQ_center) + (-2.038885,0.465284)$) -- ($(GQ_center) + (-1.941225,0.242026)$) -- ($(GQ_center) + (-1.807333,0.038422)$) -- ($(GQ_center) + (-1.641040,-0.139702)$) -- ($(GQ_center) + (-1.447104,-0.287250)$) -- ($(GQ_center) + (-1.231073,-0.400000)$)
+        node[pos=0.3, above, xshift=-4pt, yshift=5pt, font=\small, text=black!70] {$l_{7}$};%
+    \draw[dashed_edge] ($(GQ_center) + (-0.760845,1.047214)$) -- ($(GQ_center) + (-1.001890,1.082976)$) -- ($(GQ_center) + (-1.245514,1.077600)$) -- ($(GQ_center) + (-1.484747,1.031239)$) -- ($(GQ_center) + (-1.712743,0.945220)$) -- ($(GQ_center) + (-1.922980,0.822004)$) -- ($(GQ_center) + (-2.109441,0.665116)$) -- ($(GQ_center) + (-2.266792,0.479045)$) -- ($(GQ_center) + (-2.390530,0.269115)$) -- ($(GQ_center) + (-2.477116,0.041333)$) -- ($(GQ_center) + (-2.524071,-0.197783)$) -- ($(GQ_center) + (-2.530052,-0.441394)$) -- ($(GQ_center) + (-2.494889,-0.682527)$) -- ($(GQ_center) + (-2.419587,-0.914283)$) -- ($(GQ_center) + (-2.306300,-1.130033)$) -- ($(GQ_center) + (-2.158271,-1.323602)$) -- ($(GQ_center) + (-1.979734,-1.489451)$) -- ($(GQ_center) + (-1.775798,-1.622837)$) -- ($(GQ_center) + (-1.552298,-1.719942)$) -- ($(GQ_center) + (-1.315628,-1.777988)$) -- ($(GQ_center) + (-1.072562,-1.795314)$) -- ($(GQ_center) + (-0.830052,-1.771424)$) -- ($(GQ_center) + (-0.595038,-1.707002)$) -- ($(GQ_center) + (-0.374245,-1.603892)$) -- ($(GQ_center) + (-0.173989,-1.465042)$) -- ($(GQ_center) + (-0.000000,-1.294427)$)
+        node[pos=0.3, above, xshift=20pt, yshift=-30pt, font=\small, text=black!70] {$l_{13}$};%
+    % Sredinska votla pika
+    \node[circle, draw=black, fill=white, line width=1.2pt, inner sep=0pt, minimum size=5.5pt] at (GQ_center) {};
+  \end{scope}
+
+\end{tikzpicture}
