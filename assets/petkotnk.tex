@@ -1,0 +1,6 @@
+\begin{tikzpicture}[every node/.style={draw, circle, fill=black, inner sep=2pt}]
+    \foreach \i in {1,...,5} {
+        \node (v\i) at ({360/5 * (\i - 1) + 90}:2) {};
+    }
+    \draw[thick] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- (v1);
+\end{tikzpicture}

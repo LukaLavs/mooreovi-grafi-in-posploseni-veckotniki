@@ -1,0 +1,60 @@
+\begin{tikzpicture}[
+    scale=3,
+]
+    \coordinate (P1) at (0, 1.5);      
+    \coordinate (P2) at (-1.3, -0.75); 
+    \coordinate (P3) at (1.3, -0.75);  
+
+    \coordinate (P4) at ($0.5*(P1)+0.5*(P2)$);
+    \coordinate (P5) at ($0.5*(P2)+0.5*(P3)$);
+    \coordinate (P6) at ($0.5*(P1)+0.5*(P3)$);
+    \coordinate (P7) at (0, 0);
+
+    % ---------------- OUTER TRIANGLE ----------------
+    \draw[new_edge] (P1) -- (P2)
+        node[midway, sloped, xshift=-40pt, auto, font=\small, text=black!70] {$l_3$};%
+
+    \draw[new_edge] (P2) -- (P3)
+        node[midway, sloped, below, xshift=-40pt, font=\small, text=black!70] {$l_1$};%
+
+    \draw[new_edge] (P3) -- (P1)
+        node[midway, sloped, xshift=-40pt, auto, font=\small, text=black!70] {$l_6$};%
+
+    % ---------------- INNER LINES ----------------
+    \draw[old_edge] (P1) -- (P5)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_2$};%
+
+    \draw[old_edge] (P3) -- (P4)
+        node[midway, sloped, xshift=0pt, auto, font=\small, text=black!70] {$l_7$};%
+
+    \draw[old_edge] (P2) -- (P6)
+        node[midway, sloped, auto, font=\small, text=black!70] {$l_5$};%
+
+    % ---------------- CIRCLE ----------------
+    \draw[thin, black!80, dashed]
+        (P7) circle (0.75cm);
+
+    \node at (0.65, 0) {$l_4$};% KROG
+
+    % ---------------- POINTS (offset labels to avoid clashes) ----------------
+    \node[v_point] at (P1) {};
+    \node[above=3pt, font=\small, text=black!70] at (P1) {$p_1$};%
+
+    \node[v_point] at (P2) {};
+    \node[below left=3pt, font=\small, text=black!70] at (P2) {$p_2$};%
+
+    \node[v_point] at (P3) {};
+    \node[below right=3pt, font=\small, text=black!70] at (P3) {$p_6$};%
+
+    \node[vnode] at (P4) {};
+    \node[left=3pt, font=\small, text=black!70] at (P4) {$p_4$};%
+
+    \node[vnode] at (P5) {};
+    \node[below=3pt, font=\small, text=black!70] at (P5) {$p_3$};%
+
+    \node[vnode] at (P6) {};
+    \node[right=3pt, font=\small, text=black!70] at (P6) {$p_7$};%
+
+    \node[v_point] at (P7) {};
+    \node[above right=3pt, font=\small, text=black!70] at (P7) {$p_5$};%
+\end{tikzpicture}
