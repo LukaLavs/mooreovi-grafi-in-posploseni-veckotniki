@@ -1,0 +1,47 @@
+\begin{tikzpicture}[scale=3]
+    % Definiranje koordinat oglišč kocke
+    % Sprednja ploskev (v_point - prazni krogci)
+    \coordinate (A) at (0,0,0);
+    \coordinate (B) at (1,0,0);
+    \coordinate (C) at (1,1,0);
+    \coordinate (D) at (0,1,0);
+    
+    % Zadnja ploskev (vnode - polne pike)
+    % Zamaknjena v x, y in z smeri za 3D učinek
+    \def\zshift{0.4}
+    \coordinate (A') at ($(A)+(\zshift,-\zshift)$);
+    \coordinate (B') at ($(B)+(\zshift,-\zshift)$);
+    \coordinate (C') at ($(C)+(\zshift,-\zshift)$);
+    \coordinate (D') at ($(D)+(\zshift,-\zshift)$);
+
+    % ---------------- RISANJE ROBOV ----------------
+    
+    % Zadnja ploskev (črtkano za 3D učinek, ali polno, če želite strogo samo new_edge)
+    % Tukaj uporabljam dashed_edge kot variacijo new_edge za preglednost.
+    % Če želite nujno samo "new_edge", zamenjajte dashed_edge z new_edge.
+    \draw[new_edge] (A') -- (B') -- (C') -- (D') -- cycle;
+
+    % Povezave med sprednjo in zadnjo ploskvijo (new_edge)
+    \draw[new_edge] (A) -- (A');
+    \draw[new_edge] (B) -- (B');
+    \draw[new_edge] (C) -- (C');
+    \draw[new_edge] (D) -- (D');
+
+    % Sprednja ploskev (new_edge - polne črte)
+    \draw[new_edge] (A) -- (B) -- (C) -- (D) -- cycle;
+
+    % ---------------- RISANJE TOČK ----------------
+    
+    % Zadnja ploskev - vnode (polne pike)
+    \node[v_point] at (A') {};
+    \node[v_point] at (B') {};
+    \node[v_point] at (C') {};
+    \node[v_point] at (D') {};
+
+    % Sprednja ploskev - v_point (prazni krogci)
+    \node[v_point] at (A) {};
+    \node[v_point] at (B) {};
+    \node[v_point] at (C) {};
+    \node[v_point] at (D) {};
+
+\end{tikzpicture}

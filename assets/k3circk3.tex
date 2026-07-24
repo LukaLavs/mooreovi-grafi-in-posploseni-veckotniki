@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=1.5, xshift=1.5cm]
+    \foreach \i in {0,1,2} {
+        \begin{scope}[shift={({cos(360/3*\i)*1.5}, {sin(360/3*\i)*1.5})}]
+            \node[v_point] (A\i) at (0, 0.3) {};
+            \node[v_point] (B\i) at (-0.3, -0.2) {};
+            \node[v_point] (C\i) at (0.3, -0.2) {};
+            \draw[new_edge] (A\i) -- (B\i) -- (C\i) -- (A\i);
+        \end{scope}
+    }
+    \foreach \i/\j in {0/1, 1/2, 2/0} {
+        \draw[thin, black!60] (A\i) -- (A\j);
+        \draw[thin, black!60] (B\i) -- (B\j);
+        \draw[thin, black!60] (C\i) -- (C\j);
+    }
+\end{tikzpicture}

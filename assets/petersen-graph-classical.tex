@@ -3,43 +3,43 @@
 %--------------------------------------------------
 % Vertices
 %--------------------------------------------------
-\node[vnode, label=above:$1$, text=black!70]      (v1)  at (90:2)  {};
-\node[vnode, label=left:$2$, text=black!70]       (v2)  at (162:2) {};
-\node[vnode, label=below left:$3$, text=black!70] (v3)  at (234:2) {};
-\node[vnode, label=below:$4$, text=black!70]      (v4)  at (306:2) {};
-\node[vnode, label=right:$5$, text=black!70]      (v5)  at (18:2)  {};
+\node[vnode, label=above:$1$, text=black!70]      (v0)  at (90:2)  {};
+\node[vnode, label=left:$2$, text=black!70]       (v1)  at (162:2) {};
+\node[vnode, label=below left:$3$, text=black!70] (v2)  at (234:2) {};
+\node[vnode, label=below:$4$, text=black!70]      (v3)  at (306:2) {};
+\node[vnode, label=right:$5$, text=black!70]      (v4)  at (18:2)  {};
 
-\node[vnode, label=above right:$6$, text=black!70]      (v6)  at (90:0.9)  {};
-\node[vnode, label=below left:$7$, text=black!70] (v7)  at (162:0.9) {};
-\node[vnode, label=below right:$8$, text=black!70] (v8)  at (234:0.9) {};
-\node[vnode, label=below left:$9$, text=black!70](v9)  at (306:0.9) {};
-\node[vnode, label=below right:$10$, text=black!70](v10) at (18:0.9)  {};
+\node[vnode, label=above right:$6$, text=black!70]      (v5)  at (90:0.9)  {};
+\node[vnode, label=below left:$7$, text=black!70] (v6)  at (162:0.9) {};
+\node[vnode, label=below right:$8$, text=black!70] (v7)  at (234:0.9) {};
+\node[vnode, label=below left:$9$, text=black!70](v8)  at (306:0.9) {};
+\node[vnode, label=below right:$10$, text=black!70](v9) at (18:0.9)  {};
 
 %--------------------------------------------------
 % Outer pentagon
 %--------------------------------------------------
+\draw[new_edge] (v0)--(v1);
 \draw[new_edge] (v1)--(v2);
 \draw[new_edge] (v2)--(v3);
 \draw[new_edge] (v3)--(v4);
-\draw[new_edge] (v4)--(v5);
-\draw[new_edge] (v5)--(v1);
+\draw[new_edge] (v4)--(v0);
 
 %--------------------------------------------------
 % Spokes
 %--------------------------------------------------
+\draw[new_edge] (v0)--(v5);
 \draw[new_edge] (v1)--(v6);
 \draw[new_edge] (v2)--(v7);
 \draw[new_edge] (v3)--(v8);
 \draw[new_edge] (v4)--(v9);
-\draw[new_edge] (v5)--(v10);
 
 %--------------------------------------------------
 % Inner pentagram
 %--------------------------------------------------
-\draw[new_edge] (v6)--(v8);
-\draw[new_edge] (v8)--(v10);
-\draw[new_edge] (v10)--(v7);
+\draw[new_edge] (v5)--(v7);
 \draw[new_edge] (v7)--(v9);
 \draw[new_edge] (v9)--(v6);
+\draw[new_edge] (v6)--(v8);
+\draw[new_edge] (v8)--(v5);
 
 \end{tikzpicture}

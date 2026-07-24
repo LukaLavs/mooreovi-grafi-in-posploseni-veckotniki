@@ -104,6 +104,7 @@
 \usepackage{import}
 \usepackage{url}
 \usepackage{tikz}
+\usepackage{float}
 \usetikzlibrary{calc, decorations.pathreplacing}
 \usetikzlibrary{positioning, arrows.meta}
 \usetikzlibrary{decorations.markings}
@@ -125,6 +126,7 @@
 \newcommand{\lin}{\mathscr{Lin}}
 \newcommand{\R}{\mathbb{T}}
 \newcommand{\OO}{\mathcal{O}}
+\newcommand{\ord}{\operatorname{ord}}
 
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\PPP}{\mathscr{P}_3}
@@ -1179,7 +1181,419 @@
 %     $\varphi(\alpha v_1 + \beta v_2, w) = \alpha \varphi(v_1, w) + \beta \varphi(v_2, w)$ za vsak $\alpha, \beta \in \mathbb{F}$ in $v_1, v_2 \in V$, $w \in W$.
 % \end{definicija}
 
+\section{Uvod}
 
+\begin{definicija}
+    Premer grafa je največja razdalja med dvema vozliščema grafa.
+    Ožina grafa je dolžina njegovega najkrajšega cikla.
+\end{definicija}
+
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.45\textwidth}{!}{%
+        \import{../../assets/}{grid-caterpilar.tex}
+    }
+    \caption{$n\times n$ mreža je graf z ožino $4$ in premerom $2(n-1)$. Ožina vsakega drevesa je neskončna.
+    Premer drevesa na sliki je $5$.}
+    \label{fig:grid}
+\end{figure}
+
+\begin{definicija}\label{def:nivo}
+    V grafu je $i$-ti nivo vozlišča $v$ (oz.~poljubne podmnožice vozlišč $W$) množica vseh vozlišč, katerih najkrajša razdalja
+    do vozlišča $v$ (oz.~do množice $W$) je natanko $i$. Označimo ga z $N_i(v)$ (oz.~$N_i(W)$).
+\end{definicija}
+
+\begin{trditev}\label{tr:a_steje_sprehode}
+    Naj bo $W_i(u,v)$ število sprehodov dolžine $i$ med vozliščema $u$ in $v$ v grafu $\Gamma$.
+    Potem velja $W_i(u, v) = A^i_{uv}$,
+    kjer je $A$ matrika sosednosti grafa $\Gamma$.
+\end{trditev}
+\begin{dokaz}
+    Z uporabo indukcijske predpostavke dobimo:
+    \[A^i_{uv} = \sum_{w\in V} A^{i-1}_{uw}A_{wv} = \sum_{w\in N_1(v)} A^{i-1}_{uw} = \sum_{w\in N_1(v)} W_{i-1}(u, w) = W_i(u, v). \qedhere\]
+\end{dokaz}
+
+\begin{zgled}
+    Naj bo $\Gamma$ trikotnik. Matrika sosednosti $A\in\{0,1\}^{3\times 3}$ je enaka $J - I$, kjer je $J$ matrika samih enic in $I$ identiteta. 
+    S potenciranjem dobimo 
+    \begin{align*}
+    A^i &= \sum_{r=0}^i \binom{i}{r}(-1)^{i-r}J^r I^{i-r} \\
+    &= (-1)^iI + \sum_{r=1}^i \binom{i}{r}(-1)^{i-r}J^r \\
+    &= (-1)^iI + \sum_{r=1}^i \binom{i}{r}(-1)^{i-r}3^{r-1}J \\
+    &= (-1)^iI + \frac{2^i - (-1)^i}{3} J.
+    \end{align*}
+    Od danega vozlišča $u\in V(\Gamma)$ tako vodi natanko $\frac{2^i + 2(-1)^i}{3}$ sprehodov dolžine 
+    $i$ do $u$ in $\frac{2^i - (-1)^i}{3}$ sprehodov dolžine $i$ do $v\neq u$.
+\end{zgled}
+
+\begin{definicija}
+    Graf je razdaljno regularen, če je regularen in je
+    za vsaki dve vozlišči $u, v \in V$
+    število vozlišč na razdalji $j$ od $u$ in $k$ od $v$ odvisno 
+    le od $j, k$ in razdalje med $u$ in $v$. To pomeni,
+    da je število $|N_j(u)\cap N_k(v)|$ le funkcija $j, k$ in $d(u, v)$.
+\end{definicija}
+
+\begin{definicija}\label{def:presecno_zaporedje}
+    Presečno zaporedje razdaljno regularnega grafa s premerom $D$ je zaporedje 
+    $$\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\},$$
+    kjer so konstante $b_i$ in $c_i$ odvisne zgolj od razdalje $d(u, v) = i$, in so definirane kot
+    $$b_i = |N_1(u)\cap N_{i+1}(v)|, \quad c_i = |N_1(u)\cap N_{i-1}(v)|.$$
+\end{definicija}
+
+\begin{opomba}\label{op:presecno_zaporedje}
+    Med dvema vozliščema $u$ in $v$ na razdalji $i$ konstante $b_i$ merijo število sosedov vozlišča 
+    $u$ na razdalji $i+1$ od vozlišča $v$, medtem ko konstante $c_i$
+    merijo število sosedov vozlišča $u$ na razdalji $i-1$ od vozlišča $v$.
+\end{opomba}
+
+\begin{opomba}
+    Izkaže se, da je graf razdaljno regularen natanko tedaj, ko zanj obstaja presečno zaporedje.
+\end{opomba}
+
+% \begin{opomba}\label{op:presecni_nabor}
+%     Prepričamo se lahko, da je za razdaljno regularnost grafa dovolj preveriti zgolj to, da so
+%     $$b_i = |N_1(u)\cap N_{i+1}(v)|, \quad a_i =|N_1(u)\cap N_{i}(v)| \quad \text{in} \quad c_i = |N_1(u)\cap N_{i-1}(v)|$$
+%     odvisni le od $i$ in razdalje med $u$ in $v$. 
+    
+%     To je standardni rezultat iz teorije razdaljno regularnih 
+%     grafov, ki jim nato, glede na premer $D$, običajno pripišemo t.i.~{\em presečno zaporedje} $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$.
+%     Prepričamo se na sledeč način.
+
+%     Označimo s $p_{jk}^i = |N_j(u)\cap N_k(v)|$ število vseh vozlišč, ki 
+%     so na razdalji $j$ od $u$ in $k$ od $v$, medtem ko sta $u$ in $v$ na razdalji $i$. 
+%          Vsako vozlišče $w$ nivoja $N_k(v)$, ki ima soseda $z$ v $N_j(u)$, 
+%     mora zaradi trikotniške neenakosti 
+%     $$j-1 = d(u, z) - d(w, z) \leq d(w, u) \leq d(u, z) + d(z, w) = j + 1$$
+%     ležati na razdaljah $j-1$, $j$ ali $j+1$ od vozlišča $u$. 
+
+%     Tako se število $p_{jk}^i$ poenostavi v  
+%     \begin{align*}
+%     p_{jk}^i &= |(N_{j-1}(u)\cup N_j(u)\cup N_{j+1}(u))\cap N_k(v)|\\
+%     &= |N_{j-1}(u)\cap N_k(v)| + |N_j(u)\cap N_k(v)| + |N_{j+1}(u)\cap N_k(v)|.
+%     \end{align*}
+%         Ker ima vsako vozlišče iz $N_{j-1}(u)\cap N_k(v)$, po definiciji konstant, natanko $b_{j-1}$ sosedov v $N_j(u)$, se tako 
+%     k izrazu $p_{jk}^i$ prispeva člen $b_{j-1}p_{j-1, k}^i$. S podobnimi razmisleki še za ostale pare tako dobimo
+%     $$p_{jk}^i = b_{j-1}p_{j-1, k}^i + a_j p_{jk}^i + c_{j+1}p_{j+1, k}^i.$$ 
+%     Ker po drugi strani velja tudi $$p_{jk}^i = |N_j(u)\cap (N_{k-1}(v)\cup N_k(v)\cup N_{k+1}(v))|,$$
+%     analogno dobimo
+%     $$p_{jk}^i = c_{k+1}p_{j, k+1}^i + a_k p_{j, k}^i + b_{k-1}p_{j, k-1}^i.$$ 
+%     Skupaj je to
+%     $$c_{j+1}p_{j+1, k}^i = b_{k-1}p_{j, k-1}^i + (a_k - a_j)p_{j, k}^i + c_{k+1}p_{j, k+1}^i - b_{j-1}p_{j-1, k}^i,$$
+%     kar je rešljiva rekurzija z začetnimi členi $p_{0i}^i = 1$ (vozlišče $u$ je na razdalji $i$ od $v$), 
+%     $p_{0k}^i = 0, k\neq i$ (vozlišče $u$ ne more biti na dveh različnih razdaljah od $v$) in 
+%     $p_{1(i-1)}^i = c_i, p_{1i}^i = a_i, p_{1(i+1)}^i = b_i,p_{1k}^i = 0$, za vsak $k\notin \{i-1, i, i+1\}$.
+
+%     Ker v $\Delta$-regularnem grafu velja $a_i + b_i + c_i = \Delta$, smo pokazali,
+%     da je za izračun $p_{jk}^i$ dovolj poznati zgolj presečno zaporedje $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$,
+%     kar zaključi misel.
+% \end{opomba}
+
+\begin{zgled}
+    Kocka je razdaljno regularen graf z presečnim zaporedjem 
+    \[(3, 2, 1; 1, 2, 3).\qedhere\]
+\end{zgled}
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.2\textwidth}{!}{%
+        \import{../../assets/}{kocka.tex}
+    }
+    \caption{Kocka je enostaven primer razdaljno regularnega grafa (opomba~\ref{op:presecno_zaporedje}).}
+    \label{fig:kocka}
+\end{figure}
+
+\begin{definicija}
+    Presečna matrika razdaljno regularnega grafa premera $D$ s presečnim zaporedjem $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$ 
+    je matrika
+    \begin{align*}
+        \begin{bmatrix}
+            a_0 & b_0 & 0 & \cdots & 0 \\
+            c_1 & a_1 & b_1 & \cdots & 0 \\
+            0 & c_2 & a_2 & \cdots & 0 \\
+            \vdots & \vdots & \vdots & \ddots & b_{D-1} \\
+            0 & 0 & 0 & c_D & a_D
+        \end{bmatrix},
+    \end{align*}
+    kjer so $a_i = \Delta - b_i - c_i$ za $i \in \{1, \ldots, D\}$ in $a_0 = \Delta - b_0$.
+\end{definicija}
+
+\begin{opomba}
+    Konstanta $a_i$ nam pove, koliko sosedov vozlišča $u$ je na razdalji $i$ od vozlišča $v$, ki je na razdalji $i$ od $u$.
+\end{opomba}
+\begin{opomba}
+    % Konstante $b_i$, $a_i$ in $c_i$ nam povedo, koliko sosedov vozlišča $u$ je na 
+    % razdalji $i+1$, $i$ oziroma $i-1$ od vozlišča $v$, ki je na razdalji $i$ od $u$ (glej opombo~\ref{op:presecni_nabor}).
+    Za presečno matriko $M$ razdaljno regularnega grafa premera $D$ velja 
+    \begin{align}
+    %b_i = |N_1(u)\cap N_{i+1}(v)|, a_i =|N_1(u)\cap N_{i}(v)|, c_i = |N_1(u)\cap N_{i-1}(v)| \text{ ter } 
+    M_{j, i} = |N_1(u)\cap N_j(v)|,
+    \end{align}
+    kjer sta $u$ in $v$ vozlišči na razdalji $i$ (definicija~\ref{def:presecno_zaporedje}).
+\end{opomba}
+
+\begin{trditev}\label{tr:eta_presecna}
+    Naj bo $M$ presečna matrika razdaljno regularnega grafa premera $D$ s presečnim zaporedjem $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$
+    ter naj bo $W_q(u, N_j(v))$ število sprehodov dolžine $q$, ki se začnejo v vozlišču $u$ in končajo v nivoju $N_j(v)$,
+    kjer je $u$ poljubno vozlišče na razdalji $i$ od vozlišča $v$ (tj., $u\in N_i(v)$).
+    Potem velja
+    $$W_q(u, N_j(v)) = (M^q)_{j, i}.$$
+    % za $\eta^{(q, i)} = M^q\cdot\mathbf{e}_i$, kjer je $\mathbf{e}_i$ $i$-ti enotski vektor.
+\end{trditev}
+
+\begin{dokaz}
+    Trditev dokažimo z indukcijo po $q$.
+    
+    \smallskip
+    \noindent($q = 1$): Vsak sprehod dolžine $1$ iz $u$ v $N_j(v)$ ustreza natanko 
+    enemu sosedu vozlišča $u$, ki leži v $N_j(v)$.
+    $$W_1(u, N_j(v)) = |N_1(u)\cap N_j(v)|.$$
+    Po definiciji presečne matrike velja $$|N_1(u)\cap N_j(v)| = M_{j, i}.$$
+    Bazni primer drži. 
+    
+    \smallskip
+    \noindent($q\implies q+1$): Predpostavimo, da za poljuben nivo $k$ in vsako vozlišče $x\in N_k(v)$ velja
+    $W_q(x, N_j(v)) = (M^q)_{j, k}$. Vsak sprehod dolžine $q+1$ iz $u$ do $N_j(v)$ 
+     je sestavljen iz prvega koraka v sosednje vozlišče $w\in N_1(u)$ in nadaljevanjem sprehoda dolžine $q$ od $w$ do $N_j(v)$:
+     $$W_{q+1}(u, N_j(v)) = \sum_{w\in N_1(u)} W_q(w, N_j(v)).$$
+     Množico sosedov $N_1(u)$ lahko razdelimo glede na njihovo razdaljo do $v$:
+     $$W_{q+1}(u, N_j(v)) = \sum_{k=0}^D \sum_{w\in N_1(u)\cap N_k(v)} W_q(w, N_j(v)).$$
+     Po indukcijski predpostavki velja $W_q(w, N_j(v)) = (M^q)_{j, k}$. Ta vrednost je odvisna le od
+     nivoja in je neodvisna od izbire $w$, zato jo izpostavimo:
+     $$W_{q+1}(u, N_j(v)) = \sum_{k=0}^D |N_1(u)\cap N_k(v)|(M^q)_{j, k}.$$
+     Po definiciji presečne matrike velja $|N_1(u)\cap N_k(v)| = M_{k, i}$, od koder dobimo
+     $$W_{q+1}(u, N_j(v)) = \sum_{k=0}^D M_{k, i}(M^q)_{j,k} = (M^{q+1})_{j,i},$$
+     s čimer zaključimo dokaz.
+\end{dokaz}
+
+\begin{zgled}
+    Tretja potenca presečne matrike kocke je enaka
+    \begin{align*}
+        M^3 = \begin{bmatrix}
+            0 & 3 & 0 & 0 \\
+            1 & 0 & 2 & 0 \\
+            0 & 2 & 0 & 1 \\
+            0 & 0 & 3 & 0
+        \end{bmatrix}^3 = 
+        \begin{bmatrix}
+            0 & 21 & 0 & 6 \\
+            7 & 0 & 20 & 0 \\
+            0 & 20 & 0 & 7 \\
+            6 & 0 & 21 & 0
+        \end{bmatrix},
+    \end{align*}
+    kar med drugimi pomeni, da iz enega oglišča $u$ v nasprotnega vodi $W_3(u, N_3(u)) = 6$ sprehodov dolžine $3$,
+    medtem ko iz ogljišča $u$ do sosedov vozlišča $v$ na razdalji $2$ od $u$ vodi $W_2(u, N_2(v)) = 20$ sprehodov dolžine $3$.
+\end{zgled}
+% \begin{opomba}\label{op:razdaljno_lastne}
+%     Matrika sosednosti razdaljno regularnega grafa premera $D$ ima natanko $D+1$ različnih lastnih vrednosti, 
+%     ki so enake lastnim vrednostim presečne matrike.
+% \end{opomba}
+
+\begin{definicija}\label{def:krepko_regularen_graf}
+    $(n, \Delta, \lambda, \mu)$-krepko regularen graf je $\Delta$-regularen graf z $n$ vozlišči, kjer 
+    je število skupnih sosedov vsakega para sosednjih vozlišč enako $\lambda$ in število skupnih 
+    sosedov vsakega para nesosednjih vozlišč enako $\mu$.
+\end{definicija}
+
+\begin{zgled}
+Naj bo $C_3$ trikotnik z poimenovanimi vozlišči. Razporedimo tri take trikotnike v ravnino ter povežimo 
+istoimenska vozlišča. Dobimo graf, ki je $(9, 4, 1, 2)$-krepko regularen (glej sliko \ref{fig:k3circk3}).
+\end{zgled}
+
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.35\textwidth}{!}{%
+        \import{../../assets/}{k3circk3.tex}
+    }
+    \caption{Povezani vozlišči imata natanko $1$ skupnega soseda, nesosednji vozlišči pa natanko $2$.
+        Graf na sliki je krepko regularen.}
+    \label{fig:k3circk3}
+\end{figure}
+
+
+\begin{definicija}
+    Izomorfizem grafov $\Gamma_1$ in $\Gamma_2$ je bijektivna preslikava $$f: V(\Gamma_1) \to V(\Gamma_2),$$ ki ohranja sosedstvo.
+    Velja torej $(u, v) \in E(\Gamma_1) \iff (f(u), f(v)) \in E(\Gamma_2)$.
+\end{definicija}
+\begin{definicija}
+    Avtomorfizem grafa $\Gamma$ je izomorfizem grafa $\Gamma$ na samega sebe.
+    Avtomorfizmi tvorijo grupo $\aut(\Gamma)$ za katero pravimo, da deluje na množici vozlišč $V(\Gamma)$.
+\end{definicija}
+
+\begin{figure}[H]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \resizebox{0.55\textwidth}{!}{%
+        \import{../../assets/}{avtomorfizem-kocke.tex}
+    }
+    \caption{Na sliki je prikazan eden izmed avtomorfizmov kocke, ki preslika vozlišče $1$ v vozlišče $5$.}
+    \label{fig:avtomorfizem-kocke}
+\end{figure}
+
+\begin{definicija}\label{def:orbita_stabilizator}
+    Naj bo $G = \aut(\Gamma)$ grupa avtomorfizmov grafa ter $W$ neka podmnožica vozlišč.
+    Potem pravimo, da je orbita $G\cdot W$ množica vozlišč, v katera lahko podmnožico $W$ preslikamo z avtomorfizmi,
+    in da je stabilizator $G_Q$ podgrupa vseh avtomorfizmov, ki fiksirajo podmnožico $W$ (tj., preslikajo jo samo vase).
+\end{definicija}
+
+\begin{zgled}
+    Vzemimo graf kocke (glej sliko~\ref{fig:kocka} ali~\ref{fig:avtomorfizem-kocke}) in si izberimo neko ogljišče. Njegova orbita je množica
+    vseh vozlišč -- vsako oglišče lahko preslikamo v katerokoli drugo. Stabilizator tega oglišča
+    je grupa avtomorfizmov, ki fiksira izbrano oglišče. To so vse rotacije in zrcaljenja kocke, ki ohranjajo izbrano oglišče na mestu.
+\end{zgled}
+
+\begin{definicija}
+    Graf $\Gamma$ je vozliščno tranzitiven, če za vsaki dve vozlišči $u, v \in V(\Gamma)$ obstaja 
+    avtomorfizem, ki preslika $u$ v $v$.
+\end{definicija}
+
+\begin{definicija}
+    Graf premera $D$ je razdaljno tranzitiven, če lahko vsaki dve vozlišči na razdalji $i$ z nekim avtomorfizmom preslikamo
+    v vsaki dve vozlišči na razdalji $i$, za $i = 0, 1, \ldots, D$.
+\end{definicija}
+
+\begin{zgled}
+    Kocka je vozliščno in razdaljno tranzitiven graf.
+\end{zgled}
+
+\begin{definicija}
+    Pravimo, da je podgraf grafa $\Gamma$ induciran s podmnožico vozlišč $W \subseteq V(\Gamma)$, če vsebuje vsa vozlišča 
+    iz $W$ in vse povezave med njimi, ki obstajajo v $\Gamma$. Tak podgraf označimo s $\Gamma[W]$.
+\end{definicija}
+
+\begin{izrek}\label{iz:orbitainstabilizator}
+    Naj bo $\Gamma$ graf in $G$ grupa, ki deluje na njegovih vozliščih (npr. $G = \aut(\Gamma)$)
+    in $W$ poljubna podmnožica vozlišč. Potem velja
+    $$|G| = |G\cdot W| |G_W|.$$
+\end{izrek}
+
+\begin{opomba}
+    To je izrek o orbitah in stabilizatorjih. Je ena izmed posledic Lagrangeevega izreka.
+\end{opomba}
+
+\begin{izrek}[Lagrangeev izrek]\label{iz:lagrangeevizrek}
+    Naj bo $G$ grupa in $H$ podgrupa. Potem velja 
+    $$|G| = |G/H| |H|,$$
+    kjer je $G/H = \{gH : g \in G\}$.
+\end{izrek}
+
+\begin{dokaz}
+Dokaz izpustimo.
+\end{dokaz}
+
+\begin{zgled}
+    Naj bo $\Gamma$ kocka, $G = \aut(\Gamma)$ in $u$ neko oglišče. Uporabimo izrek o orbitah in stabilizatorjih \ref{iz:orbitainstabilizator}
+    in izračunamo število avtomorfizmov kocke. Dobimo 
+    $$|G| = |G\cdot u| |G_u| = |G\cdot u| |G_u\cdot N_1(u)| |(G_u)_{N_1(u)}| = 8\cdot 3! \cdot 1 = 48.$$
+    Tu smo uporabili dejstvo, da je kocka vozliščno tranzitivna (tj. $|G\cdot u| = 8$), da lahko stabilizator oglišča prosto permutira njegove 
+    sosede (tj. $|G_u\cdot N_1(u)| = 3!$) in da je stabilizator oglišča in njegovih sosedov trivialen (tj. $|(G_u)_{N_1(u)}| = 1$). 
+\end{zgled}
+
+\begin{definicija}
+    Spekter grafa je množica njegovih lastnih vrednosti $\lambda_i, 1\leq i\leq n$ s pripadajočimi večkratnostmi
+    $m(\lambda_i)$. Običajno ga zapišemo kot 
+    $$\left\{\lambda_1^{(m(\lambda_1))}, \lambda_2^{(m(\lambda_2))}, \ldots, \lambda_n^{(m(\lambda_n))}\right\}.$$
+\end{definicija}
+
+
+\begin{trditev}\label{tr:cikellastne}
+% Naj bo dan cikel $C_n$ ter njegova matrika sosednosti $A$. Tedaj so lastne vrednosti 
+% matrike $A$ enake $2\cos(2\pi k/n)$, za vsak $k \in \{0, 1, \ldots, n-1\}$. Posebno 
+% ima vsak cikel natanko eno lastno vrednost enako $2$. Z drugimi besedami: 
+Spekter cikla $C_n$ je enak
+\[\left\{2^{(1)}, 2\cos(2\pi/n)^{(1)}, \ldots, 2\cos(2\pi (n-1)/n)^{(1)}\right\}.\]
+\end{trditev}
+\begin{dokaz}
+    Naj bo $A$ matrika sosednosti cikla $C_n$. Potem velja:
+    \begin{align*}
+        A =  \begin{bmatrix} 
+            0 & 1 & 0 & \dots & 1 \\ 
+            1 & 0 & 1 & \dots & 0 \\ 
+            0 & 1 & 0 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            1 & 0 & 0 & \dots & 0 \end{bmatrix}
+        =  \begin{bmatrix} 
+            0 & 0 & 0 & \dots & 1 \\ 
+            1 & 0 & 0 & \dots & 0 \\ 
+            0 & 1 & 0 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            0 & 0 & 0 & \dots & 0 \end{bmatrix} 
+            +
+            \begin{bmatrix} 
+            0 & 1 & 0 & \dots & 0 \\ 
+            0 & 0 & 1 & \dots & 0 \\ 
+            0 & 0 & 0 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            1 & 0 & 0 & \dots & 0 \end{bmatrix}
+        = P + P^{-1},
+    \end{align*}
+    kjer je $P$ permutacijska matrika, ki, mimogrede, predstavlja rotacijo vozlišč 
+    cikla $C_n$ v smeri urinega kazalca.
+    Nadalje velja:
+    \begin{align*}
+        \det(P - \lambda I) &= -\lambda \begin{vmatrix} 
+            -\lambda & 0 & 0 & \dots & 0 \\ 
+            1 & -\lambda & 0 & \dots & 0 \\ 
+            0 & 1 & -\lambda & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            0 & 0 & 0 & \dots & -\lambda  \end{vmatrix}
+            + (-1)^{n+1} \begin{vmatrix} 
+            1 & -\lambda & 0 & \dots & 0 \\ 
+            0 & 1 & -\lambda & \dots & 0 \\ 
+            0 & 0 & 1 & \dots & 0 \\ 
+            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
+            0 & 0 & 0 & \dots & 1  \end{vmatrix} \\
+            &= (-1)^n \lambda^n + (-1)^{n+1}
+    \end{align*}
+    Posledično je karakteristični polinom matrike $P$ enak $\lambda^n - 1$, njegove ničle pa
+    so $n$-ti koreni enote. Lastne vrednosti matrike $A$ so zato enake 
+    $\lambda_j = e^{i \frac{2\pi j}{n}} + e^{-i \frac{2\pi j}{n}} = 2\cosh(2\pi i j/n) = 2\cos(2\pi j/n)$.
+\end{dokaz}
+
+\begin{izrek}[Izrek o prepletanju lastnih vrednosti]\label{iz:interlacing}
+Naj bo $\Gamma$ graf z $n$ vozlišči ter $\Theta$ njegov podgraf z $r$ vozlišči. Naj bo 
+$A$ matrika sosednosti grafa $\Gamma$, ter $B$ matrika sosednosti grafa $\Theta$. Naj bo
+$\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_n$ spekter matrike $A$ 
+ter $\mu_1 \geq \mu_2 \geq \ldots \geq \mu_r$ spekter matrike $B$. Potem velja:
+\[
+\lambda_i \geq \mu_i \geq \lambda_{n - r + i} \quad \text{za vse } i \in \{1, 2, \ldots, r\}.
+\]
+\end{izrek}
+\begin{dokaz}
+    Dokaz izpustimo \cite{enwiki1325771674}.
+\end{dokaz}
+
+\begin{definicija}\label{def:delni_spoj}
+    Naj bo $\Gamma$ graf z množico vozlišč $V(\Gamma)$. Za
+    neprazno podmnožico vozlišč $W \subset V(\Gamma)$ definiramo delni spoj, označen z $\oplus$, 
+    kot $v \oplus (\Gamma, W)$, kjer je $v$ novo vozlišče (tj. $v\not\in V(\Gamma)$), ki je sosedno z vsemi 
+    vozlišči iz $W$ ter z nobenim drugim vozliščem grafa $\Gamma$.
+\end{definicija}
+
+\begin{definicija}
+Zvezda $K_{1, n}$ z $(n+1)$ vozlišči je graf z enim osrednjim vozliščem, ki je sosedno 
+z vsemi ostalimi $n$ vozlišči, ki med seboj niso povezana.
+\end{definicija}
+
+\begin{zgled}
+    Naj bo $\overline{K}_n$ graf, ki vsebuje $n$ nepovezanih vozlišč. Naj bo $v$ vozlišče, ki ni v $\overline{K}_n$. 
+    Potem je $v \oplus (\overline{K}_n, V(\overline{K}_n))$ zvezda $K_{1, n}$.
+\end{zgled}
+
+\begin{definicija}
+    Center grupe je množica vseh elementov, ki komutirajo z vsemi elementi grupe.
+\end{definicija}
+
+\begin{izrek}\label{iz:netrivialen-center}
+    Vsaka netrivialna končna Sylowa $p$-podgrupa ima netrivialen center.
+\end{izrek}
+
+\begin{dokaz}
+    Dokaz izpustimo \cite{wuthrich2016grouptheory}.
+\end{dokaz}
 \section{Mooreovi grafi}
 % definicija, slike
 Mooreovi grafi so ekstremalni grafi, ki glede na dani premer ter dano 
@@ -1189,10 +1603,6 @@ Leta 1960 sta jih tako
 poimenovala Hoffman in Singleton po Edwardu F. Mooreu, ki je prvi zastavil vprašanje o 
 opisu in klasifikaciji teh struktur.
 
-\begin{definicija}
-    Premer grafa je največja razdalja med dvema vozliščema grafa.
-    Ožina grafa je dolžina njegovega najkrajšega cikla.
-\end{definicija}
 
 \begin{definicija}[Mooreov graf]\label{def:moore}
     Mooreov graf je graf, ki glede na svoj premer $D$ in 
@@ -1215,14 +1625,15 @@ opisu in klasifikaciji teh struktur.
     \caption{Največji znan primer Mooreovega grafa -- Hoffman-Singletonov graf.}
 \end{figure}
 
-\begin{definicija}\label{def:nivo}
-    V grafu je $i$-ti nivo vozlišča $v$ (oz.~poljubne podmnožice vozlišč $Q$) množica vseh vozlišč, katerih najkrajša razdalja
-    do vozlišča $v$ (oz.~do množice $Q$) je natanko $i$. Označimo ga z $N_i(v)$ (oz.~$N_i(Q)$).
+\begin{definicija}\label{def:moore_drevo}
+    Mooreovo drevo $T_{\Delta, D}$, za neka $D, \Delta \in \mathbb{N}$, 
+    je drevo z $(D+1)$ nivoji, kjer so vsa vozlišča razen listov stopnje $\Delta$ (glej sliko \ref{fig:drevo_moore_uvod}).
 \end{definicija}
 
 \begin{trditev}\label{tr:moore_bound}
     Mooreova meja je zgornja meja za število vozlišč pri grafih z dano maksimalno stopnjo in premerom $D$.
-    Graf dosega Mooreovo mejo natanko tedaj, ko je regularen s premerom $D$ in ožino $2D+1$.
+    Graf dosega Mooreovo mejo natanko tedaj, ko je regularen s premerom $D$ in ožino $2D+1$ oz.
+    ko je vsako vozlišče v grafu koren nekega podgrafa, ki je Mooreovo drevo $T_{\Delta, D}$.
 \end{trditev}
 
 \begin{dokaz}
@@ -1240,9 +1651,9 @@ opisu in klasifikaciji teh struktur.
    \[N_{i+1}(v) = \bigcup_{u \in N_i(v)} N_1(u) \setminus \left( N_i(v)\cup N_{i-1} \right)\]
    in dobimo 
    \[|N_{i+1}(v)| \leq \sum_{u \in N_i(v)} |N_1(u) \setminus \left( N_i(v)\cup N_{i-1} \right)|.\]
-   Slednji izraz bo maksimalen natanko tedaj, ko bo vsak element $u \in N_{i+1}(v)$ imel stopnjo $\Delta$ in bo povezan z enim samim vozliščem nivoja $N_{i}(v)$.
-   Če kaj takega velja za vsako vozlišče, vidimo, da tvorimo nekakšno drevo od korenskega vozlišča $v$ (glej sliko \ref{fig:drevo_moore_uvod}) 
-   in dobimo zgornjo mejo za število vozlišč
+   Slednji izraz bo maksimalen natanko tedaj, ko bo vsak element $u \in N_{i+1}(v)$ imel stopnjo $\Delta$ in bo povezan z enim samim vozliščem nivoja $N_{i}(v)$ --
+   to je natanko tedaj ko je poljubno vozlišče $v$ koren nekega Mooreovega drevesa $T_{\Delta, D}$ (glej sliko \ref{fig:drevo_moore_uvod}).
+   Dobimo zgornjo mejo za število vozlišč
    $$|V| \leq 1 + \Delta + \sum_{i=1}^{D-1} \Delta (\Delta - 1)^i = M^{\Delta, D},$$
    ki se popolnoma ujema z Mooreovo mejo. Ker se listi takega drevesa nato povežejo med seboj z namenom ohranitve premera $D$
    je jasno tudi, da je ožina takega grafa $2D+1$.
@@ -1254,7 +1665,7 @@ opisu in klasifikaciji teh struktur.
     \resizebox{0.7\textwidth}{!}{%
         \import{../../assets/}{drevo-moore-uvod.tex}
     }
-    \caption{Drevo z $(D+1)$ nivoji, kjer so vsa vozlišča razen listov stopnje $\Delta$, je podgraf vsakega 
+    \caption{Mooreovo drevo $T_{\Delta, D}$, je podgraf vsakega 
     $\Delta$-regularnega Mooreovega grafa premera $D$.
     Na sliki je prikazan primer za $\Delta = 7$ in $D=2$.}
     \label{fig:drevo_moore_uvod}
@@ -1295,8 +1706,9 @@ opisu in klasifikaciji teh struktur.
 \begin{dokaz}
     Očitno obstoj cikla dolžine $2D+1$ med poljubnima dvema vozliščema zagotavlja, da je premer grafa $D$,
     in neobstoj krajših ciklov zagotavlja, da je ožina grafa $2D+1$. Po trditvi~\ref{tr:diam_girth_regular} je 
-    graf Mooreov. Obratno pa smo v dokazu trditve \ref{tr:moore_bound} pokazali, da je vsak Mooreov graf s 
-    poljubnega vozlišča videti kot drevo, od koder je jasno, da poljubni dve vozlišči ležita na nekem $C_{2D+1}$ in da v grafu ni krajših ciklov.
+    graf Mooreov. Obratno pa nam trditev \ref{tr:moore_bound} zagotovi, da je vsako vozlišče Mooreovega grafa koren nekega
+    podgrafa, ki je Mooreovo drevo $T_{\Delta, D}$ -- od tu je jasno, da poljubni dve vozlišči ležita na nekem $C_{2D+1}$ 
+    ter da krajših ciklov ni.
 \end{dokaz}
 
 \begin{trditev}\label{tr:ena_najkrajsa_pot}
@@ -1451,53 +1863,8 @@ opisu in klasifikaciji teh struktur.
 Nekaj lastnosti Mooreovih grafov smo že omenili v prejšnjem razdelku, sedaj 
 pa se bomo posvetili še eni, ki je v literaturi znana kot razdaljna regularnost.
 Razdaljna regularnost igra ključno vlogo pri dokazu o neobstoju določenih Mooreovih grafov.
-Nato pa se bomo omejili na Mooreove grafe s premerom $2$ in jih poskušali klasificirati.
+Nato pa se bomo omejili na Mooreove grafe s premerom $2$, ki so krepko regularni in jih poskušali klasificirati.
 
-\begin{definicija}
-    Graf je razdaljno regularen, če je regularen in je
-    za vsaki dve vozlišči $u, v \in V$
-    število vozlišč na razdalji $j$ od $u$ in $k$ od $v$ odvisno 
-    le od $j, k$ in razdalje med $u$ in $v$. To pomeni,
-    da je število $|N_j(u)\cap N_k(v)|$ le funkcija $j, k$ in $d(u, v)$.
-\end{definicija}
-
-\begin{opomba}\label{op:presecni_nabor}
-    Prepričamo se lahko, da je za razdaljno regularnost grafa dovolj preveriti zgolj to, da so
-    $$b_i = |N_1(u)\cap N_{i+1}(v)|, \quad a_i =|N_1(u)\cap N_{i}(v)| \quad \text{in} \quad c_i = |N_1(u)\cap N_{i-1}(v)|$$
-    odvisni le od $i$ in razdalje med $u$ in $v$. 
-    
-    To je standardni rezultat iz teorije razdaljno regularnih 
-    grafov, ki jim nato, glede na premer $D$, običajno pripišemo t.i.~{\em presečno zaporedje} $(b_0, \ldots, b_{D-1}; c_1, \ldots, c_D)$.
-    Prepričamo se na sledeč način.
-
-    Označimo s $p_{jk}^i = |N_j(u)\cap N_k(v)|$ število vseh vozlišč, ki 
-    so na razdalji $j$ od $u$ in $k$ od $v$, medtem ko sta $u$ in $v$ na razdalji $i$. 
-         Vsako vozlišče $w$ nivoja $N_k(v)$, ki ima soseda $z$ v $N_j(u)$, 
-    mora zaradi trikotniške neenakosti 
-    $$j-1 = d(u, z) - d(w, z) \leq d(w, u) \leq d(u, z) + d(z, w) = j + 1$$
-    ležati na razdaljah $j-1$, $j$ ali $j+1$ od vozlišča $u$. 
-
-    Tako se število $p_{jk}^i$ poenostavi v  
-    \begin{align*}
-    p_{jk}^i &= |(N_{j-1}(u)\cup N_j(u)\cup N_{j+1}(u))\cap N_k(v)|\\
-    &= |N_{j-1}(u)\cap N_k(v)| + |N_j(u)\cap N_k(v)| + |N_{j+1}(u)\cap N_k(v)|.
-    \end{align*}
-        Ker ima vsako vozlišče iz $N_{j-1}(u)\cap N_k(v)$, po definiciji konstant, natanko $b_{j-1}$ sosedov v $N_j(u)$, se tako 
-    k izrazu $p_{jk}^i$ prispeva člen $b_{j-1}p_{j-1, k}^i$. S podobnimi razmisleki še za ostale pare tako dobimo
-    $$p_{jk}^i = b_{j-1}p_{j-1, k}^i + a_j p_{jk}^i + c_{j+1}p_{j+1, k}^i.$$ 
-    Ker po drugi strani velja tudi $$p_{jk}^i = |N_j(u)\cap (N_{k-1}(v)\cup N_k(v)\cup N_{k+1}(v))|,$$
-    analogno dobimo
-    $$p_{jk}^i = c_{k+1}p_{j, k+1}^i + a_k p_{j, k}^i + b_{k-1}p_{j, k-1}^i.$$ 
-    Skupaj je to
-    $$c_{j+1}p_{j+1, k}^i = b_{k-1}p_{j, k-1}^i + (a_k - a_j)p_{j, k}^i + c_{k+1}p_{j, k+1}^i - b_{j-1}p_{j-1, k}^i,$$
-    kar je rešljiva rekurzija z začetnimi členi $p_{0i}^i = 1$ (vozlišče $u$ je na razdalji $i$ od $v$), 
-    $p_{0k}^i = 0, k\neq i$ (vozlišče $u$ ne more biti na dveh različnih razdaljah od $v$) in 
-    $p_{1(i-1)}^i = c_i, p_{1i}^i = a_i, p_{1(i+1)}^i = b_i,p_{1k}^i = 0$, za vsak $k\notin \{i-1, i, i+1\}$.
-
-    Ker v $\Delta$-regularnem grafu velja $a_i + b_i + c_i = \Delta$, smo pokazali,
-    da je za izračun $p_{jk}^i$ dovolj poznati zgolj presečno zaporedje $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$,
-    kar zaključi misel.
-\end{opomba}
 
 \begin{trditev}\label{tr:moore_razdaljno_regularen}
     Mooreovi grafi stopnje $\Delta$ so razdaljno regularni s presečnim zaporedjem 
@@ -1527,70 +1894,6 @@ Nato pa se bomo omejili na Mooreove grafe s premerom $2$ in jih poskušali klasi
     \label{fig:petkotnik}
 \end{figure}
 
-\begin{definicija}
-    Presečna matrika razdaljno regularnega grafa premera $D$ s presečnim zaporedjem $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$ 
-    je matrika
-    \begin{align*}
-        \begin{bmatrix}
-            a_0 & b_0 & 0 & \cdots & 0 \\
-            c_1 & a_1 & b_1 & \cdots & 0 \\
-            0 & c_2 & a_2 & \cdots & 0 \\
-            \vdots & \vdots & \vdots & \ddots & b_{D-1} \\
-            0 & 0 & 0 & c_D & a_D
-        \end{bmatrix},
-    \end{align*}
-    kjer so $a_i = \Delta - b_i - c_i$ za $i \in [D]$ in $a_0 = \Delta - b_0$.
-\end{definicija}
-
-\begin{opomba}
-    Konstante $b_i$, $a_i$ in $c_i$ nam povedo, koliko sosedov vozlišča $u$ je na 
-    razdalji $i+1$, $i$ oziroma $i-1$ od vozlišča $v$, ki je na razdalji $i$ od $u$ (glej opombo~\ref{op:presecni_nabor}).
-    Za presečno matriko $M$ razdaljno regularnega grafa premera $D$ velja 
-    \begin{align}
-    %b_i = |N_1(u)\cap N_{i+1}(v)|, a_i =|N_1(u)\cap N_{i}(v)|, c_i = |N_1(u)\cap N_{i-1}(v)| \text{ ter } 
-    M_{j, i} = |N_1(u)\cap N_j(v)|.
-    \end{align}
-\end{opomba}
-
-\begin{trditev}\label{tr:eta_presecna}
-    Naj bo $M$ presečna matrika razdaljno regularnega grafa premera $D$ s presečnim zaporedjem $\{b_0, \ldots, b_{D-1}; c_1, \ldots, c_D\}$
-    ter naj bo $W_q(u, N_j(v))$ število sprehodov dolžine $q$, ki se začnejo v vozlišču $u$ in končajo v nivoju $N_j(v)$,
-    kjer je $u$ poljubno vozlišče na razdalji $i$ od vozlišča $v$ (tj., $u\in N_i(v)$).
-    Potem velja
-    $$W_q(u, N_j(v)) = \eta^{(q, i)}_j,$$
-    za $\eta^{(q, i)} = M^q\cdot\mathbf{e}_i$, kjer je $\mathbf{e}_i$ $i$-ti enotski vektor.
-\end{trditev}
-
-\begin{dokaz}
-    Trditev dokažimo z indukcijo po $q$.
-    
-    \smallskip
-    \noindent($q = 1$): Vsak sprehod dolžine $1$ iz $u$ v $N_j(v)$ ustreza natanko 
-    enemu sosedu vozlišča $u$, ki leži v $N_j(v)$.
-    $$W_1(u, N_j(v)) = |N_1(u)\cap N_j(v)|.$$
-    Po definiciji presečne matrike velja $$|N_1(u)\cap N_j(v)| = M_{j, i} = (M\cdot\mathbf{e}_i)_j = \eta^{(1, i)}_j.$$
-    Bazni primer drži. 
-    
-    \smallskip
-    \noindent($q\implies q+1$): Predpostavimo, da za poljuben nivo $k$ in vsako vozlišče $x\in N_k(v)$ velja
-    $W_q(x, N_j(v)) = \eta^{(q, k)}_j$. Vsak sprehod dolžine $q+1$ iz $u$ do $N_j(v)$ 
-     je sestavljen iz prvega koraka v sosednje vozlišče $w\in N_1(u)$ in nadaljevanjem sprehoda dolžine $q$ od $w$ do $N_j(v)$:
-     $$W_{q+1}(u, N_j(v)) = \sum_{w\in N_1(u)} W_q(w, N_j(v)).$$
-     Množico sosedov $N_1(u)$ lahko razdelimo glede na njihovo razdaljo do $v$:
-     $$W_{q+1}(u, N_j(v)) = \sum_{k=0}^D \sum_{w\in N_1(u)\cap N_k(v)} W_q(w, N_j(v)).$$
-     Ker je $w\in N_k(v)$, po indukcijski predpostavki velja $W_q(w, N_j(v)) = \eta^{(q, k)}_j$. Ta vrednost je odvisna le od
-     nivoja in je neodvisna od izbire $w$, zato jo izpostavimo:
-     $$W_{q+1}(u, N_j(v)) = \sum_{k=0}^D |N_1(u)\cap N_k(v)|\eta^{(q, k)}_j.$$
-     Po definiciji presečne matrike velja $|N_1(u)\cap N_k(v)| = M_{k, i}$. 
-     Prav tako velja $\eta^{(q, k)}_j = (M^q\cdot\mathbf{e}_k)_j = (M^q)_{j,k}$. Vstavimo:
-     $$W_{q+1}(u, N_j(v)) = \sum_{k=0}^D M_{k, i}(M^q)_{j,k} = (M^{q+1})_{j,i} = \eta^{(q+1, i)}_j,$$
-     s čimer zaključimo dokaz.
-\end{dokaz}
-
-\begin{opomba}\label{op:razdaljno_lastne}
-    Matrika sosednosti razdaljno regularnega grafa premera $D$ ima natanko $D+1$ različnih lastnih vrednosti, 
-    ki so enake lastnim vrednostim presečne matrike.
-\end{opomba}
 
 \begin{trditev}\label{tr:moore_krepko_regularen}
     Mooreovi grafi premera $2$ in stopnje $\Delta$ so $(\Delta^2 + 1, \Delta, 0, 1)$-krepko regularni.
@@ -1629,14 +1932,6 @@ Nato pa se bomo omejili na Mooreove grafe s premerom $2$ in jih poskušali klasi
 
 \subsubsection{Matrična enačba Mooreovih grafov}
 
-\begin{trditev}\label{tr:a_steje_sprehode}
-    Naj bo $A$ matrika sosednosti nekega grafa. Potem je $A^i$ matrika, katere elementi $A^i_{uv}$ podajo 
-    število sprehodov dolžine $i$ med vozliščema $u$ in $v$. Označimo z $W_i(u, v) = A^i_{uv}$.
-\end{trditev}
-\begin{dokaz}
-    Z uporabo indukcijske predpostavke dobimo:
-    \[A^i_{uv} = \sum_{w\in V} A^{i-1}_{uw}A_{wv} = \sum_{w\in N_1(v)} A^{i-1}_{uw} = \sum_{w\in N_1(v)} W_{i-1}(u, w) = W_i(u, v). \qedhere\]
-\end{dokaz}
 
 
 %citiraj izpeljavo iz uvoda v teorijo
@@ -1644,10 +1939,10 @@ Nato pa se bomo omejili na Mooreove grafe s premerom $2$ in jih poskušali klasi
 
 
 \begin{trditev}\label{tr:moorematrix}
-Matrika sosednosti Mooreovega grafa premera $D$ in stopnje $\Delta$ $A \in \{0, 1\}^{M^{\Delta, D}\times M^{\Delta, D}}$ zadošča Mooreovi matrični enačbi 
+Matrika sosednosti Mooreovega grafa $\Gamma$ premera $D$ in stopnje $\Delta$ $A \in \{0, 1\}^{V(\Gamma)\times V(\Gamma)}$ zadošča Mooreovi matrični enačbi 
 \[G^{\Delta, D}(A) = J,\]
 kjer je 
-$J \in \{0, 1\}^{M^{\Delta, D}\times M^{\Delta, D}}$ matrika samih enic, matriko $G^{\Delta, D}(A)$ pa določa rekurzivna zveza
+$J \in \{0, 1\}^{V(\Gamma)\times V(\Gamma)}$ matrika samih enic, matriko $G^{\Delta, D}(A)$ pa določa rekurzivna zveza
 \begin{equation*}
 G^{\Delta, i}(A) = \begin{cases} 
 I & \text{za $i = 0$,} \\
@@ -1658,7 +1953,7 @@ A G^{\Delta, i-1}(A) - (\Delta-1) G^{\Delta, i-2}(A) & \text{za $2 \leq i \leq D
 \end{trditev}
 
 \begin{dokaz}
-   Naj bo $A \in \{0, 1\}^{M^{\Delta, D}\times M^{\Delta, D}}$ matrika sosednosti Mooreovega grafa stopnje $\Delta$
+   Naj bo $A \in \{0, 1\}^{V(\Gamma)\times V(\Gamma)}$ matrika sosednosti Mooreovega grafa stopnje $\Delta$
 in premera $D$. 
 Definirajmo matriko $G^{\Delta, i}(A)$ 
 tako, da njeni elementi $G^{\Delta, i}_{uv}(A)$ podajo število poti  
@@ -1715,7 +2010,7 @@ vrednost $\lambda$ matrike $A$.
 \end{posledica}
 
 \begin{zgled}
-    Matrika sosednosti Petersenovega grafa $A \in \{0, 1\}^{10\times 10}$ (glej sliko \ref{fig:petersen_clasical}) zadošča Mooreovi matrični 
+    Matrika sosednosti Petersenovega grafa $A \in \{0, 1\}^{\mathbb{Z}_{10}\times\mathbb{Z}_{10}}$ (glej sliko \ref{fig:petersen_clasical}) zadošča Mooreovi matrični 
     enačbi $G^{3, 2}(A) = J$, kjer je
     $J$ matrika samih enic dimenzije $10\times 10$. Mooreova rekurzija~\ref{tr:moorematrix} nam namreč
     da $$G^{3, 2}(A) = A(A+I) - (3-1)I = A^2 + A - 2I,$$ 
@@ -1805,21 +2100,24 @@ skladu s posledico~\ref{po:moore_minimalni_polinom}.
 
     Če sta $r$ in $s$ iracionalni števili, velja $a = b$, kar nam da
     $\Delta + a r + b s = 0 \implies \Delta - \Delta^2 / 2 = 0 \implies \Delta = 2$.
-    Sicer pa sta $r$ in $s$ celi števili -- število $4\Delta - 3$ je namreč vedno liho, posledično pa
-    je tudi njegov koren vedno lih. Tako nastavimo $4\Delta - 3 = m^2$ za nek $m \in \ZZ_+$, 
-    oziroma $\Delta = \frac{m^2 + 3}{4}$, od koder dobimo 
-    $\Delta + a r + b s = 0 \implies m^5 + m^4 + 6m^3 - 2m^2 + 9m - 15 = 0$.
-    Ker ima slednji moničen polinom celoštevilske koeficiente, so po izreku o 
-    celoštevilskih ničlah~\cite{enwiki1346919033} njegove rešitve delitelji števila $15$,
-    torej $m \in \{1, 3, 5, 15\}$, kar nam da možne rešitve za $\Delta$ enake $\{1, 3, 7, 57\}$.
-
-    Iz zgornjih dveh enačb, ki sta linearni v $a$ in $b$, izvemo tudi, da sta $a$ in $b$ enaka 
+    Sicer pa sta $r$ in $s$ celi števili -- število $4\Delta - 3$ je namreč vedno liho, 
+    tudi koren je lih. Nastavimo $4\Delta - 3 = m^2$ za nek $m \in \ZZ_+$, 
+    oziroma $\Delta = \frac{m^2 + 3}{4}$, od koder rešimo sistem
+    \begin{align*}
+        1 + a + b = 1 + \Delta^2 \\
+        \Delta + a r + b s = 0
+    \end{align*}
+    za $a$ in $b$, in dobimo $32 ma = m^5 + m^4 + 6m^3 - 2m^2 + 9m - 15$.
+    Ker mora biti $a$ celo število, $m$ deli $15$ -- edine možne stopnje grafa $\Delta$ pripadajo
+    množici $\{2, 3, 7, 57\}$.
+    Pri rešitvi sistema smo dobili tudi $32 mb = m^5 - m^4 + 6 m^3 + 2 m^2 + 9m + 15$
+    s čimer izrazimo $a$ in $b$ kot 
     $\frac{1}{2} [\Delta^2 \mp \frac{2\Delta - \Delta^2}{\sqrt{4\Delta - 3}}]$.
 \end{dokaz}
 
 \begin{opomba}
-Do enakega 
-lahko prišli tudi z uporabo dejstva, 
+Do enakega bi
+prišli tudi z uporabo dejstva, 
 da so Mooreovi grafi premera $2$ krepko regularni s parametri
 $(n, k, \lambda, \mu) = (\Delta^2 + 1, \Delta, 0, 1)$ (trditev~\ref{tr:moore_krepko_regularen}).
 Krepko regularni grafi namreč zadoščajo matrični enačbi $A^2 = kI + \lambda A + \mu(J - I - A)$,
@@ -1838,32 +2136,30 @@ Hoffman-Singletonov izrek~\ref{iz:hoffmansingletonovizrek} nam dalje pove, da za
 največ štiri družine Mooreovih grafov, in sicer za stopnje $\Delta \in \{2, 3, 7, 57\}$.
 Izkaže se, da prve tri družine vsebujejo vsaka po natanko en graf -- ciklični graf $C_5$,
 Petersenov graf, ter Hoffman-Singletonov graf. 
-Obstoj grafa valence $57$, ki mu nekateri pravijo Aschbacherjev graf, ostaja odprto vprašanje.
-Izkaže se, da vsi grafi, ki jih tu nismo omenili, ne morejo biti Mooreovi grafi.
+Obstoj grafa valence $57$, ki mu nekateri pravijo Aschbacherjev graf, pa ostaja odprto vprašanje.
 
-V tem razdelku se bomo konstruirali Petersenov graf, dokazali enoličnost grafa Hoffman-Singletona, 
-raziskali simetrije morebitnega Aschbacherjevega grafa, ter na koncu predstavili enačbe, ki dokazujejo
-neobstoj Mooreovih grafov za premer $D\geq 3$ ter dopuščajo popolno klasifikacijo vseh Mooreovih grafov.
+V tem razdelku bomo konstruirali Petersenov graf, dokazali enoličnost Hoffman-Singletonovega grafa, ter 
+raziskali simetrije morebitnega Aschbacherjevega grafa.
 
 
 \subsubsection{Petersenov graf}\label{sec:petersenov_graf}
 
-Konstrukcija Petersenovega grafa $\PPP$ je preprosta, in bi lahko bila puščena bralcu kot vaja, vendar jo bomo vseeno 
-predstavili, in sicer dva različna načina. To nam bo služilo kot dober uvod za razumevanje 
-kasneje kompleksnejših konstrukcij.
-
-Začnimo s konstrukcijo, ki izhaja iz drevesnega podgrafa (glej sliki~\ref{fig:petersendrevo} in~\ref{fig:drevo_moore_uvod} ter trditev~\ref{tr:moore_bound}). 
-Vzemimo neko začetno vozlišče $v$ ter ga povežimo z $\Delta=3$ sosedi, ki jih poimenujemo $v_1, v_2, v_3$.
-Vsakega izmed teh povežimo še z dvema novima vozliščema, ki jih poimenujemo 
-$v_{11}, v_{12}, v_{21}, v_{22}, v_{31}, v_{32}$. V tem trenutku v rokah držimo drevesni graf. Sedaj moramo
-njegove liste povezati tako, da ne ustvarimo ciklov dolžine $3$ ali $4$ (trditev~\ref{tr:moore_bound})
+% Konstrukcija Petersenovega grafa $\PPP$ je preprosta, in bi lahko bila puščena bralcu kot vaja, vendar jo bomo vseeno 
+% predstavili, in sicer dva različna načina. To nam bo služilo kot dober uvod za razumevanje 
+% kasneje kompleksnejših konstrukcij.
+\paragraph{Konstrukcija iz Mooreovega drevesa}
+Začnimo s konstrukcijo, ki izhaja iz drevesnega podgrafa (glej sliko~\ref{fig:petersendrevo}). 
+Vzemimo neko začetno vozlišče $v$ ter ga povežimo z $\Delta=3$ sosedi. Poimenujemo jih $v_1, v_2, v_3$.
+Vsakega izmed teh povežimo še z dvema novima vozliščema $v_{i1}$ in $v_{i2}$. 
+Ustvarili smo Mooreovo drevo \ref{def:moore_drevo}. Sedaj moramo
+njegove liste povezati tako, da ne ustvarimo ciklov krajših od $5$ (trditev~\ref{tr:moore_bound})
 in zagotovimo premer $D=2$. 
 Brez škode za splošnost lahko 
 povežemo $v_{11}$ z $v_{21}$ ter z $v_{31}$, $v_{12}$, po čemer smo prisiljeni povezati $v_{12}$ z 
-$v_{22}$ in $v_{32}$. Brez drugih izbir tako ostanemo do konca konstrukcije, povežemo $v_{21}$ z
+$v_{22}$ in $v_{32}$ (glej sliko~\ref{fig:petersendrevo}). Brez drugih izbir tako ostanemo do konca konstrukcije, povežemo $v_{21}$ z
 $v_{32}$, ter $v_{22}$ z $v_{31}$ (glej sliko~\ref{fig:petersendrevo}).
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \def\svgwidth{\columnwidth}
     \resizebox{0.8\textwidth}{!}{%
@@ -1873,12 +2169,13 @@ $v_{32}$, ter $v_{22}$ z $v_{31}$ (glej sliko~\ref{fig:petersendrevo}).
     \label{fig:petersendrevo}
 \end{figure}
 
-Alternativno lahko uporabimo dejstvo, da je ožina takega grafa enaka $2\cdot 2 + 1 = 5$ (trditev~\ref{tr:moore_bound}), 
-in da posledično v takem grafu obstaja
-cikel $C_5$. Začnimo našo konstrukcijo zato z nekim ciklom $C_5$. Ker vsakemu vozlišču v tem ciklu manjka še en sosed, mu ga dodamo (glej sliko~\ref{fig:petersenpetkotnik}).
-Opazimo, da vozlišča cikla $C_5$ ne smejo imeti skupnih sosedov (izven $C_5$). Če se sedaj osredotočimo
+\paragraph{Konstrukcija iz petkotnika}
+Alternativno lahko takoj uporabimo dejstvo, da je ožina takega grafa enaka $2\cdot 2 + 1 = 5$ (trditev~\ref{tr:moore_bound}), ter
+da posledično v takem grafu obstaja
+cikel $C_5$. Začnimo zato z nekim ciklom $C'_5$ (glej sliko~\ref{fig:petersenpetkotnik}). Ker vsakemu vozlišču v tem ciklu manjka še en sosed, mu ga dodamo (glej sliko~\ref{fig:petersenpetkotnik}).
+Zaradi pogoja ožini, vozlišča cikla $C'_5$ ne smejo imeti skupnih sosedov (izven $C'_5$). Če se sedaj osredotočimo
 na eno izmed novo dodanih vozlišč, vidimo, da je lahko povezano le z dvema vozliščema, ki sta soseda dveh nesosednjih
-vozlišč v ciklu $C_5$. Hkrati mora biti povezano z natanko dvema ($\Delta=3$). Povežemo ga z njima (glej sliko~\ref{fig:petersenpetkotnik}). Simetrično nato storimo 
+vozlišč v ciklu $C'_5$. Hkrati mora biti povezano z natanko dvema ($\Delta=3$). Povežemo ga z njima (glej sliko~\ref{fig:petersenpetkotnik}). Simetrično nato storimo 
 za druge (glej sliko~\ref{fig:petersenpetkotnik}). Taki konstrukciji
 rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji Hoffman-Singletonovega grafa.
 
@@ -1892,40 +2189,26 @@ rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji 
     \label{fig:petersenpetkotnik}
 \end{figure}
 
-\paragraph{Avtomorfizmi in simetrije Petersenovega grafa}
+\paragraph{Avtomorfizmi in tranzitivnost}
 
-Spoznajmo se z osnovnimi pojmi teorije grup, ki nam bodo nato 
-služili ne le pri Petersenovem grafu, temveč tudi pri Hoffman-Singletonovem in Aschbacherjevem grafu.
-
-\begin{definicija}
-    Avtomorfizem grafa $\PPP$ je bijektivna preslikava, ki deluje na vozliščih in ohranja sosedstvo.
-    Avtomorfizmi tvorijo grupo $\aut(\PPP)$ za katero pravimo, da deluje na množici vozlišč $V(\PPP)$.
-\end{definicija}
 
 \begin{trditev}
-    Petersenov graf je vozliščno tranzitiven. To pomeni, da lahko poljubno vozlišče z avtomorfizmom preslikamo v katerokoli drugo.
+    Petersenov graf je vozliščno tranzitiven.
 \end{trditev}
 %boljši dokaz:
 \begin{dokaz}
-    Pokazati moramo, da graf iz poljubnega vozlišča izgleda popolnoma enako kakor iz poljubnega drugega.
+    Pokazati moramo, da graf iz poljubnega vozlišča strukturno izgleda popolnoma enako kakor iz poljubnega drugega.
     Ozrimo se na konstrukcijo Petersenovega grafa iz drevesa (glej sliko \ref{fig:petersendrevo}). 
     Iz vsakega vozlišča je po konstrukciji graf videti kot drevo. Ker so listi tega drevesa 
     lahko povezani, do izomorfizma natančno, na zgolj en način, je graf iz vsakega vozlišča videti enako.
 \end{dokaz}
-
-
-\begin{definicija}\label{def:orbita_stabilizator}
-    Naj bo $G = \aut(\PPP)$ grupa avtomorfizmov grafa ter $Q$ neka podmnožica vozlišč.
-    Potem pravimo, da je orbita $G\cdot Q$ množica vozlišč, v katera lahko podmnožico $Q$ preslikamo z avtomorfizmi,
-    in da je stabilizator $G_Q$ podgrupa vseh avtomorfizmov, ki fiksirajo podmnožico $Q$ (tj., preslikajo jo samo vase).
-\end{definicija}
 
 \begin{trditev}
     Petersenov graf ima natančno $120$ avtomorfizmov, torej $$|\aut(\PPP)| = 5! = 120.$$
 \end{trditev}
 
 \begin{dokaz}
-    Izberimo neko vozlišče $v$. Ker se lahko ta preslika v poljubnega izmed $10$ vozlišč, je
+    Izberimo neko vozlišče $v$ in označimo $G=\aut(\PPP)$. Ker se lahko ta preslika v poljubnega izmed $10$ vozlišč, je
     njegova orbita $G\cdot v$ enaka $V(\PPP)$, in ima torej velikost $|G\cdot v| = 10$.
 
     Za vsako izmed teh $10$ možnosti ga fiksiramo in opazujemo njegov stabilizator $G_v$.
@@ -1935,22 +2218,22 @@ služili ne le pri Petersenovem grafu, temveč tudi pri Hoffman-Singletonovem in
     nujno zamenjamo še vse ostale na enoličen način). Prešteli smo vse avtomorfizme, ki jih je $10\cdot 6 \cdot 2 = 120$.
 \end{dokaz}
 \begin{opomba}
-    Pri dokazu smo v resnici izvedli izračun 
+    Pri dokazu smo v resnici, po izreku \ref{iz:orbitainstabilizator}, izvedli naslednji izračun:
     $$\aut(\PPP) = |G\cdot v|\cdot |G_v| = |G\cdot v|\cdot |(G_v)\cdot \{v_1, v_2, v_3\}| \cdot |(G_v)_{\{v_1, v_2, v_3\}}| = 10 \cdot 3! \cdot 2 = 120.$$
 \end{opomba}
 
-\begin{opomba}\label{op:lagrange}
-    Izrek o orbitah in stabilizatorjih nam pove, da je za poljubno podmnožico $Q$ množice vozlišč grafa $\PPP$ velikost grupe $G$, 
-    ki deluje na vozliščih (npr.~$G=\aut(\PPP)$), enaka
-    \begin{equation}
-        |G| = |G\cdot Q|\cdot |G_Q|.
-    \end{equation}
-    To je ena izmed posledic Lagrangeevega izreka, ki pravi, da je za poljubno podgrupo $H$ grupe $G$ velikost grupe enaka
-    \begin{equation}
-        |G| = [G:H]\cdot |H|,
-    \end{equation}
-    kjer je $[G:H] = \{gH\mid g\in G\} = G/H$ število levih odsekov podgrupe $H$ v grupi $G$. 
-\end{opomba}
+% \begin{opomba}\label{op:lagrange}
+%     Izrek o orbitah in stabilizatorjih nam pove, da je za poljubno podmnožico $Q$ množice vozlišč grafa $\PPP$ velikost grupe $G$, 
+%     ki deluje na vozliščih (npr.~$G=\aut(\PPP)$), enaka
+%     \begin{equation}
+%         |G| = |G\cdot Q|\cdot |G_Q|.
+%     \end{equation}
+%     To je ena izmed posledic Lagrangeevega izreka, ki pravi, da je za poljubno podgrupo $H$ grupe $G$ velikost grupe enaka
+%     \begin{equation}
+%         |G| = [G:H]\cdot |H|,
+%     \end{equation}
+%     kjer je $[G:H] = \{gH\mid g\in G\} = G/H$ število levih odsekov podgrupe $H$ v grupi $G$. 
+% \end{opomba}
 
 
 
@@ -2036,8 +2319,8 @@ Gruče, kot definirane zgoraj, v grafu $\hof$ zadoščajo naslednjim last\-no\-s
     \label{itm:g2}
 \item med gručama $\gr_i$ in $\gr_j$ ni povezave, če sta njuna centra \(v_i\) in \(v_j\) sosedna v \(Q\),
 sicer pa je vsako vozlišče gruče \(\gr_i\) sosedno največ enemu vozlišču 
-gruče \(\gr_j\): \\ \(\forall i, j \ \forall u\in \gr_i:\; \left( (v_i \sim v_j 
-\implies \gr_i \not\sim \gr_j) \lor  (|N_1(u) \cap \gr_j| \leq 1)\right)\)
+gruče \(\gr_j\): \[\forall i, j \ \forall u\in \gr_i:\; \left( (v_i \sim v_j 
+\implies \gr_i \not\sim \gr_j) \lor  (|N_1(u) \cap \gr_j| \leq 1)\right)\]
     \label{itm:g3}
 \end{enumerate}
 \end{trditev}
@@ -2076,10 +2359,6 @@ tako z $u$ kot z $w$. Tedaj obstaja cikel $C_4 \cong z u v_i w z$. \qedhere
     in s tem soseden zgolj z njenim centrom (glej sliko \ref{fig:hoffman_1}).
 \end{posledica}
 
-\begin{definicija}
-    Podgraf grafa $\hof$, induciran s podmnožico vozlišč $W \subseteq V(\hof)$, označimo s $\hof[W]$.
-    To je podgraf, ki vsebuje vsa vozlišča iz $W$ in vse povezave med njimi, ki obstajajo v $\hof$.
-\end{definicija}
 
 \begin{posledica}\label{po:lastnosti_gruc}
 Stopnja vsakega vozlišča v podgrafu $\hof[N_1(Q)]$, induciranem z
@@ -2163,11 +2442,6 @@ smer. Vozlišče iz $N_2(Q)$ ima lahko namreč največ $5$ sosedov v $N(Q)$
     cikel zaključimo šele v koraku, ki je večkratnik števila $5$. 
 \end{dokaz}
 
-\begin{definicija}
-    Spekter grafa je množica njegovih lastnih vrednosti $\lambda_i, i\in[n]$ s pripadajočimi večkratnostmi
-    $m(\lambda_i)$. Običajno ga zapišemo kot 
-    $$\left\{\lambda_1^{(m(\lambda_1))}, \lambda_2^{(m(\lambda_2))}, \ldots, \lambda_n^{(m(\lambda_n))}\right\}.$$
-\end{definicija}
 
 \begin{opomba}\label{op:moore_spekter}
 Osredotočimo na spektralno analizo grafa $\hof$, s pomočjo katere bomo 
@@ -2175,79 +2449,11 @@ lahko sklepali več o številu in velikosti ciklov, ki sestavljajo podgraf $\hof
 Po Hoffman-Singletonovem izreku 
 \ref{iz:hoffmansingletonovizrek} vemo, da je njegov spekter 
 enak $$\left\{7^{(1)}, 2^{(28)}, (-3)^{(21)}\right\}.$$
-
-Pred nadaljevanjem je smiselno predstaviti lemo, ki govori o lastnih vrednostih cikličnih
-grafov ter splošno znan izrek, ki govori o lastnih vrednostih podgrafov.
 \end{opomba}
 
-\begin{lema}\label{le:cikellastne}
-Naj bo dan cikel $C_n$ ter njegova matrika sosednosti $A$. Tedaj so lastne vrednosti 
-matrike $A$ enake $2\cos(2\pi k/n)$, za vsak $k \in \{0, 1, \ldots, n-1\}$. Posebej 
-ima vsak cikel natanko eno lastno vrednost enako $2$.
-\end{lema}
-\begin{dokaz}
-    Naj bo $A$ matrika sosednosti cikla $C_n$. Potem velja:
-    \begin{align*}
-        A =  \begin{bmatrix} 
-            0 & 1 & 0 & \dots & 1 \\ 
-            1 & 0 & 1 & \dots & 0 \\ 
-            0 & 1 & 0 & \dots & 0 \\ 
-            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-            1 & 0 & 0 & \dots & 0 \end{bmatrix}
-        =  \begin{bmatrix} 
-            0 & 0 & 0 & \dots & 1 \\ 
-            1 & 0 & 0 & \dots & 0 \\ 
-            0 & 1 & 0 & \dots & 0 \\ 
-            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-            0 & 0 & 0 & \dots & 0 \end{bmatrix} 
-            +
-            \begin{bmatrix} 
-            0 & 1 & 0 & \dots & 0 \\ 
-            0 & 0 & 1 & \dots & 0 \\ 
-            0 & 0 & 0 & \dots & 0 \\ 
-            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-            1 & 0 & 0 & \dots & 0 \end{bmatrix}
-        = P + P^{-1},
-    \end{align*}
-    kjer je $P$ permutacijska matrika, ki, mimogrede, predstavlja rotacijo vozlišč 
-    cikla $C_n$ v smeri urinega kazalca.
-    Nadalje velja:
-    \begin{align*}
-        \det(P - \lambda I) &= -\lambda \begin{vmatrix} 
-            -\lambda & 0 & 0 & \dots & 0 \\ 
-            1 & -\lambda & 0 & \dots & 0 \\ 
-            0 & 1 & -\lambda & \dots & 0 \\ 
-            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-            0 & 0 & 0 & \dots & -\lambda  \end{vmatrix}
-            + (-1)^{n+1} \begin{vmatrix} 
-            1 & -\lambda & 0 & \dots & 0 \\ 
-            0 & 1 & -\lambda & \dots & 0 \\ 
-            0 & 0 & 1 & \dots & 0 \\ 
-            \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-            0 & 0 & 0 & \dots & 1  \end{vmatrix} \\
-            &= (-1)^n \lambda^n + (-1)^{n+1}
-    \end{align*}
-    Posledično je karakteristični polinom matrike $P$ enak $\lambda^n - 1$, njegove ničle pa
-    so $n$-ti koreni enote. Lastne vrednosti matrike $A$ so zato enake 
-    $\lambda_j = e^{i \frac{2\pi j}{n}} + e^{-i \frac{2\pi j}{n}} = 2\cosh(2\pi i j/n) = 2\cos(2\pi j/n)$.
-\end{dokaz}
-
-
-\begin{izrek}[Izrek o prepletanju lastnih vrednosti]\label{iz:interlacing}
-Naj bo $G$ graf z $n$ vozlišči ter $\hof$ njegov podgraf z $r$ vozlišči. Naj bo 
-$A$ matrika sosednosti grafa $G$, ter $B$ matrika sosednosti grafa $\hof$. Naj bo
-$\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_n$ spekter matrike $A$ 
-ter $\mu_1 \geq \mu_2 \geq \ldots \geq \mu_r$ spekter matrike $B$. Potem velja:
-\[
-\lambda_i \geq \mu_i \geq \lambda_{n - r + i} \quad \text{za vse } i \in \{1, 2, \ldots, r\}.
-\]
-\end{izrek}
-\begin{dokaz}
-    Dokaz izpustimo \cite{enwiki1325771674}.
-\end{dokaz}
 
 \begin{opomba}
-Po lemi~\ref{le:cikellastne} zdaj vemo, da ima cikel $C_n$ natanko eno lastno vrednost enako $2$, 
+Po trditvi~\ref{tr:cikellastne} zdaj vemo, da ima cikel $C_n$ natanko eno lastno vrednost enako $2$, 
 in ker je $\hof[N_1(Q)]$ disjunktna unija ciklov (trditev~\ref{tr:unija_ciklov}), bo imel tak podgraf natanko toliko 
 lastnih vrednosti enakih $2$, kolikor je v njem ciklov. % TODO: tukaj bi dal referenco na uvod kjer bi povedal da je spekter disjunktne unije ravno unija spetrov (očitno, ampak lepa referenca)
 
@@ -2259,43 +2465,39 @@ podgrafu $\hof[v \cup N_1(Q)]$, ki ga dobimo, če iz grafa $\hof$ odstranimo vsa
 razen enega iz $Q$ in tistih iz $N_1(Q)$, nato pa opazujemo spremembo večkratnosti
 lastne vrednosti $2$, ko iz podgrafa $\hof[v \cup N_1(Q)]$ odstranimo vozlišče $v$.
 
-V ta namen navedimo naslednjo definicijo in lemo, ki nam bosta služili pri nadaljnji analizi.
+V ta namen se spomnimo definicije delnega spoja \ref{def:delni_spoj} in navedimo naslednjo lemo, 
+ki nam bo služila pri nadaljnji analizi.
 \end{opomba}
 
-\begin{definicija}
-    Naj bo $\hof$ graf z množico vozlišč $V(\hof)$. Za
-    neprazno podmnožico vozlišč $W \subset V(\hof)$ definiramo delni spoj, označen z $\oplus$, 
-    kot $v \oplus (\hof, W)$, kjer je $v$ novo vozlišče, ki je sosedno z vsemi 
-    vozlišči iz $W$ ter z nobenim drugim vozliščem grafa $\hof$.
-\end{definicija}
 
 
 \begin{lema}\label{le:knjiga}
-    Naj bo $G = \bigcup_{i=1}^k C_{n_i}$, ter $W \subset V(G)$ neprazna podmnožica vozlišč grafa $G$. Potem je 
-    večkratnost lastne vrednosti $2$ v grafu $v \oplus (G, W)$ enaka 
+    Naj bo $\Gamma = \bigcup_{i=1}^k C_{n_i}$, ter $W \subset V(\Gamma)$ neprazna podmnožica vozlišč grafa $\Gamma$. Potem je 
+    večkratnost lastne vrednosti $2$ v grafu $v \oplus (\Gamma, W)$ enaka 
     $k-1$.
 \end{lema}
 \begin{dokaz}
     Vredno se je spomniti, da ima vsak cikel $C_n$ natanko eno lastno vrednost enako $2$ 
-    (lema~\ref{le:cikellastne}). Naj bodo $B_1, \ldots, B_k$ 
+    (trditev~\ref{tr:cikellastne}). Naj bodo $B_1, \ldots, B_k$ 
     matrike sosednosti ciklov $C_{n_1}, \ldots, C_{n_k}$
-    ter $B$ matrika sosednosti grafa $G$.
+    ter $B$ matrika sosednosti grafa $\Gamma$.
     $B$ je bločno diagonalna matrika, katere bloki so 
     matrike $B_1, \ldots, B_k$. Posledično je večkratnost lastne vrednosti $2$ v 
-    grafu $G$ enaka $k$.
+    grafu $\Gamma$ enaka $k$.
 
-    Naj bo dalje $A$ matrika sosednosti grafa $v \oplus (G, W)$.
+    Naj bo dalje $A$ matrika sosednosti grafa $v \oplus (\Gamma, W)$.
     Podrobneje nas zanima dimenzija lastnega prostora za lastno vrednost $2$. 
-    Označimo z $x_{C_{n_i}}$ vektor, ki ima na pozicijah, ki ustrezajo vozliščem cikla $C_{n_i}$, 
-    vrednosti enake kot $\mathbf{x}\in \{0, 1\}^{\sum_{i=1}^k n_i}$, in ničle drugod. Podobno označimo z $\mathbf{1}_{C_{n_i}}$ vektor, 
-    ki ima enice zgolj na pozicijah, ki ustrezajo vozliščem cikla $C_{n_i}$. Potem velja:
+    Naj vektor $\mathbf{x}\in \{0, 1\}^{V(\Gamma)}$ označuje, katera vozlišča iz $\Gamma$ so sosednja vozlišču $v$.
+    Z $\mathbf{x}_{C_{n_i}}$ označimo vektor, ki se ujema z $\mathbf{x}$ na pozicijah, ki ustrezajo vozliščem cikla $C_{n_i}$, 
+    in ima ničle drugod. Podobno označimo z $\mathbf{1}_{C_{n_i}}$ vektor, 
+    ki ima enice na pozicijah, ki ustrezajo vozliščem cikla $C_{n_i}$ in ničle drugod. Potem velja:
     \begin{align*}
         A - 2I &= \begin{bmatrix} 
-            B_1 - 2I & 0 & 0 & \dots & x_{C_{n_1}} \\ 
-            0 & B_2 - 2I & 0 & \dots & x_{C_{n_2}} \\ 
-            0 & 0 & B_3 - 2I & \dots & x_{C_{n_3}} \\ 
+            B_1 - 2I & 0 & 0 & \dots & \mathbf{x}_{C_{n_1}} \\ 
+            0 & B_2 - 2I & 0 & \dots & \mathbf{x}_{C_{n_2}} \\ 
+            0 & 0 & B_3 - 2I & \dots & \mathbf{x}_{C_{n_3}} \\ 
             \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-            x_{C_{n_1}}^\top & x_{C_{n_2}}^\top & x_{C_{n_3}}^\top & \dots & -2  \end{bmatrix}
+            \mathbf{x}_{C_{n_1}}^\top & \mathbf{x}_{C_{n_2}}^\top & \mathbf{x}_{C_{n_3}}^\top & \dots & -2  \end{bmatrix}
             = \begin{bmatrix}
             B - 2I & \mathbf{x} \\
             \mathbf{x}^\top & -2
@@ -2314,7 +2516,7 @@ V ta namen navedimo naslednjo definicijo in lemo, ki nam bosta služili pri nada
     $-t\mathbf{x} \in \im(B-2I)$. Ker je $(B-2I)$ simetrična, velja $\im(B-2I) = \ker(B-2I)^\perp$,
     torej za vsak $\mathbf{u} \in \ker(B-2I)$ velja $-t\mathbf{x} \cdot \mathbf{u} = 0$. 
     Ker velja $\ker(B-2I) = \{\mathbf{1}_{C_{n_1}}, \ldots, \mathbf{1}_{C_{n_k}}\}$ 
-    (lema~\ref{le:cikellastne}) in ker $W \neq \emptyset$, 
+    (trditev~\ref{tr:cikellastne}) in ker $W \neq \emptyset$, 
     obstaja $i \in \{1, 2, \ldots, k\}$, da velja $\mathbf{x} \cdot \mathbf{1}_{C_{n_i}} > 0$
     in posledično iz 
     $-t\mathbf{x} \cdot \mathbf{1}_{C_{n_i}} = 0$ sledi $t=0$.
@@ -2360,7 +2562,7 @@ V ta namen navedimo naslednjo definicijo in lemo, ki nam bosta služili pri nada
     v $\hof[N_1(Q)]$ vsaj $4+1=5$. Ker je $5$ tudi največje število ciklov dolžine večkratnika $5$ (trditev~\ref{tr:unija_ciklov}), 
     ki jih lahko
     imamo v našem $25$-vozliščnem $2$-regularnem podgrafu (posledica~\ref{po:regularnosti_podgrafov}), je 
-    po lemi~\ref{le:cikellastne} podgraf $\hof[N_1(Q)]$ 
+    po trditvi~\ref{tr:cikellastne} podgraf $\hof[N_1(Q)]$ 
     izomorfen	 $5C_5$.
 \end{dokaz}
 
@@ -2371,19 +2573,20 @@ V ta namen navedimo naslednjo definicijo in lemo, ki nam bosta služili pri nada
         \import{../../assets/}{hoffman-almost-finnished.tex}
     }
     \caption{Podgraf Hoffman-Singletonovega grafa s centralnim ciklom $Q_0$. Podgrafa $\hof[N_1(Q_0)]$ in $\hof[N_2(Q_0)]$ 
-    sta uniji disjunktnih zvezd in petkotnikov.}
+    sta uniji disjunktnih pentagramov in petkotnikov.}
     \label{fig:hoffman_3}
 \end{figure}
 
-Če zdaj označimo cikle podgrafa $\hof[N_1(Q)] \cong 5C_5$ s $P_0, P_1, P_2, P_3, P_4$, potem vidimo, da vsak
+\begin{opomba}\label{op:cikla_petersen}
+Če zdaj označimo cikle podgrafa $\hof[N_1(Q)] \cong 5C_5$ s $(P_i)_{i\in\mathbb{Z}_5}$, potem vidimo, da vsak
 $P_i \cup Q$ inducira Petersenov graf (glej sliko \ref{fig:hoffman_2}).
 Vendar ker bi našo analizo lahko začeli s poljubnim ciklom $C_5$,
 bi lahko za centralni cikel izbrali tudi $P_i$ namesto $Q$ 
 ter tako izvedeli, da je $\hof[N_1(P_i)] \cong \hof[Q \cup N_2(Q)] \cong 5C_5$. Iz take perspektive je posledično
 razvidno, da je $\hof[N_2(Q)] \cong 4C_5$.
 Označimo te cikle s $Q_1, Q_2, Q_3, Q_4$,
-originalni $Q$ pa s $Q_0$. Zaradi simetrij tudi $Q_i \cup P_j$ inducirajo Petersenove grafe.
-
+originalni $Q$ pa s $Q_0$. Zaradi simetrij tudi $Q_i \cup P_j$ inducirajo Petersenove grafe (glej sliko \ref{fig:hoffman_4}).
+\end{opomba}
 % \begin{figure}[ht] OBSOLETE!
 %     \centering
 %     \def\svgwidth{\columnwidth}
@@ -2393,12 +2596,6 @@ originalni $Q$ pa s $Q_0$. Zaradi simetrij tudi $Q_i \cup P_j$ inducirajo Peters
 %     \caption{Skica strukture Hoffmann-Singletonovega grafa.}
 %     \label{fig:hoffman_3}
 % \end{figure}
-
-Ker vsaka unija $Q_i \cup P_j$ tvori Petersenov graf, 
-je jasno, da lahko povezavo med $Q_i$ in $P_j$ opišemo z neko permutacijo 
-$\pi_{ij}$. Oštevilčimo vozlišča ciklov $Q_i$ v smeri urinega kazalca, vozlišča ciklov $P_j$ pa 
-najprej preoblikujemo v komplementarno zvezdno obliko, ter nato oštevilčimo prav 
-tako v smeri urinega kazalca (glej sliko~\ref{fig:hoffman_4}). 
 
 \begin{figure}[ht]
     \centering
@@ -2410,21 +2607,13 @@ tako v smeri urinega kazalca (glej sliko~\ref{fig:hoffman_4}).
     \label{fig:hoffman_4}
 \end{figure}
 
-Ker cikla $Q_i \cup P_j$ inducirata Petersenov graf, 
-je $\pi_{ij}$ lahko zgolj ena izmed rotacijskih permutacij, ki jih tu označujemo
-z $\rho^0 = \id, \rho = (0\,1\,2\,3\,4), \rho^2 = (0\,2\,4\,1\,3), \ldots$
-
-Cikle $Q_i$ in $P_j$ po potrebi preuredimo, zato
-lahko predpostavimo $\pi_{0j} = \pi_{i0} = \id$.
-
-
-Opazimo, da za $i, j \geq 1$ velja $\pi_{ij} \neq \id$.
-V nasprotnem primeru bi lahko našli cikel $C_4 \cong Q_i^k \overset{\pi_{ij}=\id}{\rightarrow}P_j^k \overset{\id}{\rightarrow} Q_0^k \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k$ (trditev~\ref{tr:moore_bound}). 
-
-Vidimo tudi, da morajo biti permutacije, ki se ujemajo v natanko enem od indeksov,
-paroma različne. Da se prepričamo, lahko BŠS vzamemo $\pi_{ij} = \pi_{i'j}$, kjer $\pi_{ij}(k) = k'$ -- tako bi
-našli kratek cikel
-$C_4 \cong Q_i^k \overset{\pi_{ij}}{\rightarrow} P_j^{k'} \overset{\pi_{i'j}^{-1}}{\rightarrow} Q_{i'}^{k} \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k$ (trditev~\ref{tr:moore_bound}).
+\begin{opomba}
+Ker vsaka unija $Q_i \cup P_j$ tvori Petersenov graf, 
+je jasno, da lahko povezavo med $Q_i$ in $P_j$ opišemo z neko permutacijo 
+$\pi_{ij}$. Oštevilčimo vozlišča ciklov $Q_i$ v smeri urinega kazalca, vozlišča ciklov $P_j$ pa 
+najprej preoblikujemo v komplementarno zvezdno obliko, ter nato oštevilčimo prav 
+tako v smeri urinega kazalca (glej sliko~\ref{fig:hoffman_permutacije}). 
+\end{opomba}
 
 \begin{figure}[ht]
     \centering
@@ -2436,14 +2625,44 @@ $C_4 \cong Q_i^k \overset{\pi_{ij}}{\rightarrow} P_j^{k'} \overset{\pi_{i'j}^{-1
     \label{fig:hoffman_permutacije}
 \end{figure}
 
+\begin{izrek}\label{op:sosedstva_ciklov}
+    Hoffman-Singletonov graf $\hof$ je enoličen Mooreov graf valence $7$ in premera $2$. Konstruirati
+    ga je mogoče iz petih petkotnikov $Q_0, Q_1, Q_2, Q_3, Q_4$ in petih pentagramov $P_0, P_1, P_2, P_3, P_4$, 
+    katerih vozlišča so povezana po naslednjem pravilu:
+        \begin{align*}
+        \forall i, j, k, m:\; &Q^u_i \sim P_j^{u + i\cdot j \bmod{5}} \\
+        &P^v_j \sim Q_i^{v - i\cdot j \bmod{5}}
+    \end{align*}
+\end{izrek}
+
+\begin{dokaz}
+Ker cikla $Q_i \cup P_j$ inducirata Petersenov graf (opomba~\ref{op:cikla_petersen}), 
+je $\pi_{ij}$ lahko zgolj ena izmed rotacijskih permutacij, ki jih tu označujemo
+z $\rho^0 = \id, \rho = (0\,1\,2\,3\,4), \rho^2 = (0\,2\,4\,1\,3), \ldots$
+
+Cikle $Q_i$ in $P_j$ po potrebi preuredimo, zato
+lahko predpostavimo $\pi_{0j} = \pi_{i0} = \id$.
+Opazimo, da za $i, j \geq 1$ velja $\pi_{ij} \neq \id$.
+V nasprotnem primeru bi lahko našli cikel 
+$$C_4 \cong Q_i^k \overset{\pi_{ij}=\id}{\rightarrow}P_j^k \overset{\id}{\rightarrow} Q_0^k \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k,$$ 
+kjer smo za enostavnejšo predstavo opozorili na permutacije $\pi_{ij}$, ki zagotavljajo povezavo. Cikel $C_4$ je protislovje (trditev~\ref{tr:moore_bound}). 
+
+Vidimo tudi, da morajo biti permutacije, ki se ujemajo v natanko enem od indeksov,
+paroma različne. Da se prepričamo, lahko BŠS (tj. brez škode za splošno) vzamemo $\pi_{ij} = \pi_{i'j}$, kjer $\pi_{ij}(k) = k'$ -- tako bi
+našli kratek cikel
+$$C_4 \cong Q_i^k \overset{\pi_{ij}}{\rightarrow} P_j^{k'} \overset{\pi_{i'j}^{-1}}{\rightarrow} Q_{i'}^{k} \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k.$$ 
+
 Tako smo primorani izbrati za $\pi_{i1}$ in $\pi_{1j}$ same različne rotacije. BŠS 
 vzemimo kar naravno izbiro $\pi_{i1} = \rho^i$ in $\pi_{1j} = \rho^j$. Opazimo, da je sedaj 
 permutacija $\pi_{32}$ lahko bodisi $\rho$ ali $\rho^4$. Vendar bi pri izbiri $\pi_{32} = \rho^4$ 
 veljalo $\pi_{11}^{-1} \pi_{12} \pi_{32}^{-1} \pi_{31} = \rho^{-1} \rho^2 \rho^{-4} \rho^3 = \text{id}$, 
-kar pomeni, da obstaja cikel $C_4 \cong P_1^k \overset{\rho^{-1}}{\rightarrow} Q_1^{k-1} \overset{\rho^2}{\rightarrow} P_2^{k+1} \overset{\rho^{-4}}{\rightarrow} Q_3^{k-3} \overset{\rho^3}{\rightarrow} P_1^k$ 
-(trditev~\ref{tr:moore_bound}). Od tod
+kar pomeni, da bi obstajal cikel 
+$$C_4 \cong P_1^k \overset{\rho^{-1}}{\rightarrow} Q_1^{k-1} \overset{\rho^2}{\rightarrow} P_2^{k+1} \overset{\rho^{-4}}{\rightarrow} Q_3^{k-3} \overset{\rho^3}{\rightarrow} P_1^k.$$
+Od tod
 naprej lahko brez težav zapolnimo preostale permutacije, saj so vse permutacije v istem stolpcu ali vrstici, kot prikazano na sliki~\ref{fig:hoffman_permutacije},
-parom različne.  
+parom različne. Krajše pišemo $\pi_{ij}(k) = k + ij \pmod 5$ od koder sledi del izreka. Preostane le še preveriti,
+da je graf resnično Mooreov, kar bomo storili v naslednjem razdelku.
+\end{dokaz}
 
 \paragraph{Enolični kandidat je Mooreov graf}
 
@@ -2452,20 +2671,12 @@ ki ga imenujemo Hoffman-Singletonov graf.
 Preostane nam le še pokazati, da je graf resnično Mooreov in v zadnjih korakih nismo ustvarili
 kratkih ciklov.
 
-
-\begin{opomba}\label{op:sosedstva_ciklov}
-    Permutacije $\pi_{ij} = \rho^{ij \bmod{5}}$, ki smo jih našli, nam povedo, da med cikli povezave potekajo po naslednjem pravilu.
-        \begin{align*}
-        \forall i, j, k, m:\; &Q^u_i \sim P_j^{u + i\cdot j \bmod{5}} \\
-        &P^v_j \sim Q_i^{v - i\cdot j \bmod{5}}
-    \end{align*}
-\end{opomba}
-
 Videli smo, da $Q_i \cup P_j$ inducira Petersenov graf, ki 
-je seveda Mooreov (glej razdelek~\ref{sec:petersenov_graf}) z ožino $5$. Torej, če bi kratek
+je seveda Mooreov z ožino $5$. Torej, če bi kratek
 cikel obstajal, bi moral potekati vsaj skozi en cikel $P_i$ in dva cikla $Q_i$ (ali obratno).
 Ampak če cikel obišče natanko samo cikle $P_i$, $Q_j$ in $Q_{j'}$, potem 
-mora vsebovati vsaj eno povezavo znotraj vsakega od ciklov $Q_j$ in $Q_{j'}$: $P_i^k \overset{\pi_{ij}}{\rightarrow} Q_j^{k'} Q_j^{k'\pm1} \overset{\pi_{ij}^{-1}}{\rightarrow} P_i^{k''\neq k} \overset{\pi_{ij'}}{\rightarrow} Q_{j'}^{k'''} Q_{j'}^{k'''\pm 1} \overset{\pi_{ij'}^{-1}}{\rightarrow} P_i^k$.
+mora vsebovati vsaj eno povezavo znotraj vsakega od ciklov $Q_j$ in $Q_{j'}$, dobimo
+$$P_i^k \overset{\pi_{ij}}{\rightarrow} Q_j^{k'} Q_j^{k'\pm1} \overset{\pi_{ij}^{-1}}{\rightarrow} P_i^{k''\neq k} \overset{\pi_{ij'}}{\rightarrow} Q_{j'}^{k'''} Q_{j'}^{k'''\pm 1} \overset{\pi_{ij'}^{-1}}{\rightarrow} P_i^k.$$
 Dolžina takega cikla je torej vsaj $6$.
 
 Edina preostala možnost, ki bi lahko ustvarila kratek cikel, je taka, da obišče natanko dva cikla $P_i$ in dva cikla $Q_i$,
@@ -2507,19 +2718,20 @@ premera $2$.
     Red grupe avtomorfizmov Hoffman-Singletonovega grafa znaša \[|\aut(\hof)| = 50\cdot 7!.\]
 \end{trditev}
 
-Fiksirali bomo nek cikel $C_5$ v grafu $\hof$, recimo $P_0$, ter opazovali njegovo orbito %(definicija~\ref{def:orbita_stabilizator})
-in stabilizator (definicija~\ref{def:orbita_stabilizator}). Če označimo $G = \aut(\hof)$, nam izrek o
-orbitah in stabilizatorjih~\ref{op:lagrange}
-pove, da je $|\aut(\hof)| = |G\cdot P_0||G_{P_0}|$.
+Fiksirali bomo nek cikel $C_5$, ki je podgraf v grafu $\hof$, recimo $P_0$. 
+Pri tem bomo cikel predstavili z urejenim zaporedjem njegovih vozlišč $(P_0^0, P_0^1, P_0^2, P_0^3, P_0^4)$.
+Označimo $G = \aut(\hof)$, izrek o
+orbitah in stabilizatorjih~\ref{iz:orbitainstabilizator} nam da $|\aut(\hof)| = |G\cdot P_0||G_{P_0}|$ 
+(definicija orbite in stabilizatorja~\ref{def:orbita_stabilizator}).
+Štejemo torej število ciklov v grafu vključno z rotacijami in zrcaljenji nato pa
+opazujemo koliko avtomorfizmov tako urejeno zaporedje $P_0$ fiksira.
 
-Število elementov v orbiti $G\cdot P_0$ je očitno enako številu ciklov $C_5$ v grafu $\hof$,
-v katere lahko preslikamo $P_0$.
-Red stabilizatorja $G_{P_0}$ pa bomo izračunali tako, da bomo našli grupo $\Pi$, ki
+Red stabilizatorja $G_{P_0}$ bomo izračunali tako, da bomo našli grupo $H$, ki
 je v njem vsebovana, in pokazali, da mu je v resnici enaka.
 
 \begin{lema}
-    Red orbite cikla $P_0$ je enak $|G\cdot P_0| = 50\cdot 7\cdot 6\cdot 6$, število ciklov $C_5$ v 
-    Hoffman-Singletonovem grafu $\hof$ pa je enako $|G\cdot P_0|/10 = 1260$.
+    Red orbite cikla $P_0$ je enak $|G\cdot P_0| = 50\cdot 7\cdot 6\cdot 6$. Število podgrafov, ki so cikli $C_5$,
+    Hoffman-Singletonovega grafa, je enako $|G\cdot P_0|/10 = 1260$.
 \end{lema}
 \begin{dokaz}
     Ker ima graf $\hof$ ožino $5$ (trditev~\ref{tr:moore_bound}), 
@@ -2532,21 +2744,13 @@ je v njem vsebovana, in pokazali, da mu je v resnici enaka.
 \end{dokaz}
 
 \begin{lema}\label{le:permutira_qi_je}
-    Vsak avtomorfizem, ki fiksira $P_0$ (definicija~\ref{def:orbita_stabilizator}), permutira $Q_i$-je, brez rotacij.
+    Vsak avtomorfizem, ki fiksira $P_0$ kot zaporedje oz. točkovno, permutira $Q_i$-je, brez rotacij in zrcaljenj.
 \end{lema}
 \begin{dokaz}
-     Naj bo $\sigma \in G_{P_0}$. Potem velja $\sigma(Q_k^j) \in \sigma(\{Q_k^j\mid k\in\mathbb{Z}_5\})$.
-     Ker je $\sigma$ avtomorfizem, ki fiksira $P_0$, in je $P_0^j \sim Q_k^j$ za vsak $k$ (opomba~\ref{op:sosedstva_ciklov}), velja 
-     $\sigma(\{Q_k^j\mid k\in\mathbb{Z}_5\}) = \sigma(N(P_0^j)\setminus P_0) = N(P_0^j)\setminus P_0$, 
-     kar pomeni, da je $\sigma(Q_k^j) \in \{Q_k^j\mid k\in\mathbb{Z}_5\}$, s čimer smo dokazali želeno.
-    %
-    % Naj bo $\sigma \in G_{P_0}$ in $Q = \{Q_0, \ldots, Q_4\}$.
-    % Ker dalje vemo $P_0^j \sim Q_k^j$ (\ref{op:sosedstva_ciklov}), 
-    % velja $N(P_0^j)\cap Q = \{Q_k^j \mid k \in \mathbb{Z}_5\}$.
-    % Ker $\sigma$ ohranja sosedstva in so $Q_k^j$ v $P_0$ sosedna zgolj z $P_0^j$ (\ref{op:sosedstva_ciklov}), 
-    % za vsa vozlišča $P_0^j$ velja 
-    % $\sigma(N(P_0^j)\cap Q) = \sigma(\{Q_k^j \mid k \in \mathbb{Z}_5\}) = \{Q_k^j \mid k \in \mathbb{Z}_5\}$
-    % (\ref{tr:stabilizator_sosedstvo}). To pomeni, da $\sigma$ kvečjem permutira $Q_i$-je brez rotacij.
+     Naj bo $\sigma \in G_{P_0}$. Ker je $\sigma$ avtomorfizem, ki fiksira $P_0$, 
+     in je $P_0^j \sim Q_k^j$ za vsak $k$ (opomba~\ref{op:sosedstva_ciklov}), velja 
+     $$\sigma(Q_k^j) \in \sigma(\{Q_k^j\mid k\in\mathbb{Z}_5\}) = \sigma(N(P_0^j)\setminus P_0) = N(P_0^j)\setminus P_0 = \{Q_k^j\mid k\in\mathbb{Z}_5\}.$$
+     Dokazali smo torej, da $\sigma$ permutira $Q_k^j$-je brez rotacij ter brez zrcaljenj (tj. $\sigma(Q_k^j) = Q_{k'}^j$ za nek $k'$).
 \end{dokaz}
 
 Zdaj vemo, da lahko vsak avtomorfizem, ki fiksira $P_0$, preslika $Q_k^j$ zgolj v $Q_{k'}^{j}$ za nek $k'$.
@@ -2554,7 +2758,7 @@ Ker pa mora ohraniti tudi sosednost, mora vsako vozlišče $P_i^j$ preslikati v 
 katerega izbor je utemeljen na spodnjem prikazu.
 Izberemo lahko dve taki neodvisni bijekciji $\alpha$ in $\beta$ na $V(\hof)$, 
 ki fiksirata $P_0$, in nato z njima generiramo grupo
-$\Pi = \langle\alpha,\beta\rangle$, sestavljeno iz vseh možnih produktov elementov $\alpha$ in $\beta$.
+$H = \langle\alpha,\beta\rangle$, sestavljeno iz vseh možnih produktov elementov $\alpha, \alpha^{-1}$ in $\beta, \beta^{-1}$.
  
 \begin{figure}[h]
     \import{../../assets/}{alphabeta.tex}
@@ -2563,21 +2767,20 @@ $\Pi = \langle\alpha,\beta\rangle$, sestavljeno iz vseh možnih produktov elemen
 \begin{opomba}
     Preslikavi $\alpha$ in $\beta$ seveda, po konstrukciji, ohranjata sosednost ter fiksirata vozlišča cikla $P_0$,
     zato sta avtomorfizma grafa $\hof$, vsebovana v stabilizatorju $G_{P_0}$.
-    Posledično je tudi grupa, ki jo generirata, $\Pi \leq G_{P_0}$. Preostane nam pokazati,
-    da je tudi $G_{P_0} \leq \Pi$, torej da je $\Pi = G_{P_0}$.
+    Posledično je tudi grupa, ki jo generirata, $H \leq G_{P_0}$. Preostane nam pokazati,
+    da je tudi $G_{P_0} \leq H$, torej da je $H = G_{P_0}$.
 \end{opomba}
 
 \begin{lema}\label{le:red_grupe_pi}
-    Red grupe $\Pi$ je enak $|\Pi| = 20$.
-    % Grupa $\Pi$ je izomorfna semidirektnemu produktu 
+    Red grupe $H$ je enak $|H| = 20$.
+    % Grupa $H$ je izomorfna semidirektnemu produktu 
     % (\ref{def:semidirektni_produkt}) grup $\langle\beta\rangle$ in $\langle\alpha\rangle$,
-    % posledično tudi $|\Pi| = |\langle\beta\rangle\rtimes\langle\alpha\rangle| = 20$ (\ref{tr:semidirect_order}).
+    % posledično tudi $|H| = |\langle\beta\rangle\rtimes\langle\alpha\rangle| = 20$ (\ref{tr:semidirect_order}).
 \end{lema}
 \begin{dokaz}
     Po definiciji je 
-    $\Pi = \langle \alpha, \beta \rangle= \{s_1s_2\ldots s_n\mid n\in\mathbb{N}, s_k\in \{\alpha, \alpha^{-1}, \beta, \beta^{-1}\}\}$.
-    Ker lahko pokažemo, da je $\alpha\beta\alpha^{-1} = \beta^m$ za nek $m$, natančneje za $m=2$, velja 
-    $\Pi = \{\alpha^i\beta^j \mid i, j \in \mathbb{Z}\} = \langle\alpha\rangle\cdot\langle\beta\rangle$.
+    $H = \langle \alpha, \beta \rangle= \{\sigma_1\sigma_2\ldots \sigma_n\mid n\in\mathbb{N}, \sigma_k\in \{\alpha, \alpha^{-1}, \beta, \beta^{-1}\}\}$.
+    Ker lahko z izračunom 
     \begin{align*}
     &(\alpha\circ\beta\circ\alpha^{-1})(Q_i^k) = 
     (\alpha\circ\beta)(Q_{3i}^k) = 
@@ -2587,84 +2790,41 @@ $\Pi = \langle\alpha,\beta\rangle$, sestavljeno iz vseh možnih produktov elemen
     \alpha(P_{2j}^{k+2j}) = P_{6j}^{k+2j}
     \equiv P_j^{k+2j} = \beta^2(P_j^k)
     \end{align*}
-    Če bi predpostavili $\alpha^i\beta^j = \alpha^{i'}\beta^{j'}$ za neke $i, j, i', j'$, 
-    potem bi imeli $\alpha^{i-i'} = \beta^{j'-j}$, kar je mogoče le za $i-i' = 0$ in $j'-j = 0$, 
-    saj $\alpha$ vedno fiksira $Q_0$, 
-    $\beta$ pa ga nikoli ne. Tako je $|\Pi| = |\langle\alpha\rangle||\langle\beta\rangle| = 4\cdot 5 = 20$,
-    saj se lahko prepričamo, da velja $\alpha^4 = \id$ in $\beta^5 = \id$.
+    pokažemo, da je $\alpha\beta\alpha^{-1} = \beta^2$ oz. $\alpha\beta = \beta^2\alpha$, 
+    in ker je $\ord(\alpha) = 4$ (tj. $\alpha^4 = \id, \alpha^3 \neq \id$) in $\ord(\beta) = 5$,
+    lahko vsak element grupe $H$ zapišemo kot $\alpha^i\beta^j$ za neka $i\in\mathbb{Z}_4$ in $j\in\mathbb{Z}_5$.
+    Sledi $|H| = 4\cdot 5 = 20$.
 \end{dokaz}
-    
-%     enaka ravno produktu grupe generirane z $\alpha$ in 
-%     grupe generirane z $\beta$. Hkrati, ker
-%     $\alpha$ fiksira $Q_0$ medtem ko ga $\beta$ 
-%     nikoli ne, velja $\langle\beta\rangle \cap \langle\alpha\rangle = \{\id\}$.
-     
-
-
-
-%     Po definiciji je $\Pi = \langle \alpha, \beta \rangle$ enaka ravno produktu grupe generirane z $\alpha$ in 
-%     grupe generirane z $\beta$. Hkrati, ker
-%     $\alpha$ fiksira $Q_0$ medtem ko ga $\beta$ 
-%     nikoli ne, velja $\langle\beta\rangle \cap \langle\alpha\rangle = \{\id\}$.
-%     Pokažimo le še, da je $\langle \beta \rangle$ normalna podgrupa v $\Pi$
-%     (\ref{def:normalna_podgrupa}). Dovolj je, da normalnost pokažemo zgolj 
-%     za generatorja, torej da je 
-%     $\alpha\circ\beta\circ\alpha^{-1} \in \langle\beta\rangle$.
-    
-%     \begin{align*}
-%     &(\alpha\circ\beta\circ\alpha^{-1})(Q_i^k) = 
-%     (\alpha\circ\beta)(Q_{3i}^k) = 
-%     \alpha(Q_{3i+1}^k) = Q_{2(3i+1)}^{k}
-%     \equiv Q_{i+2}^k = \beta^2(Q_i^k)\\
-%     &(\alpha\circ\beta\circ\alpha^{-1})(P_j^k) = (\alpha\circ\beta)(P_{2j}^k) = 
-%     \alpha(P_{2j}^{k+2j}) = P_{6j}^{k+2j}
-%     \equiv P_j^{k+2j} = \beta^2(P_j^k)\\
-%     \end{align*}
-
-%     Res je zdaj $\Pi = \langle\beta\rangle \rtimes \langle\alpha\rangle$, 
-%     semidirektni produkt (\ref{def:semidirektni_produkt}), in
-%     velja $|\Pi| = |\langle\beta\rangle||\langle\alpha\rangle|$ 
-%     (\ref{op:lastnost_semidirektnega_produkta}).
-
-%     Ker je $\beta^5 = \id$ in $\alpha^4 = \id$, je $|\langle\beta\rangle| = 5$ in 
-%     $|\langle\alpha\rangle| = 4$. Posledično je $|\Pi| = 20$.
-
-%     Mimogrede, ker je $\alpha$ edini generator grupe $\langle\alpha\rangle$ in je reda
-%     $4$, je $\langle\alpha\rangle$ izomorfna ciklični grupi $C_4$ (\ref{def:ciklicna_grupa}). 
-%     Podobno je $\langle\beta\rangle$ izomorfna ciklični grupi $C_5$. Tako je tudi 
-%     $\Pi \cong C_5 \rtimes C_4$.
-% \end{dokaz}
-
 
 \begin{lema}
-    Grupa $\Pi$ je natanko enaka stabilizatorju $G_{P_0}$
-    in s tem je $|G_{P_0}| = 20$.
+    Grupa $H$ je natanko enaka stabilizatorju $G_{P_0}$.
+    S tem je $|G_{P_0}| = 20$.
 \end{lema}
 \begin{dokaz}
-    Če bi $G_{P_0}$ imel še kako permutacijo $\tau \not\in \Pi$,
+    Če bi $G_{P_0}$ imel še kako permutacijo $\tau \not\in H$,
     potem bi ta prisilila obstoj netrivialne permutacije, ki bi fiksirala $P_0$
-    in še dva cikla $Q_i$, $Q_{i'}$. Po Lagrangevem izreku~\ref{op:lagrange} 
-    namreč vemo, da je $|G_{P_0}|$ večkratnik reda svoje podgrupe $\Pi$, torej večkratnik
-    števila $20$ (lema~\ref{le:red_grupe_pi}). Če je grupa $G_{P_0}$ večja od grupe $\Pi$, 
+    in še dva cikla $Q_i$, $Q_{i'}$ -- po lemi \ref{le:permutira_qi_je} točkovno. Po Lagrangevem izreku~\ref{iz:orbitainstabilizator} 
+    namreč vemo, da je $|G_{P_0}|$ večkratnik reda svoje podgrupe $H$, torej večkratnik
+    števila $20$ (lema~\ref{le:red_grupe_pi}). Če je grupa $G_{P_0}$ večja od grupe $H$, 
     mora veljati $|G_{P_0}| \geq 2\cdot20 = 40$. Po izreku o orbitah in 
-    stabilizatorjih~\ref{op:lagrange} 
+    stabilizatorjih~\ref{iz:orbitainstabilizator} 
     je $|G_{P_0}| = |G_{P_0}\cdot Q_0||(G_{P_0})_{Q_0}|$.
     Ker $G_{P_0}$ fiksira $P_0$ in vsak njegov avtomorfizem permutira zgolj $Q_i$-je brez 
-    rotacij (lema~\ref{le:permutira_qi_je}), se posledično $Q_0$ pri fiksiranem
+    rotacij in zrcaljenj (lema~\ref{le:permutira_qi_je}), se posledično $Q_0$ pri fiksiranem
     $P_0$ lahko preslika v natanko enega izmed $5$-ih ciklov $Q_i$. Od tod vidimo
     $|G_{P_0}\cdot Q_0| = 5$.
 
     Velja torej $|(G_{P_0})_{Q_0}| \geq 40 / 5 = 8$. Zdaj izrek o orbitah 
-    in stabilizatorjih~\ref{op:lagrange} uporabimo še enkrat, 
+    in stabilizatorjih~\ref{iz:orbitainstabilizator} uporabimo še enkrat, 
     in tokrat dobimo 
     $|(G_{P_0})_{Q_0}| = |(G_{P_0})_{Q_0}\cdot Q_1||((G_{P_0})_{Q_0})_{Q_1}|$.
-    Ker se $Q_1$ lahko zdaj preslika, z avtomorfizmi iz $(G_{P_0})_{Q_0}$, zgolj še v enega izmed 
-    preostalih $4$-ih ciklov $Q_i$,
-    posledično velja $|((G_{P_0})_{Q_0})_{Q_1}| \geq 8 / 4 = 2$.
+    Ker se $Q_1$ lahko zdaj preslika (točkovno), z avtomorfizmi iz $(G_{P_0})_{Q_0}$, zgolj še v enega izmed 
+    preostalih $4$-ih ciklov $Q_i$.
+    Posledično velja $|((G_{P_0})_{Q_0})_{Q_1}| \geq 8 / 4 = 2$.
     To nam res neposredno pove, da obstaja vsaj ena netrivialna permutacija 
     $\sigma \in ((G_{P_0})_{Q_0})_{Q_1} \leq G_{P_0},\, \sigma \neq\id$, ki fiksira $P_0$, $Q_0$ in $Q_1$. 
     Vidimo, da $\sigma$ na množici ciklov $Q_i$ nima rotacij (lema~\ref{le:permutira_qi_je}), zato
-    mora $\sigma$ fiksirati $S = \{P_0, Q_0, Q_1\}$ točkovno, kar pomeni $\sigma(s) = s$ za vsak $s \in S$.
+    mora $\sigma$ fiksirati $S = P_0\cup Q_0\cup Q_1$ točkovno, kar pomeni $\sigma(s) = s$ za vsak $s \in S$.
   
     Zaradi tega lahko za poljubno vozlišče $P_j^k$, kjer $j\neq 0$, najdemo cikel
     $C_4 \cong P_j^k Q_0^k \sigma(P^k_j) Q_1^{k-j} P_j^k$, kar nam da protislovje (trditev~\ref{tr:moore_bound}).
@@ -2672,17 +2832,12 @@ $\Pi = \langle\alpha,\beta\rangle$, sestavljeno iz vseh možnih produktov elemen
     Res imata namreč $P_j^k$ in $\sigma(P_j^k)$ skupna soseda $Q_0^k$ in $Q_1^{k-j}$,
     saj velja $N(P_j^k)\cap S = \{Q_0^k, Q_1^{k-j}\}$ (opomba~\ref{op:sosedstva_ciklov}),
     in ker $\sigma$ fiksira $S$ točkovno, tudi 
-    $N(\sigma(P_j^k))\cap S =  N(\sigma(P_j^k)\cap\sigma^{-1}(S)) = N(\sigma(P_j^k)\cap S) = N(\{Q_0^k, Q_1^{k-j}\}) = \{Q_0^k, Q_1^{k-j}\}$.
-    %
-    % Preostane nam še pokazati, da bi taka permutacija $\sigma$ nujno ustvarila
-    % cikel $C_4$, kar bi bilo protislovje.
-    %
-    % Vzemimo poljubno vozlišče $P_j^k$, kjer $j\neq 0$. Potem sta njegova soseda v množici 
-    % $S$ enaka $N(P_j^k)\cap S = \{Q_0^k, Q_1^{k-j}\}$ (\ref{op:sosedstva_ciklov}). 
-    % Ker $\sigma$ fiksira $S$, velja $N(\sigma(P_j^k)) \cap S = N(P_j^k) \cap S$, %% TODO: Utemelji. z referenco.
-    % kar pomeni, da si $\sigma(P_j^k)$ in $P_j^k$ delita soseda $Q_0^k$ in $Q_1^{k-j}$.
-    % Prispeli v protislovje, našli smo namreč cikel
-    % $C_4 = P_j^k Q_0^k \sigma(P^k_j) Q_1^{k-j} P_j^k$ (\ref{tr:moore_equivalent}\ref{it:mm3}). 
+    \begin{align*}
+    N(\sigma(P_j^k))\cap S &=  N(\sigma(P_j^k))\cap \sigma(S) = N(P_j^k)\cap S 
+    \\&= \{Q_i^{k - ij \bmod{5}}\mid k\in\mathbb{Z}_5\}\cap S= \{Q_0^k, Q_1^{k-j}\}.
+    \end{align*}
+    Pokazali smo, da $G_{P_0} \leq H$. Ker po konstrukciji grupe $H$ tudi $H\leq G_{P_0}$, sledi $G_{P_0} = H$ 
+    in posledično $|G_{P_0}| = |H| = 20$ (lema~\ref{le:red_grupe_pi}).
 \end{dokaz}
 
 \begin{dokaz}[Dokaz trditve~\ref{tr:red_avtomorfizmov}]
@@ -2733,11 +2888,12 @@ Obstoj Mooreovega grafa stopnje $57$ in premera $2$ je nerazvozlan.
 Za namene nadaljevanja ga bomo imenovali Aschbacherjev graf, označili z $\asch$
 in obravnavali v hipotetičnem scenariju, da obstaja.
 
-Po definiciji in lastnostih Mooreovega grafa 
-(glej~\ref{def:moore}, \ref{tr:moore_bound}, \ref{tr:moore_krepko_regularen}, \ref{tr:moore_razdaljno_regularen}, \ref{iz:hoffmansingletonovizrek}), 
-je Aschbacherjev graf $(3250, 57, 0, 1)$-krepko regularen, razdaljno regularen, njegov
-spekter pa je enak 
-$\{57^{(1)}, 7^{(1729)}, -8^{(1520)}\}$.
+Aschbacherjev graf je razdaljno regularen, je $(3250, 57, 0, 1)$-krepko regularen in ima spekter $$\{57^{(1)}, 7^{(1729)}, -8^{(1520)}\}.$$
+% Po definiciji in lastnostih Mooreovega grafa 
+% (glej~\ref{def:moore}, \ref{tr:moore_bound}, \ref{tr:moore_krepko_regularen}, \ref{tr:moore_razdaljno_regularen}, \ref{iz:hoffmansingletonovizrek}), 
+% je Aschbacherjev graf $(3250, 57, 0, 1)$-krepko regularen, razdaljno regularen, njegov
+% spekter pa je enak 
+% $\{57^{(1)}, 7^{(1729)}, -8^{(1520)}\}$.
 
 % Iz meje za neodvisno število $\alpha$ (moč neodvisne množice), ki jo 
 % podaja~\citeauthor{haemers2021hoffman}, ki pravi, da za $k$-regularni graf reda $n$ velja 
@@ -2751,14 +2907,9 @@ takega grafa velja $$\aut(\asch) \leq 375.$$
 Aschbacherjev graf je tako daleč od vozliščne tranzitivnosti, kar ga loči od vseh ostalih Mooreovih grafov,
 in da misliti, da je bodisi izjemno kompleksen, bodisi neobstoječ.
 
-Mi bomo v celoti pokazali šibkejšo trditev, ki pravi, da Aschbacherjev graf ni razdaljno tranzitiven \cite{aschbacher1971nonexistence},
-kar pomeni, da ne more imeti simetrije, ki bi omogočala, da se poljubni dve vozlišči
-na razdalji $i$ preslikata v poljubni dve vozlišči na razdalji $i$, za $i = 0, 1, 2$.
-
-\begin{definicija}
-    Graf premera $D$ je razdaljno tranzitiven, če lahko vsaki dve vozlišči na razdalji $i$ z nekim avtomorfizmom preslikamo
-    v vsaki dve vozlišči na razdalji $i$, za $i = 0, 1, \ldots, D$.
-\end{definicija}
+Mi bomo v celoti pokazali šibkejšo trditev, ki pravi, da Aschbacherjev graf ni razdaljno tranzitiven \cite{aschbacher1971nonexistence}. 
+V nadaljevanju
+grupo avtomorfizmov grafa krajše pišemo z $G$.
 
 % \begin{trditev}\label{tr:ni_vozliscno_tranzitiven}
 % Graf valence $57$, če obstaja, ni razdaljno tranzitiven.
@@ -2780,7 +2931,7 @@ na razdalji $i$ preslikata v poljubni dve vozlišči na razdalji $i$, za $i = 0,
     Če Aschbacherjev graf obstaja in je razdaljno tranzitiven, potem ima, za vsako vozlišče $\infty$,
     stabilizator $G_{\infty} < \aut(\asch)$ (definicija~\ref{def:orbita_stabilizator}) natanko $3$ orbite
     $N_0(\infty), N_1(\infty)$ in $N_2(\infty)$ na množici $V(\asch)$, kar pomeni, da vsak avtomorfizem
-    $\sigma \in G_{\infty}$ deluje tranzitivno tudi na $N_i(\infty)$ $(i = 1, 2)$, oziroma da je
+    $\sigma \in G_{\infty}$ deluje tranzitivno tudi na $N_i(\infty)$ $(i = 1, 2)$, oziroma ekvivalentno da je
     $\aut(\asch)$ grupa ranga $3$.
 \end{trditev}
 
@@ -2893,7 +3044,7 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
 \end{trditev}
 
 \begin{dokaz}
-    Najprej predpostavimo $\fix(\sigma)$ zvezda -- potem je njen red enak $57 \pm 1$ (trditev~\ref{tr:F_involucija_fiksira}), kar pomeni, da 
+    Najprej predpostavimo, da je $\fix(\sigma)$ zvezda -- potem je njen red enak $57 \pm 1$ (trditev~\ref{tr:F_involucija_fiksira}), kar pomeni, da 
     $\sigma$ fiksira $56$ ali $58$ vozlišč v $\asch$. Ker $\sigma \in G_{\infty}$ fiksira $\infty$, 
     privzemimo najprej, da je $\infty$ center zvezde --
     $\sigma$ tako fiksira $58-1=57$ ali $56-1=55$ elementov iz $N_1(\infty)$ (množice sosedov centra).
@@ -2916,7 +3067,7 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
     so (kot permutacija) sodi (tj., vsebujejo sodo število ciklov sode dolžine) tako na $N_1(\infty)$ kot na $N_2(\infty)$.
     Potem involucija $\sigma \in K$
     fiksira natanko zvezdo $\fix(\sigma) = \asch[\infty\cup N_1(\infty)]$ ali pa zvezdo
-    $F(\sigma) = \asch[\alpha\cup N_1(\alpha)]$ za nek $\alpha\in N_1(\infty)$.
+    $F(\sigma) = \asch[u\cup N_1(u)]$ za nek $u\in N_1(\infty)$.
 \end{trditev}
 \begin{dokaz}
     Po trditvi~\ref{tr:involucija_fiksira_cel} vemo, da involucija $\sigma$ v $G_{\infty}$ fiksira 
@@ -2952,7 +3103,7 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
     Definirajmo homomorfizem $\varphi: G_{\infty} \to \mathbb{Z}_2 \times \mathbb{Z}_2$ tako, 
     da vsaki permutaciji $\sigma \in G_{\infty}$ priredi par $(a, b)$, kjer je $a = 0$, če je $\sigma$ soda na 
     $N_1(\infty)$, in $a = 1$ sicer, ter $b = 0$, če je $\sigma$ soda na $N_2(\infty)$, in $b = 1$ sicer.
-    Formalno izberemo $\varphi(\sigma) = (\sgn_{N_1(\infty)}(\sigma), \sgn_{N_2(\infty)}(\sigma))$, 
+    Formalno izberemo $$\varphi(\sigma) = (\sgn_{N_1(\infty)}(\sigma), \sgn_{N_2(\infty)}(\sigma)),$$
     kjer $\sgn$ označuje parnost permutacije.
 
     Očitno je $K = \varphi^{-1}(0, 0)$ jedro homomorfizma $\varphi$, 
@@ -2960,82 +3111,80 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
 
     Po izreku o homomorfizmu je 
     $G_{\infty}/K = G_{\infty}/\ker{\varphi} \cong \im(\varphi) = \varphi(G_{\infty})$ in zato
-    $[G_{\infty}:K]  = |G_{\infty}/\ker(\varphi)|= |\varphi(G_{\infty})| \leq |\mathbb{Z}_2 \times \mathbb{Z}_2| = 4$.
+    $G_{\infty}/\ker(\varphi)|= |\varphi(G_{\infty})| \leq |\mathbb{Z}_2 \times \mathbb{Z}_2| = 4$.
 
     Po predpostavki razdaljne tranzitivnosti grupa $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$ (trditev~\ref{tr:grupa_ranga_3}) 
     in očitno je $|N_2(\infty)| = 3192 = 8\cdot 399$ deljivo z $8$.
     Tako torej velja 
     $|G_{\infty}| = |G_{\infty}\cdot x||(G_{\infty})_x| = |N_2(\infty)||(G_{\infty})_x| = 8\cdot 399 |(G_{\infty})_x|$ 
     za poljuben $x \in N_2(\infty)$ (trditev~\ref{tr:grupa_ranga_3}). Red grupe $G_{\infty}$ je tako deljiv z $8$.
-    Dalje pa je $|K| = |G_{\infty}| / [G_{\infty}:K] = \frac{8m}{[G_{\infty}:K]}$ za nek $m\in\mathbb{N}$. 
-    Ker je $[G_{\infty}:K] \leq 4$ sodo, 
+    Dalje je po Lagrangeevem izreku \ref{iz:lagrangeevizrek} $|K| = |G_{\infty}| / |G_{\infty}/K| = \frac{8m}{|G_{\infty}/K|}$ za nek $m\in\mathbb{N}$. 
+    Ker je $|G_{\infty}/K| \leq 4$ sodo, 
     je $|K|$ deljiv vsaj z $8/4 = 2$, kar pokaže, da je $K$ grupa sodega reda.
 \end{dokaz}
 
 \begin{trditev}\label{tr:uv}
-	Če je graf $\asch$ razdaljno tranzitiven, potem za vsak $\alpha\in N_1(\infty)$
-    stabilizator $K_{\alpha}$
+	Če je graf $\asch$ razdaljno tranzitiven, potem za vsak $u\in N_1(\infty)$
+    stabilizator $K_{u}$
     (kjer je $K$ kot v trditvi~\ref{tr:involucija_58})
-    vsebuje involuciji $u$ in $v$, ki fiksirata zvezdi $\fix(u)$ in $\fix(v)$ reda $58$
-    s centroma $\infty$ in $\alpha$.
+    vsebuje involuciji $\sigma$ in $\omega$, ki fiksirata zvezdi $\fix(\sigma)$ in $\fix(\omega)$ reda $58$
+    s centroma $\infty$ in $u$.
 \end{trditev}
 \begin{dokaz}
     Vemo, da je red $K$ sod (trditev~\ref{tr:K_soda}), torej deljiv z $2$. Potem po 
     Cauchyevem izreku obstaja element $u\in K < G_{\infty}$, 
-    katerega red je $2$ ($u^2 = \id$) in je torej involucija. Po trditvi
-    \ref{tr:involucija_58} obstaja zvezda $\fix(u)$ s centrom $\infty$ ali $\alpha\in N_1(\infty)$ 
-    reda $58$, ki jo $u$ fiksira. Privzemimo, da je $\fix(u)$ zvezda s centrom $\infty$.
-    Ker je $\alpha\in N_1(\infty)$, velja tudi $u \in K_{\alpha}<K$ (trditev~\ref{tr:involucija_58}).
+    katerega red je $2$ ($\sigma^2 = \id$) in je torej involucija. Po trditvi
+    \ref{tr:involucija_58} obstaja zvezda $\fix(\sigma)$ s centrom $\infty$ ali $u\in N_1(\infty)$ 
+    reda $58$, ki jo $\sigma$ fiksira. Privzemimo, da je $\fix(\sigma)$ zvezda s centrom $\infty$.
+    Ker je $u\in N_1(\infty)$, velja tudi $\sigma \in K_{u}<K$ (trditev~\ref{tr:involucija_58}).
 
-    Ker smo privzeli, da je $\asch$ razdaljno tranzitiven, lahko preslikamo $\infty$ v $\alpha$ z
-    nekim avtomorfizmom $\tau \in \aut(\asch)$, $\tau(\infty) = \alpha$.
+    Ker smo privzeli, da je $\asch$ razdaljno tranzitiven, lahko preslikamo $\infty$ v $u$ z
+    nekim avtomorfizmom $\tau \in G$, $\tau(\infty) = u$.
     Posledično lahko tvorimo
-    $v = \tau \circ u \circ \tau^{-1} \in G_{\infty, \alpha}$, 
-    ki je tudi očitno involucija. Velja $v \in K_{\alpha}$, 
+    $\omega = \tau \circ \sigma \circ \tau^{-1} \in G_{\infty, u}$, 
+    ki je tudi očitno involucija. Velja $\omega \in K_{u}$, 
     saj ima natanko $|N_1(\infty)| - 1 = 4\cdot 14$ nefiksiranih elementov
     v $N_1(\infty)$ in $|N_2(\infty)| - 56 = 3192 - 56 = 4\cdot 784$ nefiksiranih elementov v $N_2(\infty)$, 
-    kar, ker $v$ je involucija, pomeni, da je $v$ tudi v $K \cap G_{\infty, \alpha} = K_{\alpha}$. 
+    kar, ker $\omega$ je involucija, pomeni, da je $\omega$ tudi v $K \cap G_{\infty, u} = K_{u}$. 
 
-    Tako je $\fix(v)$ ravno zvezda reda $58$ s centrom $\alpha$. Avtomorfizem $\tau^{-1}$ je namreč preslikal $\alpha$ v $\infty$, 
-    kjer smo našli zvezdo $\fix(u)$ s centrom $\infty$, ki se je nato preslikala s $\tau$ v zvezdo s centrom $\alpha$.
-    Podobno, tudi če $u$ fiksira zvezdo s centrom $\alpha$, potem $v = \tau^{-1} \circ u \circ \tau$ fiksira zvezdo s centrom $\infty$.
+    Tako je $\fix(\omega)$ ravno zvezda reda $58$ s centrom $u$. Avtomorfizem $\tau^{-1}$ je namreč preslikal $u$ v $\infty$, 
+    kjer smo našli zvezdo $\fix(\sigma)$ s centrom $\infty$, ki se je nato preslikala s $\tau$ v zvezdo s centrom $u$.
+    Podobno, tudi če $\sigma$ fiksira zvezdo s centrom $u$, potem $\omega = \tau^{-1} \circ \sigma \circ \tau$ fiksira zvezdo s centrom $\infty$.
 \end{dokaz}
 
 \begin{trditev}
 	Denimo, da je graf $\asch$ razdaljno tranzitiven
 	in je $K$ kot v trditvi~\ref{tr:involucija_58}.
-	Potem lahko za vsak $\alpha \in N_1(\infty)$
-    involuciji $u$ in $v$ iz trditve~\ref{tr:uv} izberemo v $2$-podgrupi Sylowa
-    $S$ grupe $K_{\alpha}$ (tj., v maksimalni podgrupi reda $2$).
+	Potem lahko za vsak $u \in N_1(\infty)$
+    involuciji $\sigma$ in $\omega$ iz trditve~\ref{tr:uv} izberemo v $2$-podgrupi Sylowa
+    $S$ grupe $K_{u}$ (tj., v maksimalni podgrupi reda $2$).
 \end{trditev}
 
 \begin{dokaz}
-    Grupa $\{\id, u\}$ je reda $2$, torej je $2$-podgrupa, in zato vsebovana v neki
-    $2$-podgrupi Sylowa $S_1 \leq K_{\alpha}$. Podobno je $\{\id, v\}$ vsebovana v neki,
-    morda drugi, $2$-podgrupi Sylowa $S_2 \leq K_{\alpha}$.
-    Iz lastnosti podgrup Sylowa vemo, da sta si $S_1$ in $S_2$ konjugirani v $K_{\alpha}$,
-    oziroma da obstaja tak $k^* \in K_{\alpha}$, da je $S_2 = k^* \circ S_1 \circ (k^*)^{-1}$.
-    Vendar pa hkrati involuciji $u$ in $v$ nista konjugirani v $K_{\alpha}$, saj bi sicer fiksirali zvezdi
-    z enakima centroma. Izberemo torej $u^* = k^* \circ u \circ (k^*)^{-1} \in S_2$
-    in $v \in S_2$, ki fiksirata zvezdi s centroma $\infty$ oziroma $\alpha$.
+    Grupa $\{\id, \sigma\}$ je reda $2$, torej je $2$-podgrupa, in zato vsebovana v neki
+    $2$-podgrupi Sylowa $S_1 \leq K_{u}$. Podobno je $\{\id, \omega\}$ vsebovana v neki,
+    morda drugi, $2$-podgrupi Sylowa $S_2 \leq K_{u}$.
+    Iz lastnosti podgrup Sylowa vemo, da sta si $S_1$ in $S_2$ konjugirani v $K_{u}$,
+    oziroma da obstaja tak $k^* \in K_{u}$, da je $S_2 = k^* \circ S_1 \circ (k^*)^{-1}$.
+    Vendar pa hkrati involuciji $\sigma$ in $\omega$ nista konjugirani v $K_{u}$, saj bi sicer fiksirali zvezdi
+    z enakima centroma. Izberemo torej $u^* = k^* \circ \sigma \circ (k^*)^{-1} \in S_2$
+    in $\omega \in S_2$, ki fiksirata zvezdi s centroma $\infty$ oziroma $u$.
 \end{dokaz}
 
 \begin{trditev}\label{tr:uv_involucija}
 	Denimo, da je graf $\asch$ razdaljno tranzitiven
 	in je $K$ kot v trditvi~\ref{tr:involucija_58}.
-	Potem lahko za vsak $\alpha \in N_1(\infty)$
-    izberemo taki involuciji $u$ in $v$ iz $K_{\alpha}$, 
-    ki fiksirata zvezdi s centroma $\infty$ in $\alpha$, 
-    da komutirata (tj., $uv = vu$).
+	Potem lahko za vsak $u \in N_1(\infty)$
+    izberemo taki involuciji $\sigma$ in $\omega$ iz $K_{u}$, 
+    ki fiksirata zvezdi s centroma $\infty$ in $u$, 
+    da komutirata (tj., $\sigma\omega = \omega\sigma$).
 \end{trditev}
 \begin{dokaz}
+    Izberemo involuciji $\sigma$ in $\omega$ iz $2$-podgrupe Sylowa $S$ grupe $K_{u}$, ki fiksirata zvezdi s centroma $\infty$ in $u$.
     Ker ima vsaka končna 
-    $2$-podgrupa Sylowa netrivialen center, obstaja vsaj ena involucija
-    v njem. Vendar ima involucija iz $K_{\alpha}$ v centru $\infty$ (je tipa $u$) ali pa je tipa $v$, ki fiksira zvezdo s 
-    centrom $\alpha$, za nek $\alpha \in N_1(\infty)$.
-
-    Ne glede na to katera od njiju je v centru, bosta $u$ in $v$ komutirali, torej $uv = vu$.
-    To je tudi involucija, saj velja $(uv)(uv) = vuuv = v\id v = \id$. 
+    $2$-podgrupa Sylowa netrivialen center \ref{iz:netrivialen-center}, lahko vsaj eno izmed involucij $\sigma$ in $\omega$ izberemo v njem.
+    Ne glede na to katera od njiju je v centru, bosta $\sigma$ in $\omega$ komutirali, tj. $\sigma\omega = \omega\sigma$.
+    Tudi $\sigma\omega$ je involucija, saj velja $(\sigma\omega)(\sigma\omega) = (\sigma\omega)(\omega\sigma) = \sigma^2 = \id$. 
 \end{dokaz}
 
 \begin{izrek}
@@ -3043,10 +3192,14 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
 \end{izrek}
 \begin{dokaz}
 	Denimo, da je graf $\asch$ razdaljno tranzitiven in je $K$ kot v trditvi~\ref{tr:involucija_58}.
-    Videli smo (trditev~\ref{tr:uv_involucija}), da obstaja involucija $uv \in K_\alpha < K$, ki fiksira zgolj vozlišči $\infty$ in $\alpha$ 
-    v $N_1(\infty)\cup N_1(\alpha)$. Vendar hkrati vsaka involucija v $K$ 
+    Videli smo (trditev~\ref{tr:uv_involucija}), da obstaja involucija $\sigma\omega \in K_u < K$, ki fiksira zgolj vozlišči $\infty$ in $u$ 
+    v $N_1(\infty)\cup N_1(u)$. Vendar hkrati vsaka involucija v $K$ 
     fiksira zvezdo reda $58$ (trditev~\ref{tr:involucija_58}). Protislovje.
 \end{dokaz}
+
+\begin{opomba}
+    Mogoče je pokazati celo, da Aschbacherjev graf ne vsebuje involucij. Glej \cite{ishida2026involutionsmissingmooregraph}.
+\end{opomba}
 
 % \begin{opomba}
 %     \citeauthor{higman1964finite}\cite[str. 150]{higman1964finite} je pokazal, da
@@ -3058,186 +3211,187 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
 %     njegovemu neobstoju, bodisi o njegovi nenavadnosti.
 % \end{opomba}
 
-\subsubsection{Neobstoj Mooreovih grafov}
+% \subsubsection{Neobstoj Mooreovih grafov}
 
-\citeauthor{hoffman1960moore}~\cite{hoffman1960moore} pokažeta, da Mooreovi grafi za premer večji ali enak $3$ ne obstajajo,
-z izjemo trivialnih primerov, ki so lihi cikli $C_{2D+1}$. Dokaz je sestavljen iz mnogih neenakosti, ki omejujejo lastne
-vrednosti in njihove večkratnosti. V tem razdelku bomo predstavili glavno orodje dokaza -- zaprto obliko za večkratnosti lastnih vrednosti.
+% \citeauthor{hoffman1960moore}~\cite{hoffman1960moore} pokažeta, da Mooreovi grafi za premer večji ali enak $3$ ne obstajajo,
+% z izjemo trivialnih primerov, ki so lihi cikli $C_{2D+1}$. Dokaz je sestavljen iz mnogih neenakosti, ki omejujejo lastne
+% vrednosti in njihove večkratnosti. V tem razdelku bomo predstavili glavno orodje dokaza -- zaprto obliko za večkratnosti lastnih vrednosti.
 
-Spomnimo se Mooreove matrične enačbe (trditvi~\ref{tr:moorematrix} in~\ref{tr:moore_matrix_solution}).
+% Spomnimo se Mooreove matrične enačbe (trditvi~\ref{tr:moorematrix} in~\ref{tr:moore_matrix_solution}).
 
-\begin{trditev}
-Naj bo $A$ matrika sosednosti Mooreovega grafa s premerom $D$. Potem velja
-$$m(\theta_i) = \frac{\sled(f_{i}(A))}{f_i(\theta_i)},$$
-kjer je $m(\theta_i)$ večkratnost lastne vrednosti $\theta_i$, $f$ minimalni polinom matrike $A$ 
-in $$f_i(x) = \frac{f(x)}{(x-\theta_i)} = \prod_{j=0,j\neq i}^D  (x-\theta_j) = \sum_{j=0}^D a_{ij} x^j$$.
-\end{trditev}
+% \begin{trditev}
+% Naj bo $A$ matrika sosednosti Mooreovega grafa s premerom $D$. Potem velja
+% $$m(\theta_i) = \frac{\sled(f_{i}(A))}{f_i(\theta_i)},$$
+% kjer je $m(\theta_i)$ večkratnost lastne vrednosti $\theta_i$, $f$ minimalni polinom matrike $A$ 
+% in $$f_i(x) = \frac{f(x)}{(x-\theta_i)} = \prod_{j=0,j\neq i}^D  (x-\theta_j) = \sum_{j=0}^D a_{ij} x^j$$.
+% \end{trditev}
 
-\begin{dokaz}
-    Uporabimo Jordanovo dekompozicijo matrike $A = PJP^{-1}$. Ker je polinom $f_i(x)$
-    ničeln za vsako lastno vrednost matrike $A$, razen za $\theta_i$, velja:
-    $$\sled(f_i(A)) = \sled(f_i(PJP^{-1})) = \sled(Pf_i(J)P^{-1}) = \sled(f_i(J)) = m(\theta_i)f_i(\theta_i).$$
-    Po opombi~\ref{op:razdaljno_lastne} ima razdaljno regularen graf premera $D$ natanko $D+1$ lastnih vrednosti,
-    tj., tudi $f_i(\theta_i)$ je dobro definiran.
-\end{dokaz}
-
-
-\begin{opomba}\label{op:moore_minimalni_f}
-    V Mooreovem grafu se vrednost $f_i(\theta_i)$ minimalnega polinoma $f$ (glej~\ref{po:moore_minimalni_polinom}) izrazi kot
-    $$(x-\theta_i)f_i(x) = (x-\Delta)G^{\Delta, D}(x).$$
-\end{opomba}
+% \begin{dokaz}
+%     Uporabimo Jordanovo dekompozicijo matrike $A = PJP^{-1}$. Ker je polinom $f_i(x)$
+%     ničeln za vsako lastno vrednost matrike $A$, razen za $\theta_i$, velja:
+%     $$\sled(f_i(A)) = \sled(f_i(PJP^{-1})) = \sled(Pf_i(J)P^{-1}) = \sled(f_i(J)) = m(\theta_i)f_i(\theta_i).$$
+%     Po opombi~\ref{op:razdaljno_lastne} ima razdaljno regularen graf premera $D$ natanko $D+1$ lastnih vrednosti,
+%     tj., tudi $f_i(\theta_i)$ je dobro definiran.
+% \end{dokaz}
 
 
-\begin{trditev}
-    Vrednost $f_i(\theta_i)$ se izrazi kot
-    $$f_i(\theta_i) = (\theta_i - \Delta)\frac{\partial G^{\Delta, D}}{\partial x}(\theta_i).$$
-\end{trditev}
-
-\begin{dokaz}
-    Rezultat preprosto sledi z uporabo L'Hôpitalovega pravila, saj je $\theta_i$ ničla polinoma $f(x)$:
-    $$f_i(\theta_i) = \lim_{x\to\theta_i} \frac{f(x)}{x-\theta_i} = \lim_{x\to\theta_i} \frac{(x-\Delta)G^{\Delta, D}(x)}{x-\theta_i} = (\theta_i - \Delta)\frac{\partial G^{\Delta, D}}{\partial x}(\theta_i).$$
-\end{dokaz}
+% \begin{opomba}\label{op:moore_minimalni_f}
+%     V Mooreovem grafu se vrednost $f_i(\theta_i)$ minimalnega polinoma $f$ (glej~\ref{po:moore_minimalni_polinom}) izrazi kot
+%     $$(x-\theta_i)f_i(x) = (x-\Delta)G^{\Delta, D}(x).$$
+% \end{opomba}
 
 
-\begin{opomba}
-    Naj bo $\eta^{(q, 0)} = M^q\cdot \mathbf{e}_0$, kjer je $\mathbf{e}_0\in\mathbb{R}^{D+1}$ 
-    standardni enotski vektor in $M$ presečna matrika razdaljno regularnega grafa premera $D$. Potem 
-    prva komponenta $\eta^{(q, 0)}_0$ šteje število sprehodov dolžine $q$ iz 
-    poljubnega vozlišča $v$ do samega sebe (tj., $W_q(v, N_0(v))$, glej trditev~\ref{tr:eta_presecna}). 
-\end{opomba}
+% \begin{trditev}
+%     Vrednost $f_i(\theta_i)$ se izrazi kot
+%     $$f_i(\theta_i) = (\theta_i - \Delta)\frac{\partial G^{\Delta, D}}{\partial x}(\theta_i).$$
+% \end{trditev}
 
-\begin{trditev}
-    Sled polinoma $f_i(A)$ se izraža kot
-    $$\sled(f_i(A)) = M^{\Delta, D} \sum_{j=0}^D a_{ij}\eta^{(j, 0)}_0.$$
-\end{trditev}
-
-\begin{dokaz}
-    Z upoštevanjem dejstva, da $(A^j)_{kk}$ šteje število sprehodov dolžine $j$ iz vozlišča $k$ do samega sebe (trditev~\ref{tr:a_steje_sprehode}), ter
-    dejstva, da ima Mooreov graf $M^{\Delta, D}$ vozlišč (definicija~\ref{def:moore}), dobimo
-    \begin{align*}
-    \sled(f_i(A)) &= \sum_{j=0}^D a_{ij}\sled(A^j) = \sum_{j=0}^D a_{ij}\sum_{k=1}^{M^{\Delta, D}} (A^j)_{kk} = 
-    \\&=\sum_{j=0}^D a_{ij}\sum_{k=1}^{M^{\Delta, D}} \eta^{(j, 0)}_0 = M^{\Delta, D} \sum_{j=0}^D a_{ij}\eta^{(j, 0)}_0.
-    \end{align*}
-\end{dokaz}
-
-\begin{trditev}\label{tr:ab}
-    Naj bo $G^{\Delta, D}(x) = \sum_{j=0}^{D} b^D_j x^j$. Potem se koeficiente polinoma $f_i(x) = \sum_{j=0}^D a_{ij}x^j$ 
-    izrazi kot linearno kombinacijo koeficientov $b_j$ in lastnih vrednosti $\theta_i$ na sledeči način.
-    \begin{align*}
-    \begin{bmatrix}
-        a_{i0} \\ a_{i1} \\ a_{i2} \\ \vdots \\ a_{iD}
-    \end{bmatrix}
-    = 
-    \begin{bmatrix}
-        1 & (\theta_i - \Delta) & (\theta_i^2 - \Delta\theta_i) & \cdots & (\theta_i^D - \Delta\theta_i^{D-1}) \\
-        0 & 1 & (\theta_i - \Delta) & \cdots & (\theta_i^{D-1} - \Delta\theta_i^{D-2}) \\
-        0 & 0 & 1 & \cdots & (\theta_i^{D-2} - \Delta\theta_i^{D-3}) \\
-        \vdots & \vdots & \vdots & \ddots & \vdots \\
-        0 & 0 & 0 & \cdots & 1
-    \end{bmatrix}
-    \cdot 
-    \begin{bmatrix}
-        b_0^D \\ b_1^D \\ b_2^D \\ \vdots \\ b_D^D
-    \end{bmatrix}
-\end{align*}
-Matriko definiramo kot $P^D(x)$ in pišemo kot $$(a_{i0}, a_{i1}, \ldots, a_{iD})^\top = P^D(\theta_i)\cdot (b_0^D, b_1^D, \ldots, b_D^D)^\top.$$
-\end{trditev}
-
-\begin{dokaz}
-    Primerjajmo koeficiente v enačbi opombe~\ref{op:moore_minimalni_f} pri $x^{D+1}, 1$ in $x^k$ za $1 < k < D+1$:
-    \begin{align*}
-        a_{iD} &= b_D^D, \\
-        a_{i0}\theta_i &= \Delta b_0^D, \\
-        a_{i(k-1)} - a_{ik}\theta_i &= b_{k-1}^D - b_{k}^D\Delta, \quad 1 \le k \le D.
-    \end{align*}
-    Rekurzivno rešimo sistem (od zadnje enačbe do prve) in dobimo:
-    \begin{align*}
-        a_{iD} &= b_D^D, \\
-        a_{i(D-1)} &= b_{D-1}^D - b_D^D\Delta + b_D^D\theta_i, \\
-        a_{i(D-2)} &= b_{D-2}^D + (\theta_i - \Delta)b_{D-1}^D + (\theta_i^2 - \Delta\theta_i)b_D^D, \\
-        &\vdots \\
-        a_{i0} &= b_0^D + \sum_{j=1}^D (\theta_i^j - \Delta\theta_i^{j-1})b_j^D,
-    \end{align*}
-    kar nam ravno da matriko $P^D(\theta_i)$.
-\end{dokaz}
-
-\begin{trditev}\label{tr_b_koef}
-    Koeficienti $b_j^{D+1}$ polinoma $G^{\Delta, D+1}(x)$ kot v trditvi~\ref{tr:ab} zadoščajo rekurzivnemu sistemu
-    $$(b_0^{D+1}, b_1^{D+1}, \ldots, b_{D+1}^{D+1})^\top = (0, b^D_0, b^D_1, \ldots, b^D_{D})^\top - (\Delta- 1)(b^{D-1}_0, b^{D-1}_1, \ldots, b^{D-1}_{D-1}, 0, 0)^\top.$$
-\end{trditev}
-
-\begin{dokaz}
-    Sledi neposredno iz primerjave koeficientov v rekurzivni enačbi za $G^{\Delta, D+1}(x)$ (glej \ref{tr:moorematrix}).
-\end{dokaz}
-
-\begin{trditev}
-    Naj bo $h^D(\theta_i) = \sum_{j=0}^D a_{ij}\eta^{(j, 0)}_0 = \frac{\sled(f_i(A))}{M^{\Delta, D}}$. Potem polinom $h^D(x)$ zadošča rekurzivnemu sistemu
-    \begin{align*}
-    h^{D+1}(x) &= x h^D(x) - (\Delta-1)h^{D-1}(x), \\
-    h^1(x) &= x - (\Delta-1), \\
-    h^2(x) &= x^2 - (\Delta - 1)x - 2.
-    \end{align*}
-\end{trditev}
-
-\begin{dokaz}
-    Uporabimo matriko $P^D(x)$, ki koeficiente $a_{ij}$ izraža z $b_j^D$ in $x$ kot v tr\-dit\-vi~\ref{tr:ab},
-    ter označimo $$\eta = (\eta^{(0, 0)}_0, \eta^{(1, 0)}_0, \ldots, \eta^{(D+1, 0)}_0)^\top.$$ 
-    Potem zapišemo izraz $xh^{D}(x) - (\Delta -1 )h^{D-1}(x)$ kot
-    \begin{align*}
-        \eta^\top\cdot
-        P^{D+1}(x)
-        \begin{bmatrix}
-            0 \\ b_0^{D} \\ \vdots \\ b_{D}^{D}
-        \end{bmatrix}
-        &- 
-        \eta^\top\cdot
-        \begin{bmatrix}
-            1 & -\Delta & 0 & 0 & \cdots & 0 \\
-            0 & 1 & -\Delta & 0 & \cdots & 0 \\
-            0 & 0 & 1 & -\Delta & \cdots & 0 \\
-            \vdots & \vdots & \vdots & \ddots & \ddots & \vdots \\
-            0 & 0 & 0 & \cdots & 1 & -\Delta \\
-            0 & 0 & 0 & 0 & \cdots & 1
-        \end{bmatrix}
-        \begin{bmatrix}
-            0 \\ b_0^{D} \\ \vdots \\ b_{D}^{D}
-        \end{bmatrix}
-        \\& - (\Delta-1)
-        \eta^\top\cdot
-        P^{D+1}(x)
-        \begin{bmatrix}
-            b_0^{D-1} \\ b_1^{D-1} \\ \vdots \\ b_{D-1}^{D-1} \\ 0 \\ 0
-        \end{bmatrix}
-    \\&= \eta^\top\cdot P^{D+1}(x) 
-    \begin{bmatrix}
-        b_0^{D+1} \\ b_1^{D+1} \\ \vdots \\ b_{D+1}^{D+1}
-    \end{bmatrix} = h^{D+1}(x).
-    \end{align*}
-    Pri zadnjem koraku smo uporabili trditev~\ref{tr_b_koef}.
-    Drugi člen v zgornji enačbi pa pri množenju z $\eta^\top$ izgine,
-    saj dobimo izraze oblike $\eta^{(k+1, 0)}_0 - \Delta \eta^{(k, 0)}_0$, ki so ničelni.
-    V Mooreovem grafu je dolžina najkrajših ciklov enaka $2D+1$, zato je $\eta^{(k+1, 0)}_0 = \Delta \eta^{(k, 0)}_0$ za $k < D$.
-\end{dokaz}
+% \begin{dokaz}
+%     Rezultat preprosto sledi z uporabo L'Hôpitalovega pravila, saj je $\theta_i$ ničla polinoma $f(x)$:
+%     $$f_i(\theta_i) = \lim_{x\to\theta_i} \frac{f(x)}{x-\theta_i} = \lim_{x\to\theta_i} \frac{(x-\Delta)G^{\Delta, D}(x)}{x-\theta_i} = (\theta_i - \Delta)\frac{\partial G^{\Delta, D}}{\partial x}(\theta_i).$$
+% \end{dokaz}
 
 
-\begin{opomba}
-    Izraz $h^D(x)$ je mogoče poenostaviti v zaprto obliko. \citeauthor{hoffman1960moore} 
-    to storita in poenostavita tudi izraz za večkratnost lastne vrednosti $\theta_i$. Dobita
+% \begin{opomba}
+%     Naj bo $\eta^{(q, 0)} = M^q\cdot \mathbf{e}_0$, kjer je $\mathbf{e}_0\in\mathbb{R}^{D+1}$ 
+%     standardni enotski vektor in $M$ presečna matrika razdaljno regularnega grafa premera $D$. Potem 
+%     prva komponenta $\eta^{(q, 0)}_0$ šteje število sprehodov dolžine $q$ iz 
+%     poljubnega vozlišča $v$ do samega sebe (tj., $W_q(v, N_0(v))$, glej trditev~\ref{tr:eta_presecna}). 
+% \end{opomba}
 
-    $$m(\theta_i) = \frac{-2\sin(\phi_i)\sin(D\phi_i)}{(1 - \frac{2s}{1+s^2}\cos(\phi_i)[(D+1)\cos((D+1)\phi_i) + \frac{D}{s}\cos(D\phi_i)])},$$
-    kjer je $s = \sqrt{\Delta - 1}$ in $\theta_i = 2s\cos(\phi_i)$.    
-\end{opomba}
+% \begin{trditev}
+%     Sled polinoma $f_i(A)$ se izraža kot
+%     $$\sled(f_i(A)) = M^{\Delta, D} \sum_{j=0}^D a_{ij}\eta^{(j, 0)}_0.$$
+% \end{trditev}
+
+% \begin{dokaz}
+%     Z upoštevanjem dejstva, da $(A^j)_{kk}$ šteje število sprehodov dolžine $j$ iz vozlišča $k$ do samega sebe (trditev~\ref{tr:a_steje_sprehode}), ter
+%     dejstva, da ima Mooreov graf $M^{\Delta, D}$ vozlišč (definicija~\ref{def:moore}), dobimo
+%     \begin{align*}
+%     \sled(f_i(A)) &= \sum_{j=0}^D a_{ij}\sled(A^j) = \sum_{j=0}^D a_{ij}\sum_{k=1}^{M^{\Delta, D}} (A^j)_{kk} = 
+%     \\&=\sum_{j=0}^D a_{ij}\sum_{k=1}^{M^{\Delta, D}} \eta^{(j, 0)}_0 = M^{\Delta, D} \sum_{j=0}^D a_{ij}\eta^{(j, 0)}_0.
+%     \end{align*}
+% \end{dokaz}
+
+% \begin{trditev}\label{tr:ab}
+%     Naj bo $G^{\Delta, D}(x) = \sum_{j=0}^{D} b^D_j x^j$. Potem se koeficiente polinoma $f_i(x) = \sum_{j=0}^D a_{ij}x^j$ 
+%     izrazi kot linearno kombinacijo koeficientov $b_j$ in lastnih vrednosti $\theta_i$ na sledeči način.
+%     \begin{align*}
+%     \begin{bmatrix}
+%         a_{i0} \\ a_{i1} \\ a_{i2} \\ \vdots \\ a_{iD}
+%     \end{bmatrix}
+%     = 
+%     \begin{bmatrix}
+%         1 & (\theta_i - \Delta) & (\theta_i^2 - \Delta\theta_i) & \cdots & (\theta_i^D - \Delta\theta_i^{D-1}) \\
+%         0 & 1 & (\theta_i - \Delta) & \cdots & (\theta_i^{D-1} - \Delta\theta_i^{D-2}) \\
+%         0 & 0 & 1 & \cdots & (\theta_i^{D-2} - \Delta\theta_i^{D-3}) \\
+%         \vdots & \vdots & \vdots & \ddots & \vdots \\
+%         0 & 0 & 0 & \cdots & 1
+%     \end{bmatrix}
+%     \cdot 
+%     \begin{bmatrix}
+%         b_0^D \\ b_1^D \\ b_2^D \\ \vdots \\ b_D^D
+%     \end{bmatrix}
+% \end{align*}
+% Matriko definiramo kot $P^D(x)$ in pišemo kot $$(a_{i0}, a_{i1}, \ldots, a_{iD})^\top = P^D(\theta_i)\cdot (b_0^D, b_1^D, \ldots, b_D^D)^\top.$$
+% \end{trditev}
+
+% \begin{dokaz}
+%     Primerjajmo koeficiente v enačbi opombe~\ref{op:moore_minimalni_f} pri $x^{D+1}, 1$ in $x^k$ za $1 < k < D+1$:
+%     \begin{align*}
+%         a_{iD} &= b_D^D, \\
+%         a_{i0}\theta_i &= \Delta b_0^D, \\
+%         a_{i(k-1)} - a_{ik}\theta_i &= b_{k-1}^D - b_{k}^D\Delta, \quad 1 \le k \le D.
+%     \end{align*}
+%     Rekurzivno rešimo sistem (od zadnje enačbe do prve) in dobimo:
+%     \begin{align*}
+%         a_{iD} &= b_D^D, \\
+%         a_{i(D-1)} &= b_{D-1}^D - b_D^D\Delta + b_D^D\theta_i, \\
+%         a_{i(D-2)} &= b_{D-2}^D + (\theta_i - \Delta)b_{D-1}^D + (\theta_i^2 - \Delta\theta_i)b_D^D, \\
+%         &\vdots \\
+%         a_{i0} &= b_0^D + \sum_{j=1}^D (\theta_i^j - \Delta\theta_i^{j-1})b_j^D,
+%     \end{align*}
+%     kar nam ravno da matriko $P^D(\theta_i)$.
+% \end{dokaz}
+
+% \begin{trditev}\label{tr_b_koef}
+%     Koeficienti $b_j^{D+1}$ polinoma $G^{\Delta, D+1}(x)$ kot v trditvi~\ref{tr:ab} zadoščajo rekurzivnemu sistemu
+%     $$(b_0^{D+1}, b_1^{D+1}, \ldots, b_{D+1}^{D+1})^\top = (0, b^D_0, b^D_1, \ldots, b^D_{D})^\top - (\Delta- 1)(b^{D-1}_0, b^{D-1}_1, \ldots, b^{D-1}_{D-1}, 0, 0)^\top.$$
+% \end{trditev}
+
+% \begin{dokaz}
+%     Sledi neposredno iz primerjave koeficientov v rekurzivni enačbi za $G^{\Delta, D+1}(x)$ (glej \ref{tr:moorematrix}).
+% \end{dokaz}
+
+% \begin{trditev}
+%     Naj bo $h^D(\theta_i) = \sum_{j=0}^D a_{ij}\eta^{(j, 0)}_0 = \frac{\sled(f_i(A))}{M^{\Delta, D}}$. Potem polinom $h^D(x)$ zadošča rekurzivnemu sistemu
+%     \begin{align*}
+%     h^{D+1}(x) &= x h^D(x) - (\Delta-1)h^{D-1}(x), \\
+%     h^1(x) &= x - (\Delta-1), \\
+%     h^2(x) &= x^2 - (\Delta - 1)x - 2.
+%     \end{align*}
+% \end{trditev}
+
+% \begin{dokaz}
+%     Uporabimo matriko $P^D(x)$, ki koeficiente $a_{ij}$ izraža z $b_j^D$ in $x$ kot v tr\-dit\-vi~\ref{tr:ab},
+%     ter označimo $$\eta = (\eta^{(0, 0)}_0, \eta^{(1, 0)}_0, \ldots, \eta^{(D+1, 0)}_0)^\top.$$ 
+%     Potem zapišemo izraz $xh^{D}(x) - (\Delta -1 )h^{D-1}(x)$ kot
+%     \begin{align*}
+%         \eta^\top\cdot
+%         P^{D+1}(x)
+%         \begin{bmatrix}
+%             0 \\ b_0^{D} \\ \vdots \\ b_{D}^{D}
+%         \end{bmatrix}
+%         &- 
+%         \eta^\top\cdot
+%         \begin{bmatrix}
+%             1 & -\Delta & 0 & 0 & \cdots & 0 \\
+%             0 & 1 & -\Delta & 0 & \cdots & 0 \\
+%             0 & 0 & 1 & -\Delta & \cdots & 0 \\
+%             \vdots & \vdots & \vdots & \ddots & \ddots & \vdots \\
+%             0 & 0 & 0 & \cdots & 1 & -\Delta \\
+%             0 & 0 & 0 & 0 & \cdots & 1
+%         \end{bmatrix}
+%         \begin{bmatrix}
+%             0 \\ b_0^{D} \\ \vdots \\ b_{D}^{D}
+%         \end{bmatrix}
+%         \\& - (\Delta-1)
+%         \eta^\top\cdot
+%         P^{D+1}(x)
+%         \begin{bmatrix}
+%             b_0^{D-1} \\ b_1^{D-1} \\ \vdots \\ b_{D-1}^{D-1} \\ 0 \\ 0
+%         \end{bmatrix}
+%     \\&= \eta^\top\cdot P^{D+1}(x) 
+%     \begin{bmatrix}
+%         b_0^{D+1} \\ b_1^{D+1} \\ \vdots \\ b_{D+1}^{D+1}
+%     \end{bmatrix} = h^{D+1}(x).
+%     \end{align*}
+%     Pri zadnjem koraku smo uporabili trditev~\ref{tr_b_koef}.
+%     Drugi člen v zgornji enačbi pa pri množenju z $\eta^\top$ izgine,
+%     saj dobimo izraze oblike $\eta^{(k+1, 0)}_0 - \Delta \eta^{(k, 0)}_0$, ki so ničelni.
+%     V Mooreovem grafu je dolžina najkrajših ciklov enaka $2D+1$, zato je $\eta^{(k+1, 0)}_0 = \Delta \eta^{(k, 0)}_0$ za $k < D$.
+% \end{dokaz}
 
 
-\begin{izrek}
-    Mooreovi grafi za premer $D\geq 3$, z izjemo lihih ciklov $C_{2D+1}$, ne obstajajo \cite{hoffman1960moore}.
-\end{izrek}
+% \begin{opomba}
+%     Izraz $h^D(x)$ je mogoče poenostaviti v zaprto obliko. \citeauthor{hoffman1960moore} 
+%     to storita in poenostavita tudi izraz za večkratnost lastne vrednosti $\theta_i$. Dobita
+
+%     $$m(\theta_i) = \frac{-2\sin(\phi_i)\sin(D\phi_i)}{(1 - \frac{2s}{1+s^2}\cos(\phi_i)[(D+1)\cos((D+1)\phi_i) + \frac{D}{s}\cos(D\phi_i)])},$$
+%     kjer je $s = \sqrt{\Delta - 1}$ in $\theta_i = 2s\cos(\phi_i)$.    
+% \end{opomba}
 
 
-\begin{opomba}
-    Prav s pomočjo zgornjega izraza za $m(\theta_i)$, \citeauthor{hoffman1960moore} pokažeta, da Mooreovi grafi za premer $D\geq 3$ ne obstajajo.
-    To storita s serijo intervalskih ocen, preko katerih nato prideta do integralskega protislovja.
-\end{opomba}
+% \begin{izrek}
+%     Mooreovi grafi za premer $D\geq 3$, z izjemo lihih ciklov $C_{2D+1}$, ne obstajajo \cite{hoffman1960moore}.
+% \end{izrek}
+
+
+% \begin{opomba}
+%     Prav s pomočjo zgornjega izraza za $m(\theta_i)$, \citeauthor{hoffman1960moore} pokažeta, da Mooreovi grafi za premer $D\geq 3$ ne obstajajo.
+%     To storita s serijo intervalskih ocen, preko katerih nato prideta do integralskega protislovja.
+% \end{opomba}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % V primeru Mooreovih grafov je minimalni polinom enak
 % $$f(x) = \prod_{j=0, j\neq i}^D (x-\theta_j) = (x-\Delta)G^{\Delta, D}(x).$$
@@ -3451,9 +3605,15 @@ Matriko definiramo kot $P^D(x)$ in pišemo kot $$(a_{i0}, a_{i1}, \ldots, a_{iD}
 
 
 \subsection{Klasifikacija Mooreovih grafov}
-V prejšnjih sekcijah smo se sprehodili skozi zgodovino Mooreovih grafov, 
-od njihove definicije vse do njihovih konstrukcij in neobstoja. Naslednji
-izrek je povzetek rezultatov, ki smo jih pridobili v prejšnjih poglavjih.
+V prejšnjih sekcijah smo si podrobneje ogledali lastnosti Mooreovih grafov in raziskali njihov obstoj
+pri različnih parametrih. Pokazali smo, da obstajata dve trivialni neskončni družini takih grafov, in sicer
+polni grafi in lihi cikli. Poleg tega smo podrobneje analizirali njihov obstoj pri premeru $2$, kjer smo odkrili dva 
+netrivialna primera in navedli tudi hipotetični primer, katerega obstoj bodisi neobstoj še ni bil dokazan.
+
+Izkaže se, da so to tudi vsi Mooreovi grafi, namreč Mooreovi grafi za 
+premer $D \geq 3$, z izjemo lihih ciklov, ne obstajajo (glej~\cite{bannai1973finite} in~\cite{hoffman1960moore}). Dokaz neobstoja
+uporablja zaprto obliko izraza za večkratnost lastnih vrednosti, od koder je po mnogih neenakostih in intervalskih ocenah mogoče preiti v protislovje, 
+ki izključi obstoj.
 
 \begin{izrek}[Klasifikacija Mooreovih grafov]\label{iz:moore_klasifikacija}
     Vsi Mooreovi grafi, z izjemo hipotetičnega Aschbacherjevega grafa valence $57$,
