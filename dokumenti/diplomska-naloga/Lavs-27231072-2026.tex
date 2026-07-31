@@ -3644,25 +3644,25 @@ ki izključi obstoj.
 \newpage
 \section{Pogled s strani ožine}
 % povezovalec, definicija, opomba pri definiciji da se ujema s prejšnjo
-V prejšnjih sekcijah smo opazili, da so Mooreovi grafi močno 
+V prejšnjih razdelkih smo opazili, da so Mooreovi grafi močno 
 povezani z ožino (trditev~\ref{tr:diam_girth_regular}). 
 Vsak graf, v katerem se ožina $g$ izraža kot funkcija premera $D$ s predpisom $g(D) = 2D+1$,
 je Mooreov. Ekvivalentno je tudi vsak graf, ki dovoljuje predpis $D(g) = (g-1)/{2}$, Mooreov
-reda $M^{\Delta, D(g)}$ (\ref{def:moore}). Tudi Mooreova meja $M^{\Delta, D(g)}$ ima
-intuativno interpretacijo -- predstavlja spodnjo mejo za število vozlišč grafa 
+reda $M^{\Delta, D(g)}$ (definicija~\ref{def:moore}). Tudi Mooreova meja $M^{\Delta, D(g)}$ ima
+intuitivno interpretacijo -- predstavlja spodnjo mejo za število vozlišč grafa 
 minimalne stopnje $\Delta$ in lihe ožine $g$.
 
 \begin{opomba}\label{op:moore_lower}
-    Da to drži, se lahko prepričamo z unikatnem a elegantnem načinom. 
+    Da to drži, se lahko prepričamo z edinstvenim, a elegantnim načinom. 
     Najprej se spomnimo, da predpis $D(g) = (g-1)/2$ predstavi ravno 
-    najmanjši možen premer v poljubnem grafu, saj vedno velja
-    $g \leq 2D + 1$ oz. $D \geq (g-1)/2$.
+    najmanjši možen premer v grafu z dano ožino, saj vedno velja
+    $g \leq 2D + 1$ oz.~$D \geq (g-1)/2$.
     Potem lahko za poljubno 
-    vozlišče $v$ definiramo kroglo $K(v, D(g))$ kot podgraf induciran z množico
-    vozlišč $\bigsqcup_{i=0}^{D(g)} N_i(v)$. Krogla $K(v, D(g))$ je drevesni podgraf minimalne stopnje $\Delta$,
+    vozlišče $v$ definiramo kroglo $K(v, D(g))$ kot podgraf, induciran z množico
+    vozlišč $\bigcup_{i=0}^{D(g)} N_i(v)$. Krogla $K(v, D(g))$ je drevesni podgraf minimalne stopnje $\Delta$,
     ki ga lahko vložimo $\Delta$-regularno drevo $T_{\Delta, D(g)}^{[1]}$ premera $D(g)$ s pomočjo
     neke surjekcije $\phi: K(v, D(g)) \to T_{\Delta, D(g)}^{[1]}$. Ker ima $\phi(K(v, D(g)))$ natanko
-    $M^{\Delta, D(g)}$ vozlišč je to tudi spodnja meja za število vozlišč prvotnega grafa (glej sliko \ref{fig:vlozitev_v_drevo_moore}).
+    $M^{\Delta, D(g)}$ vozlišč, je to tudi spodnja meja za število vozlišč prvotnega grafa (glej sliko~\ref{fig:vlozitev_v_drevo_moore}).
 \end{opomba}
 
 \begin{figure}[ht]
@@ -3671,23 +3671,23 @@ minimalne stopnje $\Delta$ in lihe ožine $g$.
     \resizebox{0.9\textwidth}{!}{%
         \import{../../assets/}{vlozitev-v-drevo-moore.tex}
     }
-    \caption{Vložitev vozlišč poljubnega grafa minimalne stopnje $\Delta_{\min}$, maksimalne stopnje $\Delta_{\max}$ in
+    \caption{Vložitev vozlišč grafa minimalne stopnje $\Delta_{\min}$, maksimalne stopnje $\Delta_{\max}$ in
     ožine $g$ v regularno drevo premera $D(g)$, kjer prva slika z injekcijo $\psi$ prikazuje Mooreovo mejo kot zgornjo mejo,
-    druga slika pa, z surjekcijo $\phi$, kot spodnjo.}
+    druga slika pa s surjekcijo $\phi$ kot spodnjo.}
     \label{fig:vlozitev_v_drevo_moore}
 \end{figure}
 
 
 
 \begin{trditev}\label{tr:moore_dvodelni_lower}
-Poljuben graf minimalne stopnje $\Delta$ in sode ožine $g$ ima spodnjo mejo za število vozlišč enako:
+Graf minimalne stopnje $\Delta$ in sode ožine $g$ ima spodnjo mejo za število vozlišč enako
 \[2 + 2(\Delta-1) + \ldots + 2(\Delta-1)^{\frac{g}{2}-1}.\]
 \end{trditev}
 
 \begin{dokaz}
-    Vzemimo poljuben rob $uv$ ter štejmo števila vozlišč, ki so od njega oddaljena $i$ povezav.
+    Vzemimo poljubno povezavo $uv$ ter štejmo vozlišča, ki so od nje na razdalji $i$.
     Lahko si predstavljamo, da se iz vozlišča $u$ in $v$ razširjamo v nasprotnih smereh kot drevo
-    in da se listi obeh dreves (zaradi ožine) smejo srečati šele na nivoju $g/2$ oz. $N_{\frac{g}{2}-1}(uv)$. Tako smo
+    in da se listi obeh dreves (zaradi ožine) smejo srečati šele na nivoju $g/2$ oz.~$N_{\frac{g}{2}-1}(uv)$. Tako smo
     dobili $|V| = \sum_{i=0}^{g/2-1} |N_i(uv)| \leq 2\sum_{i=0}^{g/2-1} (\Delta - 1)^i$,
     kjer drži enakost, če je graf regularen. Iz narave izpeljave sledi tudi, da je vsak regularen
     graf, ki dosega tako mejo, dvodelen.
@@ -3717,8 +3717,8 @@ Poljuben graf minimalne stopnje $\Delta$ in sode ožine $g$ ima spodnjo mejo za 
 \end{definicija}
 
 \begin{trditev}
-    Poljuben graf minimalne stopnje $\Delta_{\min}$, maksimalne stopnje $\Delta_{\max}$,
-    premera $D$ in ožine $g$ zadošča naslednjim mejam za število vozlišč:
+    Graf minimalne stopnje $\Delta_{\min}$, maksimalne stopnje $\Delta_{\max}$,
+    premera $D$ in ožine $g$ zadošča sledečim mejam za število vozlišč:
     \begin{align}
         \widetilde{M}^{\Delta_{\min}, g} \leq |V| \leq \begin{cases}
             \widetilde{M}^{\Delta_{\max}, 2D}, & \text{graf je dvodelen} \\
@@ -3731,11 +3731,11 @@ Poljuben graf minimalne stopnje $\Delta$ in sode ožine $g$ ima spodnjo mejo za 
     Z opombo \ref{op:moore_lower} in trditvijo \ref{tr:moore_dvodelni_lower} smo pokazali
     $\widetilde{M}^{\Delta_{\min}, g} \leq |V|$. Neenakost $|V| \leq M^{\Delta_{\max}, D}$ 
     je predstavitev običajne Mooreove meje in zato očitna ter velja za vse grafe.
-    Neenakost $|V| \leq \widetilde{M}^{\Delta_{\max}, 2D}$ pa je izboljšava za dvodelne grafe pri
+    Neenakost $|V| \leq \widetilde{M}^{\Delta_{\max}, 2D}$ pa je izboljšava za dvodelne grafe, pri
     katerih je največja možna ožina $2D$. To je ekvivalentno temu, da je največji možen premer
-    enak $D$ on koder lahko v slogu opombe \ref{op:moore_lower} izpeljemo zgornjo mejo za število vozlišč,
+    enak $D$, od koder lahko v slogu opombe~\ref{op:moore_lower} izpeljemo zgornjo mejo za število vozlišč,
     tukaj z injekcijo $\psi$ iz $K(uv, D-1)$ v $\Delta_{\max}$-regularno drevo z dvema 
-    korenoma $T^{[2]}_{\Delta_{\max}, D}$ in s $D$ nivoji, ki da zgornjo mejo 
+    korenoma $T^{[2]}_{\Delta_{\max}, D}$ in z $D$ nivoji, ki da zgornjo mejo 
     $\widetilde{M}^{\Delta_{\max}, 2D}$.
 \end{dokaz}
 
@@ -3746,7 +3746,7 @@ Poljuben graf minimalne stopnje $\Delta$ in sode ožine $g$ ima spodnjo mejo za 
     \resizebox{0.9\textwidth}{!}{%
         \import{../../assets/}{vlozitev-v-drevo-dvodelni.tex}
     }
-    \caption{Vložitev vozlišč poljubnega dvodelnega grafa ožine $g$ v neskončno regularno drevo vizualizira Mooreovo mejo za dvodelne grafe,
+    \caption{Vložitev vozlišč dvodelnega grafa ožine $g$ v neskončno regularno drevo vizualizira Mooreovo mejo za dvodelne grafe,
     prvič kot zgornjo mejo, drugič kot spodnjo.}
     \label{fig:vlozitev_v_drevo_dvodelni}
 \end{figure}
@@ -3759,9 +3759,9 @@ od koder nato povezave predstavimo z incidenčno relacijo $\II \subseteq \PP \ti
 dodamo še interpretacijo, da so vozlišča množice $\PP$ točke, vozlišča množice $\LL$ pa premice, dobimo
 geometrijski pogled -- dobimo geometrijo ranga $2$, ki jo predstavimo s trojico $(\PP, \LL; \II)$. 
 
-S take perspektive je tako poljuben $2n$-kotnik (tj. $C_{2n}$) 
-predstavljen kot nabor $n$ točk in $n$ premic, kjer incidenčna relacij $\II$ narekuje sosedstva.
-V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko \ref{fig:prehod_v_geometrijo_trikotnik}).
+S take perspektive lahko tako poljuben $2n$-kotnik (tj., $C_{2n}$) 
+predstavimo kot nabor $n$ točk in $n$ premic, kjer incidenčna relacija $\II$ narekuje sosedstva.
+V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko~\ref{fig:prehod_v_geometrijo_trikotnik}).
 
 
 \begin{figure}[ht]
@@ -3776,17 +3776,17 @@ V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko 
 \end{figure}
 
 \begin{definicija}
-    Običajni $n$-kotnik je geometrija ranga $2$ sestavljena iz $n$ točk in $n$ premic, ki med seboj
-    alternirajo in tvorijo cikel dolžine $2n$. To je: 
+    Običajni $n$-kotnik je geometrija ranga $2$, sestavljena iz $n$ točk in $n$ premic, ki med seboj
+    alternirajo in tvorijo cikel dolžine $2n$. Zapišemo jo lahko torej kot
    \begin{gather*}
-    \mathcal{P} = \{p_1, \ldots, p_n\}, \quad \mathcal{L} = \{l_1, \ldots, l_n\} \\
+    \mathcal{P} = \{p_1, \ldots, p_n\}, \quad \mathcal{L} = \{l_1, \ldots, l_n\}, \\
     \mathcal{I} = \{ (p_1, l_1), (p_2, l_1), (p_2, l_2) \ldots, (p_n, l_n), (p_1, l_n)\}.
 \end{gather*}
 \end{definicija}
 
 \begin{opomba}
-    V geometriji ranga $2$ pravimo, da točka $p$ leži na premici $l$ oziroma, da premica $l$ nosi točko $p$, če je $(p, l)\in \II$ in pišemo
-    $p\II l$ oz. $l\II p$.
+    V geometriji ranga $2$ pravimo, da točka $p$ leži na premici $l$ oziroma da premica $l$ nosi točko $p$, če je $(p, l)\in \II$, kar pišemo kot
+    $p\II l$ oz.~$l\II p$.
 \end{opomba}
 
 \begin{definicija}
@@ -3802,26 +3802,26 @@ V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko 
 \end{opomba}
 
 \begin{trditev}\label{tr:dvodelni_moore_generalized}
-    Dvodelni Mooreov graf premera $D$ je regularna geometrija ranga $2$, kjer sta poljubna dva 
-    elementa $x, y \in \PP\cup\LL$ vsebovana v nekem običajnem $D$-kotniku in kjer hkrati ni
+    Dvodelni Mooreov graf premera $D$ je regularna geometrija ranga $2$, v kateri sta vsaka dva 
+    elementa $x, y \in \PP\cup\LL$ vsebovana v nekem običajnem $D$-kotniku in v kateri hkrati ni
     običajnih $n$-kotnikov za $n < D$.
 \end{trditev}
 
 \begin{dokaz}
     Trditev je ekvivalentna trditvi, ki pravi, da je dvodelni Mooreov graf 
-    regularen graf premera $D$ in ožine $2D$ -- to sovpada z definicijo (\ref{def:dvodelni_moore}).
+    regularen graf premera $D$ in ožine $2D$ -- to sovpada z definicijo~\ref{def:dvodelni_moore}.
 \end{dokaz}
 
 \begin{opomba}\label{op:dvodelni_posploseni}
-    V geometrijah ranga $2$ obstaja tudi pojem t.i. posplošenih večkotnikov, ki so definirani 
-    kakor dvodelni Mooreovi grafi v trditvi \ref{tr:dvodelni_moore_generalized}, vendar
-    dopuščajo, biregularnost t.j. da so stopnje točk in premic lahko različne. Dvodelni Mooreovi 
+    V geometrijah ranga $2$ obstaja tudi pojem t.i.~posplošenih večkotnikov, ki so definirani 
+    kakor dvodelni Mooreovi grafi v trditvi~\ref{tr:dvodelni_moore_generalized}, vendar
+    dopuščajo biregularnost, tj., da so stopnje točk in premic lahko različne. Dvodelni Mooreovi 
     grafi so natanko regularni posplošeni večkotniki.
 \end{opomba}
 
 \begin{definicija}\label{def:posploseni}
-    Posplošeni $n$-kotnik je geometrija ranga $2$, kjer sta poljubna dva elementa vsebovana v nekem običajnem $n$-kotniku
-    in kjer hkrati ni običajnih $m$-kotnikov za $m < n$. Posplošenemu večkotniku, ki je regularna geometrija pravimo
+    Posplošeni $n$-kotnik je geometrija ranga $2$, kjer sta vsaka dva elementa vsebovana v nekem običajnem $n$-kotniku
+    in kjer hkrati ni običajnih $m$-kotnikov za $m < n$. Posplošenemu večkotniku, ki je regularna geometrija, pravimo
     regularni posplošeni večkotnik.
 \end{definicija}
 
@@ -3833,14 +3833,14 @@ V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko 
     Interpretirajmo posplošeni $D$-kotnik kot graf. Vzemimo neki vozlišči $u, v\in \PP$ na razdalji $D$ in naj bo $\Delta$ stopnja
     vozlišča $v$. Po definiciji posplošenega večkotnika obstaja cikel $C_{2D}$, ki vsebuje $u$ in $v$.
     Iz vsakega sosednega vozlišča $z\in N_1(v)$ vodi enolična pot $P_z$ dolžine $D-1$ do vozlišča $u$,
-    saj bi sicer kršili pogoj o ožini $g=2D$ ali pa o premeru $D$. Pokazali smo, da imata $u$ in $v$ enako stopnjo.
-    Podobno so zaradi dvodelnosti sosedi vozlišča $u$ in $v$ premice (tj. $N_1(u), N_1(v) \subseteq \LL$), ki so na razdalji $D$
-    in imajo posledično enako stopnjo npr. $\Omega$. V takem primeru smo pokazali, da je posplošeni večkotnik $(\Delta, \Omega)$-biregularen.
+    saj bi sicer kršili pogoj o ožini $g=2D$ ali pa o premeru $D$. Tako smo pokazali, da imata $u$ in $v$ enako stopnjo.
+    Podobno so zaradi dvodelnosti sosedi vozlišča $u$ in $v$ premice (tj., $N_1(u), N_1(v) \subseteq \LL$), ki so na razdalji $D$
+    in imajo posledično enako stopnjo, npr.~$\Omega$. V takem primeru smo pokazali, da je posplošeni večkotnik $(\Delta, \Omega)$-biregularen.
 \end{dokaz}
 
 \begin{izrek}[Feit-Higmanov izrek]\label{iz:feit_higman}
-    Dvodelni $(\Delta, D)$-Mooreovi grafi oz. $\Delta$-regularni posplošeni $D$-kotniki obstajajo le
-    za $\Delta = 2$ in so običajni $D$-kotniki (tj. cikli $C_{2D}$), ali pa $D\in\{2, 3, 4, 6\}$.
+    Dvodelni $(\Delta, D)$-Mooreovi grafi oz.~$\Delta$-regularni posplošeni $D$-kotniki obstajajo le
+    za $\Delta = 2$ in so običajni $D$-kotniki (tj., cikli $C_{2D}$), ali pa $D\in\{2, 3, 4, 6\}$.
     % Naj bo $S$ končni posplošeni $n$-kotnik z $s + 1$ točkami na vsaki premici 
     % ter $t + 1$ premicami na vsaki točki. Potem je $s = t = 1$ in $S$ je običajni večkotnik, 
     % ali pa je $n \in \{2,3,4,6,8,12\}$. Če sta $s, t > 1$ potem je $n \in \{2, 3, 4, 6, 8\}$,
@@ -3853,8 +3853,8 @@ V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko 
 \end{opomba}
 
 \begin{opomba}
-    $\Delta$-regularni posplošeni $2$-kotniki so natanko popolni dvodelni 
-    grafi $K_{\Delta, \Delta}$ (glej sliko \ref{fig:dvokotnik_geom}).
+    $\Delta$-regularni posplošeni $2$-kotniki so natanko polni dvodelni 
+    grafi $K_{\Delta, \Delta}$ (glej sliko~\ref{fig:dvokotnik_geom}).
 \end{opomba}
 
 \begin{figure}[ht]
@@ -3863,35 +3863,35 @@ V smislu geometrije ranga 2 ga predstavimo kot običajni $n$-kotnik (glej sliko 
     \resizebox{0.9\textwidth}{!}{%
         \import{../../assets/}{dvokotnik.tex}
     }
-    \caption{Popolni dvodelni grafi $K_{\Delta, \Delta}$ so dvodelni Mooreovi grafi. To so
+    \caption{Polni dvodelni grafi $K_{\Delta, \Delta}$ so dvodelni Mooreovi grafi. To so
         $\Delta$-regularni posplošeni dvokotniki.}
     \label{fig:dvokotnik_geom}
 \end{figure}
 
 
-\subsubsection{Projektivne ravnine oz. posplošeni trikotniki}
+\subsubsection{Projektivne ravnine oz.~posplošeni trikotniki}
 
-Posplošeni trikotniki so geometrije ranga $2$ v katerih ni običajnih $2$-kotnikov,
-in kjer sta poljubna dva elementa vsebovana v nekem običajnem $3$-kotniku (\ref{def:posploseni}). To je
-ekvivalentno temu, da med poljubnima dvema točkama obstaja natanko ena premica, 
-in med poljubnima dvema premicama obstaja natanko ena točka. % sicer bi tvorili dvokotnik
+Posplošeni trikotniki so geometrije ranga $2$, v katerih ni običajnih $2$-kotnikov,
+in kjer sta vsaka dva elementa vsebovana v nekem običajnem $3$-kotniku (definicija~\ref{def:posploseni}). To je
+ekvivalentno temu, da vsaki dve točki ležita na natanko eni skupni premici,
+in vsaki dve premici nosita natanko eno skupno točko. % sicer bi tvorili dvokotnik
 
-Če z dodatnim pogojem izločimo še degenerirane primere (tj. običajne trikotnike in biregularne geometrije), 
-dobimo t.i. \emph{projektivne ravnine}.
+Če z dodatnim pogojem izločimo še izrojene primere (tj., običajne trikotnike in biregularne geometrije), 
+dobimo t.i.~\emph{projektivne ravnine}.
 
 \begin{definicija}\label{def:projektivna_ravnina}
-    Projektivna ravnina je geometrija ranga $2$, ki zadošča naslednjim aksiomom:
+    Projektivna ravnina je geometrija ranga $2$, ki zadošča naslednjim aksiomom.
     \begin{enumerate}[label=(\roman*)]
-        \item Poljubni dve točki povezuje natanko ena premica.\label{it:proj1}
-        \item Poljubni dve premici se sekata v natanko eni točki.\label{it:proj2}
-        \item Obstajajo štiri točke, take, da nobena premica ne nosi več kot dveh izmed njih.\label{it:proj3}
+        \item Vsaki dve točki povezuje natanko ena premica.\label{it:proj1}
+        \item Vsaki dve premici se sekata v natanko eni točki.\label{it:proj2}
+        \item Obstajajo take štiri točke, da nobena premica ne nosi več kot dveh izmed njih.\label{it:proj3}
     \end{enumerate}
 \end{definicija}
 
 \begin{opomba}
     Aksioma \ref{it:proj1} in \ref{it:proj2} zagotavljata obstoj običajnih trikotnikov
-    in preprečujeta obstoj običajnih dvokotnikov (tj. zagotavljata ožino grafa $g=6$). Tretji aksiom pa zagotavlja ustrezno
-    zanimivost geometrije (tj. preprečuje degenerirane primere). Glej sliko \ref{fig:proj_ravnina_aksiomi}.
+    in preprečujeta obstoj običajnih dvokotnikov (tj., zagotavljata ožino grafa $g=6$). Tretji aksiom pa zagotavlja ustrezno
+    zanimivost geometrije (tj., preprečuje izrojene primere). Glej sliko~\ref{fig:proj_ravnina_aksiomi}.
 \end{opomba}
 
 \begin{figure}[ht]
@@ -3901,8 +3901,8 @@ dobimo t.i. \emph{projektivne ravnine}.
         \import{../../assets/}{proj-ravnina-aksiomi.tex}
     }
     \caption{Aksioma projektivne ravnine \ref{it:proj1} in \ref{it:proj2} zagotavljata obstoj običajnih trikotnikov
-    in preprečujeta obstoj običajnih dvokotnikov (tj. zagotavljata ožino grafa $g=6$). Tretji aksiom pa zagotavlja ustrezno
-    zanimivost geometrije (tj. preprečuje degenerirane primere). Na sliki je podgeometrija (\ref{def:podgeometrija}) vsake projektivne ravnine.}
+    in preprečujeta obstoj običajnih dvokotnikov (tj., zagotavljata ožino grafa $g=6$). Tretji aksiom pa zagotavlja ustrezno
+    zanimivost geometrije (tj., preprečuje izrojene primere). Na sliki je podgeometrija (definicija~\ref{def:podgeometrija}) vsake projektivne ravnine.}
     \label{fig:proj_ravnina_aksiomi}
 \end{figure}
 
@@ -3918,30 +3918,30 @@ dobimo t.i. \emph{projektivne ravnine}.
     Vsaka projektivna ravnina je dvodelni Mooreov graf premera $3$ (\ref{op:dvodelni_posploseni}).
 \end{opomba}
 \begin{dokaz}
-    Ker so vsi posplošeni večkotniki biregularni (\ref{op:posploseni_biregularni}), je v projektivni ravnini na vsaki premici 
+    Ker so vsi posplošeni večkotniki biregularni (opomba~\ref{op:posploseni_biregularni}), je v projektivni ravnini na vsaki premici 
     $\Delta$ točk in na vsaki točki $\Omega$ premic. Ker poljubni točki določata natanko eno premico,
     je $|\PP| = \Omega (\Delta - 1) + 1$, in ker poljubni dve premici določata natanko eno točko, je $|\LL| = \Delta (\Omega - 1) + 1$.
     Ker relacija $\II$ vsebuje $|\PP| \Omega = |\LL| \Delta$ elementov, sledi $(\Omega - \Delta)(\Omega-1)(\Delta-1) = 0$. Ker projektivne
-    ravnine izključujejo degenerirane primere, je $\Omega = \Delta$.
+    ravnine izključujejo degenerirane primere, tako velja $\Omega = \Delta$.
 \end{dokaz}
 
 \paragraph{Desarguesove projektivne ravnine}\label{par:desarguesove_ravnine}
 
-V poljubnem končnem vektorskem prostoru $\mathbb{K}^{3}$, ($n\in\mathbb{N}$) dve premici
+V poljubnem končnem vektorskem prostoru $\mathbb{K}^{3}$ ($n\in\mathbb{N}$) dve premici
 določata natanko eno ravnino skozi izhodišče,
 in dve ravnini, s presekom, določata natanko eno premico. 
 Vsaka premica je oblike $\{\lambda x\mid \lambda\in\mathbb{K}\}$ 
-in vsebuje $|K|-1$ neničelnih vektorjev in vsaka ravnina
+in vsebuje $|\mathbb{K}|-1$ neničelnih vektorjev in vsaka ravnina
 je oblike $\{\lambda x + \mu y\mid \lambda, \mu\in\mathbb{K}\}$ 
 in vsebuje
-$|K|^2-1$ neničelnih točk. 
+$|\mathbb{K}|^2-1$ neničelnih vektorjev. 
 
 Vsaka ravnina posledično vsebuje $\frac{|\mathbb{K}|^2-1}{|\mathbb{K}|-1} = |\mathbb{K}| + 1$ premic, in podobno
 vsaka premica leži na $|\mathbb{K}| + 1$ ravninah. Za našo $(|\mathbb{K}| +1)$-regularno geometrijo $(\PP, \LL; \II)$ nastavimo 
-množico točk $\PP$ kot množico premic in množico premic $\LL$ kot množico ravnin. Incidenčno relacijo 
-$\II$ definirajmo kot inkluzijo podprostorov. Dobili smo projektivno ravnino (\ref{def:projektivna_ravnina}).
+množico točk $\PP$ kot množico premic in množico premic $\LL$ kot množico ravnin v $\mathbb{K}^3$. Incidenčno relacijo 
+$\II$ definirajmo kot vsebovanost podprostorov. Tako dobimo projektivno ravnino (deinicija~\ref{def:projektivna_ravnina}).
 
-Ker so vsa končna polja $\mathbb{K}$ izomorfna $\GF(q)$ za neko $q = p^n$, potenco praštevila, 
+Ker so vsa končna polja $\mathbb{K}$ izomorfna $\GF(q)$ za neko potenco praštevila $q = p^n$, 
 lahko mirno zapišemo naslednjo definicijo.
 
 \begin{trditev}
@@ -3963,9 +3963,9 @@ lahko mirno zapišemo naslednjo definicijo.
 % \end{dokaz}
 
 \begin{definicija}\label{def:projektivni_prostor}
-    Projektivni prostor $\PG(d, \GF(q))$ dimenzije $d$ je geometrija ranga $d$ (tj. nabor $(\A_1, \ldots,A_d; \II)$),
+    Projektivni prostor $\PG(d, \GF(q))$ dimenzije $d$ je geometrija ranga $d$ (tj., nabor $(\A_1, \ldots,A_d; \II)$),
     v kateri $\A_i$ predstavlja množico vseh $i$-dimenzionalnih 
-    podprostorov vektorskega prostora $\GF(q)^{d+1}$, in je incidenčna relacija $\II$ inkluzija podprostorov.
+    podprostorov vektorskega prostora $\GF(q)^{d+1}$, in je incidenčna relacija $\II$ vsebovanost podprostorov.
     
     Običajno $1$-dimenzionalnim podprostorom pravimo \emph{točke}, $2$-dimenzionalnim \emph{premice}, 
     $3$-dimenzionalnim \emph{ravnine}, $4$-dimenzionalnim \emph{hiperravnine}, 
@@ -3978,11 +3978,11 @@ lahko mirno zapišemo naslednjo definicijo.
     ki ji pravimo \emph{Fanova ravnina}. Njena množica točk je 
     \[\PP = \{(1:0:0), (0:1:0), (0:0:1), (1:1:0), (1:0:1), (0:1:1), (1:1:1)\},\]
     množica premic pa 
-    \begin{align*}\LL &= \{(1:0:0)^{\perp}, (0:1:0)^{\perp}, (0:0:1)^{\perp}, (1:1:0)^{\perp}, 
+    \begin{align*}\LL = \{&(1:0:0)^{\perp}, (0:1:0)^{\perp}, (0:0:1)^{\perp}, (1:1:0)^{\perp}, 
         \\&(1:0:1)^{\perp}, (0:1:1)^{\perp}, (1:1:1)^{\perp}\},\end{align*}
-    kjer si z $(a:b:c)$ mislimo $1$-dimenzionalni podprostor definiran kakor $$\{(\lambda a, \lambda b, \lambda c) \mid\lambda\in \GF(2)\},$$
+    kjer si z $(a:b:c)$ mislimo $1$-dimenzionalni podprostor, definiran kot $$\{(\lambda a, \lambda b, \lambda c) \mid\lambda\in \GF(2)\},$$
     in z $(a:b:c)^{\perp}$ ravnino z normalo $(a,b,c)$. Ker je $\II$ inkluzija podprostorov, 
-    je incidenčna relacija definirana kot $(a:b:c) \, I \, (x:y:z)^{\perp}$ natanko tedaj, 
+    je incidenčna relacija definirana kot $(a:b:c) \, \II \, (x:y:z)^{\perp}$ natanko tedaj, 
     ko je $(a:b:c) \in (x:y:z)^{\perp}$, oziroma $a x + b y + c z = 0$. Eksplicitno je to:
     \begin{align*}
     (1:0:0) & \ \II \ \{ (0:0:1)^\perp, (0:1:0)^\perp, (0:1:1)^\perp \} \implies p_1 \II \{l_3, l_2, l_6\}\\
@@ -4006,72 +4006,72 @@ kjer smo točke in premice preimenovali v $p_i$ in $l_i$ za lažjo predstavitev 
     \label{fig:fano_pg2}
 \end{figure}
 
-\paragraph{Nedesarguesove projektivne ravnine}
+\paragraph{Ne-Desarguesove projektivne ravnine}
 
-Nedesarguesove projektivne ravnine so tiste, ki ne dopuščajo koordinatizacije s pomočjo vektorskega prostora.
+Ne-Desarguesove projektivne ravnine so tiste, ki ne dopuščajo koordinatizacije s pomočjo vektorskega prostora.
 Rečemo lahko, da so to redkejše in bolj eksotične projektivne ravnine, ki jih je težje konstruirati.
-Predno se vanje zaletimo si poglejmo alternativno definicijo projektivne ravnine, ki uporablja koncept
+Predno se vanje zaletimo, si poglejmo alternativno definicijo projektivne ravnine, ki uporablja koncept
 posebnih točk in premic v neskončnosti.
 
 
 \begin{trditev}\label{def:desarguesova_ravnina_verzija_2}
-Geometrija $(\PP, \LL,\II)$, dobljena na naslednji način, s pomočjo neke množice $\R$
+Geometrija $(\PP, \LL,\II)$, dobljena s pomočjo neke množice $\R$
 in preslikave $T: \R^3 \to \R$ s predpisom $T(x,m,k)=mx+k$, je projektivna ravnina.  
-Množico točk $\PP$ sestavimo iz elementov treh vrst, tj. iz:
-točk $(x, y) \in \R^2$, točk v neskončnosti $(m), m\in \R$ in točke v neskončnosti $(\infty)$.
-Množico $\LL$ pa dualno, prav tako iz elementov treh vrst, sestavimo iz:
-premic $[m, k] \in\R^2$ naklona $m$ in odreza $k$, navpičnih   premic $[x]$ in navpične premice v neskončnosti $[\infty]$.
-Incidenčna relacija pa je definirana sledeče: točka v neskončnosti $(\infty)$ je incidenčna z 
-navpičnimi premicami $[\infty]$ in $[x]$ za vsak $x\in\R$, točka v neskončnosti $(m)$ je incidenčna z točko
-v neskončnosti $(\infty)$ in 
-vsemi smernimi premicami $[m, k]$ za $k\in\R$. Točke $(x, y)$ so nato incidenčne z vsemi navpičnimi premicami $[x]$ 
-in vsemi smernimi premicami $[m, k]$ natanko tedaj, ko velja $T(x, m, k) = y$.
+Množico točk $\PP$ sestavimo iz elementov treh vrst: iz
+točk $(x, y)$ ($x, y\in \R^2$), točk v neskončnosti $(m)$ ($m\in \R$), in točke v neskončnosti $(\infty)$.
+Množico $\LL$ pa dualno, prav tako iz elementov treh vrst, sestavimo iz
+premic $[m, k]$ ($m, k\in\R^2$) naklona $m$ in odmika $k$, navpičnih premic $[x]$ ($x \in \R$) in navpične premice v neskončnosti $[\infty]$.
+Incidenčno relacijo definiramo tako: točka v neskončnosti $(\infty)$ je incidenčna z 
+navpičnimi premicami $[\infty]$ in $[x]$ za vsak $x\in\R$, točka v neskončnosti $(m)$ je incidenčna s premico
+v neskončnosti $[\infty]$ in 
+vsemi premicami $[m, k]$ za $k\in\R$, točke $(x, y)$ pa so incidenčne z vsemi navpičnimi premicami $[x]$ 
+in vsemi premicami $[m, k]$, za katere velja $T(x, m, k) = y$.
 \end{trditev}
 
 
 \begin{opomba}
     Vse Desarguesove projektivne ravnine lahko predstavimo s konstrukcijo iz trditve \ref{def:desarguesova_ravnina_verzija_2}, 
-    kjer je $(\R, \cdot, +)$ polje. Izkaže se še več -- tudi vsako nedesarguesovo projektivno ravnino lahko konstruiramo na
+    kjer je $(\R, \cdot, +)$ polje. Izkaže se še več -- tudi vsako ne-Desarguesovo projektivno ravnino lahko konstruiramo na
     tak način z ustrezno izbiro množice $\R$ in preslikave $T$.
 \end{opomba}
 
 \begin{definicija}\label{def:planarni_ternarni_obroc}
-    Naj $\R$ neka množica in $T: \R^3 \to \R$ preslikava, taka, ki za neka
-    $0,1\in\R$, zadošča naslednjim aksiomom:
+    Naj $\R$ neka množica in $T: \R^3 \to \R$ taka preslikava, ki za neka
+    $0,1\in\R$, zadošča naslednjim aksiomom.
     \begin{enumerate}[label=(\roman*)]
-        \item $T(a, 0, b) = T(0, a, b) = b \quad \forall a, b \in R$,\label{it:t1}
-        \item $T(1, a, 0) = T(a, 1, 0) = a \quad \forall a \in R$,\label{it:t2}
-        \item $\forall a, b, c, d \in R,\, a \neq c \implies \exists! x \in R:\; T(x, a, b) = T(x, c, d)$,\label{it:t3}
-        \item $\forall a, b, c \in R,\; \exists! x\in R:\; T(a, b, x) = c$,\label{it:t4}
-        \item $\forall a, b, c, d\in R, a\neq c, \;\exists! (x, y) \in R^2:\; T(a, x, y) = b\,\land\,T(c, x, y) = d$\label{it:t5}
+        \item $\forall a, b \in \R: T(a, 0, b) = T(0, a, b) = b$,\label{it:t1}
+        \item $\forall a \in \R: T(1, a, 0) = T(a, 1, 0) = a$,\label{it:t2}
+        \item $\forall a, b, c, d \in \R,\, a \neq c \implies \exists! x \in \R:\; T(x, a, b) = T(x, c, d)$,\label{it:t3}
+        \item $\forall a, b, c \in \R,\; \exists! x\in \R:\; T(a, b, x) = c$,\label{it:t4}
+        \item $\forall a, b, c, d\in \R, a\neq c, \;\exists! (x, y) \in \R^2:\; T(a, x, y) = b\,\land\,T(c, x, y) = d$\label{it:t5}.
     \end{enumerate}
-    Potem pravimo, da je $(\R, T)$ \emph{planarni ternarni obroč} oz. PTO. 
+    Potem pravimo, da je $(\R, T)$ \emph{ravninski tričleni kolobar} oz.~PTO. 
 \end{definicija}
 
 \begin{trditev}
-    Vsaka projektivna ravnina je konstruirana iz nekega planarnega ternarnega obroča $(\R, T)$, 
-    kot v trditvi \ref{def:desarguesova_ravnina_verzija_2}. Njene točke so tako
+    Vsako projektivno ravnino lahko konstruirana iz nekega ravninskega tričlenega kolobarja $(\R, T)$, 
+    kot v trditvi~\ref{def:desarguesova_ravnina_verzija_2}. Njene točke so tako
     $$\PP = \{(x, y) \mid x, y \in \R\} \cup \{(m) \mid m \in \R\} \cup \{(\infty)\},$$
     njene premice pa $$\LL = \{[m, k] \mid m, k \in \R\} \cup \{[x] \mid x \in \R\} \cup \{[\infty]\}.$$
-    Incidenčna relacija je definirana kot:
+    Incidenčna relacija je definirana kot sledeče.
 
-    \begin{align*}
-        ((a,b),[c,d])\in \II &\iff T(a,c,d)=b &
-        ((a, b), [c])\in\II &\iff a = c \\
-        ((a, b), [\infty])\not\in\II & &
-        ((a), [c, d])\in\II &\iff a = c \\
-        ((a), [c])\not\in\II & 
-        ((a), [\infty])\in\II & 
-        ((\infty), [c, d])\not\in\II & \\
-        ((\infty), [c])\in\II & 
-        ((\infty), [\infty])\in\II &
-    \end{align*}
+    \begin{alignat*}{4}
+        ((a,b),[c,d])&\in \II &\iff T(a,c,d)&=b &
+        ((a, b), [c])&\in\II &\iff a &= c \\
+        ((a, b), [\infty])&\not\in\II &&&
+        ((a), [c, d])&\in\II &\iff a &= c \\
+        ((a), [c])&\not\in\II &
+        ((a), [\infty])&\in\II &\qquad
+        ((\infty), [c, d])&\not\in\II \\
+        ((\infty), [c])&\in\II &\qquad
+        ((\infty), [\infty])&\in\II
+    \end{alignat*}
 \end{trditev}
 
 \begin{zgled}
-    Naj bo $(\R, +, \circ)$ kvazi obseg, definiran na sledeč način:
+    Naj bo $(\R, +, \circ)$ kvazi obseg, definiran na sledeči način.
     Množica $\R$ naj bo definirana kot
-    $$\R=\GF(3^2)=\{a + \omega b \mid a, b \in \{0,1,2\}\};\quad \omega^2 = -1,$$
+    $$\R=\GF(3^2)=\{a + \omega b \mid a, b \in \{0,1,2\}\};\quad \omega^2 = 2,$$
     seštevanje $+$ naj bo običajno seštevanje v polju $\GF(3^2)$, 
     množenje $\circ$ pa definirano s predpisom
     \begin{align*}
@@ -4083,22 +4083,22 @@ in vsemi smernimi premicami $[m, k]$ natanko tedaj, ko velja $T(x, m, k) = y$.
         \end{cases}
     \end{align*}
     kjer je $\cdot$ običajno množenje v $\GF(3^2)$. 
-    S preslikavo $T: \R^3 \to \R$ s predpisom $T(x, m, k) = x\circ m + k$ dobimo planarno 
-    ternarni obroč $(\R, T)$, ki tvori nedesarguesovo projektivno ravnino \cite{ivanov2016affine}.
-    Za namen tega zgleda preverimo zgolj aksiom \ref{def:planarni_ternarni_obroc}(\ref{it:t3}).
+    S preslikavo $T: \R^3 \to \R$ s predpisom $T(x, m, k) = x\circ m + k$ dobimo 
+    ravninski tričleni kolobar $(\R, T)$, ki tvori ne-\-De\-sargues\-ovo projektivno ravnino~\cite{ivanov2016affine}.
+    Za namen tega zgleda preverimo zgolj aksiom~\ref{def:planarni_ternarni_obroc}\ref{it:t3}.
     Pokazati moramo, da velja $x\circ a + b = x\circ c + d$ za natanko en $x\in\R$ za vsak nabor $a,b,c,d\in\R$ z $a\neq c$.
-    Dovolj je pokazati, da je $f(x) = x\circ a - x\circ c$ injektivna preslikava. Ker je v polju s karakteristiko $3$ velja
-    $(x_1 + x_2)^3 = x_1^3 + x_2^3$, je $f$ aditivna, in dovolj je pokazati, da je njeno jedro $f^{-1}(0)$ trivialno.
-    Ločimo primere
-    \begin{align*}
-        &a^4 = 1, b^4 = 1:\; f(x) = x\cdot a - x\cdot c = x\cdot (a - c) \implies f(x) = 0 \iff x = 0\\
-        &a^4 = 2, b^4 = 2:\; f(x) = x^3\cdot a - x^3\cdot c = x^3\cdot (a - c) \implies f(x) = 0 \iff x = 0 \\
-        &a^4 = 1, b^4 = 2:\; f(x) = x\cdot a - x^3\cdot c = x\cdot (a-x^2\cdot c) \implies f(x) = 0\iff x = 0,
-    \end{align*}
-    kjer zadnja vrstica drži, saj bi sicer $x^2 = a\cdot c^{-1}$ oz. $1 = x^8 = a^4\cdot c^{-4} = 1\cdot 2^{-1} = 2$, kar je protislovje.
-    Primer $a^4 = 2, b^4 = 1$ je dualen prejšnjemu in ga ni potrebno posebno obravnavati.
+    Dovolj je pokazati, da je $f(x) = x\circ a - x\circ c$ injektivna preslikava. Ker v polju s karakteristiko $3$ velja
+    $(x_1 + x_2)^3 = x_1^3 + x_2^3$, je preslikava $f$ aditivna, in je dovolj pokazati, da je njeno jedro $f^{-1}(0)$ trivialno.
+    Ločimo sledeče primere.
+    \begin{alignat*}{4}
+        a^4 = 1, b^4 = 1&:\;& f(x) &= x\cdot a - x\cdot c &&= x\cdot (a - c) &&\implies f(x) = 0 \iff x = 0\\
+        a^4 = 2, b^4 = 2&:\;& f(x) &= x^3\cdot a - x^3\cdot c &&= x^3\cdot (a - c) &&\implies f(x) = 0 \iff x = 0 \\
+        a^4 = 1, b^4 = 2&:\;& f(x) &= x\cdot a - x^3\cdot c &&= x\cdot (a-x^2\cdot c) &&\implies f(x) = 0\iff x = 0,
+    \end{alignat*}
+    kjer zadnja vrstica drži, saj bi sicer veljalo $x^2 = a\cdot c^{-1}$ oz. $1 = x^8 = a^4\cdot c^{-4} = 1\cdot 2^{-1} = 2$, kar nam da protislovje.
+    Primer $a^4 = 2, b^4 = 1$ je dualen prejšnjemu in ga ni potrebno posebej obravnavati.
 
-    Dobimo $10$-regularni dvodelni Mooreov graf premera $3$ in ožine $6$, z $182$ vozlišči.
+    Dobimo $10$-regularni dvodelni Mooreov graf premera $3$ in ožine $6$ s $182$ vozlišči.
 \end{zgled}
 
 
@@ -4110,13 +4110,13 @@ in vsemi smernimi premicami $[m, k]$ natanko tedaj, ko velja $T(x, m, k) = y$.
     Skladno z definicijo avtorja Van Maldeghema \cite{van2012generalized} je šibki posplošeni 
     štirikotnik definiran kot geometrija $\Gamma = (\PP, \LL, \II)$, ki zadošča aksiomoma:
     \begin{enumerate}[label=(\roman*)]
-        \item Naj bo $\{p, L\}$ antizastava (tj. $(p,L)\not\in\II, p\in\PP, L\in\LL$). 
-        Potem obstaja natanko ena zastava $\{q, M\}$ (tj. $q \II M, q\in\PP, M\in\LL$),
-        za katero velja $p \II M \II q \II L$.\label{it:ss1}
-        \item Vsaka točka leži na vsaj dveh, a ne vseh, premicah, in dualno, vsaka premica
-        nosi vsaj dve, a ne vse, točke.\label{it:ss2}
+        \item Naj bo $\{p, L\}$ protiprapor (tj., $(p,L)\not\in\II, p\in\PP, L\in\LL$). 
+        Potem obstaja natanko en prapor $\{q, M\}$ (tj. $q \II M, q\in\PP, M\in\LL$),
+        za katerega velja $p \II M \II q \II L$.\label{it:ss1}
+        \item Vsaka točka leži na vsaj dveh premicah, a ne vseh, in dualno, vsaka premica
+        nosi vsaj dve točki, a ne vseh.\label{it:ss2}
     \end{enumerate}
-    Geometrija $\Gamma$ je nedegeneriran primer posplošenega štirikotnika, če vsebuje vsaj eno antizastavo.
+    Geometrija $\Gamma$ je neizrojen primer posplošenega štirikotnika, če vsebuje vsaj en protiprapor.
 \end{definicija}
 
 \begin{figure}[ht]
@@ -4125,21 +4125,21 @@ in vsemi smernimi premicami $[m, k]$ natanko tedaj, ko velja $T(x, m, k) = y$.
     \resizebox{0.9\textwidth}{!}{%
         \import{../../assets/}{stirikotnik-aksioms.tex}
     }
-    \caption{Prvi aksiom posplošenega štirikotnika zagotovi podgeometrijo prikazano na prvem delu slike in preprečuje manjše
-    običajne večkotnike (tj. običajne dvokotnike in trikotnike). Drugi aksiom 
+    \caption{Prvi aksiom posplošenega štirikotnika zagotovi podgeometrijo, prikazano na prvem delu slike, in preprečuje manjše
+    običajne večkotnike (tj., običajne dvokotnike in trikotnike). Drugi aksiom 
     nato zagotovi obstoj vsaj enega običajnega štirikotnika.}
     \label{fig:stirikotnik_aksiomi}
 \end{figure}
 
-Zanimali nas bodo predvsem regularni posplošeni štirikotniki. Izkaže se,% TODO: popravi ta text da se ujema z vsebino poglavja
+Zanimali nas bodo predvsem regularni posplošeni štirikotniki. Izkaže se, % TODO: popravi ta text da se ujema z vsebino poglavja
 da obstaja le nekaj takih družin, ki jih bomo predstavili v nadaljevanju. Poleg Titsovih posplošenih štirikotnikov bomo 
 predstavili 
 dve klasični družini, ki temeljita na konstrukciji iz projektivnih prostorov, in sicer
-simplektične posplošene štirikotnike, ki temeljijo na simplektičnih polarnostih in 
-ortogonalne posplošene štirikotnike, ki temeljijo na kvadrikah oz. algebraičnih kvadratnih ploskvah.
+simplektične posplošene štirikotnike, ki temeljijo na simplektičnih polarnostih, in 
+ortogonalne posplošene štirikotnike, ki temeljijo na kvadrikah oz.~algebraičnih kvadratnih ploskvah.
 
-Izkaže se, da sta si le ti dve družini dualni (tj. menjajo se vloge točk in premic) oz. v nekaterih 
-primerih celo izomorfni, zato predstavljajo enake dvodelne Mooreove grafe. Simplektičnim posplošenim
+Izkaže se, da sta si ti dve družini dualni (tj., zamenjajo se vloge točk in premic) oz.~v nekaterih 
+primerih celo izomorfni, zato predstavljajo iste dvodelne Mooreove grafe. Simplektičnim posplošenim
 štirikotnikom se bomo posvetili podrobneje, ortogonalnim pa predvsem zaradi lažjega nadaljevanja na
 posplošene šestkotnike.
 
@@ -4166,27 +4166,27 @@ posplošene šestkotnike.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     Simplektični posplošeni štirikotnik $W(\mathbb{K})$\!, kjer je $\mathbb{K}$ polje, bomo definirali 
-    kot podgeometrijo (\ref{def:podgeometrija}) projektivnega prostora (\ref{def:projektivni_prostor}).
-    Naj bo $\{p, L\}$ antizastava in $\II$ definirana kot inkluzija podprostorov.
-    Da bi izpolnili aksiome posplošenega štirikotnika (\ref{def:posploseni_stirikotnik}), 
-    želimo najti enolično tako zastavo $\{q, M\}$, da velja $p \II M \II q \II L$ (glej sliko \ref{fig:stirikotnik_aksiomi}).
-    V vsakem projektivnem prostoru dve točki določata natanko eno premico (\ref{def:projektivni_prostor}), zato je naš cilj zagotoviti
-    enolično točko $q$ (enoličnost $M=pq$ nato sledi). Definirajmo preslikavo $\tau$ na podprostorih, tako, ki obrne inkluzijo 
-    (tj. $U \subseteq V \iff V^\tau \subseteq U^\tau$ za $U,V$ podprostora) -- rečemo, da je $\tau$ \emph{dualnost}.
+    kot podgeometrijo (definicija~\ref{def:podgeometrija}) projektivnega prostora (definicija~\ref{def:projektivni_prostor}).
+    Naj bo $\{p, L\}$ protiprapor in naj bo relacija $\II$ definirana kot vsebovanost podprostorov.
+    Da bi izpolnili aksiome posplošenega štirikotnika (definicija~\ref{def:posploseni_stirikotnik}), 
+    želimo najti tak enolično določen prapor $\{q, M\}$, da velja $p \II M \II q \II L$ (glej sliko~\ref{fig:stirikotnik_aksiomi}).
+    V vsakem projektivnem prostoru dve točki določata natanko eno premico (definicija~\ref{def:projektivni_prostor}), zato je naš cilj zagotoviti
+    enolično točko $q$ (enoličnost $M=pq$ nato sledi). Definirajmo preslikavo $\tau$ na podprostorih tako, da obrne inkluzijo 
+    (tj., $U \subseteq V \iff V^\tau \subseteq U^\tau$ za $U,V$ podprostora) -- rečemo, da je $\tau$ \emph{dualnost}.
 
-    Zahtevamo $p^\tau\cap L = \{q\}$ (želimo enolično določeno točko $q$), kar je natanko tedaj ko $L\not\subset p^\tau$ ($\tau$ je dualnost). 
-    Če zahtevamo še, da je $\tau$ \emph{polarnost} (tj. poleg dualnosti še $\tau^2 = \id$), je slednje
+    Zahtevamo $p^\tau\cap L = q$ (želimo enolično določeno točko $q$), kar velja natanko tedaj, ko $L\not\subset p^\tau$ (ker je $\tau$ dualnost). 
+    Če zahtevamo še, da je $\tau$ \emph{polarnost} (tj., poleg dualnosti še $\tau^2 = \id$), je slednje
     enakovredno $p\not\subset L^\tau$. S pogojem, da so vse premice v $W(\mathbb{K})$ 
-    \emph{popolnoma izotropne} (tj. $L^\tau = L\;\forall L\in\LL$), dobimo $p\not\subset L$, (kar drži po predpostavki).
+    \emph{popolnoma izotropne} (tj., $\forall L\in\LL: L^\tau = L$), dobimo $p\not\subset L$ (kar drži po predpostavki).
     Zagotovili smo si,
     da je $q$ res enolično določena.
 
-    Vendar, ker želimo, da je $M$ premica v $W(\mathbb{K})$, moramo preveriti kdaj bo tudi $M$ popolnoma izotropna (tj. $M^\tau = M$). Ker iz $M=pq$
+    Vendar, ker želimo, da je $M$ premica v $W(\mathbb{K})$, moramo preveriti, kdaj bo tudi $M$ popolnoma izotropna (tj., $M^\tau = M$). Ker iz $M=pq$
     sledi $M^\tau = p^\tau \cap q^\tau$, je dovolj pokazati, da velja $p\subset M^\tau$ in $q\subset M^\tau$, oziroma
     $p\subset p^\tau$ in $q\subset q^\tau$. Ni nam potrebno preveriti $q\subset p^\tau$ in $p\subset q^\tau$, saj
-    smo $q$ izbrali tak, da $q\subset p^\tau$, od koder po dualnosti $\tau$ dobimo tudi $p\subset q^\tau$.
-    Zahtevamo, da je $\tau$ \emph{simplektična polarnost} (tj. $U \subseteq U^\tau$ za vsak podprostor $U$) in 
-    s tem zagotovimo, da je $M$ popolnoma izotropna.
+    smo $q$ izbrali tako, da velja $q\subset p^\tau$, od koder po dualnosti $\tau$ dobimo tudi $p\subset q^\tau$.
+    Zahtevamo, da je $\tau$ \emph{simplektična polarnost} (tj., $U \subseteq U^\tau$ za vsak podprostor $U$) in 
+    s tem zagotovimo, da je premica $M$ popolnoma izotropna.
 
     Ker smo zahtevali, da $\tau$ simplektična polarnost, ki slika premice v premice, je dimenzija projektivnega prostora omejena na $3$ --
     konstrukcija je mogoča zgolj v $\PG(3, \mathbb{K})$.
@@ -4204,50 +4204,49 @@ posplošene šestkotnike.
 \end{trditev}
 
 \begin{dokaz}
-    V uvodu smo pokazali, da je posplošeni štirikotnik nad projektivnem prostorom s pomočjo 
-    preslikave med podprostori mogoče konstruirati zgolj morda ko je preslikava simplektična polarnost
-    in je projektivni prostor $\PG(3, \mathbb{K})$. Preostane nam dokazati še, da je tudi drugi
-    aksiom posplošenega štirikotnika (\ref{def:posploseni_stirikotnik}\ref{it:ss2}) zadoščen, in da je vsaka popolnoma izotropna premica
-    vsebovana v polari (tj. dualu glede na polarnost $\tau$) svojih točk (to zagotavlja dobro definirano geometrijo).
+    V uvodu smo pokazali, da je posplošeni štirikotnik nad projektivnim prostorom $\PG(d, \mathbb{K})$ s pomočjo 
+    preslikave med podprostori morda mogoče konstruirati zgolj, ko velja $d = 3$ in v projektivnem prostoru obstaja simplektična polarnost $\tau$. Preostane nam dokazati še, da je tudi drugi
+    aksiom posplošenega štirikotnika (definicija~\ref{def:posploseni_stirikotnik}\ref{it:ss2}) zadoščen, in da je vsaka popolnoma izotropna premica
+    vsebovana v polaru (tj., dualu glede na polarnost $\tau$) svojih točk (to zagotavlja dobro definirano geometrijo).
 
     Vektorji $(1,0,0,0), (0,1,0,0),(0,0,1,0)$ in $(0,0,0,1)$, kjer sta $0$ in $1$ enoti v polju $\mathbb{K}$, tvorijo bazo
     vektorskega prostora $\mathbb{K}^4$. V $\PG(3, \mathbb{K})$ so to predstavniki točk, ki
-    tvorijo običajen štirikotnik. Namreč simplektična polarnost $\tau$ preslika vsako iz med teh točko v ravnino, ki vsebuje 
-    točko samo in še dve drugi točki iz baze. Nadaljujemo lahko v poljubno izmed njih, saj $\tau$ prepreči običajne dvokotnike in trikotnike.
-    Ker vsako naslednjo točko izberemo iz polare prejšnje je izotropnost premic zagotovljena.
+    tvorijo običajen štirikotnik. Simplektična polarnost $\tau$ namreč preslika vsako izmed teh točk v ravnino, ki vsebuje 
+    točko samo in še dve drugi točki iz baze. Nadaljujemo lahko v poljubno izmed njiju, saj $\tau$ prepreči običajne dvokotnike in trikotnike.
+    Ker vsako naslednjo točko izberemo iz polara prejšnje, je izotropnost premic zagotovljena.
 
-    Pokažimo še, da je $W(\mathbb{K})$ ustrezno definiran. Vzemimo poljubno popolnoma izotropno premico $L$ in točko $p$ na njej (tj. $p\II L$).
-    Ker je $\tau$ dualnost, je $p^\tau \supset L^\tau$ oz. $p^\tau \supset L$ (saj $L^\tau = L$). Naj bo zdaj še $x\II L$ poljubna točka 
-    na premici $L$. Ker je $\tau$ polarnost, je $x\II x^\tau$, 
+    Pokažimo še, da je $W(\mathbb{K})$ ustrezno definiran. Vzemimo poljubno popolnoma izotropno premico $L$ in točko $p$ na njej (tj., $p\II L$).
+    Ker je $\tau$ dualnost, velja $p^\tau \supset L^\tau$ oz.~$p^\tau \supset L$ (saj $L^\tau = L$). Naj bo zdaj še $x$ poljubna točka 
+    na premici $L$. Ker je $\tau$ polarnost, velja $x\II x^\tau$, 
     in ker $x\subset L\subset p^\tau$, je $x \II p^\tau$.
     Uspelo nam je pokazati, da je $L^\tau = (px)^\tau = p^\tau \cap x^\tau \supseteq px =  L$, kar pomeni, da je $L$ vsebovana 
-    v polari svojih točk, tj. geometrija je dobro definirana.
+    v polaru svojih točk, tj., geometrija je dobro definirana.
 
     Ker vsaka premica projektivnega prostora $\PG(3, \mathbb{K})$ nosi 
-    natanko $|\mathbb{K}| + 1$ točk (\ref{par:desarguesove_ravnine}) in prav tako
+    natanko $|\mathbb{K}| + 1$ točk (razdelek~\ref{par:desarguesove_ravnine}) in prav tako
     skozi vsako točko $p$ na ravnini $p^\tau$ vodi natanko
     $|\mathbb{K}| + 1$ premic, je $W(\mathbb{K})$ $(|\mathbb{K}| + 1)$-regularen posplošeni štirikotnik.
 \end{dokaz}
 
 \begin{trditev}\label{tr:edina_simplekticna_polarnost}
     Preslikava $\tau$, ki deluje na podprostorih $U\subset \PG(3, \mathbb{K})$, in je definirana s predpisom
-    \[U^\tau = \{x\in \mathbb{K}^4\mid \langle x, y\rangle = 0 \; \forall \; y\in U\},\]
-    kjer je kvadratna bilinearna forma $\langle \cdot, \cdot\rangle$ definirana kot
+    \[U^\tau = \{x\in \mathbb{K}^4\mid \forall y\in U: \langle x, y\rangle = 0\},\]
+    kjer je kvadratna bilinearna forma $\langle \cdot, \cdot\rangle$, definirana kot
     \[ \langle (x_0, x_1, x_2, x_3), (y_0, y_1, y_2, y_3) \rangle = x_0 y_1 - x_1 y_0 + x_2 y_3 - x_3 y_2,\]
-    je edina (do izomorfizma natančno) simplektična polarnost, ki deluje na $\mathbb{K}^4$.
+    je edina (do izomorfizma natanko) simplektična polarnost, ki deluje na $\mathbb{K}^4$.
 \end{trditev}
 
 \begin{dokaz}
    Naj bosta $U\subseteq V$ podprostora. 
    Potem je $V^\tau \subseteq U^\tau$, saj je vsak vektor, ki je pravokoten na vse vektorje iz $V$, 
    pravokoten tudi na vse vektorje iz $U$. To pokaže, da je $\tau$ dualnost.
-   Ker je $\langle \cdot, \cdot\rangle$ ne-degenerirana, je $(U^\tau)^\tau = U$ in s tem $\tau$ polarnost.
-   Dalje je $\tau$ simplektična polarnost, saj je $\langle x, x\rangle = 0$, in s tem $\forall x\in U$ velja $x\in U^\tau$.
+   Ker je bilinearna forma $\langle \cdot, \cdot\rangle$ neizrojena, velja $(U^\tau)^\tau = U$ in je s tem $\tau$ polarnost.
+   Dalje je $\tau$ simplektična polarnost, saj je $\langle x, x\rangle = 0$, in s tem za vsak $x\in U$ velja $x\in U^\tau$.
 
-   O edinstvenosti pa se prepričajmo na sledeč način.
-   S pogojem $\langle x, x\rangle = 0 \;\forall x\in\mathbb{K}^4$ dobimo 
+   O enoličnosti pa se prepričajmo na sledeči način.
+   S pogojem $\forall x\in\mathbb{K}^4: \langle x, x\rangle = 0$ dobimo 
    $$0 = \langle x + y, x + y\rangle = \langle x, y\rangle + \langle y, x\rangle,$$ 
-   od koder je
+   od koder sledi
    $\langle x, y\rangle = -\langle y, x\rangle$ oziroma $\langle x, y\rangle = x^\top A y = -y^\top A x = x^\top(-A^\top)y$ za neko obrnljivo matriko $A$.
    To pomeni, da je $A = -A^\top$ alternirajoča. Vse take matrike $A$ so podobne matriki 
    \[\begin{bmatrix}
@@ -4256,7 +4255,7 @@ posplošene šestkotnike.
         0 & 0 & 0 & 1\\
         0 & 0 & -1 & 0
    \end{bmatrix},\]
-   ki smo jo izbrali za $\langle\cdot,\cdot\rangle$ pri $\tau$. Izomorfnost drugih simplektičnih polarnosti od tu sledi.
+   ki smo jo izbrali za $\langle\cdot,\cdot\rangle$ pri $\tau$. Izomorfnost drugih simplektičnih polarnosti sledi od tod.
 \end{dokaz}
 
 
@@ -4276,7 +4275,7 @@ posplošene šestkotnike.
 
     Simplektično polarnost $\tau$ definirajmo kot v trditvi \ref{tr:edina_simplekticna_polarnost}
     s standardno alternirajočo bilinearno formo
-    \[ \langle x, y \rangle = x_0 y_1 - x_1 y_0 + x_2 y_3 - x_3 y_2 = 0. \]
+    \[ \langle x, y \rangle = x_0 y_1 - x_1 y_0 + x_2 y_3 - x_3 y_2. \]
 
     Projektivna premica je $2$-dimenzionalni podprostor 
     \[\{\lambda A + \mu B \mid \lambda, \mu \in \GF(2), \lambda, \mu\in\GF(2)\},\] 
@@ -4285,15 +4284,15 @@ posplošene šestkotnike.
     $2^2 - 1 = 3$ neničelne vektorje: $A$, $B$ in njuno vsoto $A+B$. Premice geometrije 
     $W(\GF(2))$ so tiste projektivne premice, ki so popolnoma izotropne ($L^\tau = L$), 
     kar pomeni, da morajo biti vse tri točke na premici paroma pravokotne 
-    ($L^\tau = \{x\in\GF(2)^4\mid \langle x, y \rangle = 0\;\forall y\in L\}$). Zaradi bilinearnosti 
-    forme in dejstva, da je vsak vektor pravokoten nase ($\langle v, v \rangle = 0$, tj. simplektičnost polarnosti), zadošča 
-    preveriti le pravokotnost generatorjev: če velja $\langle A, B \rangle = 0$, bo avtomatično 
-    veljalo tudi $\langle A, A+B \rangle = \langle A, A \rangle + \langle A, B \rangle = 0 + 0 = 0$.
+    ($L^\tau = \{x\in\GF(2)^4\mid \forall y\in L: \langle x, y \rangle = 0\}$). Zaradi bilinearnosti 
+    forme in dejstva, da je vsak vektor pravokoten nase ($\langle v, v \rangle = 0$, tj., simplektičnost polarnosti), zadošča 
+    preveriti le pravokotnost generatorjev: če velja $\langle A, B \rangle = 0$, bo
+    sledilo tudi $\langle A, A+B \rangle = \langle A, A \rangle + \langle A, B \rangle = 0 + 0 = 0$.
 
     Namesto neposrednega preverjanja vseh $\binom{15}{3} = 455$ možnih trojic točk lahko izotropne premice preštejemo pametneje. 
     Vsaka točka leži v svoji polarni ravnini, ki vsebuje $2^3 - 1 = 7$
-    točk. Namreč \[p^\tau = \{x\in \PG(2)^4\mid\langle x, p\rangle = 0\}\] je ravnina
-    oz. tridimenzionalni podprostor in polarnost je simplektična. 
+    točk. Množica \[p^\tau = \{x\in \PG(2)^4\mid\langle x, p\rangle = 0\}\] je namreč ravnina
+    oz.~tridimenzionalni podprostor in polarnost je simplektična. 
     Izven same sebe je torej pravokotna na 
     natanko $6$ drugih točk. Skupno to znese $15 \cdot 6 / 2 = 45$ pravokotnih parov v celotnem prostoru. 
     Ker vsaka izotropna premica vsebuje natanko $\binom{3}{2} = 3$ takšne pare, je vseh izotropnih premic natanko $45 / 3 = 15$. 
@@ -4321,7 +4320,7 @@ posplošene šestkotnike.
     Iz te izpeljave neposredno sledi, da vsaka točka leži na natanko $3$ izotropnih premicah in vsaka izotropna premica 
     vsebuje natanko $3$ točke. Pokazali 
     smo, da je $W(\GF(2))$ $3$-regularen posplošeni štirikotnik. 
-    Znan je pod imenom \emph{Doily} (glej sliko \ref{fig:doily_simplekticni} in \ref{fig:generalized_quadrangle_gq22}).
+    Znan je pod imenom \emph{Doily} (glej sliki~\ref{fig:doily_simplekticni} in~\ref{fig:generalized_quadrangle_gq22}).
 \end{zgled}
 
 
@@ -4330,7 +4329,7 @@ posplošene šestkotnike.
     \resizebox{0.6\textwidth}{!}{%
         \import{../../assets/}{doly-accurate.tex}%
     }
-    \caption{Posplošeni štirikotnik $W(\GF(2))$ dobljen prek projektivnega prostora $\PG(3, \GF(2))$
+    \caption{Posplošeni štirikotnik $W(\GF(2))$, dobljen prek projektivnega prostora $\PG(3, \GF(2))$
     s simplektično polarnostjo $\tau$ -- Doily.}
     \label{fig:doily_simplekticni}
 \end{figure}
@@ -4342,7 +4341,7 @@ posplošene šestkotnike.
 
 
 \begin{definicija}\label{def:grassmannove_koordinate}
-    Za premico $L$ v $\PG(d, \mathbb{K})$, ki jo določata dve različni točki z 
+    Za premico $L$ v $\PG(d, \mathbb{K})$, ki jo določata dve različni točki s 
     homogenimi koordinatami $x = (x_0, x_1, \dots, x_d)$ in $y = (y_0, y_1, \dots, y_d)$,
     so Grassmannove koordinate definirane kot $(p_{ij})_{0\leq i < j \leq d}$, kjer je
     \[p_{ij} = \begin{vmatrix} x_i & x_j \\ y_i & y_j \end{vmatrix},\]
@@ -4355,7 +4354,7 @@ posplošene šestkotnike.
 \end{opomba}
 
 \begin{opomba}
-    Grassmannove koordinate res dobro definirajo premico določeno s točkama $x$ in $y$.
+    Grassmannove koordinate res dobro definirajo premico, določeno s točkama $x$ in $y$.
     Če bi namreč izbrali nek drug par točk $x' = \lambda x + \mu y$ in $y' = \alpha x + \beta y$, 
     ki bi določal isto premico, bi veljalo
     \begin{align*}
@@ -4375,16 +4374,16 @@ posplošene šestkotnike.
     \end{align*}
     in $\lambda\beta - \mu\alpha \neq 0$ (zaradi obrnljivosti matrike).
     S tem bi dobili $$p_{ij} = \begin{vmatrix} x'_i & x'_j \\ y'_i & y'_j \end{vmatrix} = (\lambda\beta - \mu\alpha) \begin{vmatrix} x_i & x_j \\ y_i & y_j \end{vmatrix},$$
-    kar določa enako točko v $\PG\left(\binom{d+1}{2} - 1, \mathbb{K}\right)$.
+    kar določa isto točko v $\PG\left(\binom{d+1}{2} - 1, \mathbb{K}\right)$.
 \end{opomba}
 
 \begin{zgled}\label{zg:grassmannove_koordinate}
     Premice simplektičnega posplošenega štirikotnika $W(\mathbb{K})$ lahko opišemo z Grassmannovimi koordinatami
-    in jih nato predstavimo kot točke v $\PG(5, \mathbb{K})$ (\ref{op:grassmann_stevilo}). Opazimo tudi, da lahko 
-    simplektično polarnost (\ref{tr:edina_simplekticna_polarnost}) z Grassmannovimi koordinatami 
-    poenostavimo kot $p_{01} + p_{23} = 0$. Z enostavnim, a rahlo zamudnim, izračunom lahko pokažemo tudi, da velja
+    in jih nato predstavimo kot točke v $\PG(5, \mathbb{K})$ (opomba~\ref{op:grassmann_stevilo}). Opazimo tudi, da lahko 
+    simplektično polarnost (trditev~\ref{tr:edina_simplekticna_polarnost}) z Grassmannovimi koordinatami 
+    poenostavimo kot $p_{01} + p_{23} = 0$. Z enostavnim, a rahlo zamudnim izračunom lahko pokažemo tudi, da velja
     $$p_{01}p_{23} + p_{02}p_{31} + p_{03}p_{12} = 0$$ 
-    To je enačba Kleinove relacije, ki jo Grassmannove koordinate morajo zadostiti.
+    To je enačba Kleinove relacije, ki ji Grassmannove koordinate morajo zadostiti.
 \end{zgled}
 
 \paragraph{Ortogonalni posplošeni štirikotniki}
@@ -4417,8 +4416,8 @@ posplošene šestkotnike.
 
 \begin{opomba}
     V vektorskem prostoru $\mathbb{K}^{4+1}$ je parabolična kvadratna forma edina nedegenerirana kvadratna forma z Wittovim indeksom $2$,
-    in do menjave koordinat natančno, obstaja le ena nedegenerirana parabolična kvadratna forma. Poleg tega
-    v končnih projektivnih prostorih nedegenerirane kvadratne forme z Wittovim indeksom $2$ obstajajo le za dimenzije $d\in\{3,4,5\}$.
+    in do menjave koordinat natančno obstaja le ena nedegenerirana parabolična kvadratna forma. Poleg tega
+    v končnih projektivnih prostorih neizrojene kvadratne forme z Wittovim indeksom $2$ obstajajo le za dimenzije $d\in\{3,4,5\}$.
 \end{opomba}
 
 \begin{zgled}
@@ -4429,7 +4428,7 @@ posplošene šestkotnike.
 
 \begin{definicija}\label{def:regularni_ortogonalni_gq}
     Regularni ortogonalni posplošeni štirikotnik $Q(4, \mathbb{K})$ je definiran kot $Q(4, \mathbb{K}, q)$, kjer je
-    $q$ parabolična kvadratna forma npr. \[q(x_0, x_1, x_2, x_3, x_4) = x_0x_1 + x_2x_3 + x_4^2\].
+    $q$ parabolična kvadratna forma, npr. \[q(x_0, x_1, x_2, x_3, x_4) = x_0x_1 + x_2x_3 + x_4^2\].
     Tak posplošeni štirikotnik je $(|\mathbb{K}| + 1)$-regularen (kar bo jasno kasneje).
 \end{definicija}
 
@@ -4443,13 +4442,13 @@ posplošene šestkotnike.
 \begin{dokaz}
     Premica je $2$-dimenzionalni podprostor, ki ga določata linearno neodvisna vektorja $x$ in $y$.
     Ker je $q$ kvadratna forma, velja $$q(\lambda x + \mu y) = \lambda^2 q(x) + \lambda\mu \langle x, y\rangle + \mu^2 q(y).$$
-    Kar je enako $0$ za vsak $\lambda, \mu\in\mathbb{K}$ natanko tedaj, ko je $\langle x, y\rangle = 0$ in $x,y\in q^{-1}(0)$.
+    Zgornji izraz je enak $0$ za vsak $\lambda, \mu\in\mathbb{K}$ natanko tedaj, ko velja $\langle x, y\rangle = 0$ in $x,y\in q^{-1}(0)$.
 \end{dokaz}
 
 \begin{trditev}
-    Regularni ortogonalni posplošeni štirikotnik $Q(4, \mathbb{K})$ je dualen (tj. vlogi točk in premic se menjata) simplektičnemu 
-    posplošenemu štirikotniku $W(\mathbb{K})$ (\ref{def:simplekticni_gq}). V nekaterih primerih sta si celo izomorfna (glej zgled \ref{zgled:ortogonalni_dolly})).
-    Posledično sta si kot grafa ekvivalentna.
+    Regularni ortogonalni posplošeni štirikotnik $Q(4, \mathbb{K})$ je dualen (tj., vlogi točk in premic se zamenjata) simplektičnemu 
+    posplošenemu štirikotniku $W(\mathbb{K})$ (definicija~\ref{def:simplekticni_gq}). V nekaterih primerih sta si celo izomorfna (glej zgled~\ref{zgled:ortogonalni_dolly})).
+    Posledično sta si kot grafa izomorfna.
 \end{trditev}
 
 \begin{dokaz}
@@ -4466,15 +4465,15 @@ posplošene šestkotnike.
 
 \begin{zgled}\label{zgled:ortogonalni_dolly} % TODO: MUST CHECK GENERATED
     Konstruirajmo najmanjši regularni ortogonalni posplošeni štirikotnik $Q(4, \GF(2))$ nad poljem $\GF(2) = \{0, 1\}$. 
-    Uporabiti moramo $5$-dimenzionalni vektorski prostor $V = \GF(2)^5$ in npr. standardno parabolično 
-    kvadratično formo $q: V \to \GF(2)$, podano s predpisom:
+    Uporabiti moramo $5$-dimenzionalni vektorski prostor $V = \GF(2)^5$ in npr.~standardno parabolično 
+    kvadratno formo $q: V \to \GF(2)$, podano s predpisom:
     $$q(x) = q(x_0, x_1, x_2, x_3, x_4) = x_0 x_1 + x_2 x_3 + x_4^2.$$
     
     Ker nad poljem $\GF(2)$ za vsak element velja $a^2 = a$, se oblika forme poenostavi v 
     $q(x) = x_0 x_1 + x_2 x_3 + x_4$.
     
-    Točke geometrije so $1$-dimenzionalni podprostori, ki ležijo na kvadriki, torej tisti
-    za katere velja $q(x) = 0\; \forall x$. To pomeni, da mora veljati $x_4 = x_0 x_1 + x_2 x_3$. 
+    Točke geometrije so $1$-dimenzionalni podprostori $U$, ki ležijo na kvadriki, torej tisti,
+    za katere velja $\forall x \in U: q(x) = 0$. To pomeni, da mora veljati $x_4 = x_0 x_1 + x_2 x_3$. 
     Če preverimo vseh $16$ možnih kombinacij za prve štiri koordinate in izločimo ničelni vektor, 
     dobimo natanko $15$ točk:
     \begin{align*}
@@ -4484,17 +4483,17 @@ posplošene šestkotnike.
         p_{13} &= (1,0,1,1,1), & p_{14} &= (0,1,1,1,1), & p_{15} &= (1,1,1,1,0).
     \end{align*}
     Mimogrede, opazimo lahko, da projekcija na prve štiri koordinate ustvari bijekcijo med točkami $q^{-1}(0)$ in točkami 
-    $W(\GF(2))$ iz zgleda \ref{zgled:simplekticni_dolly}.
+    $W(\GF(2))$ iz zgleda~\ref{zgled:simplekticni_dolly}.
 
-    Ker v polju $\GF(2)$ velja $1\equiv -1$, se pripadajoča bilinearna forma (\ref{tr:kvadratna_v_bilinearna}) forme $q$ poenostavi v:
+    Ker v polju $\GF(2)$ velja $1\equiv -1$, se pripadajoča bilinearna forma (trditev~\ref{tr:kvadratna_v_bilinearna}) kvadratne forme $q$ poenostavi v
     $$\langle x, y \rangle = x_0 y_1 - x_1 y_0 + x_2 y_3 - x_3 y_2.$$
     
-    Po trditvi \ref{tr:kvadratna_v_bilinearna} je premica $L$ med $x$ in $y$ iz $q^{-1}(0)$
+    Po trditvi~\ref{tr:kvadratna_v_bilinearna} je premica $L$ med $x$ in $y$ iz $q^{-1}(0)$
     vsebovana v $q^{-1}(0)$ natanko tedaj, ko velja $\langle x, y \rangle = 0$.
 
-    Ker je $\langle x, x \rangle = 0 \;\forall x\in q^{-1}(0)$ in ker obstaja bijekcija med točkami $q^{-1}(0)$ in točkami $\PG(4, \GF(2))$,
-    lahko z $\langle \cdot, \cdot\rangle$ definiramo simplektično polarnost $\tau$ (\ref{tr:edina_simplekticna_polarnost}) na $q^{-1}(0)$, od koder sledi
-    izomorfnost $Q(4, \GF(2)) \cong W(\GF(2))$ (glej sliki \ref{fig:generalized_quadrangle_gq22}, \ref{fig:doily_simplekticni}).
+    Ker velja $\forall x\in q^{-1}(0): \langle x, x \rangle = 0$ in ker obstaja bijekcija med točkami $q^{-1}(0)$ in točkami $\PG(4, \GF(2))$,
+    lahko z $\langle \cdot, \cdot\rangle$ definiramo simplektično polarnost $\tau$ (trditev~\ref{tr:edina_simplekticna_polarnost}) na $q^{-1}(0)$, od koder sledi
+    izomorfnost $Q(4, \GF(2)) \cong W(\GF(2))$ (glej sliki~\ref{fig:generalized_quadrangle_gq22} in~\ref{fig:doily_simplekticni}).
 \end{zgled}
 
 
@@ -4503,18 +4502,18 @@ posplošene šestkotnike.
     \resizebox{0.6\textwidth}{!}{%
         \import{../../assets/}{doily-incidence.tex}%
     }
-    \caption{Graf ortogonalnega posplošenega štirikotnika $Q(4, \GF(2))\cong W(\GF(2))$ dobljenega prek projektivnega prostora $\PG(4, \GF(2))$
+    \caption{Graf ortogonalnega posplošenega štirikotnika $Q(4, \GF(2))\cong W(\GF(2))$, dobljenega prek projektivnega prostora $\PG(4, \GF(2))$
     s parabolično kvadratno formo $q(x_0, x_1, x_2, x_3, x_4) = x_0x_1 + x_2x_3 + x_4^2$.
-    Je $3$-regulren dvodelni Mooreov graf graf ožine $8$ in premera $4$.}
+    Je $3$-regularen dvodelen Mooreov graf ožine $8$ in premera $4$.}
     \label{fig:generalized_quadrangle_gq22}
 \end{figure}
 
 
 \paragraph{Titsovi posplošeni štirkotniki}
 Edina znana družina regularnih posplošenih štirikotnikov, poleg $Q(4, \mathbb{K})$ in $W(\mathbb{K})$, so Titsovi posplošeni 
-štirikotniki $T_2(\mathcal{O})$ katerih konstrukcija je opisana v \cite{o2001subquadrangles} in poteka preko ovalov 
-v projektivnih ravninah ter vložitve v višje dimenzionalne projektivne prostore. V tem razdelku bomo predstavili 
-zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, katerim rečemo translacijski Titsovi posplošeni štirikotniki.
+štirikotniki $T_2(\mathcal{O})$, katerih konstrukcija je opisana v~\cite{o2001subquadrangles} in poteka preko ovalov 
+v projektivnih ravninah ter vložitve v višjedimenzionalne projektivne prostore. V tem razdelku bomo predstavili 
+zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, ki jim rečemo translacijski Titsovi posplošeni štirikotniki.
 
 % Obstaja še nekaj družin posplošenih štirikotnikov reda $(s, s)$, ki niso klasični.
 % V tem razdelku se bomo poglobili v Titsove štirikotnike $T_2(\mathcal{O})$, ki 
@@ -4526,7 +4525,7 @@ zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, kateri
 % (TODO: Preveri, nadaljuj)
 
 \begin{definicija}
-    V projektivni ravnini $\PG(2, \GF(q))$ je \emph{oval} $\OO$ definiran kot množica točk $\Omega\subset \PP$ za katero velja:
+    V projektivni ravnini $\PG(2, \GF(q))$ je \emph{oval} $\OO$ definiran kot množica točk $\OO \subset \PP$, za katero velja:
     \begin{enumerate}[label=(\roman*)]
         \item Vsaka premica $l\in \LL$ seka oval $\OO$ v največ dveh točkah.
         \item Za vsako točko $p\in \OO$ obstaja natanko ena premica $l\in \LL$, ki seka oval $\OO$ samo v točki $p$. 
@@ -4535,18 +4534,18 @@ zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, kateri
 \end{definicija}
 
 \begin{opomba}
-    V končnih $\Delta$-regularnih projektivnih ravninah je oval množica $\Delta + 1$ točk v kateri nobene tri točke niso kolinearne
-    (tj. na isti premici). 
+    V končnih $\Delta$-regularnih projektivnih ravninah je oval množica $\Delta + 1$ točk, v kateri nobene tri točke niso kolinearne
+    (tj., na isti premici). 
 \end{opomba}
 
 \begin{definicija}
-    Titsov posplošeni štirikotnik $T_2(\OO)$ (\cite{o2001subquadrangles}) je za poljuben oval $\OO$ v projektivni ravnini $\Sigma = \PG(2, \GF(q))$ definiran na sledeč način.
+    Titsov posplošeni štirikotnik $T_2(\OO)$~\cite{o2001subquadrangles} za oval $\OO$ v projektivni ravnini $\Sigma = \PG(2, \GF(q))$ definiramo na sledeči način.
     Vložimo projektivno ravnino $\Sigma$ v projektivni prostor $\PG(3, \GF(q))$ kot hiperravnino $H_\infty$. 
-    Točke $T_2(\OO)$ so treh tipov: $(i)$ točke v $\PG(3, \GF(q))\setminus H_\infty$, $(ii)$ hiperravnine $X$, ki so tangentne na oval $\OO$ (tj. $|X\cap\OO|=1$)
-    in $(iii)$ poseben simbol $(\infty)$.
-    Premice $T_2(\OO)$ so dveh tipov: $(a)$ premice iz $\PG(3, \GF(q))\setminus H_\infty$, ki so tangentne na $\OO$ in $(b)$ točke iz $\OO$.
-    Vsaka točka tipa $(i)$ leži na premicah tipa $(a)$ glede na inkluzijo, vsaka točka tipa $(ii)$ leži 
-    na vseh premicah tipa $(a)$ in na unikatni premici tipa $(b)$ in vsaka točka tipa $(iii)$ leži na vseh premicah tipa $(b)$.
+    Točke $T_2(\OO)$ so treh tipov: (i) točke v $\PG(3, \GF(q))\setminus H_\infty$, (ii) hiperravnine $X$, ki so tangentne na oval $\OO$ (tj., $|X\cap\OO|=1$)
+    in (iii) poseben simbol $(\infty)$.
+    Premice $T_2(\OO)$ so dveh tipov: (a) premice iz $\PG(3, \GF(q))\setminus H_\infty$, ki so tangentne na $\OO$, in (b) točke iz $\OO$.
+    Vsaka točka tipa (i) leži na premicah tipa (a) glede na vsebovanost, vsaka točka tipa (ii) leži 
+    na vseh premicah tipa (a) in na edini premici tipa (b), ki jo vsebuje, ter vsaka točka tipa (iii) leži na vseh premicah tipa (b).
 \end{definicija}
 
 \begin{definicija}
@@ -4557,19 +4556,19 @@ zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, kateri
 
 \begin{trditev}
     Titsov posplošeni štirikotnik $T_2(\OO)$ je izomorfen ortogonalnemu posplošenemu štirikotniku $Q(4, \GF(q))$ natanko tedaj, 
-    ko je oval $\OO$ konika (\cite{o2001subquadrangles}).
+    ko je oval $\OO$ konika~\cite{o2001subquadrangles}.
 \end{trditev}
 
 \begin{opomba}
     Naj bo $\mathbb{K} = \GF(2^m)$ polje in $$\OO = \{(x_0 : x_1 : x_2)\in \PG(2, \mathbb{K})\mid x_1x_2^{2^k - 1} = x_0^{2^k}\}\cup\{(0:1:0)\},$$
-    za nek $k>1$ z $\gcd(k, m) = 1$. Potem je $\OO$ oval v $\PG(2, \mathbb{K})$, ki ni konika in $T_2(\OO)$ 
+    za nek $k>1$ z $\gcd(k, m) = 1$. Potem je $\OO$ oval v $\PG(2, \mathbb{K})$, ki ni konika, in $T_2(\OO)$ 
     je $(2^m + 1)$-regularen posplošeni Titsov štirikotnik, ki ni izomorfen niti 
     dualen ortogonalnemu posplošenemu štirikotniku $Q(4, \GF(2^m))$ (niti $W(\GF(2^m)))$.
     Takim ovalom pravimo \emph{translacijski ovali}.
 \end{opomba}
 
 \begin{opomba}
-    Obstaja še mnogo drugih družin ovalov, ki niso konike, npr. Glynnovi ovali, Cherowitzojevi hiperovali, Subiaco in Adelaide hiperovali, itd.
+    Obstaja še mnogo drugih družin ovalov, ki niso konike, npr. Glynnovi ovali, Cherowitzovi hiperovali, subiaški hiperovali, adelaidski hiperovali, itd.
 \end{opomba}
 
 \begin{figure}[htbp]
@@ -4588,18 +4587,18 @@ zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, kateri
 
 \subsubsection{Posplošeni šestkotniki}
 Edini znani regularni posplošeni šestkotniki so Caylyjevi razdeljeni šestkotniki
-$H(s)$ in njihovi duali $H(s)^D$. V nekaterih primerih so si samo dualni (tj. $H(s) \cong H(s)^D$), vendar ne v vseh.
+$H(s)$ in njihovi duali $H(s)^D$. V nekaterih primerih so sebi dualni (tj. $H(s) \cong H(s)^D$), vendar ne v vseh.
 Nas bodo taki posplošeni šestkotniki zanimali zgolj do dualnosti natančno, 
-saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
+saj imajo duali izomorfne incidenčne grafe.
 
 \paragraph{Razdeljeni Cayleyevi šestkotniki}
 
 \begin{definicija}\label{def:generalized_hexagon}
     Definiramo lahko razdeljeni Cayleyev šestkotnik $H(\mathbb{K})$ kot posplošeni šestkotnik, 
     ki ga dobimo z naslednjim načinom.
-    Točke $H(\mathbb{K})$ so točke (parabolične) kvadrike $Q(6, \mathbb{K}, q)$ v $\PG(6, \mathbb{K})$ z 
+    Točke $H(\mathbb{K})$ so točke (parabolične) kvadrike $Q(6, \mathbb{K}, q)$ v $\PG(6, \mathbb{K})$ s
     kvadratno formo
-    \[q(x_0, \ldots, x_6) = x_0x_4 + x_1x_5 + x_2x_6 - x_3^2\]
+    \[q(x_0, \ldots, x_6) = x_0x_4 + x_1x_5 + x_2x_6 - x_3^2 .\]
     Premice $H(\mathbb{K})$ pa so tiste premice, ki ležijo na kvadriki $Q(6, \mathbb{K}, q)$
     in katere Grassmannove koordinate zadoščajo naslednjim šestim linearnim enačbam:
     \begin{align*}
@@ -4614,7 +4613,7 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
 \end{definicija}
 
 \begin{opomba}\label{op:grassmann_sistem}
-    Parabolična kvadratna forma $q$, kakor v \ref{def:generalized_hexagon}, ima Wittov indeks $3$ in 
+    Parabolična kvadratna forma $q$ kakor v definiciji~\ref{def:generalized_hexagon} ima Wittov indeks $3$ in 
     iz enačbe $q(x) = 0$ sledi, da je koordinata $x_3$ povsem določena z izbiro preostalih šestih koordinat.
     To pomeni, da so točke $H(\mathbb{K})$ v bijekciji z $1$-dimenzionalnimi podprostori v $\mathbb{K}^6$, torej 
     s točkami projektivnega prostora $\PG(5, \mathbb{K})$. 
@@ -4622,8 +4621,8 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
     Dalje lahko kvadratni formi $q$ priredimo 
     kvadratno bilinearno formo 
     \[\langle x, y\rangle = q(x+y) - q(x) - q(y) = x_0y_4 + x_4y_0 + x_1y_5 + x_5y_1 + x_2y_6 + x_6y_2 - 2x_3y_3,\]
-    od koder sledi, da dve točki $x, y \in q^{-1}(0)$ tvorita premico v $H(\mathbb{K})$ natanko tedaj, ko je
-    \[q(\lambda x + \mu y) = \lambda^2 q(x) + \lambda\mu \langle x, y\rangle + \mu^2 q(y) = 0\quad \forall\lambda,\mu\in\mathbb{K},\]
+    od koder sledi, da dve točki $x, y \in q^{-1}(0)$ tvorita premico v $H(\mathbb{K})$ natanko tedaj, ko velja
+    \[\forall\lambda,\mu\in\mathbb{K}: q(\lambda x + \mu y) = \lambda^2 q(x) + \lambda\mu \langle x, y\rangle + \mu^2 q(y) = 0,\]
     oziroma ko je $\langle x, y\rangle = 0$.
 
     Grassmannov sistem je ekvivalenten sistemu enačb:
@@ -4652,12 +4651,12 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
         \end{bmatrix} = 
         0
     \end{align*}
-    Vsak $x\in q^{-1}(0)$ določa podprostor, zato obstaja indeks $0\leq i < 6$ za katerega je $x_i \neq 0$. Ker je
-    $x$ $1$-dimenzionalni podprostor, lahko brez izgube splošnosti predpostavimo, da je $x_i = 1$.
+    Vsak $x\in q^{-1}(0)$ določa podprostor, zato obstaja indeks $0\leq i < 6$, za katerega je $x_i \neq 0$. Ker je
+    $x$ $1$-dimenzionalni podprostor, lahko brez škode za splošnost predpostavimo, da je $x_i = 1$.
     Z vstavitvijo pogojev vidimo, da vsaka točka $y$ iz jedra matrike tudi leži na kvadriki ($q(y) = 0$).
 
     Posledično poljubna točka $x\in q^{-1}(0)$ skupaj s točkami $y$ iz jedra matrike določa premico v $H(\mathbb{K})$.
-    Problem se pretvori na iskanje jedernega prostora toliko matrik, kolikor je točk v $q^{-1}(0)$ (tj. $|\mathbb{K}|^6 - 1$). 
+    Problem se pretvori na iskanje jedrnega prostora toliko matrik, kolikor je točk v $q^{-1}(0)$ (tj., $|\mathbb{K}|^6 - 1$). 
 \end{opomba}
 
 
@@ -4677,8 +4676,8 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
     To pomeni, da je koordinata $x_3$ povsem določena z izbiro preostalih šestih koordinat. 
     Ker lahko preostale koordinate $(x_0, x_1, x_2, x_4, x_5, x_6)$ izberemo kot poljuben 
     neničeln vektor iz prostora $\GF(2)^6$, ima geometrija natanko $2^6 - 1 = 63$ točk. 
-    Sistem, kot izpeljan v opombi \ref{op:grassmann_sistem}, rešimo za eno izmed njih, npr. $(1,0,0,0,0,0,0,0)$.
-    Matrični sistem se poenostavi v:
+    Sistem, kot izpeljan v opombi \ref{op:grassmann_sistem}, rešimo za eno izmed njih, npr.~$(1,0,0,0,0,0,0,0)$.
+    Matrični sistem se poenostavi v
     \begin{align*}
         \begin{bmatrix}
             0&0&-1&0&0&0&0\\
@@ -4698,12 +4697,12 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
         &(1,0,0,0,0,0,0)\II (1,0,0,0,0,0,1) \\
         &(1,0,0,0,0,0,0)\II (1,0,0,0,0,1,1),
     \end{align*}
-    kjer npr. $(1,0,0,0,0,1,0)$ razumemo kot normaliziranega predstavnika premice med $(1,0,0,0,0,0,0)$ in $(0,0,0,0,0,1,0)$.
+    kjer npr.~$(1,0,0,0,0,1,0)$ razumemo kot normaliziranega predstavnika premice med $(1,0,0,0,0,0,0)$ in $(0,0,0,0,0,1,0)$.
 
     S tem analitičnim postopkom lahko zanesljivo in enolično generiramo celotno množico $\LL$, 
     ki vsebuje natanko $63$ premic. Vsaka točka leži na natanko $3$ premicah in vsaka premica 
     vsebuje natanko $3$ točke. Incidenčni graf te geometrije je $3$-regularen 
-    bipartitni graf s $63 + 63 = 126$ vozlišči in ožino $12$, znan kot \emph{Tuttejeva 12-kletka} (glej sliko \ref{fig:tutte12cage}).
+    bipartitni graf s $63 + 63 = 126$ vozlišči in ožino $12$, znan kot \emph{Tutteova 12-kletka} (glej sliko~\ref{fig:tutte12cage}).
 \end{zgled}
 
 
@@ -4713,14 +4712,14 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
         \import{../../assets/}{generalized-hexagon-h2.tex}%
     }
     \caption{Incidenčni graf geometrije $H(\GF(2))$ iz zgleda \ref{zgled:cayley_sestkotnik_gf2}. 
-    Je $3$-regularen dvodelni Mooreov graf ožine $12$ in premera $6$, znan tudi pod imenom Tuttejeva 12-kletka.}
+    Je $3$-regularen dvodelni Mooreov graf ožine $12$ in premera $6$, znan tudi pod imenom Tutteova 12-kletka.}
     \label{fig:tutte12cage}
 \end{figure}
 
 \begin{opomba}
-    Razdeljene Caylejeve šestkotnike $H(\GF(q))$ je moč konstruirati tudi s pomočjo razdeljene Cayleyeve algebre, od koder tudi izhaja njihovo ime.
+    Razdeljene Cayleyeve šestkotnike $H(\GF(q))$ je moč konstruirati tudi s pomočjo razdeljene Cayleyeve algebre, od koder tudi izhaja njihovo ime.
     Na kratko je razdeljena Cayleyeva algebra $\mathbb{Q}'$ algebra oktonionov nad končnimi polji $\GF(q)$. Taka algebra je neasociativna,
-    obstaja več elementov brez inverza in ima še kup drugih zanimivih lastnosti.
+    vsebuje več elementov brez inverza in ima še kup drugih zanimivih lastnosti.
 \end{opomba}
 
 % Vendar ime razdeljeni Cayleyev šestkotnik ni naključno, izhaja namreč iz Cayleyeve algebre, ki je algebra
@@ -4745,24 +4744,24 @@ saj imajo duali enake, oziroma izomorfne, incidenčne grafe.
 \subsection{Klasifikacija regularnih posplošenih večkotnikov}
 V prejšnjih razdelkih smo predstavili različne družine regularnih posplošenih večkotnikov in v zgledih prikazali njihove
 najmanjše primere. Sedaj bomo povzeli vse znane družine regularnih posplošenih večkotnikov in se spomnili bistva --
-regularni posplošeni večkotniki so dvodelni Mooreovi grafi, so ekstremalni grafi, ki dosegajo izboljšano Mooreovo mejo
+regularni posplošeni večkotniki so dvodelni Mooreovi grafi, so ekstremalni grafi, ki dosegajo posplošeno Mooreovo mejo
 za primer dvodelnih grafov.
 
-Posplošeni večkotniki v literaturi nimajo popolne klasifikacije, namreč navkljub mnogim rezultatom in neskončnim družinam posplošenih večkotnikov, 
-je še vedno odprto vprašanje, ali obstajajo še kakšni drugi posplošeni večkotniki, ki niso izomorfni ali dualni znanim družinam.
-Mi bomo z naslednjo trditvijo v skladu z klasifikacijo posplošenih štirikotnikov Paynea in Thasa \cite{payne2009finite}
+Posplošeni večkotniki v literaturi nimajo popolne klasifikacije -- navkljub mnogim rezultatom in znanim neskončnim družinam posplošenih večkotnikov
+je namreč še vedno odprto vprašanje, ali obstajajo še kakšni drugi posplošeni večkotniki, ki niso izomorfni ali dualni znanim družinam.
+Mi bomo z naslednjo trditvijo v skladu s klasifikacijo posplošenih štirikotnikov Paynea in Thasa~\cite{payne2009finite}
 klasificirali vse znane primere regularnih posplošenih večkotnikov, ki tako podajo vse znane dvodelne Mooreove grafe.
 
 \begin{trditev}%[Klasifikacija regularnih posplošenih večkotnikov]
     Naj bo $\Gamma$ $\Delta$-regularen posplošeni $D$-kotnik. Potem so vsi znani primeri $\Gamma$, do izomorfizma ter dualnosti natančno, 
     iz naslednjih družin:
     \begin{enumerate}[label=(\roman*)]
-        \item $\Delta = 2$ in $D \geq 2$, $\Gamma$ je običajni $D$-kotnik oz. ciklični graf $C_{2D}$.
-        \item $D = 2$ in $\Delta\geq 2$, $\Gamma$ je posplošeni dvokotnik oz. popolni dvodelni graf $K_{\Delta, \Delta}$.
-        \item $D = 3$ in $\Delta\geq 2$, $\Gamma$ je posplošeni trikotnik oz. projektivna ravnina, ki je bodisi klasična $\PG(2, \GF(q))$ bodisi nedesarguesova $(\R, T)$.
-        \item $D = 4$ in $\Delta\geq 2$, $\Gamma$ je posplošeni štirikotnik, ki je bodisi klasičen simplektični $W(\GF(q))$ ali 
-        Titsov $T_2(\OO)$, kjer je $\OO$ oval v $\PG(2, \GF(q))$.
-        \item $D = 6$ in $\Delta\geq 2$, $\Gamma$ je posplošeni šestkotnik in je razdeljeni Cayleyev $H(\GF(q))$.
+        \item $\Delta = 2$ in $D \geq 2$, $\Gamma$ je običajni $D$-kotnik oz.~ciklični graf $C_{2D}$.
+        \item $D = 2$ in $\Delta\geq 2$, $\Gamma$ je posplošeni dvokotnik oz.~polni dvodelni graf $K_{\Delta, \Delta}$.
+        \item $D = 3$ in $\Delta\geq 2$, $\Gamma$ je posplošeni trikotnik oz.~projektivna ravnina, ki je bodisi klasična projektivna ravnina $\PG(2, \GF(q))$, bodisi ne-Desarguesova projektivna ravnina $(\R, T)$.
+        \item $D = 4$ in $\Delta\geq 2$, $\Gamma$ je posplošeni štirikotnik, ki je bodisi klasičen simplektični štirikotnik $W(\GF(q))$ ali 
+        Titsov štirikotnik $T_2(\OO)$, kjer je $\OO$ oval v $\PG(2, \GF(q))$.
+        \item $D = 6$ in $\Delta\geq 2$, $\Gamma$ je posplošeni šestkotnik in je razdeljeni Cayleyev šestkotnik $H(\GF(q))$.
     \end{enumerate}
 \end{trditev}
 
