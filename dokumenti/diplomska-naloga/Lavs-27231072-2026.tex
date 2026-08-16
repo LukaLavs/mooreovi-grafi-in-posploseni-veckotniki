@@ -37,31 +37,29 @@
 %   V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga
 %   organizacije dela, torej v katerem razdelku je kaj, pač pa le opis vsebine.
 \povzetek{
-    V diplomskem delu preučujemo Mooreove grafe, ki pri dani stopnji in premeru dosegajo teoretično zgornjo mejo 
-    za število vozlišč. V uvodnem delu analiziramo njihove strukturne lastnosti in vprašanja obstoja. Pri tem 
-    izpostavimo enoličnost Hoffman-Singletonovega grafa, preštejemo njegove avtomorfizme ter dokažemo, da Aschbacherjev graf 
-    valence 57 ni razdaljno tranzitiven. V nadaljevanju obrnemo perspektivo in utemeljimo, da Mooreova 
-    meja predstavlja tudi spodnjo mejo za število vozlišč pri grafih z vnaprej določeno stopnjo in ožino.
+    V uvodu diplomskega dela preučujemo Mooreove grafe, ki pri dani maksimalni stopnji in premeru dosegajo teoretično zgornjo mejo 
+    za število vozlišč. Analiziramo njihove strukturne lastnosti, ki nam kasneje služijo pri analizi njihovega obstoja.
+    Eksplicitno konstruiramo trivialne Mooreove grafe, nakar dokažemo enoličnost Hoffman-Singletonovega grafa, ki je edini znan netrivialen Mooreov graf.
+    Navedemo podrobno klasifikacijo vseh Mooreovih grafov, pri čemer v edinem nezajetem primeru, Aschbacherjevem grafu valence $57$, pokažemo, da ta, če obstaja,
+    ni razdaljno tranzitiven.
 
-    Za dvodelne grafe to mejo izostrimo, kar nas vodi do osrednje rdeče niti naloge: prehoda iz čiste teorije grafov v geometrijo ranga 2. 
-    Pokažemo, da dvodelni Mooreovi grafi naravno sovpadajo z regularnimi posplošenimi večkotniki. Delo sklenemo z obsežnim pregledom njihovih 
-    konstrukcij, ki zajemajo Desarguesove in ne-Desarguesove projektivne ravnine, ortogonalne in simplektične štirikotnike, Titsove posplošene 
-    štirikotnike ter klasične posplošene šestkotnike. Pri tem eksplicitno prikažemo naravni hierarhični prehod struktur -- od osnovne dvodelnosti 
-    grafov, preko končnih vektorskih in projektivnih prostorov, vse do incidenčne geometrije ploskev teh prostorov.
+    V nadaljevanju obrnemo perspektivo in utemeljimo, da Mooreova meja predstavlja tudi spodnjo mejo za število vozlišč pri grafih z vnaprej 
+    določeno stopnjo in ožino. Izostritev te meje nato usmeri pozornost na dvodelne Mooreove grafe, ki naravno sovpadajo z 
+    regularnimi posplošenimi večkotniki. Analiziramo njihove konstrukcije, pri čemer se srečamo s projektivnimi ravninami, 
+    ortogonalnimi, simplektičnimi in Titsovimi posplošenimi štirikotniki ter klasičnimi posplošenimi šestkotniki. Z znanimi konstrukcijami in klasifikacijo regularnih posplošenih večkotnikov zaključimo nalogo, pri kateri smo od togega ekstremalnega problema v 
+    teoriji grafov prešli v bogato geometrijo ranga $2$.
 }
-
-% - povzetek v angleščini
 \abstract{
-    In this thesis, we study Moore graphs, which attain the theoretical upper bound for the number of vertices given a specific degree and 
-    diameter. We initially analyze their structural properties and existence. In this context, we highlight the uniqueness of the Hoffman-Singleton graph, 
-    count its automorphisms, and prove that the Aschbacher graph of valency 57 is not distance-transitive. Shifting our perspective, we 
-    then demonstrate that the Moore bound also acts as a lower bound for the number of vertices in graphs with a prescribed degree and girth.
+    In this thesis, we study Moore graphs, which attain the theoretical upper bound for the number of vertices given a specific maximal degree and diameter. 
+    We analyze their structural properties, which later serve as a basis for studying their existence. We explicitly construct the trivial Moore graphs and 
+    prove the uniqueness of the Hoffman-Singleton graph, which is the only known nontrivial Moore graph. We provide a detailed classification of all Moore graphs 
+    and, in the only remaining case, the Aschbacher graph of valency $57$, show that if it exists, it is not distance-transitive.
 
-    For bipartite graphs, this bound is sharpened, leading to the central theme of the thesis: the transition from pure graph theory to rank 2 geometry.
-    We show that bipartite Moore graphs naturally correspond to regular generalized polygons. The thesis concludes with a comprehensive overview of their 
-    constructions, encompassing Desarguesian and non-Desarguesian projective planes, orthogonal and symplectic quadrangles, Tits' generalized quadrangles, 
-    and classical generalized hexagons. In doing so, we explicitly outline the natural hierarchical transition of these structures—from basic graph 
-    bipartiteness, through finite vector and projective spaces, to the incidence geometries of their underlying surfaces.
+    We then shift our perspective and show that the Moore bound also provides a lower bound for the number of vertices in graphs with prescribed degree 
+    and girth. Sharpening this bound leads to the study of bipartite Moore graphs, which naturally correspond to regular generalized polygons. 
+    We analyze their constructions, encountering projective planes, orthogonal, symplectic, and Tits generalized quadrangles, 
+    as well as classical generalized hexagons. We conclude with a classification of the known regular generalized polygons, 
+    thereby tracing a path from a rigid extremal problem in graph theory to the rich geometry of rank $2$.
 }
 
 % - klasifikacijske oznake, ločene z vejicami
@@ -1213,7 +1211,7 @@
 
 \begin{definicija}
     Premer grafa je največja razdalja med njegovima vozliščema, 
-    ožina grafa pa je dolžina njegovega najkrajšega cikla.
+    ožina pa je dolžina njegovega najkrajšega cikla.
 \end{definicija}
 
 \begin{figure}[ht]
@@ -1522,12 +1520,12 @@ Dokaz izpustimo.
     in izračunamo število avtomorfizmov kocke. Dobimo 
     $$|G| = |G\cdot u| |G_u| = |G\cdot u| |G_u\cdot N_1(u)| |(G_u)_{N_1(u)}| = 8\cdot 3! \cdot 1 = 48.$$
     Tu smo uporabili dejstvo, da je kocka vozliščno tranzitivna (tj., $|G\cdot u| = 8$), da lahko stabilizator vozlišča prosto permutira njegove 
-    sosede (tj., $|G_u\cdot N_1(u)| = 3!$) in da je stabilizator vozlišča in njegovih sosedov trivialen (tj., $|(G_u)_{N_1(u)}| = 1$). 
+    sosede (tj., $|G_u\cdot N_1(u)| = 3!$) in da je stabilizator vozlišča in njegovih sosedov trivialen (tj., $(G_u)_{N_1(u)} = \{\id\}$). 
 \end{zgled}
 
 \begin{definicija}
     Spekter grafa je množica njegovih lastnih vrednosti $\lambda_i, 1\leq i\leq n$ s pripadajočimi večkratnostmi
-    $m(\lambda_i)$. Običajno ga zapišemo kot 
+    $m(\lambda_i)$. Običajno ga zapišemo z množico vseh lastnih vrednosti ali krajše kot 
     $$\left\{\lambda_1^{(m(\lambda_1))}, \lambda_2^{(m(\lambda_2))}, \ldots, \lambda_n^{(m(\lambda_n))}\right\}.$$
 \end{definicija}
 
@@ -1670,7 +1668,7 @@ opisu in klasifikaciji teh struktur.
 \end{definicija}
 
 \begin{opomba}
-    Mooreovo drevo $T_{\Delta, D}$ ima natanko $M^{\Delta, D}$ vozlišč, vendar ni Mooreov graf.
+    Mooreovo drevo $T_{\Delta, D}$ ima natanko $M^{\Delta, D}$ vozlišč, vendar ni Mooreov graf. Njegov premer namreč znaša $2D$.
 \end{opomba}
 
 \begin{trditev}\label{tr:moore_bound}
@@ -1698,7 +1696,7 @@ opisu in klasifikaciji teh struktur.
    tj., natanko tedaj, ko je vsako vozlišče $v$ koren nekega Mooreovega drevesa $T_{\Delta, D}$ (glej sliko~\ref{fig:drevo_moore_uvod}).
    Dobimo zgornjo mejo za število vozlišč
    $$|V| \leq 1 + \Delta + \sum_{i=1}^{D-1} \Delta (\Delta - 1)^i = M^{\Delta, D},$$
-   ki se popolnoma ujema z Mooreovo mejo. Ker se listi takega drevesa nato povežejo med seboj z namenom ohranitve premera $D$,
+   ki se popolnoma ujema z Mooreovo mejo. Ker se listi Mooreovega drevesa nato povežejo med seboj z namenom ohranitve premera $D$,
    je jasno tudi, da je ožina takega grafa $2D+1$.
 \end{dokaz}
 
@@ -1906,7 +1904,7 @@ opisu in klasifikaciji teh struktur.
 Nekaj lastnosti Mooreovih grafov smo že omenili v prejšnjem razdelku, sedaj 
 pa se bomo posvetili še eni, ki je v literaturi znana kot razdaljna regularnost.
 Razdaljna regularnost igra ključno vlogo pri dokazu o neobstoju določenih Mooreovih grafov.
-Nato pa se bomo omejili na Mooreove grafe s premerom $2$, ki so krepko regularni, in jih poskušali klasificirati.
+Po tem se bomo omejili na Mooreove grafe s premerom $2$, ki so krepko regularni, in jih poskušali klasificirati.
 
 
 \begin{trditev}\label{tr:moore_razdaljno_regularen}
@@ -1924,7 +1922,8 @@ Nato pa se bomo omejili na Mooreove grafe s premerom $2$, ki so krepko regularni
 \end{dokaz}
 
 \begin{zgled}
-    Petkotnik oz.~cikel $C_5$ je razdaljno regularen graf s presečnim zaporedjem \[\{2, 1; 1, 1\}. \qedhere\]
+    Petkotnik oz.~cikel $C_5$ je razdaljno regularen graf s presečnim zaporedjem $\{2, 1; 1, 1\}$, ki ustreza presečnem zaporedju
+    Mooreovega grafa s stopnjo $2$ in premerom $2$.
 \end{zgled}
 
 \begin{figure}[ht]
@@ -1933,7 +1932,7 @@ Nato pa se bomo omejili na Mooreove grafe s premerom $2$, ki so krepko regularni
     \resizebox{0.3\textwidth}{!}{%
         \import{../../assets/}{petkotnk.tex}
     }
-    \caption{Petkotnik je razdaljno regularen graf. Petkotnik je tudi Mooreov graf stopnje $2$ in premera $2$.}
+    \caption{Petkotnik je razdaljno regularen graf, je Mooreov graf stopnje $2$ in premera $2$.}
     \label{fig:petkotnik}
 \end{figure}
 
@@ -1943,7 +1942,7 @@ Nato pa se bomo omejili na Mooreove grafe s premerom $2$, ki so krepko regularni
 \end{trditev}
 
 \begin{dokaz}
-    V Mooreovem grafu sta vsaki dve sosednji vozlišči $u$ in $v$ povezani z $0$ skupnimi sosedi, saj bi sicer obstajal 
+    V Mooreovem grafu sta vsaki dve sosednji vozlišči $u$ in $v$ povezani z natanko $0$ skupnimi sosedi, saj bi sicer obstajal 
     cikel dolžine $3$, kar bi bilo v nasprotju z ožino Mooreovega grafa, ki je tu enaka $2\cdot 2 + 1 = 5$ (trditev~\ref{tr:moore_bound}).
     Podobno imata, zaradi enoličnosti najkrajših poti (trditev~\ref{tr:ena_najkrajsa_pot}), vsaki dve nesosednji vozlišči natanko 
     enega skupnega soseda (premera grafa je $2$).
@@ -2087,8 +2086,7 @@ skladu s posledico~\ref{po:moore_minimalni_polinom}.
     \resizebox{0.45\textwidth}{!}{%
         \import{../../assets/}{petersen-graph-classical.tex}
     }
-    \caption{Petersenov graf zadostuje Mooreovi matrični enačbi. Je Mooreov graf stopnje $3$ in premera $2$.
-    Njegov minimalni polinom je enak $(x-3)(x^2 + x - 2)$.}
+    \caption{Petersenov graf zadostuje Mooreovi matrični enačbi. Je Mooreov graf stopnje $3$ in premera $2$.}
     \label{fig:petersen_clasical}
 \end{figure}
 
@@ -2236,7 +2234,7 @@ rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji 
 \paragraph{Avtomorfizmi in tranzitivnost}
 
 
-\begin{trditev}
+\begin{trditev}\label{tr:petersen_tranzitiven}
     Petersenov graf je vozliščno tranzitiven.
 \end{trditev}
 %boljši dokaz:
@@ -2252,7 +2250,7 @@ rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji 
 \end{trditev}
 
 \begin{dokaz}
-    Izberimo neko vozlišče $v$ in označimo $G=\aut(\PPP)$. Ker se lahko ta preslika v poljubnega izmed $10$ vozlišč, je
+    Izberimo neko vozlišče $v$ in označimo $G=\aut(\PPP)$. Ker se lahko ta preslika v poljubnega izmed $10$ vozlišč (trditev \ref{tr:petersen_tranzitiven}), je
     njegova orbita $G\cdot v$ enaka $V(\PPP)$, in ima torej velikost $|G\cdot v| = 10$.
 
     Za vsako izmed teh $10$ možnosti ga fiksiramo in opazujemo njegov stabilizator $G_v$.
@@ -2308,8 +2306,7 @@ Naj bo $\hof$ graf, ki ga iščemo, torej Mooreov graf premera $2$ ter stopnje $
 Tak graf sestoji iz $7\cdot 7 + 1 = 50$ vozlišč (definicija~\ref{def:moore}) in ima 
 ožino $5$ (trditev~\ref{tr:moore_bound}).
 Po korakih Conga Fana in Allena J.~Schwenka~\cite{fan1993structure} dokažemo,
-da tak graf, ki mu pravimo Hoffman-Singletonov graf, obstaja in je enoličen, nato pa spregovorimo nekaj o 
-njegovih avtomorfizmih.
+da tak graf, ki mu pravimo Hoffman-Singletonov graf, obstaja in je enoličen, nato pa raziščimo njegove avtomorfizme.
 
 \paragraph{Iskanje enoličnega kandidata}
 
@@ -2471,7 +2468,7 @@ smer. Vozlišče iz $N_2(Q)$ ima lahko namreč največ $5$ sosedov v $N(Q)$
     Poleg tega pa je, po 
     posledici~\ref{po:enolicna_povezava_iz_nq_v_q}, vsako vozlišče iz $\hof[N_1(Q)]$ sosedno
     natanko enemu vozlišču iz centralnega cikla $Q$. Skupno ima tako vozlišče torej natanko $5$ povezav izven 
-    $\hof[N_1(Q)]$ in zato točno $2$ povezavi znotraj $\hof[N_1(Q)]$, torej je podgraf $\hof[N_1(Q)]$ res $2$-regularen.
+    $\hof[N_1(Q)]$ in zato točno $2$ povezavi znotraj $\hof[N_1(Q)]$. Podgraf $\hof[N_1(Q)]$ je res $2$-regularen.
 \end{dokaz}
 
 \begin{trditev}\label{tr:unija_ciklov}
@@ -2497,7 +2494,7 @@ enak $$\left\{7^{(1)}, 2^{(28)}, (-3)^{(21)}\right\}.$$
 
 
 \begin{opomba}
-Po trditvi~\ref{tr:cikellastne} zdaj vemo, da ima cikel $C_n$ natanko eno lastno vrednost enako $2$, 
+Po trditvi~\ref{tr:cikellastne} vemo, da ima cikel $C_n$ natanko eno lastno vrednost enako $2$, 
 in ker je $\hof[N_1(Q)]$ disjunktna unija ciklov (trditev~\ref{tr:unija_ciklov}), bo imel tak podgraf natanko toliko 
 lastnih vrednosti enakih $2$, kolikor je v njem ciklov.
 
@@ -4491,7 +4488,7 @@ posplošene šestkotnike.
 
 \begin{trditev}\label{tr:kvadratna_v_bilinearna}
     Naj bosta $x, y\in q^{-1}(0)$ točki v kvadriki $Q(4, \mathbb{K}, q)$. Potem lahko definiramo kvadratno bilinearno formo $\langle \cdot, \cdot\rangle$ kot
-    \[\langle x, y\rangle = q(x+y) - q(x) - q(y) = x_0y_1 + x_1y_0 + x_2y_3 + x_3y_2 + 2x_4y_4 = 0.\]
+    \[\langle x, y\rangle = q(x+y) - q(x) - q(y) = x_0y_1 + x_1y_0 + x_2y_3 + x_3y_2 + 2x_4y_4.\]
     Potem je vsaka premica $L$ v $Q(4, \mathbb{K})$ vsebovana v podprostoru $q^{-1}(0)$ natanko tedaj, ko je
     določena z dvema točkama $x, y\in q^{-1}(0)$, ki sta pravokotni ena na drugo glede na $\langle \cdot, \cdot\rangle$.
 \end{trditev}
