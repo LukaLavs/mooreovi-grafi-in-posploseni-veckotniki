@@ -3676,8 +3676,8 @@ ki izključi obstoj.
 \begin{figure}[ht]
     \centering
     \def\svgwidth{\columnwidth}
-    \resizebox{0.9\textwidth}{!}{%
-        \import{../../assets/}{moore-klasifikacija.tex}
+    \resizebox{0.37\textwidth}{!}{%
+        \import{../../assets/}{moore-klasifikacija-flipped.tex}
     }
     \caption{Obstajajo dve neskončni družini Mooreovih grafov in dva netrivialna grafa, 
     medtem ko obstoj Aschbacherjevega grafa valence $57$ ostaja odprto vprašanje.}
@@ -3985,12 +3985,10 @@ in vsebuje
 $|\mathbb{K}|^2-1$ neničelnih vektorjev. 
 
 Vsaka ravnina posledično vsebuje $\frac{|\mathbb{K}|^2-1}{|\mathbb{K}|-1} = |\mathbb{K}| + 1$ premic, in podobno
-vsaka premica leži na $|\mathbb{K}| + 1$ ravninah. Za našo $(|\mathbb{K}| +1)$-regularno geometrijo $(\PP, \LL; \II)$ nastavimo 
-množico točk $\PP$ kot množico premic in množico premic $\LL$ kot množico ravnin v $\mathbb{K}^3$. Incidenčno relacijo 
-$\II$ definirajmo kot vsebovanost podprostorov. Tako dobimo projektivno ravnino (definicija~\ref{def:projektivna_ravnina}).
+vsaka premica leži na $|\mathbb{K}| + 1$ ravninah. Če za $(|\mathbb{K}| +1)$-regularno geometrijo $(\PP, \LL; \II)$ vzamemo 
+za točke $\PP$ premice in za premice r$\LL$ avnine v $\mathbb{K}^3$, pri čemer je incidenca določena z vsebovanostjo, dobimo projektivno ravnino.
 
-Ker so vsa končna polja $\mathbb{K}$ izomorfna $\GF(q)$ za neko potenco praštevila $q = p^n$, 
-lahko mirno zapišemo naslednjo definicijo.
+Vsa končna polja $\mathbb{K}$ so izomorfna $\GF(q)$ za neko potenco praštevila $q = p^n$. Sledi definicija Desarguesove projektivne ravnine.
 
 \begin{trditev}
     Desarguesova projektivna ravnina je projektivna ravnina, kjer so točke $\PP$ 
@@ -4029,7 +4027,7 @@ lahko mirno zapišemo naslednjo definicijo.
     \begin{align*}\LL = \{&(1:0:0)^{\perp}, (0:1:0)^{\perp}, (0:0:1)^{\perp}, (1:1:0)^{\perp}, 
         \\&(1:0:1)^{\perp}, (0:1:1)^{\perp}, (1:1:1)^{\perp}\},\end{align*}
     kjer si z $(a:b:c)$ mislimo $1$-dimenzionalni podprostor, definiran kot $$\{(\lambda a, \lambda b, \lambda c) \mid\lambda\in \GF(2)\},$$
-    in z $(a:b:c)^{\perp}$ ravnino z normalo $(a,b,c)$. Ker je $\II$ inkluzija podprostorov, 
+    in z $(a:b:c)^{\perp}$ ravnino, katere normala je $(a,b,c)$. Ker je $\II$ inkluzija podprostorov, 
     je incidenčna relacija definirana kot $(a:b:c) \, \II \, (x:y:z)^{\perp}$ natanko tedaj, 
     ko je $(a:b:c) \in (x:y:z)^{\perp}$, oziroma $a x + b y + c z = 0$. Eksplicitno je to:
     \begin{align*}
@@ -4058,13 +4056,13 @@ kjer smo točke in premice preimenovali v $p_i$ in $l_i$ za lažjo predstavitev 
 
 Ne-Desarguesove projektivne ravnine so tiste, ki ne dopuščajo koordinatizacije s pomočjo vektorskega prostora.
 Rečemo lahko, da so to redkejše in bolj eksotične projektivne ravnine, ki jih je težje konstruirati.
-Predno se vanje zaletimo, si poglejmo alternativno definicijo projektivne ravnine, ki uporablja koncept
+Predno si jih ogledamo, si poglejmo alternativno definicijo projektivne ravnine, ki uporablja koncept
 posebnih točk in premic v neskončnosti.
 
 
 \begin{trditev}\label{def:desarguesova_ravnina_verzija_2}
-Geometrija $(\PP, \LL,\II)$, dobljena s pomočjo neke množice $\R$
-in preslikave $T: \R^3 \to \R$ s predpisom $T(x,m,k)=mx+k$, je projektivna ravnina.  
+Geometrija $(\PP, \LL,\II)$, dobljena s pomočjo neke množice $\R$,
+preslikave $T: \R^3 \to \R$ s predpisom $T(x,m,k)=mx+k$, je projektivna ravnina, čim točke, premice in incidenco sestavimo na naslednji način.  
 Množico točk $\PP$ sestavimo iz elementov treh vrst: iz
 točk $(x, y)$ ($x, y\in \R^2$), točk v neskončnosti $(m)$ ($m\in \R$), in točke v neskončnosti $(\infty)$.
 Množico $\LL$ pa dualno, prav tako iz elementov treh vrst, sestavimo iz
@@ -4160,7 +4158,7 @@ in vsemi premicami $[m, k]$, za katere velja $T(x, m, k) = y$.
 \end{definicija}
 
 \begin{definicija}\label{def:posploseni_stirikotnik}
-    Skladno z definicijo avtorja Van Maldeghema \cite{van2012generalized} je šibki posplošeni 
+    Skladno z definicijo avtorja Van Maldeghema \cite{van2012generalized} je posplošeni % v tem besedilu ne razlikujemo med šibkimi in krepkimi GQ.
     štirikotnik definiran kot geometrija $\Gamma = (\PP, \LL, \II)$, ki zadošča aksiomoma:
     \begin{enumerate}[label=(\roman*)]
         \item Naj bo $\{p, L\}$ protiprapor (tj., $(p,L)\not\in\II, p\in\PP, L\in\LL$). 
@@ -4185,16 +4183,15 @@ in vsemi premicami $[m, k]$, za katere velja $T(x, m, k) = y$.
 \end{figure}
 
 Zanimali nas bodo predvsem regularni posplošeni štirikotniki. Izkaže se,
-da obstaja le nekaj takih družin, ki jih bomo predstavili v nadaljevanju. Poleg Titsovih posplošenih štirikotnikov bomo 
+da obstaja le nekaj takih družin, ki jih bomo predstavili v nadaljevanju. Poleg najsplošnejših Titsovih posplošenih štirikotnikov bomo 
 predstavili 
-dve klasični družini, ki temeljita na konstrukciji iz projektivnih prostorov, in sicer
+dve klasični družini, in sicer
 simplektične posplošene štirikotnike, ki temeljijo na simplektičnih polarnostih, in 
 ortogonalne posplošene štirikotnike, ki temeljijo na kvadrikah oz.~algebraičnih kvadratnih ploskvah.
 
 Izkaže se, da sta si ti dve družini dualni (tj., zamenjajo se vloge točk in premic) oz.~v nekaterih 
-primerih celo izomorfni, zato predstavljajo iste dvodelne Mooreove grafe. Simplektičnim posplošenim
-štirikotnikom se bomo posvetili podrobneje, ortogonalnim pa predvsem zaradi lažjega nadaljevanja na
-posplošene šestkotnike.
+primerih celo izomorfni, zato predstavljata iste dvodelne Mooreove grafe. Simplektičnim in ortogonalnim posplošenim
+štirikotnikom se bomo posvetili podrobneje, Titsove posplošene večkotnike pa bomo zgolj definirali.
 
 
 \paragraph{Simplektični posplošeni štirikotniki}
@@ -4482,12 +4479,12 @@ posplošene šestkotnike.
 
 \begin{definicija}\label{def:regularni_ortogonalni_gq}
     Regularni ortogonalni posplošeni štirikotnik $Q(4, \mathbb{K})$ je definiran kot $Q(4, \mathbb{K}, q)$, kjer je
-    $q$ parabolična kvadratna forma, npr.~\[q(x_0, x_1, x_2, x_3, x_4) = x_0x_1 + x_2x_3 + x_4^2\].
+    $q$ parabolična kvadratna forma, npr.~\[q(x_0, x_1, x_2, x_3, x_4) = x_0x_1 + x_2x_3 + x_4^2.\]
     Tak posplošeni štirikotnik je $(|\mathbb{K}| + 1)$-regularen (kar bo jasno kasneje).
 \end{definicija}
 
 \begin{trditev}\label{tr:kvadratna_v_bilinearna}
-    Naj bosta $x, y\in q^{-1}(0)$ točki v kvadriki $Q(4, \mathbb{K}, q)$. Potem lahko definiramo kvadratno bilinearno formo $\langle \cdot, \cdot\rangle$ kot
+    Naj bosta $x, y\in q^{-1}(0)$ točki v kvadriki $Q(4, \mathbb{K}, q)$. Definiramo kvadratno bilinearno formo $\langle \cdot, \cdot\rangle$ kot
     \[\langle x, y\rangle = q(x+y) - q(x) - q(y) = x_0y_1 + x_1y_0 + x_2y_3 + x_3y_2 + 2x_4y_4.\]
     Potem je vsaka premica $L$ v $Q(4, \mathbb{K})$ vsebovana v podprostoru $q^{-1}(0)$ natanko tedaj, ko je
     določena z dvema točkama $x, y\in q^{-1}(0)$, ki sta pravokotni ena na drugo glede na $\langle \cdot, \cdot\rangle$.
@@ -4614,7 +4611,7 @@ zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, ki jim
 
 \begin{opomba}
     Naj bo $\mathbb{K} = \GF(2^m)$ polje in $$\OO = \{(x_0 : x_1 : x_2)\in \PG(2, \mathbb{K})\mid x_1x_2^{2^k - 1} = x_0^{2^k}\}\cup\{(0:1:0)\},$$
-    za nek $k>1$ z $\gcd(k, m) = 1$. Potem je $\OO$ oval v $\PG(2, \mathbb{K})$, ki ni konika, in $T_2(\OO)$ 
+    za nek $k>1$ z $\gcd(k, m) = 1$. Potem je $\OO$ oval v $\PG(2, \mathbb{K})$, ki ni konika \cite{enwiki1365862542}, in $T_2(\OO)$ 
     je $(2^m + 1)$-regularen posplošeni Titsov štirikotnik, ki ni izomorfen niti 
     dualen ortogonalnemu posplošenemu štirikotniku $Q(4, \GF(2^m))$ (niti $W(\GF(2^m)))$.
     Takim ovalom pravimo \emph{translacijski ovali}.
@@ -4797,13 +4794,13 @@ saj imajo duali izomorfne incidenčne grafe.
 \subsection{Klasifikacija regularnih posplošenih večkotnikov}
 V prejšnjih razdelkih smo predstavili različne družine regularnih posplošenih večkotnikov in v zgledih prikazali njihove
 najmanjše primere. Sedaj bomo povzeli vse znane družine regularnih posplošenih večkotnikov in se spomnili bistva --
-regularni posplošeni večkotniki so dvodelni Mooreovi grafi, so ekstremalni grafi, ki dosegajo posplošeno Mooreovo mejo
+regularni posplošeni večkotniki so dvodelni Mooreovi grafi. So ekstremalni grafi, ki dosegajo posplošeno Mooreovo mejo
 za primer dvodelnih grafov.
 
 Posplošeni večkotniki v literaturi nimajo popolne klasifikacije -- navkljub mnogim rezultatom in znanim neskončnim družinam posplošenih večkotnikov
-je namreč še vedno odprto vprašanje, ali obstajajo še kakšni drugi posplošeni večkotniki, ki niso izomorfni ali dualni znanim družinam.
+je namreč še vedno nejasno, ali obstajajo še kakšni drugi posplošeni večkotniki, ki niso izomorfni ali dualni znanim družinam.
 Mi bomo z naslednjo trditvijo v skladu s klasifikacijo posplošenih štirikotnikov Paynea in Thasa~\cite{payne2009finite}
-klasificirali vse znane primere regularnih posplošenih večkotnikov, ki tako podajo vse znane dvodelne Mooreove grafe.
+klasificirali vse znane primere regularnih posplošenih večkotnikov. S tem klasificiramo tudi vse znane dvodelne Mooreove grafe.
 
 \begin{trditev}%[Klasifikacija regularnih posplošenih večkotnikov]
     Naj bo $\Gamma$ $\Delta$-regularen posplošeni $D$-kotnik. Potem so vsi znani primeri $\Gamma$, do izomorfizma ter dualnosti natančno, 
@@ -4814,19 +4811,19 @@ klasificirali vse znane primere regularnih posplošenih večkotnikov, ki tako po
         \item $D = 3$ in $\Delta\geq 2$, $\Gamma$ je posplošeni trikotnik oz.~projektivna ravnina, ki je bodisi klasična projektivna ravnina $\PG(2, \GF(q))$, bodisi ne-Desarguesova projektivna ravnina $(\R, T)$.
         \item $D = 4$ in $\Delta\geq 2$, $\Gamma$ je posplošeni štirikotnik, ki je bodisi klasičen simplektični štirikotnik $W(\GF(q))$ ali 
         Titsov štirikotnik $T_2(\OO)$, kjer je $\OO$ oval v $\PG(2, \GF(q))$.
-        \item $D = 6$ in $\Delta\geq 2$, $\Gamma$ je posplošeni šestkotnik in je razdeljeni Cayleyjev šestkotnik $H(\GF(q))$.
+        \item $D = 6$ in $\Delta\geq 2$, $\Gamma$ je razdeljeni Cayleyjev šestkotnik $H(\GF(q))$.
     \end{enumerate}
 \end{trditev}
 
 \section{Zaključek}
 V nalogi smo Mooreove grafe najprej spoznali kot ekstremalne grafe, ki pri dani stopnji in premeru dosegajo zgornjo 
-Mooreovo mejo za število vozlišč. Z izostritvijo iste meje za ožino se je ta perspektiva obrnila: pri dvodelnih grafih 
-Mooreova meja postane spodnja meja, ki jo dosegajo prav regularni posplošeni večkotniki -- geometrije ranga $2$. Ta prehod 
-od čiste teorije grafov h geometriji je bil rdeča nit celotnega dela, katero smo osvetlili s pregledom vseh znanih družin 
-regularnih posplošenih večkotnikov. Sorodna vprašanja ostajajo odprta tudi širše: Kletke in Mooreovi grafi z defektom~\cite{FERIAPURON20111331} rahljajo Mooreovo 
-mejo in odpirajo lastno bogato teorijo, medtem ko teorija zgradb~\cite{everitt2013veryshortintroductionbuildings} geometrijo ranga $2$ umešča v širši okvir geometrij višjega 
-ranga. Obe smeri predstavljata naravno nadaljevanje pričujočega dela, pri čemer prva ostaja neposredno povezana z ekstremalnimi 
-problemi v teoriji grafov, druga pa odpira širši geometrijski kontekst.
+Mooreovo mejo za število vozlišč. Spoznali smo, da, ob določeni substituciji, Mooreova meja predstavlja tudi spodnjo mejo za število vozlišč grafa,
+nakar smo opazili, da jo je mogoče v primeru dvodelnih grafov izostriti. Tako smo popolnoma obrnili perspektivo -- spoznali smo se z geometrijo ranga $2$.
+Prehod od čiste teorije grafov h geometriji je bil rdeča nit celotnega dela, s katerim smo osvetlili vse znane družine Mooreovih grafov.
+
+Sorodne teme, ki stremijo k nadaljevanju pričujočega dela, so Mooreovi grafi z defektom, kletke in teorija zgradb.
+Kletke in Mooreovi grafi z defektom~\cite{FERIAPURON20111331} rahljajo Mooreovo 
+mejo in odpirajo lastno bogato teorijo, medtem ko teorija zgradb~\cite{everitt2013veryshortintroductionbuildings} raziskuje strukturne lastnosti geometrij vseh vrst.
 
 \begin{definicija}
     Graf maksimalne stopnje $\Delta$ in premera $D$ je Mooreov graf z defektom $\epsilon$,
