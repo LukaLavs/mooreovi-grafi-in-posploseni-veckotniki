@@ -37,7 +37,7 @@
 %   V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga
 %   organizacije dela, torej v katerem razdelku je kaj, pač pa le opis vsebine.
 \povzetek{
-    V uvodu diplomskega dela preučujemo Mooreove grafe, ki pri dani maksimalni stopnji in premeru dosegajo teoretično zgornjo mejo 
+    V diplomskem delu preučujemo Mooreove grafe, ki pri dani maksimalni stopnji in premeru dosegajo teoretično zgornjo mejo 
     za število vozlišč. Analiziramo njihove strukturne lastnosti, ki nam kasneje služijo pri analizi njihovega obstoja.
     Eksplicitno konstruiramo trivialne Mooreove grafe, nakar dokažemo enoličnost Hoffman-Singletonovega grafa, ki je edini znan netrivialen Mooreov graf.
     Navedemo podrobno klasifikacijo vseh Mooreovih grafov, pri čemer v edinem nezajetem primeru, Aschbacherjevem grafu valence $57$, pokažemo, da ta, če obstaja,
@@ -46,7 +46,7 @@
     V nadaljevanju obrnemo perspektivo in utemeljimo, da Mooreova meja predstavlja tudi spodnjo mejo za število vozlišč pri grafih z vnaprej 
     določeno stopnjo in ožino. Izostritev te meje nato usmeri pozornost na dvodelne Mooreove grafe, ki naravno sovpadajo z 
     regularnimi posplošenimi večkotniki. Analiziramo njihove konstrukcije, pri čemer se srečamo s projektivnimi ravninami, 
-    ortogonalnimi, simplektičnimi in Titsovimi posplošenimi štirikotniki ter klasičnimi posplošenimi šestkotniki. Z znanimi konstrukcijami in klasifikacijo regularnih posplošenih večkotnikov zaključimo nalogo, pri kateri smo od togega ekstremalnega problema v 
+    ortogonalnimi, simplektičnimi in Titsovimi posplošenimi štirikotniki ter klasičnimi posplošenimi šest\-kot\-ni\-ki. Z znanimi konstrukcijami in klasifikacijo regularnih posplošenih večkotnikov zaključimo nalogo, pri kateri smo od togega ekstremalnega problema v 
     teoriji grafov prešli v bogato geometrijo ranga $2$.
 }
 \abstract{
@@ -1496,8 +1496,8 @@ istoimenska vozlišča. Dobimo graf, ki je $(9, 4, 1, 2)$-krepko regularen (glej
 \end{definicija}
 
 \begin{izrek}\label{iz:orbitainstabilizator}
-    Naj bo $\Gamma$ graf in $G \leq \aut(\Gamma)$ grupa, ki deluje na njegovih vozliščih
-    in $W$ poljubna podmnožica vozlišč. Potem velja
+    Naj bo $\Gamma$ graf, $G \leq \aut(\Gamma)$ grupa, ki deluje na njegovih vozliščih,
+    in $W$ poljubna podmnožica vozlišč grafa $\Gamma$. Potem velja
     $$|G| = |G\cdot W| |G_W|.$$
 \end{izrek}
 
@@ -1664,7 +1664,7 @@ opisu in klasifikaciji teh struktur.
 \begin{definicija}\label{def:moore_drevo}
     Mooreovo drevo $T_{\Delta, D}$, za neka $D, \Delta \in \mathbb{N}$, 
     je drevo z $(D+1)$ nivoji, kjer so vsa vozlišča razen listov, ki obstajajo zgolj na nivoju $(D+1)$, 
-    stopnje $\Delta$ (glej sliko \ref{fig:drevo_moore_uvod}).
+    stopnje $\Delta$ (glej sliko~\ref{fig:drevo_moore_uvod}).
 \end{definicija}
 
 \begin{opomba}
@@ -2250,7 +2250,7 @@ rečemo konstrukcija iz petkotnika, poslužili se je bomo tudi pri konstrukciji 
 \end{trditev}
 
 \begin{dokaz}
-    Izberimo neko vozlišče $v$ in označimo $G=\aut(\PPP)$. Ker se lahko ta preslika v poljubnega izmed $10$ vozlišč (trditev \ref{tr:petersen_tranzitiven}), je
+    Izberimo neko vozlišče $v$ in označimo $G=\aut(\PPP)$. Ker se lahko ta preslika v poljubnega izmed $10$ vozlišč (trditev~\ref{tr:petersen_tranzitiven}), je
     njegova orbita $G\cdot v$ enaka $V(\PPP)$, in ima torej velikost $|G\cdot v| = 10$.
 
     Za vsako izmed teh $10$ možnosti ga fiksiramo in opazujemo njegov stabilizator $G_v$.
@@ -2329,7 +2329,7 @@ bo nato sledilo zaporedje trditev in lem, ki nas bodo pripeljale do iskanega gra
 \end{definicija}
 
 \begin{opomba}
-    Seveda iz definicije neposredno sledi, da njihova unija pokrije celotno množico $N_1(Q)$,
+    Seveda iz definicije neposredno sledi, da njihova unija pokrije ce\-lot\-no množico $N_1(Q)$,
     in da, zaradi naslednje trditve~\ref{tr:gruce_preparation}, vsaka gruča vsebuje natanko $5$ vozlišč.
 \end{opomba}
 
@@ -2599,7 +2599,7 @@ ki nam bo služila pri nadaljnji analizi.
 
     Po lemi~\ref{le:knjiga}, uporabljeni na
     $G = \hof[N_1(Q)]$, $v_i \in Q$ ter $W = \gr_i$, dobimo, da je večkratnost lastne vrednosti $2$
-    v $\hof[N_1(Q)]$ vsaj $4+1=5$. Ker je $5$ tudi največje število ciklov dolžine večkratnika $5$ (trditev~\ref{tr:unija_ciklov}), 
+    v $\hof[N_1(Q)]$ vsaj $4+1=5$. Ker je $5$ tudi naj\-več\-je število ciklov dolžine večkratnika $5$ (trditev~\ref{tr:unija_ciklov}), 
     ki jih lahko
     imamo v našem $25$-vozliščnem $2$-regularnem podgrafu (posledica~\ref{po:regularnosti_podgrafov}), je 
     po trditvi~\ref{tr:cikellastne} podgraf $\hof[N_1(Q)]$ 
@@ -2693,7 +2693,7 @@ V nasprotnem primeru bi lahko našli cikel
 $$Q_i^k \overset{\pi_{ij}=\id}{\rightarrow}P_j^k \overset{\id}{\rightarrow} Q_0^k \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k \cong C_4,$$ 
 kjer smo za enostavnejšo predstavo opozorili na permutacije $\pi_{ij}$, ki zagotavljajo povezavo. Obstoj cikla dolžine $4$ nam tako da protislovje (trditev~\ref{tr:moore_bound}). 
 
-Vidimo tudi, da morajo biti permutacije, ki se ujemajo v natanko enem od indeksov,
+Vidimo tudi, da morajo biti permutacije, ki se ujemajo v natanko enem od in\-dek\-sov,
 paroma različne. Da se prepričamo, lahko BŠS (tj., brez škode za splošnost) vzamemo $\pi_{ij} = \pi_{i'j}$, kjer $\pi_{ij}(k) = k'$ -- tako bi
 našli kratek cikel
 $$Q_i^k \overset{\pi_{ij}}{\rightarrow} P_j^{k'} \overset{\pi_{i'j}^{-1}}{\rightarrow} Q_{i'}^{k} \overset{\id}{\rightarrow} P_0^k \overset{\id}{\rightarrow}Q_i^k \cong C_4.$$ 
@@ -3200,7 +3200,7 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
 
 \begin{trditev}
 	Denimo, da je graf $\asch$ razdaljno tranzitiven
-	in je $K$ kot v trditvi~\ref{tr:involucija_58}.
+	in je $K$ kot v tr\-dit\-vi~\ref{tr:involucija_58}.
 	Potem lahko za vsak $u \in N_1(\infty)$
     involuciji $\sigma$ in $\omega$ iz trditve~\ref{tr:uv} izberemo v $2$-podgrupi Sylowa
     $S$ grupe $K_{u}$ (tj., v maksimalni podgrupi reda $2$).
@@ -3219,7 +3219,7 @@ za $i=2$ pa, da $G_{\infty}$ deluje tranzitivno na $N_2(\infty)$.
 
 \begin{trditev}\label{tr:uv_involucija}
 	Denimo, da je graf $\asch$ razdaljno tranzitiven
-	in je $K$ kot v trditvi~\ref{tr:involucija_58}.
+	in je $K$ kot v tr\-dit\-vi~\ref{tr:involucija_58}.
 	Potem lahko za vsak $u \in N_1(\infty)$
     izberemo taki involuciji $\sigma$ in $\omega$ iz $K_{u}$, 
     ki fiksirata zvezdi s centroma $\infty$ in $u$, 
@@ -3679,7 +3679,7 @@ ki izključi obstoj.
     \resizebox{0.37\textwidth}{!}{%
         \import{../../assets/}{moore-klasifikacija-flipped.tex}
     }
-    \caption{Obstajajo dve neskončni družini Mooreovih grafov in dva netrivialna grafa, 
+    \caption{Obstajata dve neskončni družini Mooreovih grafov in dva netrivialna grafa, 
     medtem ko obstoj Aschbacherjevega grafa valence $57$ ostaja odprto vprašanje.}
 \end{figure}
 
@@ -3720,9 +3720,9 @@ minimalne stopnje $\Delta$ in lihe ožine $g$.
 \end{figure}
 
 \begin{definicija}
-    Dvodelno Mooreovo drevo $T^{[2]}_{\Delta, D}$, za neka $\Delta, D\in\mathbb{N}$, je graf, ki ga tvorimo iz dveh povezanih vozlišč $u$ in $v$ 
+    Dvodelno Mooreovo drevo $T^{[2]}_{\Delta, D}$ za neka $\Delta, D\in\mathbb{N}$ je graf, ki ga tvorimo iz dveh sosednjih vozlišč $u$ in $v$ 
     na nivoju $0$ (tj., $N_0(uv)$) tako,
-    da od prejšnjega v naslednji nivo, vse dokler ne dosežemo nivo $D-1$, dodamo $\Delta - 1$ novih vozlišč vsakemu vozlišču
+    da v vsakem nivoju do nivoja $D-1$ dodamo $\Delta - 1$ novih sosedov vsakemu vozlišču prejšnjega nivoja
     (glej sliko~\ref{fig:vlozitev_v_drevo_dvodelni}). Povezavi $uv$ pravimo
     korenska povezava.
 \end{definicija}
@@ -3732,9 +3732,9 @@ minimalne stopnje $\Delta$ in lihe ožine $g$.
 \end{definicija}
 
 \begin{trditev}\label{tr:moore_dvodelni_lower}
-Dvodelni Mooreov graf minimalne stopnje $\Delta$ in sode ožine $g$ dosega spodnjo mejo za število vozlišč enako
+Dvodelni Mooreov graf minimalne stopnje $\Delta$ in sode ožine $g$ dosega spodnjo mejo za število vozlišč
 \[2 + 2(\Delta-1) + \ldots + 2(\Delta-1)^{\frac{g}{2}-1}.\]
-Je regularen s premerom $D = g/2$ in poljubna povezava $uv$ je korenska povezava nekega podgrafa, ki je
+Je regularen s premerom $D = g/2$, vsaka povezava $uv$ pa je korenska povezava nekega podgrafa, ki je
 izomorfen dvodelnemu Mooreovemu drevesu
 $T^{[2]}_{\Delta, D}$.
 \end{trditev}
@@ -3745,7 +3745,7 @@ $T^{[2]}_{\Delta, D}$.
     in da se listi obeh dreves (zaradi ožine) smejo srečati šele na nivoju $g/2$ oz.~$N_{\frac{g}{2}-1}(uv)$. Tako smo
     dobili $|V| = \sum_{i=0}^{g/2-1} |N_i(uv)| \leq 2\sum_{i=0}^{g/2-1} (\Delta - 1)^i$,
     kjer drži enakost, če je graf regularen. Iz narave izpeljave sledi tudi, da je vsak regularen
-    graf, ki dosega tako mejo tudi dvodelen.
+    graf, ki dosega tako mejo, tudi dvodelen.
 \end{dokaz}
 
 \begin{opomba}
@@ -3754,7 +3754,7 @@ $T^{[2]}_{\Delta, D}$.
 
 \begin{definicija}[Razširjena Mooreova meja]
     Pravimo, da je graf razširjeno Mooreov, če pri minimalni stopnji $\Delta$ in ožini $g$ dosega spodnjo
-    mejo za število vozlišč $\widetilde{M}^{\Delta, g}$, s predpisom
+    mejo za število vozlišč $\widetilde{M}^{\Delta, g}$ s predpisom
     \begin{equation}
         \widetilde{M}^{\Delta, g} = \begin{cases}
         \frac{\Delta(\Delta - 1)^{(g-1)/2} - 2}{\Delta - 2}, & g \text{ je liha} \\
@@ -3777,13 +3777,13 @@ $T^{[2]}_{\Delta, D}$.
 \end{trditev}
 
 \begin{dokaz}
-    Z opombo \ref{op:moore_lower} in trditvijo \ref{tr:moore_dvodelni_lower} smo pokazali, da velja
-    $\widetilde{M}^{\Delta_{\min}, g} \leq |V|$. Neenakost $|V| \leq M^{\Delta_{\max}, D}$ 
+    Z opombo~\ref{op:moore_lower} in trditvijo~\ref{tr:moore_dvodelni_lower} smo pokazali, da velja
+    $\widetilde{M}^{\Delta_{\min}, g} \leq |V|$. Ne\-ena\-kost $|V| \leq M^{\Delta_{\max}, D}$ 
     je predstavitev običajne Mooreove meje in zato velja za vse grafe.
     Neenakost $|V| \leq \widetilde{M}^{\Delta_{\max}, 2D}$ pa je izboljšava za dvodelne grafe, pri
     katerih je največja možna ožina $2D$. To je ekvivalentno temu, da je največji možen premer
     enak $D$, od koder lahko v slogu opombe~\ref{op:moore_lower} izpeljemo zgornjo mejo za število vozlišč,
-    tukaj z injekcijo $\psi$ iz $K(uv, D-1)$ v dvodelno Mooreovo $T^{[2]}_{\Delta_{\max}, D}$, ki da zgornjo mejo 
+    tukaj z injekcijo $\psi$ iz $K(uv, D-1)$ v dvodelno Mooreovo drevo $T^{[2]}_{\Delta_{\max}, D}$, ki da zgornjo mejo 
     $\widetilde{M}^{\Delta_{\max}, 2D}$.
 \end{dokaz}
 
@@ -3986,7 +3986,7 @@ $|\mathbb{K}|^2-1$ neničelnih vektorjev.
 
 Vsaka ravnina posledično vsebuje $\frac{|\mathbb{K}|^2-1}{|\mathbb{K}|-1} = |\mathbb{K}| + 1$ premic, in podobno
 vsaka premica leži na $|\mathbb{K}| + 1$ ravninah. Če za $(|\mathbb{K}| +1)$-regularno geometrijo $(\PP, \LL; \II)$ vzamemo 
-za točke $\PP$ premice in za premice r$\LL$ avnine v $\mathbb{K}^3$, pri čemer je incidenca določena z vsebovanostjo, dobimo projektivno ravnino.
+za točke $\PP$ premice in za premice $\LL$ ravnine v $\mathbb{K}^3$, pri čemer je incidenca določena z vsebovanostjo, dobimo projektivno ravnino.
 
 Vsa končna polja $\mathbb{K}$ so izomorfna $\GF(q)$ za neko potenco praštevila $q = p^n$. Sledi definicija Desarguesove projektivne ravnine.
 
@@ -4061,7 +4061,7 @@ posebnih točk in premic v neskončnosti.
 
 
 \begin{trditev}\label{def:desarguesova_ravnina_verzija_2}
-Geometrija $(\PP, \LL,\II)$, dobljena s pomočjo neke množice $\R$,
+Geometrija $(\PP, \LL,\II)$, dobljena s pomočjo neke množice $\R$ in
 preslikave $T: \R^3 \to \R$ s predpisom $T(x,m,k)=mx+k$, je projektivna ravnina, čim točke, premice in incidenco sestavimo na naslednji način.  
 Množico točk $\PP$ sestavimo iz elementov treh vrst: iz
 točk $(x, y)$ ($x, y\in \R^2$), točk v neskončnosti $(m)$ ($m\in \R$), in točke v neskončnosti $(\infty)$.
@@ -4159,7 +4159,7 @@ in vsemi premicami $[m, k]$, za katere velja $T(x, m, k) = y$.
 
 \begin{definicija}\label{def:posploseni_stirikotnik}
     Skladno z definicijo avtorja Van Maldeghema \cite{van2012generalized} je posplošeni % v tem besedilu ne razlikujemo med šibkimi in krepkimi GQ.
-    štirikotnik definiran kot geometrija $\Gamma = (\PP, \LL, \II)$, ki zadošča aksiomoma:
+    štirikotnik definiran kot geometrija $\Gamma = (\PP, \LL, \II)$, ki zadošča sledečima aksiomoma.
     \begin{enumerate}[label=(\roman*)]
         \item Naj bo $\{p, L\}$ protiprapor (tj., $(p,L)\not\in\II, p\in\PP, L\in\LL$). 
         Potem obstaja natanko en prapor $\{q, M\}$ (tj., $q \II M, q\in\PP, M\in\LL$),
@@ -4183,7 +4183,7 @@ in vsemi premicami $[m, k]$, za katere velja $T(x, m, k) = y$.
 \end{figure}
 
 Zanimali nas bodo predvsem regularni posplošeni štirikotniki. Izkaže se,
-da obstaja le nekaj takih družin, ki jih bomo predstavili v nadaljevanju. Poleg najsplošnejših Titsovih posplošenih štirikotnikov bomo 
+da obstaja le nekaj takih družin, ki jih bomo predstavili v nadaljevanju. Poleg naj\-sploš\-nej\-ših Titsovih posplošenih štirikotnikov bomo 
 predstavili 
 dve klasični družini, in sicer
 simplektične posplošene štirikotnike, ki temeljijo na simplektičnih polarnostih, in 
@@ -4454,7 +4454,7 @@ primerih celo izomorfni, zato predstavljata iste dvodelne Mooreove grafe. Simple
 \begin{opomba}
     Tega ne bomo dokazovali, vendar si idejno, za primer $d=3$, lahko mislimo,
     da se iz poljubnega $2$-dimenzionalnega podprostora $(\lambda, \mu, 0, 0)$
-    lahko premaknemo npr.~v $(\lambda, 0, \mu, 0)$ prek točke $(\lambda, 0, 0, 0)$,
+    lahko pre\-mak\-ne\-mo npr.~v $(\lambda, 0, \mu, 0)$ prek točke $(\lambda, 0, 0, 0)$,
     nato v $(0, 0, \mu, \lambda)$ prek točke $(0, 0, \mu, 0)$, in šele nato spet
     v $(\lambda, 0, \mu, 0)$ ter $(\lambda, \mu, 0, 0)$ prek ustreznih točk.
     Možni so tudi drugi prehodi, vendar prav tako tvorijo večkratnike običajnih
@@ -4484,7 +4484,7 @@ primerih celo izomorfni, zato predstavljata iste dvodelne Mooreove grafe. Simple
 \end{definicija}
 
 \begin{trditev}\label{tr:kvadratna_v_bilinearna}
-    Naj bosta $x, y\in q^{-1}(0)$ točki v kvadriki $Q(4, \mathbb{K}, q)$. Definiramo kvadratno bilinearno formo $\langle \cdot, \cdot\rangle$ kot
+    Naj bosta $x, y\in q^{-1}(0)$ točki v kvadriki $Q(4, \mathbb{K}, q)$. Definiramo kvad\-rat\-no bilinearno formo $\langle \cdot, \cdot\rangle$ kot
     \[\langle x, y\rangle = q(x+y) - q(x) - q(y) = x_0y_1 + x_1y_0 + x_2y_3 + x_3y_2 + 2x_4y_4.\]
     Potem je vsaka premica $L$ v $Q(4, \mathbb{K})$ vsebovana v podprostoru $q^{-1}(0)$ natanko tedaj, ko je
     določena z dvema točkama $x, y\in q^{-1}(0)$, ki sta pravokotni ena na drugo glede na $\langle \cdot, \cdot\rangle$.
@@ -4611,7 +4611,7 @@ zgolj nekaj osnovnih definicij in poseben primer Titsovih štirikotnikov, ki jim
 
 \begin{opomba}
     Naj bo $\mathbb{K} = \GF(2^m)$ polje in $$\OO = \{(x_0 : x_1 : x_2)\in \PG(2, \mathbb{K})\mid x_1x_2^{2^k - 1} = x_0^{2^k}\}\cup\{(0:1:0)\},$$
-    za nek $k>1$ z $\gcd(k, m) = 1$. Potem je $\OO$ oval v $\PG(2, \mathbb{K})$, ki ni konika \cite{enwiki1365862542}, in $T_2(\OO)$ 
+    za nek $k>1$ z $\gcd(k, m) = 1$. Potem je $\OO$ oval v $\PG(2, \mathbb{K})$, ki ni konika~\cite{enwiki1365862542}, in $T_2(\OO)$ 
     je $(2^m + 1)$-regularen posplošeni Titsov štirikotnik, ki ni izomorfen niti 
     dualen ortogonalnemu posplošenemu štirikotniku $Q(4, \GF(2^m))$ (niti $W(\GF(2^m)))$.
     Takim ovalom pravimo \emph{translacijski ovali}.
@@ -4650,7 +4650,7 @@ saj imajo duali izomorfne incidenčne grafe.
     kvadratno formo
     \[q(x_0, \ldots, x_6) = x_0x_4 + x_1x_5 + x_2x_6 - x_3^2 .\]
     Premice $H(\mathbb{K})$ pa so tiste premice, ki ležijo na kvadriki $Q(6, \mathbb{K}, q)$
-    in katere Grassmannove koordinate zadoščajo naslednjim šestim linearnim enačbam:
+    in katere Grass\-man\-no\-ve koordinate zadoščajo naslednjim šestim linearnim enačbam:
     \begin{align*}
         p_{12} &= p_{34}\\
         p_{54} &= p_{32}\\
@@ -4853,12 +4853,12 @@ mejo in odpirajo lastno bogato teorijo, medtem ko teorija zgradb~\cite{everitt20
     \resizebox{0.40\textwidth}{!}{%
         \import{../../assets/}{mcgee-cage.tex}%
     }
-    \caption{McGee graf je primer kletke, ki ni Mooreov graf. Je $3$-regularen graf s premerom $4$ in ožino $7$.}
+    \caption{McGeejev graf je primer kletke, ki ni Mooreov graf. Je $3$-regularen graf s premerom $4$ in ožino $7$.}
 \end{figure}
 
 \begin{opomba}
-    Definicijo zgradbe, zaradi kompleksnosti, nismo podrobneje predstavili. Več o zgradbah je mogoče prebrati 
-    v~\cite{everitt2013veryshortintroductionbuildings} in \cite{van2012generalized}.
+    Definicije zgradbe zaradi kompleksnosti nismo podrobneje predstavili. Več o zgradbah je mogoče prebrati 
+    v~\cite{everitt2013veryshortintroductionbuildings} in~\cite{van2012generalized}.
 \end{opomba}
 % \subsection{Mooreovi grafi z defektom}\label{sec:mooreovi_grafi_z_defektom}
 
