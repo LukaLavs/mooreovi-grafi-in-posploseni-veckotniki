@@ -1,0 +1,65 @@
+\begin{tikzpicture}[
+    level 1/.style={sibling distance=3cm},
+    level 2/.style={sibling distance=1.5cm},
+    level 3/.style={sibling distance=1cm}
+]
+
+    \node[vnode] (R1) at (-4,0) {} 
+        child { node[vnode] {}
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            edge from parent[new_edge]
+        }
+        child { node[vnode] {}
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            edge from parent[new_edge]
+        };
+
+    \node[vnode] (R2) at (4,0) {} 
+        child { node[vnode] {}
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            edge from parent[new_edge]
+        }
+        child { node[vnode] {}
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            child { node[vnode] {} 
+                child { node[vnode] {} edge from parent[new_edge] }
+                child { node[vnode] {} edge from parent[new_edge] }
+                edge from parent[new_edge]
+            }
+            edge from parent[new_edge]
+        };
+
+    \draw[new_edge] (R1) -- (R2);
+
+\end{tikzpicture}
