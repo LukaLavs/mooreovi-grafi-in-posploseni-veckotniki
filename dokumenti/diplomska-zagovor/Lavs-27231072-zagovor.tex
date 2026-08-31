@@ -53,7 +53,8 @@
 \newtheorem{posledica}[izrek]{Posledica}
 \newtheorem{definicija}[izrek]{Definicija}
 \newtheorem{zgled}[izrek]{Zgled}
-\newtheorem{opomba}{opomba}
+\newtheorem{opomba}{Opomba}
+\newtheorem{vprasanje}{Vprašanje}
 
 % --- Ukazi ---
 \newcommand{\red}{\operatorname{red}}
@@ -119,10 +120,10 @@
 
 \begin{frame}
     \frametitle{Mooreovi grafi}
-    \begin{opomba}[Vprašanje]
+    \begin{vprasanje}
         Kako velik je lahko graf z maksimalno stopnjo $\Delta$ in 
         premerom kvečjemu $D$?
-    \end{opomba}
+    \end{vprasanje}
     \begin{definicija}
         \emph{Mooreovi grafi} so tisti, ki za dan premer $D$ in maksimalno stopnjo $\Delta$
         dosegajo zgornjo mejo števila vozlišč
@@ -142,7 +143,7 @@
     \end{center}
 
     \begin{trditev}
-        Graf premera $D$ in max. stopnje $\Delta$ je Mooreov natanko tedaj, ko je njegova ožina $g$ enaka $2D+1$ oz., 
+        Graf premera $D$ in max.~stopnje $\Delta$ je Mooreov natanko tedaj, ko je njegova ožina $g$ enaka $2D+1$, oz.~%
         ko je vsako vozlišče v grafu koren
         nekega podgrafa, ki je izomorfen Mooreovemu drevesu $T_{\Delta, D}$.
     \end{trditev}
@@ -223,7 +224,7 @@
 
 \begin{frame}
     \begin{izrek}
-    Mooreovi grafi, z izjemo lihih ciklov $C_{2D+1}$, s premerom $D\geq 3$ ne obstajajo.
+    Mooreovi grafi s premerom $D\geq 3$, z izjemo lihih ciklov $C_{2D+1}$, ne obstajajo.
     \end{izrek}
     \begin{izrek}
         Mooreovi grafi s premerom $D=2$ obstajajo zgolj morda 
@@ -242,7 +243,7 @@
         Sestavljen je iz petih petkotnikov $Q_0, \ldots, Q_4$ ter petih komplementarnih zvezd 
         $P_0, \ldots, P_4$, ki so med seboj povezani s pravilom:
         \begin{align*}
-            Q_i^a \sim P_j^{a + ij \mod 5} &&\text{in}&& P_j^b \sim Q_i^{b - ij \mod 5}
+            Q_i^a \sim P_j^{a + ij \bmod{5}} &&\text{in}&& P_j^b \sim Q_i^{b - ij \bmod{5}}
         \end{align*}
         \begin{center}
             \includegraphics[width=0.3\textwidth]{../../assets/hoffman-singelton-graph.png}
@@ -289,8 +290,8 @@
 \begin{frame}
     \frametitle{Dvodelni Mooreovi grafi}
     \begin{trditev}
-        Graf je dvodelni Mooreov graf natanko tedaj, ko je regularen s premerom $D$ in ožino $g=2D$
-        oz., ko sta poljubni dve vozlišči vsebovani v nekem $C_{2D}$ ter v grafu ni ciklov 
+        Graf je dvodelni Mooreov graf natanko tedaj, ko je regularen s premerom $D$ in ožino $g=2D$,
+        oz.~ko sta poljubni dve vozlišči vsebovani v nekem $C_{2D}$ ter v grafu ni ciklov 
         krajših od $2D$.
     \end{trditev}
     \begin{opomba}
@@ -358,7 +359,7 @@
 \begin{frame}
     \fig{0.75\textwidth}{fano-pg2.tex}
     \begin{center}
-        \small Najmanjša projektivna ravnina je Fanojeva ravnina $\PG(2, \GF(2))$, 
+        \small Najmanjša projektivna ravnina je Fanova ravnina $\PG(2, \GF(2))$, 
         ki ima $7$ točk in $7$ premic.
     \end{center}
     \begin{opomba}
@@ -404,7 +405,7 @@
 
 \begin{frame}
     \begin{definicija}
-        Ortogonalni posplošeni $4$-kotnik $Q(4, \mathbb{K})$ je geometrija ranga $2$, 
+        Ortogonalni posplošeni $4$-kotnik $Q(4, \mathbb{K})$ je geometrija ranga $2$
         z incidenco vsebovanosti,
         kjer so točke vsi $1$-dimenzionalni podprostori iz $q^{-1}(0)$, premice pa vsi 
         $2$-dimenzionalni podprostori iz $q^{-1}(0)$, za parabolično kvadratno 
@@ -413,7 +414,7 @@
     \end{definicija}
     \fig{0.38\textwidth}{doily-incidence.tex}
     \begin{center}
-        \small Najmanjši ortogonalni posplošeni $4$-kotnik prikazan kot graf.
+        \small Najmanjši ortogonalni posplošeni $4$-kotnik, prikazan kot graf.
     \end{center}
 \end{frame}
 
@@ -434,7 +435,7 @@
     \frametitle{Posplošeni $6$-kotniki}
     \begin{opomba}
         Edini znani regularni posplošeni $6$-kotniki so \emph{razdeljeni Cayleyjevi 
-        posplošeni $6$-kotniki} $H(\mathbb{{K}})$, katere je mogoče konstruirati na način 
+        posplošeni $6$-kotniki} $H(\mathbb{{K}})$, ki jih je mogoče konstruirati na način,
         soroden konstrukciji ortogonalnih posplošenih $4$-kotnikov.
     \end{opomba}
     \fig{0.25\textwidth}{generalized-hexagon-h2.tex}
